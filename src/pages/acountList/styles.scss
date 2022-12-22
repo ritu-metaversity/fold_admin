@@ -1,0 +1,92 @@
+
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-custom:700px;
+
+.ant-modal-wrap{
+    @media (max-width: $breakpoint-custom) {
+        overflow-x: scroll;
+        }
+    .more{
+        top: 50px!important;
+        width: 1080px!important;
+        .ant-tabs-nav-list{
+            
+        }
+       
+        .ant-tabs-tab{
+            padding: 0.4rem;
+            border: none;
+            background-color: transparent;
+            border-radius: 0%!important;
+            // margin-left: -0.5px;
+        }
+        .ant-modal-footer{
+            display: none;
+        }
+        .ant-tabs-tab-btn {
+            color: #495057!important;
+            font-weight: 500;
+        }
+        .ant-tabs-tab-active{
+            border-top: 2.5px solid black!important;
+            border-radius: 0%!important;
+            color: black!important;
+           border-right: 1px solid #ced4da;
+           border-left: 1px solid #ced4da;
+            // border-color: #ced4da #ced4da #fff;
+            z-index: 100;
+            background-color: #f8f8fb;
+           }
+           .ant-tabs .ant-tabs-content-holder {
+        border: 1px solid #ced4da;
+        
+        // background-color: white;
+        margin-top: -8!important;
+       }
+       .ant-tabs-nav{
+        margin: 0px;
+       }
+    }
+}
+.ant-tabs .ant-tabs-content-holder {
+    flex: auto;
+    min-width: 0;
+    min-height: 0;
+    // padding: 10px;
+    margin-top: -1px!important;
+}
+.custom-select-sm {
+    height: calc(1.5em + 0.5rem + 2px);
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #fff url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right 0.20rem center/8px 10px;
+    font-size: .7109375rem;
+}
+.custom-select-sm::-ms-expand {
+    display: none;
+
+}
+.WITHDRAW{
+
+    .ant-modal-title{
+               color: white;
+               padding: 10px;
+               background-color: rgb(244, 106, 106)!important;
+           }
+}
+.CREDI-ACTIVITY{
+top: 10px!important;
+    .ant-modal-title{
+        color: white;
+        padding: 10px;
+        background-color: #f1b44c!important;
+    }
+}
+    

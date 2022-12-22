@@ -1,0 +1,38 @@
+.ant-menu{
+    // height: 100%!important;
+    background-color: transparent;
+    
+    .ant-menu-item{
+        border-top: 1px solid gray;
+        border-radius: 0px;
+        .ant-menu-title-content{
+            a{
+                width: 100%;
+                display: flex;
+               gap: 5px;
+                text-align: center;
+                text-decoration: none;
+                align-items: center;
+                font-size: 15px;
+                font-weight: 500;
+                color: white;
+            }
+        }
+    }
+}
+.ant-menu-title-content{
+    span{
+        width: 100%;
+                display: flex;
+               gap: 5px;
+                text-align: center;
+                text-decoration: none;
+                align-items: center;
+                font-size: 15px;
+                font-weight: 500;
+                color: white;
+    }
+}
+.ant-menu-item-only-child{
+    // padding-left: 0px!;
+}

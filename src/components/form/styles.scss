@@ -1,0 +1,30 @@
+.input-tag{
+    height: 50px;
+    background-color: #2e3439;
+    outline: none;
+    border: none;
+    color: white;
+    &:focus{
+        border: none;
+        outline: none;
+        border-color: transparent;
+    }
+    &::placeholder{
+        color: #6c757d;
+    }
+}
+.login-form-button{
+    height: 40px;
+    width: 100%;
+    background-color: #fdcf13;
+    color: black;
+    font-size: 15px;
+    line-height: 1.75;
+    text-transform: uppercase;
+    font-weight: 500;
+    &:hover{
+        background-color: #fdcf13!important;
+        color: white;
+        transition: 0.4s;
+    }
+}
