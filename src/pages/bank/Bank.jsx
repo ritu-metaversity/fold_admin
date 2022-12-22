@@ -298,9 +298,7 @@ const Bank = () => {
     <UserModalContext.Provider>
       <Mainlayout>
         <div className="heading">
-          <h4 style={{ fontSize: "15px!important" }}>
-            ACCOUNT LIST FOR ACTIVE USERS
-          </h4>
+          <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
         </div>
         <div className="table">
           <div className="search">

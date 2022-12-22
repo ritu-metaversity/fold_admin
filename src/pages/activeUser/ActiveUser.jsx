@@ -17,6 +17,7 @@ import {
   Tab_MoreData,
   Tab_Widrawal,
 } from "../../routes/Routes";
+import { useMediaQuery } from "../../components/modalForm/UseMedia";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
@@ -39,6 +40,8 @@ export const UserModalContext = createContext({
 });
 
 const ActiveUser = () => {
+  const isMobile = useMediaQuery("(min-width: 768px)");
+
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -309,7 +312,7 @@ const ActiveUser = () => {
         AccountType: res.accountType,
         Action: (
           <>
-            <Tooltip placement="top" title={"Deposit"}>
+            <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
               <Button
                 style={{
                   background: "#34c38f",
@@ -322,7 +325,7 @@ const ActiveUser = () => {
                 D
               </Button>
             </Tooltip>
-            <Tooltip placement="top" title={"withdrawal"}>
+            <Tooltip placement="top" title={isMobile ? "withdrawal" : ""}>
               <Button
                 style={{
                   background: "#f46a6a",
