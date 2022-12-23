@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wold-admin
+  annotations:
+    cloud.google.com/backend-config: '{"ports": {"80":"wold-admin-backend-config"}}'
+    cloud.google.com/neg: '{"ingress": true}'
+  labels:
+    service: wold-admin
+spec:
+  selector:
+    app: wold-admin
+  ports:
+    - port: 80

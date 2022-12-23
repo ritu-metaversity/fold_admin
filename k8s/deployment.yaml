@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wold-admin
+  labels:
+    name: wold-admin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wold-admin
+  template:
+    metadata:
+      labels:
+        app: wold-admin
+    spec:
+      containers:
+      - name: wold-admin
+        image: gcr.io/ssweb-prod-project/wold-admin:git_commit_id
+        resources:
+          requests:
+            memory: "500Mi"  # 500 mb
+            cpu: "500m" # 0.1 cores
+          limits:
+            memory: "1000Mi"
+            cpu: "1000m"
+      restartPolicy: Always
