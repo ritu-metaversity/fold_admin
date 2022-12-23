@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wold-admin
+  name: wolf-admin
   labels:
-    name: wold-admin
+    name: wolf-admin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: wold-admin
+      app: wolf-admin
   template:
     metadata:
       labels:
-        app: wold-admin
+        app: wolf-admin
     spec:
       containers:
-      - name: wold-admin
-        image: gcr.io/ssweb-prod-project/wold-admin:git_commit_id
+      - name: wolf-admin
+        image: gcr.io/ssweb-prod-project/wolf-admin:git_commit_id
         resources:
           requests:
             memory: "500Mi"  # 500 mb
