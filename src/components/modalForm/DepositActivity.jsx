@@ -61,7 +61,6 @@ const DepositActivity = ({ data }) => {
     setRemarkCancelbutton(!remark);
 
     if (amount && remark) {
-      handleCancel();
       setRemark("");
       setAmount("");
       await axios
@@ -76,9 +75,11 @@ const DepositActivity = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
+          handleCancel();
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          handleCancel();
         });
     }
   };

@@ -1,7 +1,6 @@
 import { Tabs } from "antd";
 import React, { useState } from "react";
 import DepositActivity from "../modalForm/DepositActivity";
-import DepositForm from "../modalForm/DepositForm";
 import WidrawalActivity from "../modalForm/WidrawalActivity";
 import Transaction from "../moreCard/components/transaction/Transaction";
 ///styles
@@ -12,7 +11,6 @@ const CreditModal = ({ data }) => {
   const classes = ["credit-tab", "credit-tab2", "credit-tab3"];
   console.log("credit", data);
   const onChange = (activeKey) => {
-    // this.setState({ activeKey });
     if (activeKey) {
       settab1(activeKey);
     }

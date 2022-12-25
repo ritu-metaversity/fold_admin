@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { Tabs } from "antd";
-import Datatable from "../../components/table/Datatable";
+import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 import { useNavigate } from "react-router-dom";
 
 ///styles
@@ -13,12 +13,17 @@ const Dashboard = () => {
   const [tab1, settab1] = useState(4);
   const [cricket, setCricket] = useState([]);
   const [sports, setSports] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const toggle = (checked) => {
+    setLoading(checked);
+  };
   const navigate = useNavigate();
 
   const data = {
     data: { id: tab1 },
   };
-
+  console.log(tab1);
   useEffect(() => {
     const tabledata = async (data) => {
       await axios
@@ -51,6 +56,7 @@ const Dashboard = () => {
       settab1(activeKey);
     }
   };
+
   useEffect(() => {
     const getData = async () => {
       await axios

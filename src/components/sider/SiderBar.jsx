@@ -69,15 +69,21 @@ const SiderBar = ({ closeSidebar }) => {
             </span>
           }
         >
-          <Menu.Item key="8" style={{ paddingLeft: "40px!important" }}>
-            Option 5
+          <Menu.Item
+            key="8"
+            style={{
+              paddingLeft: "40px!important",
+              borderTop: "1px solid gray",
+            }}
+          >
+            <Link to="/currentsBets">CURRENT BETS</Link>
           </Menu.Item>
           <Menu.Item key="9" style={{ paddingLeft: "40px!important" }}>
-            Option 6
+            <Link to="/betHistory"> BETS HISTORY</Link>
           </Menu.Item>
         </SubMenu>
         <Menu.Item icon={""} key="10">
-          <Link to="/" onClick={logout}>
+          <Link to="" onClick={logout}>
             <RiBankFill />
             Log Out
           </Link>

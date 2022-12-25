@@ -40,7 +40,6 @@ const EditProfile = ({ data }) => {
     });
 
     if (name && city && mobileNo) {
-      handleCancel();
       setName("");
       setCity("");
       setMobileNo("");
@@ -57,9 +56,11 @@ const EditProfile = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
+          handleCancel();
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          handleCancel();
         });
     } else {
     }

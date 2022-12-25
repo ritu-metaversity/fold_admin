@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
-import { UserModalContext } from "../../pages/activeUser/ActiveUser";
+// import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { Tab_Deposit, Tab_SubmitDepositForm } from "../../routes/Routes";
 import { BASE_URL } from "../../_api/_api";
 import "./styles.scss";
@@ -21,8 +21,6 @@ const DepositForm = ({
   const [ammountbutton, setAmmountbutton] = useState(false);
   const [deposit, setDeposit] = useState([]);
   const navigate = useNavigate();
-
-  console.log("try", data);
 
   function handleChange(event) {
     if (event.target.value) {
@@ -46,7 +44,6 @@ const DepositForm = ({
     setRemarkCancelbutton(!remark);
 
     if (amount && remark) {
-      handleCancel();
       setRemark("");
       setAmount("");
       await axios
@@ -61,9 +58,11 @@ const DepositForm = ({
         )
         .then((res) => {
           message.success(res.data.message);
+          handleCancel();
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          handleCancel();
         });
     }
   };

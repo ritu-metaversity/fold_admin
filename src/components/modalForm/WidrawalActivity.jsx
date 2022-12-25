@@ -59,7 +59,6 @@ const WidrawalActivity = ({ data }) => {
     setRemarkCancelbutton(!remark);
 
     if (amount && remark) {
-      handleCancel();
       setRemark("");
       setAmount("");
       await axios
@@ -74,9 +73,11 @@ const WidrawalActivity = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
+          handleCancel();
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          handleCancel();
         });
     }
   };

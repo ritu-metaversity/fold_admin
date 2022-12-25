@@ -34,7 +34,6 @@ const Changpassword = () => {
     setRemarkCancelbutton(!confirmPass);
 
     if (password && confirmPass) {
-      handleCancel();
       setPassword("");
       setConfirmPass("");
       await axios
@@ -49,9 +48,11 @@ const Changpassword = () => {
         )
         .then((res) => {
           message.success(res.data.message);
+          handleCancel();
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          handleCancel();
         });
     }
   };
