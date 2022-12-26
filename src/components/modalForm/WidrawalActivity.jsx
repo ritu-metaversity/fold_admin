@@ -148,7 +148,7 @@ const WidrawalActivity = ({ data }) => {
             }}
             placeholder="Accounts"
             onChange={handleChange}
-            value={amount || 0}
+            value={amount}
           />
           {ammountbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
