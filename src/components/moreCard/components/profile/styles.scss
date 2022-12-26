@@ -1,0 +1,104 @@
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-custom:700px;
+
+
+.profile-container{
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    @media (max-width: $breakpoint-custom) {
+        flex-direction: column;
+       }
+    .left-profile-col{
+        width: 450px;
+        height: 400px;
+        @media (max-width: $breakpoint-custom) {
+        width: 100%;
+           
+           }
+        // background-color: aqua;
+        display: flex;
+        flex-direction: column;
+       gap: 10px;
+        .up{
+            display: flex;
+            text-align: center;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #fff;
+            margin-bottom: 10px;
+            position: relative;
+            height: 50%;
+            width: 100%;
+            
+            h4{
+                margin: 8px 0px 0px 0px ;
+            }
+            p{
+                margin: 0px 0px 0px 0px ;
+                font-weight: 200;
+            }
+            .footer{
+                width: 100%;
+                position: absolute;
+                bottom: 10px;
+                height: 30px;
+                align-items: center;
+                border-top:1px solid #eff2f7!important;
+                // background-color: black;
+                display: flex;
+                justify-content: space-around;
+            }
+        }
+        .down{
+height: 50%;
+width:auto;
+padding: 10px;
+background-color: #fff;
+@media (max-width: $breakpoint-custom) {
+    overflow-x: scroll;
+
+        }
+h3{
+margin-top: 0px;
+margin-bottom: 0px;
+}
+.table{
+    border-collapse:inherits;
+    margin-top: 10px;
+    tr{
+        border: none !important;
+        height: 25px!important;
+        th{
+            text-align: left;
+        }
+    }
+}
+        }
+     
+    }
+    .right-profile-col{
+        width: 550px;
+        padding-left: 20px;
+        background-color: #fff;
+        @media (max-width: $breakpoint-custom) {
+        width: auto;  
+        padding-left: 5px;
+
+           }
+        .table{
+            border-collapse:inherits;
+            margin-top: 10px;
+            tr{
+                border: none !important;
+                height: 25px!important;
+                th{
+                    text-align: left;
+                }
+            }
+        }
+    }
+}
