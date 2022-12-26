@@ -22,7 +22,7 @@ import { useMediaQuery } from "../../components/modalForm/UseMedia";
 export const UserModalContext = createContext({
   handleCancel: () => {},
   remark: "",
-  amount: "",
+  amount: 0,
   setPassword: "",
   setConfirmPass: "",
   password: "",
@@ -53,7 +53,7 @@ const ActiveUser = () => {
   const [showMore, setShowMore] = useState([]);
 
   const [userId, setUserId] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [remark, setRemark] = useState("");
   //////// change password
   const [password, setPassword] = useState("");
