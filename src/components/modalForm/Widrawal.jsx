@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, message, Spin } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -20,6 +20,8 @@ const Widrawal = ({
   const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
   const [ammountbutton, setAmmountbutton] = useState(false);
   const [widrawal, setWidrawal] = useState([]);
+  const [loader, setloader] = useState(false);
+
   const { userId: userIdFromContext } = useContext(UserModalContext);
   const navigate = useNavigate();
 
@@ -47,6 +49,7 @@ const Widrawal = ({
     if (amount && remark) {
       setRemark("");
       setAmount("");
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalSubmitForm}`,
@@ -60,16 +63,19 @@ const Widrawal = ({
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
+          setloader(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
           handleCancel();
+          setloader(false);
         });
     }
   };
   //////widrawal
   useEffect(() => {
     const withdrawal = async () => {
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_Widrawal}`,
@@ -83,6 +89,7 @@ const Widrawal = ({
         .then((res) => {
           if (res.data.data) {
             setWidrawal(res.data.data);
+            setloader(false);
           } else {
             navigate("/");
           }
@@ -90,13 +97,16 @@ const Widrawal = ({
         .catch((error) => {
           if (error.message == "Request failed with status code 401") {
             navigate("/");
+            setloader(false);
           }
         });
     };
     withdrawal();
   }, []);
 
-  // {"userId":"b137e7a95","amount":200,"lupassword":"1111111","remark":"-100"}
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div className="form">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>

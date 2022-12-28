@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Checkbox, Form, Input, message, Switch } from "antd";
+import { Button, Checkbox, Form, Input, message, Spin, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import axios from "axios";
@@ -22,6 +22,7 @@ const EditProfile = ({ data }) => {
   } = useContext(UserModalContext);
 
   const [error, setError] = useState({});
+  const [loader, setloader] = useState(false);
 
   const editProfile = {
     userId: data.userId,
@@ -44,6 +45,7 @@ const EditProfile = ({ data }) => {
       setCity("");
       setMobileNo("");
       setStatus(false);
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_EditProfileForm}`,
@@ -57,15 +59,19 @@ const EditProfile = ({ data }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
+          setloader(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
           handleCancel();
+          setloader(false);
         });
     } else {
     }
   };
-
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Checkbox, Form, Input, message } from "antd";
+import { Button, Checkbox, Form, Input, message, Spin } from "antd";
 ///styles
 import "./styles.scss";
 import { MdOutlineLogin } from "react-icons/md";
@@ -13,7 +13,7 @@ const Changpassword = () => {
 
   const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
   const [ammountbutton, setAmmountbutton] = useState(false);
-
+  const [loader, setloader] = useState(false);
   const {
     handleCancel,
     userId,
@@ -36,6 +36,7 @@ const Changpassword = () => {
     if (password && confirmPass) {
       setPassword("");
       setConfirmPass("");
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
@@ -49,13 +50,18 @@ const Changpassword = () => {
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
+          setloader(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
           handleCancel();
+          setloader(false);
         });
     }
   };
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

@@ -1,4 +1,4 @@
-import { Avatar, Tooltip } from "antd";
+import { Avatar, Spin, Tooltip } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { BiPhoneCall } from "react-icons/bi";
@@ -13,10 +13,13 @@ import "./styles.scss";
 
 const Profile = ({ data }) => {
   const [showMore, setShowMore] = useState([]);
+  const [loader, setloader] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     const TabMoreData = async () => {
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_MoreData}`,
@@ -29,6 +32,7 @@ const Profile = ({ data }) => {
         )
         .then((res) => {
           // console.log("change", res.data);
+          setloader(false);
           if (res) {
             setShowMore(res.data.data);
           } else {
@@ -39,11 +43,15 @@ const Profile = ({ data }) => {
         .catch((error) => {
           if (error.message == "Request failed with status code 401") {
             navigate("/");
+            setloader(false);
           }
         });
     };
     TabMoreData();
   }, []);
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div style={{ padding: "10px" }}>
       <div className="profile-container">

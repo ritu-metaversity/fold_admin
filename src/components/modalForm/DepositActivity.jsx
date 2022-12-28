@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, message, Spin } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -16,6 +16,8 @@ const DepositActivity = ({ data }) => {
   const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
   const [ammountbutton, setAmmountbutton] = useState(false);
   const [depositActivity, setDepositActivity] = useState([]);
+  const [loader, setloader] = useState(false);
+
   const navigate = useNavigate();
   const { amount, remark, handleCancel, setAmount, setRemark } =
     useContext(UserModalContext);
@@ -31,6 +33,7 @@ const DepositActivity = ({ data }) => {
   }
   useEffect(() => {
     const ActivityDeposit = async () => {
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_DepositActivity}`,
@@ -43,6 +46,7 @@ const DepositActivity = ({ data }) => {
         )
         .then((res) => {
           setDepositActivity(res.data.data);
+          setloader(false);
         });
     };
     ActivityDeposit();
@@ -63,6 +67,7 @@ const DepositActivity = ({ data }) => {
     if (amount && remark) {
       setRemark("");
       setAmount("");
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_DepositActivityForm}`,
@@ -76,13 +81,18 @@ const DepositActivity = ({ data }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
+          setloader(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
           handleCancel();
+          setloader(false);
         });
     }
   };
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">

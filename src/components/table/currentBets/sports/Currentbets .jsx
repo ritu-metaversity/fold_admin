@@ -314,7 +314,7 @@ const CurrentBetsTable = () => {
             marginBottom: "5px",
           }}
         >
-          <label class="d-inline-flex align-items-center">
+          <label className="d-inline-flex align-items-center">
             Show&nbsp;
             <select
               className="custom-select-sm"
@@ -402,7 +402,7 @@ const CurrentBetsTable = () => {
                   aria-checked="true"
                   aria-posinset="1"
                   aria-setsize="1"
-                  tabindex="0"
+                  tabIndex="0"
                   className="page-link"
                 >
                   {paginationData.index + 1}

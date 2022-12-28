@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, message, Spin } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -20,6 +20,7 @@ const DepositForm = ({
   const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
   const [ammountbutton, setAmmountbutton] = useState(false);
   const [deposit, setDeposit] = useState([]);
+  const [loader, setloader] = useState(false);
   const navigate = useNavigate();
 
   function handleChange(event) {
@@ -46,6 +47,7 @@ const DepositForm = ({
     if (amount && remark) {
       setRemark("");
       setAmount("");
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_SubmitDepositForm}`,
@@ -59,16 +61,19 @@ const DepositForm = ({
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
+          setloader(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
           handleCancel();
+          setloader(false);
         });
     }
   };
   ///////deoposit Api
   useEffect(() => {
     const showDeposit = async () => {
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_Deposit}`,
@@ -80,7 +85,7 @@ const DepositForm = ({
           }
         )
         .then((res) => {
-          console.log("depost", res.data);
+          setloader(false);
           if (res.data.data) {
             setDeposit(res.data.data);
           } else {
@@ -90,13 +95,16 @@ const DepositForm = ({
         .catch((error) => {
           if (error.message == "Request failed with status code 401") {
             navigate("/");
+            setloader(false);
           }
         });
     };
     showDeposit();
   }, []);
-  console.log(data);
-  // {"userId":"b137e7a95","amount":200,"lupassword":"1111111","remark":"-100"}
+
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div className="form">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>

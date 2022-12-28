@@ -22,7 +22,7 @@ import { useMediaQuery } from "../../components/modalForm/UseMedia";
 export const UserModalContext = createContext({
   handleCancel: () => {},
   remark: "",
-  amount: "",
+  amount: 0,
   setPassword: "",
   setConfirmPass: "",
   password: "",
@@ -53,7 +53,7 @@ const ActiveUser = () => {
   const [showMore, setShowMore] = useState([]);
 
   const [userId, setUserId] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [remark, setRemark] = useState("");
   //////// change password
   const [password, setPassword] = useState("");
@@ -517,7 +517,7 @@ const ActiveUser = () => {
             </div>
           </div>
           <div style={{ paddingLeft: "5px" }}>
-            <label class="d-inline-flex align-items-center">
+            <label className="d-inline-flex align-items-center">
               Show&nbsp;
               <select
                 className="custom-select-sm"
@@ -594,7 +594,7 @@ const ActiveUser = () => {
                     aria-checked="true"
                     aria-posinset="1"
                     aria-setsize="1"
-                    tabindex="0"
+                    tabIndex="0"
                     className="page-link"
                   >
                     {paginationData.index + 1}

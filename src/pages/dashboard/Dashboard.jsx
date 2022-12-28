@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { Tabs } from "antd";
+import { Spin, Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,7 @@ const Dashboard = () => {
   const [tab1, settab1] = useState(4);
   const [cricket, setCricket] = useState([]);
   const [sports, setSports] = useState([]);
+  const [loader, setloader] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const toggle = (checked) => {
@@ -26,6 +27,7 @@ const Dashboard = () => {
   console.log(tab1);
   useEffect(() => {
     const tabledata = async (data) => {
+      setloader(true);
       await axios
         .post(`${process.env.REACT_APP_BASE_URL}/${DASHBOARD}`, data.data, {
           headers: {
@@ -33,14 +35,17 @@ const Dashboard = () => {
           },
         })
         .then((res) => {
+          setloader(false);
           if (res.data) {
             setCricket(res.data);
           } else {
             setCricket();
             navigate("/");
+            setloader(false);
           }
         })
         .catch((error) => {
+          setloader(false);
           if (error.message === "Request failed with status code 401") {
             navigate("/");
             console.log(error);
@@ -59,6 +64,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const getData = async () => {
+      setloader(true);
       await axios
         .post(
           "http://api.a2zscore.com/admin-new-apis/sport/active-sport-list",
@@ -69,6 +75,7 @@ const Dashboard = () => {
           }
         )
         .then((res) => {
+          setloader(false);
           if (res.data.data) {
             setSports(res.data.data);
           } else {
@@ -76,10 +83,24 @@ const Dashboard = () => {
         })
         .catch((error) => {
           console.log(error);
+          setloader(false);
         });
     };
     getData();
   }, []);
+  if (loader) {
+    return (
+      <Spin
+        style={{
+          position: "absolute",
+          left: "50%",
+          top: "35%",
+          height: "31px",
+          width: "31px",
+        }}
+      />
+    );
+  }
   return (
     <>
       <Mainlayout>
