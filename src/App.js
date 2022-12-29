@@ -17,12 +17,14 @@ import {
   Bank_Screen,
   BetHistory_Screen,
   CreatAaccounts_Screen,
+  CreateDomain_Screen,
   currentsBets_Screen,
   Home_Screen,
   MarketAnalysis_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { useEffect } from "react";
+import CreateDomain from "./pages/createDomain/CreateDomain";
 
 function App() {
   const { pathname } = useLocation();
@@ -46,6 +48,7 @@ function App() {
       <Route path={Home_Screen} element={<Login />}></Route>
       <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
       <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
+      <Route path={CreateDomain_Screen} element={<CreateDomain />}></Route>
     </Routes>
   );
 }

@@ -16,10 +16,11 @@ const Loginform = () => {
       .post("http://api.a2zscore.com/admin-new-apis/login/auth", values)
       .then((res) => {
         setloader(false);
+
         if (res.data.token) {
           localStorage.setItem("token", res.data.token);
           navigate("/marketAnalysis");
-          localStorage.setItem("pass", values.password);
+          localStorage.setItem("userType", res.data.userType);
           message.success(res.data.message);
         } else {
           navigate("/");

@@ -14,29 +14,47 @@ import { BASE_URL } from "../../_api/_api";
 const WidrawalActivity = ({ data }) => {
   const [change, setChangeAmount] = useState("");
   const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
+  const [transactionCancelbutton, setTransactionCancelbutton] = useState(false);
+
   const [ammountbutton, setAmmountbutton] = useState(false);
   const [depositActivity, setDepositActivity] = useState([]);
   const [loader, setloader] = useState(false);
 
   const navigate = useNavigate();
-  const { amount, remark, handleCancel, setAmount, setRemark } =
-    useContext(UserModalContext);
+
+  const {
+    handleCancel,
+    setAmount,
+    setRemark,
+
+    setWidrwalActivityRemark,
+    widrwalActivityRemark,
+    setWidrwalActivityAccount,
+    widrwalActivityAccount,
+    setwidrawalActivityPass,
+    widrawalActivityPass,
+  } = useContext(UserModalContext);
 
   const dataValue = {
     userId: data.userId,
-    amount: amount,
-    lupassword: localStorage.getItem("pass"),
-    remark: remark,
+    amount: widrwalActivityAccount,
+    lupassword: widrawalActivityPass,
+    remark: widrwalActivityRemark,
   };
 
   function handleChange(event) {
-    if (event.target.value) {
-      setAmount(Math.abs(event.target.value));
-      setChangeAmount(amount);
-    } else {
-      setAmount("");
-      setChangeAmount("");
-    }
+    let value = Math.abs(event.target.value);
+    value ? setAmmountbutton(false) : setAmmountbutton(true);
+    setWidrwalActivityAccount(value);
+    // setChangeAmount(widrwalActivityAccount);
+
+    //  else {
+    //   // setAmount("");
+    //   setWidrwalActivityAccount("");
+    //   setWidrwalActivityRemark("");
+    //   setChangeAmount("");
+    //   setwidrawalActivityPass("");
+    // }
   }
   useEffect(() => {
     const ActivityDeposit = async () => {
@@ -59,13 +77,22 @@ const WidrawalActivity = ({ data }) => {
     ActivityDeposit();
   }, []);
   const Submit = async () => {
-    setAmmountbutton(!amount);
-    setRemarkCancelbutton(!remark);
+    setAmmountbutton(widrwalActivityAccount ? false : true);
+    setRemarkCancelbutton(widrwalActivityRemark ? false : true);
+    setTransactionCancelbutton(widrawalActivityPass ? false : true);
 
-    if (amount && remark) {
+    if (
+      widrwalActivityAccount &&
+      widrwalActivityRemark &&
+      widrawalActivityPass
+    ) {
       setRemark("");
       setAmount("");
+      // setPass("");
       setloader(true);
+      setWidrwalActivityRemark("");
+      setWidrwalActivityAccount("");
+      setwidrawalActivityPass("");
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalActivitySubmitForm}`,
@@ -105,7 +132,10 @@ const WidrawalActivity = ({ data }) => {
             type="text"
             disabled={true}
             value={
-              amount ? Number(depositActivity.parentAmount) + Number(amount) : 0
+              widrwalActivityAccount
+                ? Number(depositActivity.parentAmount) +
+                  Number(widrwalActivityAccount)
+                : 0
             }
           />
         </div>
@@ -122,7 +152,10 @@ const WidrawalActivity = ({ data }) => {
             type="text"
             disabled={true}
             value={
-              amount ? Number(depositActivity.childAmount) - Number(amount) : 0
+              widrwalActivityAccount
+                ? Number(depositActivity.childAmount) -
+                  Number(widrwalActivityAccount)
+                : 0
             }
           />
         </div>
@@ -148,7 +181,7 @@ const WidrawalActivity = ({ data }) => {
             }}
             placeholder="Accounts"
             onChange={handleChange}
-            value={amount}
+            value={widrwalActivityAccount ? widrwalActivityAccount : 0}
           />
           {ammountbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
@@ -171,7 +204,7 @@ const WidrawalActivity = ({ data }) => {
             rows="3"
             cols="100"
             placeholder="Remark"
-            value={remark}
+            value={widrwalActivityRemark}
             style={{
               width: "100%",
               textAlign: "right",
@@ -179,7 +212,13 @@ const WidrawalActivity = ({ data }) => {
 
               outline: "none",
             }}
-            onChange={(e) => console.log("remark", setRemark(e.target.value))}
+            onChange={(e) => {
+              let value = e.target.value;
+              setWidrwalActivityRemark(value);
+              value
+                ? setRemarkCancelbutton(false)
+                : setRemarkCancelbutton(true);
+            }}
           ></textarea>
           {remarkCancelbutton ? (
             <RxCross2 style={{ paddingRight: "10px" }} />
@@ -190,13 +229,35 @@ const WidrawalActivity = ({ data }) => {
       </div>
       <div className="row-1">
         <label>Transaction Code</label>
-        <div className="input">
+        <div
+          className="input"
+          style={{
+            background: "white",
+            border: `${
+              transactionCancelbutton ? "1px solid red" : "1px solid #ced4da"
+            }`,
+            borderRadius: " 0.25rem",
+          }}
+        >
           <input
             type="password"
             id="pwd"
             name="pwd"
-            style={{ width: "100%", textAlign: "left" }}
+            style={{ width: "100%", textAlign: "left", border: "none" }}
+            onChange={(e) => {
+              setwidrawalActivityPass(e.target.value);
+
+              e.target.value
+                ? setTransactionCancelbutton(false)
+                : setTransactionCancelbutton(true);
+            }}
+            value={widrawalActivityPass}
           ></input>
+          {transactionCancelbutton ? (
+            <RxCross2 style={{ paddingRight: "10px" }} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="row-button">
