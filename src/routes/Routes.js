@@ -7,6 +7,7 @@ export const ActiveUser_Screen = "/activeUser";
 export const CreatAaccounts_Screen = "/creatAaccounts";
 export const currentsBets_Screen = "/currentsBets";
 export const BetHistory_Screen = "/betHistory";
+export const CreateDomain_Screen = "/createdomain";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";

@@ -109,16 +109,16 @@ const CurrentBetsTable = () => {
     {
       title: "Event Type",
       dataIndex: "EventType",
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return String(record.EventType)
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      },
     },
     {
       title: "Event Name",
       dataIndex: "EventName",
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return String(record.EventName)
+          .toLowerCase()
+          .includes(value.toLowerCase());
+      },
       sorter: {
         compare: (a, b) => a.CR - b.CR,
         multiple: 3,
@@ -180,11 +180,6 @@ const CurrentBetsTable = () => {
         multiple: 1,
       },
     },
-
-    {
-      title: "Action",
-      dataIndex: "Action",
-    },
   ];
 
   const data = [];
@@ -209,7 +204,6 @@ const CurrentBetsTable = () => {
             </Tooltip>
           </>
         ),
-        Action: <Checkbox />,
       });
     } else {
       data.push({
@@ -225,7 +219,6 @@ const CurrentBetsTable = () => {
         ust: "",
         PPhone: "",
         AccountType: "",
-        Action: "",
       });
     }
   });

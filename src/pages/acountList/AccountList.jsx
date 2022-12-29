@@ -19,26 +19,7 @@ import {
   Tab_Widrawal,
 } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
-
-export const UserModalContext = createContext({
-  handleCancel: () => {},
-  remark: "",
-  amount: "",
-  setPassword: "",
-  setConfirmPass: "",
-  password: "",
-  confirmPass: "",
-  setAmount: "",
-  setRemark: "",
-  setName: "",
-  name: "",
-  setCity: "",
-  city: "",
-  setMobileNo: "",
-  mobileNo: "",
-  isStatus: "",
-  setStatus: "",
-});
+import { UserModalContext } from "../activeUser/ActiveUser";
 
 const Activelist = () => {
   const isMobile = useMediaQuery("(min-width: 768px)");
@@ -55,6 +36,10 @@ const Activelist = () => {
   const [userId, setUserId] = useState("");
   const [amount, setAmount] = useState("");
   const [remark, setRemark] = useState("");
+  const [depositePass, setDepositPass] = useState("");
+  const [widrwalActivityRemark, setWidrwalActivityRemark] = useState("");
+  const [widrwalActivityAccount, setWidrwalActivityAccount] = useState("");
+
   //////// change password
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -64,6 +49,9 @@ const Activelist = () => {
   const [city, setCity] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [isStatus, setStatus] = useState(false);
+
+  const [pass, setPass] = useState("");
+  const [widrawalActivityPass, setwidrawalActivityPass] = useState("");
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
@@ -133,6 +121,8 @@ const Activelist = () => {
     setCity("");
     setMobileNo("");
     setStatus(false);
+    setWidrwalActivityRemark("");
+    setWidrwalActivityAccount("");
   };
 
   const tabledata = async () => {
@@ -358,6 +348,16 @@ const Activelist = () => {
         mobileNo,
         isStatus,
         setStatus,
+        setPass,
+        pass,
+        setWidrwalActivityRemark,
+        widrwalActivityRemark,
+        setWidrwalActivityAccount,
+        widrwalActivityAccount,
+        setwidrawalActivityPass,
+        widrawalActivityPass,
+        setDepositPass,
+        depositePass,
       }}
     >
       <Mainlayout>
@@ -375,9 +375,10 @@ const Activelist = () => {
             handleCancel={handleCancel}
             setAmount={setAmount}
             setRemark={setRemark}
-            amount={amount}
-            remark={remark}
+            // amount={amount}
+            // remark={remark}
             data={userId}
+            destroyOnClose="true"
           />
         </Modal>
         <Modal
@@ -389,14 +390,7 @@ const Activelist = () => {
           data={userId}
           destroyOnClose="true"
         >
-          <Widrawal
-            handleCancel={handleCancel}
-            setAmount={setAmount}
-            setRemark={setRemark}
-            amount={amount}
-            remark={remark}
-            data={userId}
-          />
+          <Widrawal data={userId} />
         </Modal>
         <Modal
           title={DataList.find((item) => item.id == userData)?.username}

@@ -195,11 +195,6 @@ const BetHistorytable = () => {
         multiple: 1,
       },
     },
-
-    {
-      title: "Action",
-      dataIndex: "Action",
-    },
   ];
 
   const data = [];
@@ -224,7 +219,6 @@ const BetHistorytable = () => {
             </Tooltip>
           </>
         ),
-        Action: <Checkbox />,
       });
     } else {
       data.push({
@@ -240,7 +234,6 @@ const BetHistorytable = () => {
         ust: "",
         PPhone: "",
         AccountType: "",
-        Action: "",
       });
     }
   });
@@ -345,7 +338,7 @@ const BetHistorytable = () => {
               labelInValue
               defaultValue={{
                 value: "",
-                label: "Sportslist",
+                label: "Select match",
               }}
               style={{
                 width: 120,

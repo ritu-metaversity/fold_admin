@@ -17,12 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { BASE_URL } from "../../_api/_api";
-import {
-  Table_ActiveUser,
-  Tab_Deposit,
-  Tab_MoreData,
-  Tab_Widrawal,
-} from "../../routes/Routes";
+import { Table_ActiveUser } from "../../routes/Routes";
 import { BsArrowRightShort } from "react-icons/bs";
 import { UserModalContext } from "../activeUser/ActiveUser";
 

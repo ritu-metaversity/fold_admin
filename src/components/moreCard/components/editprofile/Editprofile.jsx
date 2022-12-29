@@ -19,17 +19,20 @@ const EditProfile = ({ data }) => {
     mobileNo,
     setStatus,
     isStatus,
+    setDepositPass,
+    depositePass,
   } = useContext(UserModalContext);
 
   const [error, setError] = useState({});
   const [loader, setloader] = useState(false);
+  const [depositbutton, setDepositbutton] = useState(false);
 
   const editProfile = {
     userId: data.userId,
     username: data.username,
     mobile: mobileNo,
     city: city,
-    lupassword: localStorage.getItem("pass"),
+    lupassword: depositePass,
     favMaster: isStatus,
   };
 
@@ -38,9 +41,10 @@ const EditProfile = ({ data }) => {
       name: !name,
       city: !city,
       mobileNo: !mobileNo,
+      lupassword: !depositePass,
     });
 
-    if (name && city && mobileNo) {
+    if (name && city && mobileNo && depositePass) {
       setName("");
       setCity("");
       setMobileNo("");
@@ -177,14 +181,32 @@ const EditProfile = ({ data }) => {
         </div>
         <div className="row-1">
           <label>Transaction Code</label>
-          <div className="input">
+          <div
+            className="input"
+            style={{
+              background: "white",
+              border: `${
+                error.lupassword ? "1px solid red" : "1px solid #ced4da"
+              }`,
+              borderRadius: " 0.25rem",
+            }}
+          >
             <input
               type="password"
               id="pwd"
               name="pwd"
-              style={{ width: "100%", textAlign: "left" }}
-              placeholder="Transaction Code"
-            />
+              style={{ border: "none" }}
+              onChange={(e) => {
+                setDepositPass(e.target.value);
+                //  e.target.value?setError.lupassword?
+              }}
+              value={depositePass}
+            ></input>
+            {error.lupassword ? (
+              <RxCross2 style={{ paddingRight: "10px" }} />
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="row-button">

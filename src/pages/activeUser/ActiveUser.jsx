@@ -11,12 +11,7 @@ import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
 import { BASE_URL } from "../../_api/_api";
-import {
-  Table_ActiveUser,
-  Tab_Deposit,
-  Tab_MoreData,
-  Tab_Widrawal,
-} from "../../routes/Routes";
+import { Table_ActiveUser } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 
 export const UserModalContext = createContext({
@@ -47,10 +42,8 @@ const ActiveUser = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
-  const [PageIndex, setPageIndex] = useState(0);
   const [DataList, setDataList] = useState([]);
   const [userData, setuserData] = useState([]);
-  const [showMore, setShowMore] = useState([]);
 
   const [userId, setUserId] = useState("");
   const [amount, setAmount] = useState(0);
@@ -64,7 +57,11 @@ const ActiveUser = () => {
   const [city, setCity] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [isStatus, setStatus] = useState(false);
-
+  const [pass, setPass] = useState("");
+  const [depositePass, setDepositPass] = useState("");
+  const [widrwalActivityRemark, setWidrwalActivityRemark] = useState("");
+  const [widrwalActivityAccount, setWidrwalActivityAccount] = useState("");
+  const [widrawalActivityPass, setwidrawalActivityPass] = useState("");
   const [paginationData, setPaginationData] = useState({
     index: 0,
     noOfRecords: 25,
@@ -419,6 +416,16 @@ const ActiveUser = () => {
         mobileNo,
         isStatus,
         setStatus,
+        setPass,
+        pass,
+        setWidrwalActivityRemark,
+        widrwalActivityRemark,
+        setWidrwalActivityAccount,
+        widrwalActivityAccount,
+        setwidrawalActivityPass,
+        widrawalActivityPass,
+        setDepositPass,
+        depositePass,
       }}
     >
       <Mainlayout>
