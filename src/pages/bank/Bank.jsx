@@ -17,12 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { BASE_URL } from "../../_api/_api";
-import {
-  Table_ActiveUser,
-  Tab_Deposit,
-  Tab_MoreData,
-  Tab_Widrawal,
-} from "../../routes/Routes";
+import { Table_ActiveUser } from "../../routes/Routes";
 import { BsArrowRightShort } from "react-icons/bs";
 import { UserModalContext } from "../activeUser/ActiveUser";
 
@@ -341,7 +336,7 @@ const Bank = () => {
           </div>
 
           <div style={{ paddingLeft: "5px" }}>
-            <label class="d-inline-flex align-items-center">
+            <label className="d-inline-flex align-items-center">
               Show&nbsp;
               <select
                 className="custom-select-sm"
@@ -418,7 +413,7 @@ const Bank = () => {
                     aria-checked="true"
                     aria-posinset="1"
                     aria-setsize="1"
-                    tabindex="0"
+                    tabIndex="0"
                     className="page-link"
                   >
                     {paginationData.index + 1}

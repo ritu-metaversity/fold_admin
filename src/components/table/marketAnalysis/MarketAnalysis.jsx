@@ -12,22 +12,22 @@ const Datatable = (props) => {
   return data?.map((res) => {
     return (
       <div className="tabledata">
-        <table class="table table-bordered">
-          <thead class="table-head">
-            <tr class="winner-table">
+        <table className="table table-bordered">
+          <thead className="table-head">
+            <tr className="winner-table">
               <th colspan="6" scope="col">
                 <FaBasketballBall /> {res.sportName}
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr class="winner-table">
-              <td scope="col" colspan="0" class="teams-name">
+            <tr className="winner-table">
+              <td scope="col" colspan="0" className="teams-name">
                 <a href="/admin-web-ui/admin/games/31910158">{res.matchName}</a>
               </td>
               <td scope="col">
                 <span
-                  class="me-2"
+                  className="me-2"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -46,7 +46,7 @@ const Datatable = (props) => {
             {res.marketData.map((market) => {
               return (
                 <>
-                  <tr class="winner-table">
+                  <tr className="winner-table">
                     <td>
                       <span style={{ display: "flex", alignItems: "center" }}>
                         {market.marketName}
@@ -59,7 +59,7 @@ const Datatable = (props) => {
                     <td></td>
                     <td></td>
                   </tr>
-                  <tr class="winner-table">
+                  <tr className="winner-table">
                     {market.selectionName1 ? (
                       <td>
                         {market.selectionName1}{" "}

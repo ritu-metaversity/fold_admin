@@ -11,18 +11,13 @@ import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
 import { BASE_URL } from "../../_api/_api";
-import {
-  Table_ActiveUser,
-  Tab_Deposit,
-  Tab_MoreData,
-  Tab_Widrawal,
-} from "../../routes/Routes";
+import { Table_ActiveUser } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
   remark: "",
-  amount: "",
+  amount: 0,
   setPassword: "",
   setConfirmPass: "",
   password: "",
@@ -47,13 +42,11 @@ const ActiveUser = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
-  const [PageIndex, setPageIndex] = useState(0);
   const [DataList, setDataList] = useState([]);
   const [userData, setuserData] = useState([]);
-  const [showMore, setShowMore] = useState([]);
 
   const [userId, setUserId] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(0);
   const [remark, setRemark] = useState("");
   //////// change password
   const [password, setPassword] = useState("");
@@ -64,7 +57,11 @@ const ActiveUser = () => {
   const [city, setCity] = useState("");
   const [mobileNo, setMobileNo] = useState("");
   const [isStatus, setStatus] = useState(false);
-
+  const [pass, setPass] = useState("");
+  const [depositePass, setDepositPass] = useState("");
+  const [widrwalActivityRemark, setWidrwalActivityRemark] = useState("");
+  const [widrwalActivityAccount, setWidrwalActivityAccount] = useState("");
+  const [widrawalActivityPass, setwidrawalActivityPass] = useState("");
   const [paginationData, setPaginationData] = useState({
     index: 0,
     noOfRecords: 25,
@@ -419,6 +416,16 @@ const ActiveUser = () => {
         mobileNo,
         isStatus,
         setStatus,
+        setPass,
+        pass,
+        setWidrwalActivityRemark,
+        widrwalActivityRemark,
+        setWidrwalActivityAccount,
+        widrwalActivityAccount,
+        setwidrawalActivityPass,
+        widrawalActivityPass,
+        setDepositPass,
+        depositePass,
       }}
     >
       <Mainlayout>
@@ -517,7 +524,7 @@ const ActiveUser = () => {
             </div>
           </div>
           <div style={{ paddingLeft: "5px" }}>
-            <label class="d-inline-flex align-items-center">
+            <label className="d-inline-flex align-items-center">
               Show&nbsp;
               <select
                 className="custom-select-sm"
@@ -594,7 +601,7 @@ const ActiveUser = () => {
                     aria-checked="true"
                     aria-posinset="1"
                     aria-setsize="1"
-                    tabindex="0"
+                    tabIndex="0"
                     className="page-link"
                   >
                     {paginationData.index + 1}

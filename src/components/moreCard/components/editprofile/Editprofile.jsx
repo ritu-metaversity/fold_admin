@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Checkbox, Form, Input, message, Switch } from "antd";
+import { Button, Checkbox, Form, Input, message, Spin, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import axios from "axios";
@@ -19,16 +19,20 @@ const EditProfile = ({ data }) => {
     mobileNo,
     setStatus,
     isStatus,
+    setDepositPass,
+    depositePass,
   } = useContext(UserModalContext);
 
   const [error, setError] = useState({});
+  const [loader, setloader] = useState(false);
+  const [depositbutton, setDepositbutton] = useState(false);
 
   const editProfile = {
     userId: data.userId,
     username: data.username,
     mobile: mobileNo,
     city: city,
-    lupassword: localStorage.getItem("pass"),
+    lupassword: depositePass,
     favMaster: isStatus,
   };
 
@@ -37,14 +41,15 @@ const EditProfile = ({ data }) => {
       name: !name,
       city: !city,
       mobileNo: !mobileNo,
+      lupassword: !depositePass,
     });
 
-    if (name && city && mobileNo) {
-      handleCancel();
+    if (name && city && mobileNo && depositePass) {
       setName("");
       setCity("");
       setMobileNo("");
       setStatus(false);
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_EditProfileForm}`,
@@ -57,14 +62,20 @@ const EditProfile = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
+          handleCancel();
+          setloader(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          handleCancel();
+          setloader(false);
         });
     } else {
     }
   };
-
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>
@@ -170,14 +181,32 @@ const EditProfile = ({ data }) => {
         </div>
         <div className="row-1">
           <label>Transaction Code</label>
-          <div className="input">
+          <div
+            className="input"
+            style={{
+              background: "white",
+              border: `${
+                error.lupassword ? "1px solid red" : "1px solid #ced4da"
+              }`,
+              borderRadius: " 0.25rem",
+            }}
+          >
             <input
               type="password"
               id="pwd"
               name="pwd"
-              style={{ width: "100%", textAlign: "left" }}
-              placeholder="Transaction Code"
-            />
+              style={{ border: "none" }}
+              onChange={(e) => {
+                setDepositPass(e.target.value);
+                //  e.target.value?setError.lupassword?
+              }}
+              value={depositePass}
+            ></input>
+            {error.lupassword ? (
+              <RxCross2 style={{ paddingRight: "10px" }} />
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="row-button">

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Button, Checkbox, Form, Input, message } from "antd";
+import { Button, Checkbox, Form, Input, message, Spin } from "antd";
 ///styles
 import "./styles.scss";
 import { MdOutlineLogin } from "react-icons/md";
@@ -13,7 +13,8 @@ const Changpassword = () => {
 
   const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
   const [ammountbutton, setAmmountbutton] = useState(false);
-
+  const [loader, setloader] = useState(false);
+  const [matchpass, setMatchpass] = useState(false);
   const {
     handleCancel,
     userId,
@@ -34,27 +35,39 @@ const Changpassword = () => {
     setRemarkCancelbutton(!confirmPass);
 
     if (password && confirmPass) {
-      handleCancel();
-      setPassword("");
-      setConfirmPass("");
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
-          changeData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          message.success(res.data.message);
-        })
-        .catch((error) => {
-          message.error(error.response.data.message);
-        });
+      if (password === confirmPass && password) {
+        setPassword("");
+        setConfirmPass("");
+        setloader(true);
+        await axios
+          .post(
+            `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
+            changeData,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((res) => {
+            message.success(res.data.message);
+            handleCancel();
+            setloader(false);
+          })
+          .catch((error) => {
+            message.error(error.response.data.message);
+            handleCancel();
+            setloader(false);
+          });
+      } else {
+        setMatchpass(true);
+        console.log("password does't match");
+      }
     }
   };
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>
@@ -115,6 +128,16 @@ const Changpassword = () => {
               placeholder="confirm Password"
               onChange={(e) => setConfirmPass(e.target.value)}
             />
+            <span
+              style={{
+                display: `${!matchpass ? "none" : "block"}`,
+                flex: "none",
+                paddingRight: "10px",
+                color: "red",
+              }}
+            >
+              password does not match
+            </span>
             {remarkCancelbutton ? (
               <RxCross2 style={{ paddingRight: "10px" }} />
             ) : (

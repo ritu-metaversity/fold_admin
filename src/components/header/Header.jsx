@@ -57,10 +57,10 @@ const Header = ({ SiderBar, setSidebar }) => {
             This is a sample scrolling text that has scrolls texts to right.
           </marquee>
         </div>
-        <div class="serch-input">
+        <div className="serch-input">
           <input
             type="text"
-            class="form-control bg-transparent shadow-none border-0"
+            className="form-control bg-transparent shadow-none border-0"
             placeholder="search"
           />
           <AiOutlineSearch />

@@ -22,9 +22,7 @@ $breakpoint-custom:700px;
             border-radius: 0%!important;
             // margin-left: -0.5px;
         }
-        .ant-modal-footer{
-            display: none;
-        }
+      
         .ant-tabs-tab-btn {
             color: #495057!important;
             font-weight: 500;
@@ -63,6 +61,7 @@ $breakpoint-custom:700px;
     padding-bottom: 0.25rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    border-radius: 5px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -83,10 +82,36 @@ $breakpoint-custom:700px;
 }
 .CREDI-ACTIVITY{
 top: 10px!important;
+
     .ant-modal-title{
         color: white;
         padding: 10px;
         background-color: #f1b44c!important;
     }
 }
-    
+.deposite{
+            
+    .ant-modal-footer{
+        display: none;
+    }
+}
+.widrwal{
+    .ant-modal-footer{
+        display: none;
+    }
+}
+.more{
+    .ant-modal-footer{
+        display: none!important;
+    }
+}
+.more{
+    .ant-modal-footer{
+        display: none!important;
+    }
+}
+.CREDI-ACTIVITY{
+    .ant-modal-footer{
+        display: none!important;
+    }
+}

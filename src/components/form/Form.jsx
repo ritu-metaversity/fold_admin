@@ -1,33 +1,41 @@
 import React, { useState } from "react";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, message, Spin } from "antd";
 ////
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const Loginform = () => {
-  const [state, setstate] = useState([]);
+  // const [state, setstate] = useState([]);
+  const [loader, setloader] = useState(false);
   const navigate = useNavigate();
 
   const onFinish = async (values) => {
-    console.log("Received values of form: ", values.password);
+    setloader(true);
+
     await axios
       .post("http://api.a2zscore.com/admin-new-apis/login/auth", values)
       .then((res) => {
+        setloader(false);
+
         if (res.data.token) {
           localStorage.setItem("token", res.data.token);
           navigate("/marketAnalysis");
-          localStorage.setItem("pass", values.password);
+          localStorage.setItem("userType", res.data.userType);
           message.success(res.data.message);
         } else {
           navigate("/");
+          setloader(false);
         }
       })
       .catch((error) => {
         message.error(error.response.data.message);
+        setloader(false);
       });
   };
   // let x = localStorage.getItem("token");
-
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>

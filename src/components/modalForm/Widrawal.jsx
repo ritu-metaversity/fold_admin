@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, message, Spin } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -8,27 +8,35 @@ import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { Tab_Widrawal, Tab_WidrawalSubmitForm } from "../../routes/Routes";
 import { BASE_URL } from "../../_api/_api";
 import "./styles.scss";
-const Widrawal = ({
-  handleCancel,
-  setAmount,
-  amount,
-  setRemark,
-  remark,
-  data,
-}) => {
+const Widrawal = ({ data }) => {
+  const {
+    amount,
+    remark,
+    handleCancel,
+    setAmount,
+    setRemark,
+
+    setDepositPass,
+    depositePass,
+  } = useContext(UserModalContext);
+
   const [change, setChangeAmount] = useState("");
   const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
   const [ammountbutton, setAmmountbutton] = useState(false);
   const [widrawal, setWidrawal] = useState([]);
-  const { userId: userIdFromContext } = useContext(UserModalContext);
+  const [loader, setloader] = useState(false);
+  const [depositbutton, setDepositbutton] = useState(false);
+
   const navigate = useNavigate();
 
   function handleChange(event) {
     if (event.target.value) {
       setAmount(Math.abs(event.target.value));
       setChangeAmount(amount);
+      setAmmountbutton(false);
     } else {
       setAmount("");
+      setAmmountbutton(true);
       setChangeAmount("");
     }
   }
@@ -36,18 +44,19 @@ const Widrawal = ({
   const formdata = {
     userId: data.userId,
     amount: amount,
-    lupassword: localStorage.getItem("pass"),
+    lupassword: depositePass,
     remark: remark,
   };
 
   const Submit = async () => {
-    setAmmountbutton(!amount);
-    setRemarkCancelbutton(!remark);
-
-    if (amount && remark) {
-      handleCancel();
+    setAmmountbutton(amount ? false : true);
+    setRemarkCancelbutton(remark ? false : true);
+    setDepositbutton(depositePass ? false : true);
+    if (amount && remark && depositePass) {
       setRemark("");
       setAmount("");
+      setloader(true);
+      setDepositPass("");
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalSubmitForm}`,
@@ -60,15 +69,20 @@ const Widrawal = ({
         )
         .then((res) => {
           message.success(res.data.message);
+          handleCancel();
+          setloader(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          handleCancel();
+          setloader(false);
         });
     }
   };
   //////widrawal
   useEffect(() => {
     const withdrawal = async () => {
+      setloader(true);
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_Widrawal}`,
@@ -82,6 +96,7 @@ const Widrawal = ({
         .then((res) => {
           if (res.data.data) {
             setWidrawal(res.data.data);
+            setloader(false);
           } else {
             navigate("/");
           }
@@ -89,13 +104,16 @@ const Widrawal = ({
         .catch((error) => {
           if (error.message == "Request failed with status code 401") {
             navigate("/");
+            setloader(false);
           }
         });
     };
     withdrawal();
   }, []);
 
-  // {"userId":"b137e7a95","amount":200,"lupassword":"1111111","remark":"-100"}
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <div className="form">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>
@@ -185,7 +203,12 @@ const Widrawal = ({
             style={{ border: "none", outline: "none" }}
             placeholder="Remark"
             value={remark}
-            onChange={(e) => console.log("remark", setRemark(e.target.value))}
+            onChange={(e) => {
+              setRemark(e.target.value);
+              e.target.value
+                ? setRemarkCancelbutton(false)
+                : setRemarkCancelbutton(true);
+            }}
           ></textarea>
           {remarkCancelbutton ? (
             <RxCross2 style={{ paddingRight: "10px" }} />
@@ -196,13 +219,26 @@ const Widrawal = ({
       </div>
       <div className="row-1">
         <label>Transaction Code</label>
-        <div className="input">
+        <div
+          className="input"
+          style={{
+            background: "white",
+            border: `${depositbutton ? "1px solid red" : "1px solid #ced4da"}`,
+            borderRadius: " 0.25rem",
+          }}
+        >
           <input
             type="password"
             id="pwd"
             name="pwd"
-            style={{ width: "100%", textAlign: "left" }}
+            style={{ width: "100%", textAlign: "left", border: "none" }}
+            onChange={(e) => {
+              setDepositPass(e.target.value);
+              e.target.value ? setDepositbutton(false) : setDepositbutton(true);
+            }}
+            value={depositePass}
           ></input>
+          {depositbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
       <div className="row-button">

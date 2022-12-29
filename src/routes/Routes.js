@@ -5,6 +5,9 @@ export const MarketAnalysis_Screen = "/marketAnalysis";
 export const AccountList_Screen = "/accountList";
 export const ActiveUser_Screen = "/activeUser";
 export const CreatAaccounts_Screen = "/creatAaccounts";
+export const currentsBets_Screen = "/currentsBets";
+export const BetHistory_Screen = "/betHistory";
+export const CreateDomain_Screen = "/createdomain";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
@@ -15,6 +18,11 @@ export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";
 export const Tab_Deposit = "dwc/depositwithdrawdata";
 export const Tab_Widrawal = "dwc/depositwithdrawdata";
+
+/////curent bets Api
+export const Tab_CurrentBet = "report/current-bets";
+///bet history api
+export const TabBet_History = "report/bet-history";
 
 ///// more Card Component Api
 export const Tab_Transaction = "report/account-statement";

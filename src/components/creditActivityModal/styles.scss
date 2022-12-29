@@ -1,3 +1,8 @@
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-custom:700px;
+
 .CREDI-ACTIVITY{
     width: 800px!important;
 }
@@ -22,6 +27,9 @@
         border-bottom: 1px solid transparent!important;
         border-left:1px solid transparent !important;
         border-right:1px solid transparent !important;
+        @media (max-width: $breakpoint-tablet) {
+            padding: 8px 4px!important;
+            }
     }
     .ant-tabs-tab-active{
         background-color: transparent!important;
@@ -59,6 +67,9 @@
         border-bottom: 1px solid transparent!important;
         border-left:1px solid transparent !important;
         border-right:1px solid transparent !important;
+        @media (max-width: $breakpoint-tablet) {
+            padding: 8px 4px!important;
+            }
     }
     .ant-tabs-tab-active{
         background-color: transparent!important;
@@ -96,6 +107,10 @@
         border-bottom: 1px solid transparent!important;
         border-left:1px solid transparent !important;
         border-right:1px solid transparent !important;
+        @media (max-width: $breakpoint-tablet) {
+            padding: 8px 4px!important;
+            
+            }
     }
     .ant-tabs-tab-active{
         background-color: transparent!important;

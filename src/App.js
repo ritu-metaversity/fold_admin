@@ -9,21 +9,29 @@ import AccountsList from "./pages/acountList/AccountList";
 import Bank from "./pages/bank/Bank";
 import Loginform from "./components/form/Form";
 import Login from "./pages/login/Login";
+import CurrentBets from "./pages/currentBets/CurrentBets";
+
 import {
   AccountList_Screen,
   ActiveUser_Screen,
   Bank_Screen,
+  BetHistory_Screen,
   CreatAaccounts_Screen,
+  CreateDomain_Screen,
+  currentsBets_Screen,
   Home_Screen,
   MarketAnalysis_Screen,
 } from "./routes/Routes";
-import { createContext, useEffect } from "react";
+import BetHistory from "./pages/betHistory/BetHistory";
+import { useEffect } from "react";
+import CreateDomain from "./pages/createDomain/CreateDomain";
 
 function App() {
   const { pathname } = useLocation();
   const nav = useNavigate();
   useEffect(() => {
     const x = localStorage.getItem("token");
+    console.log(x);
     if (!x && pathname !== "/") {
       // window.location.replace("/");
       nav("/");
@@ -38,6 +46,9 @@ function App() {
       <Route path={AccountList_Screen} element={<AccountsList />}></Route>
       <Route path={Bank_Screen} element={<Bank />}></Route>
       <Route path={Home_Screen} element={<Login />}></Route>
+      <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
+      <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
+      <Route path={CreateDomain_Screen} element={<CreateDomain />}></Route>
     </Routes>
   );
 }

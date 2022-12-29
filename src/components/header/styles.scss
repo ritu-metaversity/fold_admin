@@ -9,7 +9,7 @@ $breakpoint-custom-header :710px;
    width: 100%;
    background-color: #23292e;
  padding: 0 20px;
- @media (max-width: $breakpoint-specific) {
+ @media (min-width: $breakpoint-specific) {
    justify-content: space-between;
 }
 //    justify-content: space-around;
@@ -28,7 +28,7 @@ $breakpoint-custom-header :710px;
     text-align: center;
     color: white;
     height: 64px;
-    overflow: hidden;
+    // overflow: hidden;
     display: flex;
     align-items: center;
     img{
@@ -120,7 +120,8 @@ align-items: center;
     display: flex;
     align-items: center;
    padding-right: 20px;
-    
+    position: relative;
+   
     .ant-dropdown-trigger{
         cursor: pointer;
         .ant-space {
@@ -148,6 +149,7 @@ align-items: center;
 }
 .ant-dropdown {
     top: 63px!important;
+    position: fixed!important;
 }
 .container{
 background-color:white ;

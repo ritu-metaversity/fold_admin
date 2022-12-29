@@ -13,12 +13,7 @@ const SiderBar = ({ closeSidebar }) => {
 
     navigate("/");
   };
-  // useEffect(() => {
-  //   window.addEventListener("mousedown", () => closeSidebar(), false);
-  //   return () => {
-  //     window.removeEventListener("mousedown", () => closeSidebar(), false);
-  //   };
-  // }, []);
+
   return (
     <div>
       <Menu theme="dark" style={{ width: 256 }} mode="inline">
@@ -52,8 +47,11 @@ const SiderBar = ({ closeSidebar }) => {
           <Menu.Item key="6" style={{ paddingLeft: "40px!important" }}>
             <Link to="/creatAaccounts">Create Accounts</Link>{" "}
           </Menu.Item>
+          <Menu.Item key="7" style={{ paddingLeft: "40px!important" }}>
+            <Link to="/createdomain">Create Domain</Link>{" "}
+          </Menu.Item>
         </SubMenu>
-        <Menu.Item icon={""} key="7">
+        <Menu.Item icon={""} key="8">
           <Link to="/bank">
             <RiBankFill />
             Bank
@@ -69,14 +67,20 @@ const SiderBar = ({ closeSidebar }) => {
             </span>
           }
         >
-          <Menu.Item key="8" style={{ paddingLeft: "40px!important" }}>
-            Option 5
+          <Menu.Item
+            key="9"
+            style={{
+              paddingLeft: "40px!important",
+              borderTop: "1px solid gray",
+            }}
+          >
+            <Link to="/currentsBets">CURRENT BETS</Link>
           </Menu.Item>
-          <Menu.Item key="9" style={{ paddingLeft: "40px!important" }}>
-            Option 6
+          <Menu.Item key="10" style={{ paddingLeft: "40px!important" }}>
+            <Link to="/betHistory"> BETS HISTORY</Link>
           </Menu.Item>
         </SubMenu>
-        <Menu.Item icon={""} key="10">
+        <Menu.Item icon={""} key="11">
           <Link to="/" onClick={logout}>
             <RiBankFill />
             Log Out
