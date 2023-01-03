@@ -16,12 +16,12 @@ const Loginform = () => {
       .post("http://api.a2zscore.com/admin-new-apis/login/auth", values)
       .then((res) => {
         setloader(false);
-
-        if (res.data.token) {
+        console.log(res);
+        if (res.data.token && res.status === 200) {
           localStorage.setItem("token", res.data.token);
           navigate("/marketAnalysis");
           localStorage.setItem("userType", res.data.userType);
-          message.success(res.data.message);
+          // message.success("Success");
         } else {
           navigate("/");
           setloader(false);
@@ -29,6 +29,7 @@ const Loginform = () => {
       })
       .catch((error) => {
         message.error(error.response.data.message);
+        localStorage.removeItem("token");
         setloader(false);
       });
   };

@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { Spin, Tabs } from "antd";
+import { message, Spin, Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 import { useNavigate } from "react-router-dom";
 
@@ -47,8 +47,9 @@ const Dashboard = () => {
         .catch((error) => {
           setloader(false);
           if (error.message === "Request failed with status code 401") {
+            localStorage.removeItem("token");
             navigate("/");
-            console.log(error);
+            message.error(error.response.data.message);
           }
         });
     };
@@ -82,7 +83,9 @@ const Dashboard = () => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          localStorage.removeItem("token");
+          navigate("/");
+          message.error(error.response.data.message);
           setloader(false);
         });
     };

@@ -1,0 +1,52 @@
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-medium: 1370px;
+$breakpoint-common: 1280px;
+.container-test-match{
+    width: 100%;
+    // background-color: aqua;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding-top: 10px;
+    @media (max-width: $breakpoint-common) {
+        padding-top: 0px;
+
+        }
+    .left-body-container{
+        width: 68%;
+        height: auto;
+        @media (max-width: $breakpoint-common) {
+            width: 100%;
+            }
+        .heading{
+            padding: 16px;
+            margin-top: 5px;
+            background-color: #20327b;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            @media (max-width: $breakpoint-common) {
+                padding: 6px;
+                margin-top: 0px;
+
+                }
+            h4{
+                color: white;
+
+            }
+        }
+    }
+    .right-body-container{
+        width: 30%;
+        height: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        @media (max-width: $breakpoint-common) {
+            display: none;
+            }
+
+    }
+}
