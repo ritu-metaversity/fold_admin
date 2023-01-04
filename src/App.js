@@ -2,7 +2,13 @@
 
 import "./App.scss";
 import Dashboard from "./pages/dashboard/Dashboard";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import ActiveUser from "./pages/activeUser/ActiveUser";
 import CreateAccount from "./pages/createAccounts/CreateAccount";
 import AccountsList from "./pages/acountList/AccountList";
@@ -21,19 +27,28 @@ import {
   currentsBets_Screen,
   Home_Screen,
   MarketAnalysis_Screen,
+  TestMatch_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { useEffect } from "react";
 import CreateDomain from "./pages/createDomain/CreateDomain";
+import Testmatch from "./pages/testMatch/Testmatch";
 
 function App() {
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
+  const [searchparam] = useSearchParams();
+  const id = searchparam.get("event-id");
+  console.log(id);
   const nav = useNavigate();
+  const loc = useLocation();
   useEffect(() => {
     const x = localStorage.getItem("token");
     console.log(x);
-    if (!x && pathname !== "/") {
-      // window.location.replace("/");
+    if (x) {
+      if (loc.pathname === "/") {
+        nav("/marketAnalysis");
+      }
+    } else {
       nav("/");
     }
   }, []);
@@ -49,6 +64,7 @@ function App() {
       <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
       <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
       <Route path={CreateDomain_Screen} element={<CreateDomain />}></Route>
+      <Route path={TestMatch_Screen} element={<Testmatch />}></Route>
     </Routes>
   );
 }

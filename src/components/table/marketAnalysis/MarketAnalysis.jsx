@@ -1,6 +1,7 @@
 import React from "react";
 import { FaBasketballBall } from "react-icons/fa";
 import { HiCheckCircle } from "react-icons/hi";
+import { Link, useParams } from "react-router-dom";
 ///styles
 import "./styles.scss";
 const Datatable = (props) => {
@@ -23,7 +24,9 @@ const Datatable = (props) => {
           <tbody>
             <tr className="winner-table">
               <td scope="col" colspan="0" className="teams-name">
-                <a href="/admin-web-ui/admin/games/31910158">{res.matchName}</a>
+                <Link to={`/test-match-screen?event-id=${res.matchId}`}>
+                  {res.matchName}
+                </Link>
               </td>
               <td scope="col">
                 <span
