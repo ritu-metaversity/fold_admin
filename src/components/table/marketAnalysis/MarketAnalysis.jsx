@@ -1,3 +1,4 @@
+import { Spin } from "antd";
 import React from "react";
 import { FaBasketballBall } from "react-icons/fa";
 import { HiCheckCircle } from "react-icons/hi";
@@ -8,7 +9,19 @@ const Datatable = (props) => {
   const data = props.data;
 
   if (!data) {
-    return <>No data...</>;
+    return (
+      <>
+        <Spin
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "35%",
+            height: "31px",
+            width: "31px",
+          }}
+        />
+      </>
+    );
   }
   return data?.map((res) => {
     return (

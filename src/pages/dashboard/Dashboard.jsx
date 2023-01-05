@@ -37,9 +37,9 @@ const Dashboard = () => {
         .then((res) => {
           setloader(false);
           if (res.data) {
-            setCricket(res.data);
+            setCricket(res.data.data);
           } else {
-            setCricket();
+            setCricket([]);
             navigate("/");
             setloader(false);
           }
@@ -91,33 +91,38 @@ const Dashboard = () => {
     };
     getData();
   }, []);
-  if (loader) {
-    return (
-      <Spin
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "35%",
-          height: "31px",
-          width: "31px",
-        }}
-      />
-    );
-  }
+
   return (
     <>
       <Mainlayout>
         <div className="markettable">
           <Tabs
-            defaultActiveKey="4"
+            defaultActiveKey={tab1}
             type="card"
+            tabIndex={tab1}
             // size={size}
             onChange={onChange}
           >
             {sports.map((res) => {
               return (
-                <Tabs.TabPane tab={res.sportName} key={res.sportId}>
-                  <Datatable rowLength={4} data={cricket} />
+                <Tabs.TabPane
+                  style={{ position: "relative" }}
+                  tab={res.sportName}
+                  key={res.sportId}
+                >
+                  {loading ? (
+                    <Spin
+                      style={{
+                        position: "absolute",
+                        left: "50%",
+                        top: "35%",
+                        height: "31px",
+                        width: "31px",
+                      }}
+                    />
+                  ) : (
+                    <Datatable rowLength={4} data={cricket} />
+                  )}
                 </Tabs.TabPane>
               );
             })}

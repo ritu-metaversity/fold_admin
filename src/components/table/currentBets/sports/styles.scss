@@ -5,14 +5,15 @@ $breakpoint-specific: 1518px;
 $breakpoint-custom-header :710px;
 
 
-.pink {
-    background-color: #ffb4d0;
-    border-left: 4px solid rgb(254, 130, 130)!important;
 
+.pink {
+    box-shadow: inset 3px 0 0px rgb(254, 130, 130);
+    background-color: #ffb4d0;
 }
 .blue {
     background-color: #a3e1fa;
-    border-left: 4px solid #3cc1f6!important;
+    box-shadow: inset 3px 0 0px #3cc1f6;
+   
 }
 .input-search{
     width: 200px;

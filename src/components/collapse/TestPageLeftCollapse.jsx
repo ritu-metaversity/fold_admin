@@ -18,8 +18,6 @@ const TestPageLeftCollapse = () => {
   const navigate = useNavigate();
   const id = searchparam.get("event-id");
 
-  // const { id } = useParams();
-  console.log(id);
   useEffect(() => {
     const getOdds = async () => {
       await axios
@@ -60,9 +58,106 @@ const TestPageLeftCollapse = () => {
   if (!odddata || !prevState) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   }
+  const endUIArray = [];
+
+  const UIArray = Object.keys(odddata).map((keyName) => {
+    if (
+      ["Odds", "Bookmaker", "Fancy"].includes(keyName) ||
+      !odddata[keyName]?.length
+    )
+      return "";
+
+    if (odddata[keyName] && odddata[keyName].length <= 0)
+      endUIArray.push(
+        <Collapse>
+          <Panel
+            header={
+              <div
+                className="panel-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                {keyName}
+                <div className="btn" style={{ gap: "10px", display: "flex" }}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    type="primary"
+                    style={{
+                      background: "#F18521",
+                      color: "white",
+                    }}
+                  >
+                    User Book
+                  </Button>
+                </div>
+              </div>
+            }
+            key="3"
+            className="left-panel-header"
+          >
+            <div className="collpase-div">
+              <FancyTable
+                name={keyName}
+                data={odddata[keyName]}
+                prev={prevState[keyName]}
+              />
+            </div>
+          </Panel>
+        </Collapse>
+      );
+    else
+      return (
+        <Collapse>
+          <Panel
+            header={
+              <div
+                className="panel-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                {keyName}
+                <div className="btn" style={{ gap: "10px", display: "flex" }}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    type="primary"
+                    style={{
+                      background: "#F18521",
+                      color: "white",
+                    }}
+                  >
+                    User Book
+                  </Button>
+                </div>
+              </div>
+            }
+            key="3"
+            className="left-panel-header"
+          >
+            <div className="collpase-div">
+              <FancyTable
+                name={keyName}
+                data={odddata[keyName]}
+                prev={prevState[keyName]}
+              />
+            </div>
+          </Panel>
+        </Collapse>
+      );
+  });
+
   return (
     <div>
-      <Collapse bordered={false} defaultActiveKey={["1"]}>
+      <Collapse bordered={false} defaultActiveKey={["1", "2"]}>
         <Panel
           header={
             <div
@@ -160,53 +255,11 @@ const TestPageLeftCollapse = () => {
         </Panel>
 
         <div className="fancy-panel-conatiner">
-          {Object.keys(odddata).map((keyName) => {
-            if (["Odds", "Bookmaker"].includes(keyName)) return "";
-            return (
-              <Collapse>
-                <Panel
-                  header={
-                    <div
-                      className="panel-header"
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                      }}
-                    >
-                      {keyName}
-                      <div
-                        className="btn"
-                        style={{ gap: "10px", display: "flex" }}
-                      >
-                        <Button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                          }}
-                          type="primary"
-                          style={{
-                            background: "#F18521",
-                            color: "white",
-                          }}
-                        >
-                          User Book
-                        </Button>
-                      </div>
-                    </div>
-                  }
-                  key="3"
-                  className="left-panel-header"
-                >
-                  <div className="collpase-div">
-                    <FancyTable
-                      name={keyName}
-                      data={odddata[keyName]}
-                      prev={prevState[keyName]}
-                    />
-                  </div>
-                </Panel>
-              </Collapse>
-            );
+          {UIArray.map((item) => {
+            return item;
+          })}
+          {endUIArray.map((item) => {
+            return item;
           })}
         </div>
       </Collapse>

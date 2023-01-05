@@ -1,12 +1,17 @@
+$breakpoint-medium: 1370px;
+$breakpoint-tablet: 870px;
 .create-form{
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     justify-content: space-around;
     width: 100%;
+    @media (max-width: $breakpoint-tablet) {
+        flex-direction: column;
+          }
 }
 .left-col-section{
-    width: 520px;
+    width: 490px;
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     padding: 20px;
     background-color: #fff;
@@ -14,6 +19,12 @@
     border-radius: 0.25rem;
     height: auto;
     margin-bottom: 10px;
+    @media (max-width: $breakpoint-tablet) {
+        width: 88%;
+          }
+    @media (min-width: $breakpoint-medium) {
+       width: 50%;
+         }
     .ant-row{
         width:100%;
     }
@@ -47,7 +58,7 @@
     }
 }
 .right-col-section{
-    width: 520px;
+    width: 490px;
     box-shadow: 0 0.75rem 1.5rem rgb(18 38 63 / 3%);
     padding: 20px;
     background-color: #fff;
@@ -55,6 +66,12 @@
     height: auto;
     margin-bottom: 30px;
     border-radius: 0.25rem;
+    @media (max-width: $breakpoint-tablet) {
+        width: 88%;
+          }
+    @media (min-width: $breakpoint-medium) {
+        width: 50%;
+          }
     .ant-row{
         width:100%;
     }
