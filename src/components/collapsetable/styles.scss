@@ -81,7 +81,8 @@ $breakpoint-common: 1280px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    
+    padding-top: 4px;
+    padding-bottom: 4px;
     border-bottom: 1px solid #d4d4d4;
    
     .left-col-table{
@@ -98,13 +99,13 @@ $breakpoint-common: 1280px;
              }
         p:nth-child(1){
             margin: 0px 0px 0px 0px!important;
-            font-size: 14px;
+            font-size: 12px;
             color: black;
           
         }
         p:nth-child(2){
             margin: 0px 0px 0px 0px!important;
-            font-size: 14px;
+            font-size: 12px;
             color: rgb(153, 153, 153);
         }
     }
@@ -119,11 +120,13 @@ $breakpoint-common: 1280px;
             justify-content: space-around;
              }
         .backButton {
+            height: 38px;
             &:hover {
                 background-color: #4FA1DC !important;
             }
         }
         .layButton {
+            height: 38px;
             &:hover {
                 background-color: #E16F9A !important;
             }
@@ -138,7 +141,7 @@ $breakpoint-common: 1280px;
              border-radius: 4px!important;
              border: 1px solid transparent;
              font-weight: 500;
-          
+           
              p:nth-child(1){
                 font-size: 16px;
                 margin: 0px;
@@ -150,6 +153,7 @@ $breakpoint-common: 1280px;
         }
         p{
             line-height: normal;
+            font-size: 12px !important;
         }
        
     }
@@ -215,6 +219,7 @@ $breakpoint-common: 1280px;
 border-bottom: 1px solid #d4d4d4;
 
 width: 100%;
+padding: 2px 0px;
 @media (max-width: $breakpoint-common) {
    display: none !important;
      }
@@ -312,6 +317,7 @@ width: 100%;
     
     width: 100%;
     height: auto;
+    padding: 2px 0px;
     @media (max-width: $breakpoint-common) {
         flex-direction: column;
          }
@@ -319,6 +325,7 @@ width: 100%;
     
         width: calc(100% - 224px);
         padding-left: 5px;
+        font-size: 12px;
         @media (max-width: $breakpoint-common) {
          width: 100%;
              }
@@ -367,6 +374,7 @@ width: 100%;
         padding-right: 7px;
         text-align: right;
         width: 75px;
+        font-size: 12px;
         @media (max-width: $breakpoint-common) {
             width: auto;
               }
@@ -375,4 +383,31 @@ width: 100%;
     }
     
 
+.bets-table{
+ 
+    .ant-table-wrapper table{
+        border-collapse: separate !important;
+    }
+    .ant-table-row
+    {
+      
+   
+        height: 35px;
+         border-bottom-color: transparent !important;
+       
+           border: none;
+            &:nth-child(3n){
+               height: 5px;
+               background-color: white !important;
+               box-shadow: inset 3px 0 0px transparent;
+            //    border-bottom: 5px solid white !important;
+            }
+            
+    }
+    .ant-table-cell-row-hover{
+  
+        background-color:#72bbef57 !important;
+
+    }
+}
 

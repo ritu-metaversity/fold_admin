@@ -3,6 +3,27 @@ $breakpoint-mobile: 600px;
 $breakpoint-specific: 1218px;
 $breakpoint-medium: 1370px;
 
+.heading-match-bet{
+
+    padding: 4px 12px;
+    
+    color: #AAAFB5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    border-radius: 5px 5px 0px 0px ;
+    background: #3c444b;
+  
+    margin-top: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h5{
+        font-size: 14px;
+        font-weight: 400;
+    }
+}
 .ant-collapse-header{
     background-color: #3c444b;
     padding: 8px 16px!important;

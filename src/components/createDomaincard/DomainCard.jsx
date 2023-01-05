@@ -126,14 +126,7 @@ const DomainCard = () => {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   }
   return (
-    <div
-      style={{
-        border: "1px solid #c6bdbd",
-        borderRadius: "5px",
-        width: "400px",
-        padding: "20px",
-      }}
-    >
+    <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>
         General Information
       </p>
