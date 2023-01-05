@@ -112,7 +112,6 @@ const Accountform = () => {
         });
       }
     }
-    console.log("isNoError:", isNoError);
 
     if (!isNoError) return false;
 
@@ -135,7 +134,6 @@ const Accountform = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         if (res.data.message) {
           message.success(res.data.message);
           setuserId(res.data.username);
@@ -146,7 +144,6 @@ const Accountform = () => {
       })
       .catch((error) => {
         message.error(error?.response?.data?.message);
-        console.log(error.data);
       });
   };
 

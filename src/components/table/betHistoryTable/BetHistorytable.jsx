@@ -380,7 +380,8 @@ const BetHistorytable = () => {
           </div>
           <div className="filter-Right-col">
             <h5>
-              Total Soda: {sada} Total Amount: {totalAmount}
+              Total Soda: <span style={{ color: "green" }}>{sada}</span> Total
+              Amount:<span style={{ color: "green" }}>{totalAmount}</span>
             </h5>
           </div>
         </div>

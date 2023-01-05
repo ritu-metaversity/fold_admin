@@ -5,7 +5,6 @@ const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
 const FancyRow = ({ data, prev }) => {
-  console.log(data);
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
@@ -37,28 +36,28 @@ const FancyRow = ({ data, prev }) => {
                   style={{
                     backgroundColor:
                       data.l1 > prev.l1
-                        ? "green"
+                        ? "#03B37F"
                         : data.l1 < prev.l1
-                        ? "red"
+                        ? "#FC4242"
                         : layColor[0],
                   }}
                 >
-                  <p>{data.l1 === 0 ? "" : data.l1}</p>
-                  <p>{data.ls1 === 0 ? "" : data.ls1}</p>
+                  <p>{data.l1 == 0 ? "" : data.l1}</p>
+                  <p>{data.ls1 == 0 ? "" : data.ls1}</p>
                 </Button>
                 <Button
                   className="backButton"
                   style={{
                     backgroundColor:
                       data.b1 > prev.b1
-                        ? "green"
+                        ? "#03B37F"
                         : data.b1 < prev.b1
-                        ? "red"
+                        ? "#FC4242"
                         : backColor[0],
                   }}
                 >
-                  <p>{data.b1 === 0 ? "" : data.b1}</p>
-                  <p>{data.bs1 === 0 ? "" : data.bs1}</p>
+                  <p>{data.b1 == 0 ? "" : data.b1}</p>
+                  <p>{data.bs1 == 0 ? "" : data.bs1}</p>
                 </Button>
                 <div className="overlay">
                   <p>SUSPENDED</p>

@@ -4,13 +4,11 @@ const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
 const MatchOddsRow = ({ data, prev }) => {
-  console.log(data[0].status);
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
     return (
       <div>
-        {console.log(data[0].runners)}
         {data[0]?.runners?.map((item, runnerIndex) => {
           return (
             <div className="table-row-col">
@@ -36,16 +34,16 @@ const MatchOddsRow = ({ data, prev }) => {
                               prev[0].runners[runnerIndex].ex.availableToBack[
                                 index
                               ].price
-                                ? "green"
+                                ? "#03B37F"
                                 : curElm.price <
                                   prev[0].runners[runnerIndex].ex
                                     .availableToBack[index].price
-                                ? "red"
+                                ? "#FC4242"
                                 : backColor[index],
                           }}
                         >
-                          <p>{curElm.price == 0 ? "__" : curElm.price}</p>
-                          <p>{curElm.size == 0 ? "" : curElm.size}</p>
+                          <p>{curElm.price === 0 ? "__" : curElm.price}</p>
+                          <p>{curElm.size === 0 ? "" : curElm.size}</p>
                         </Button>
                       </>
                     );
@@ -63,17 +61,17 @@ const MatchOddsRow = ({ data, prev }) => {
                             prev[0].runners[runnerIndex].ex.availableToLay[
                               index
                             ].price
-                              ? "green"
+                              ? "#03B37F"
                               : curElm.price <
                                 prev[0].runners[runnerIndex].ex.availableToLay[
                                   index
                                 ].price
-                              ? "red"
+                              ? "#FC4242"
                               : layColor[index],
                         }}
                       >
-                        <p>{curElm.price == 0 ? "__" : curElm.price}</p>
-                        <p>{curElm.size == 0 ? "" : curElm.size}</p>
+                        <p>{curElm.price === 0 ? "__" : curElm.price}</p>
+                        <p>{curElm.size === 0 ? "" : curElm.size}</p>
                       </Button>
                     </>
                   );
