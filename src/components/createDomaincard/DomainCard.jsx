@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import ImgCrop from "antd-img-crop";
 import "./styles.scss";
 import axios from "axios";
+import { Create_app_detail } from "../../routes/Routes";
 const DomainCard = () => {
   const [data, setData] = useState({
     appName: "",
@@ -101,7 +102,7 @@ const DomainCard = () => {
       setFileList([]);
       await axios
         .post(
-          "http://api.a2zscore.com/admin-new-apis/admin/create-app-detail",
+          `${process.env.REACT_APP_BASE_URL}/${Create_app_detail}`,
           formData,
           {
             headers: {
@@ -180,7 +181,6 @@ const DomainCard = () => {
         <div className="img-div">
           <ImgCrop rotate>
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               listType="picture-card"
               fileList={fileList}
               onChange={onChange}

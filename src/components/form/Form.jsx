@@ -4,6 +4,7 @@ import { Button, Form, Input, message, Spin } from "antd";
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Login_Api } from "../../routes/Routes";
 const Loginform = () => {
   // const [state, setstate] = useState([]);
   const [loader, setloader] = useState(false);
@@ -13,7 +14,7 @@ const Loginform = () => {
     setloader(true);
 
     await axios
-      .post("http://api.a2zscore.com/admin-new-apis/login/auth", values)
+      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, values)
       .then((res) => {
         setloader(false);
         console.log(res);

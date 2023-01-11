@@ -4,6 +4,7 @@ import { Button, Form, Input, message, Modal, Select } from "antd";
 import "./styles.scss";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
+import { Create_Admin, get_Sport_List } from "../../routes/Routes";
 
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
@@ -125,7 +126,8 @@ const Accountform = () => {
     });
     await axios
       .post(
-        "http://api.a2zscore.com/admin-new-apis/user/create-user-vg",
+        `${process.env.REACT_APP_BASE_URL}/${Create_Admin}`,
+
         data,
         {
           headers: {
@@ -174,7 +176,7 @@ const Accountform = () => {
     const getSpotsList = async () => {
       await axios
         .post(
-          "http://api.a2zscore.com/admin-new-apis/admin/app-detail",
+          `${process.env.REACT_APP_BASE_URL}/${get_Sport_List}`,
           {},
           {
             headers: {

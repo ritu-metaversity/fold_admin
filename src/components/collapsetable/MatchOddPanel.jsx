@@ -6,7 +6,7 @@ import MatchOddsRow from "./MatchOddsRow";
 ////
 import "./styles.scss";
 
-const MatchOddTable = ({ data, prev }) => {
+const MatchOddTable = ({ data, prev, pnlData }) => {
   if (!data) return <Spin style={{ width: "100%", margin: "auto" }} />;
   else {
     return (
@@ -20,7 +20,12 @@ const MatchOddTable = ({ data, prev }) => {
             </div>
           </div>
 
-          <MatchOddsRow name={"Pakistan"} data={data} prev={prev} />
+          <MatchOddsRow
+            name={"Pakistan"}
+            data={data}
+            prev={prev}
+            pnlData={pnlData}
+          />
         </div>
       </div>
     );

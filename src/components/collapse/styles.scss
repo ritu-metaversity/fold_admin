@@ -100,3 +100,22 @@ $breakpoint-medium: 1370px;
 .ant-collapse-header{
     height: 40px;
 }
+.my-Bets-view-more{
+    .ant-tabs-tab-btn {
+
+        color: #495057 !important;
+        &:hover{
+
+            color: #495057;
+        }
+      
+    }
+   
+    .ant-tabs-tab-active{
+        .ant-tabs-tab-btn {
+
+            color: #495057 !important;
+          
+        }
+    }
+}

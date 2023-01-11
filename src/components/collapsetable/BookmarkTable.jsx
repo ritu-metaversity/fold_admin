@@ -5,7 +5,7 @@ import MatchOddsRow from "./MatchOddsRow";
 ////
 import "./styles.scss";
 
-const Bookmarktable = ({ data, name, prev }) => {
+const Bookmarktable = ({ data, name, prev, pnlData }) => {
   if (data) {
     return (
       <div>
@@ -20,7 +20,12 @@ const Bookmarktable = ({ data, name, prev }) => {
             </div>
           </div>
 
-          <BookMarkRow name={"Pakistan"} data={data} prev={prev} />
+          <BookMarkRow
+            name={"Pakistan"}
+            data={data}
+            prev={prev}
+            pnlData={pnlData}
+          />
         </div>
       </div>
     );

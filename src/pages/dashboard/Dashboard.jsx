@@ -1,14 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { message, Spin, Tabs } from "antd";
+import { Button, message, Result, Spin, Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 import { useNavigate } from "react-router-dom";
 
 ///styles
 import "./styles.scss";
-import { BASE_URL } from "../../_api/_api";
-import { DASHBOARD } from "../../routes/Routes";
+import { Active_Sport_List, DASHBOARD } from "../../routes/Routes";
 const Dashboard = () => {
   const [tab1, settab1] = useState(4);
   const [cricket, setCricket] = useState([]);
@@ -16,6 +15,7 @@ const Dashboard = () => {
   const [loader, setloader] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
   const toggle = (checked) => {
     setLoading(checked);
   };
@@ -36,6 +36,7 @@ const Dashboard = () => {
         })
         .then((res) => {
           setloader(false);
+
           if (res.data) {
             setCricket(res.data.data);
           } else {
@@ -67,14 +68,11 @@ const Dashboard = () => {
     const getData = async () => {
       setloader(true);
       await axios
-        .post(
-          "http://api.a2zscore.com/admin-new-apis/sport/active-sport-list",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
+        .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_List}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
         .then((res) => {
           setloader(false);
           if (res.data.data) {
@@ -110,7 +108,7 @@ const Dashboard = () => {
                   tab={res.sportName}
                   key={res.sportId}
                 >
-                  {loading ? (
+                  {loader ? (
                     <Spin
                       style={{
                         position: "absolute",
