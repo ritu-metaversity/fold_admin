@@ -42,11 +42,14 @@ $breakpoint-common: 1280px;
     }
     .right-body-container{
         width: 30%;
-        height: 390px;
+        height: 100%;
         display: flex;
-        overflow: scroll;
+        // overflow: scroll;
         flex-direction: column;
         gap: 10px;
+        .ant-tabs-nav{
+            margin: 0px;
+        }
         @media (max-width: $breakpoint-common) {
            width: 100%;
            margin-top: 5%;

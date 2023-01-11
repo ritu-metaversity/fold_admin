@@ -2,20 +2,20 @@ import { Table, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Bet_List } from "../../routes/Routes";
 let data = "04/01/2023 15:46:48";
 const MyBets = () => {
   const [betData, setBetData] = useState([]);
-  const [loading, setloading] = useState(false);
   const [searchparam] = useSearchParams();
+
   const id = searchparam.get("event-id");
 
   useEffect(() => {
     const getBetsData = async () => {
-      setloading(true);
       await axios
         .post(
-          "http://api.a2zscore.com/admin-new-apis/bets/bet-list-by-matchid",
-          { matchId: 31989829 },
+          `${process.env.REACT_APP_BASE_URL}/${Bet_List}`,
+          { matchId: id },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -23,15 +23,16 @@ const MyBets = () => {
           }
         )
         .then((res) => {
-          setloading(false);
-          setBetData(res.data.data);
+          setBetData(res?.data?.data);
         })
         .catch((erroor) => {
-          setloading(false);
           console.log(erroor);
         });
     };
-    getBetsData();
+    const timer = setInterval(() => {
+      getBetsData();
+    }, 500);
+    return () => clearInterval(timer);
   }, [id]);
 
   const dataSource = [];
@@ -43,16 +44,18 @@ const MyBets = () => {
         // Nation: "Only 109 over run PAK / 100",
         Rate: data.split(" ")[0],
         Amount: data.split(" ")[1],
+        isback: res.isback,
       },
       {
-        UserName: "Over By Over",
+        UserName: res.userid,
         Nation: (
           <div className="nation" style={{ whiteSpace: "pre-wrap" }}>
             {res.selectionname}
           </div>
         ),
-        Rate: "amit12340",
-        Amount: "10 ",
+        Rate: res.odds,
+        isback: res.isback,
+        Amount: res.stack,
       },
       {}
     );
@@ -80,6 +83,7 @@ const MyBets = () => {
       key: "Amount",
     },
   ];
+
   return (
     <div className="bets-tab">
       <Tabs
@@ -92,10 +96,9 @@ const MyBets = () => {
             <Table
               dataSource={dataSource}
               columns={columns}
-              rowClassName={(record, index) => {
-                return record.isBack ? "blue" : "pink";
+              rowClassName={(record) => {
+                return record.isback ? "blue" : "pink";
               }}
-              loading={loading}
               pagination={{
                 pageSize: 50,
               }}

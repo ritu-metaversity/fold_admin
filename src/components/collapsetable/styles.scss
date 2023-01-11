@@ -9,9 +9,25 @@ $breakpoint-common: 1280px;
     padding-left: 2px;
     padding-right: 2px;
 }
-.collapse-table-container{
-    width: 100%;
+.modal{
+    .ant-modal-header{
+        margin-bottom: 0px;
 
+    }
+    .ant-modal-title{
+        margin-bottom: 0px;
+        background-color: rgb(62 67 74)!important;
+
+    }
+    .ant-modal-body{
+        background-color: rgb(46 51 55)!important;
+        height: 450px;
+        overflow-y: scroll;
+    }
+}
+.collapse-table-container{
+   
+    width: 100%;
 .table-row-heading{
     width: 100%;
     display: flex;
@@ -384,7 +400,11 @@ padding: 2px 0px;
     
 
 .bets-table{
- 
+    .ant-table-thead>tr>th{
+        padding: 2px 0px;
+        font-size: 12px;
+    
+    }
     .ant-table-wrapper table{
         border-collapse: separate !important;
     }
@@ -395,7 +415,7 @@ padding: 2px 0px;
         height: 35px;
          border-bottom-color: transparent !important;
        
-           border: none;
+           
             &:nth-child(3n){
                height: 5px;
                background-color: white !important;
