@@ -33,6 +33,7 @@ import BetHistory from "./pages/betHistory/BetHistory";
 import { useEffect } from "react";
 import CreateDomain from "./pages/createDomain/CreateDomain";
 import Testmatch from "./pages/testMatch/Testmatch";
+import NoteFound from "./pages/noteFound/NoteFound";
 
 function App() {
   // const { pathname } = useLocation();
@@ -65,6 +66,7 @@ function App() {
       <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
       <Route path={CreateDomain_Screen} element={<CreateDomain />}></Route>
       <Route path={TestMatch_Screen} element={<Testmatch />}></Route>
+      <Route path="*" element={<NoteFound />} />
     </Routes>
   );
 }

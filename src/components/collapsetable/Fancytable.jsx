@@ -6,7 +6,7 @@ import MatchOddsRow from "./MatchOddsRow";
 ////
 import "./styles.scss";
 
-const FancyTable = ({ data, name, prev }) => {
+const FancyTable = ({ data, prev }) => {
   return (
     <div>
       <div className="collapse-table-container">

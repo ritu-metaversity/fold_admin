@@ -3,18 +3,40 @@ import React from "react";
 import "./styles.scss";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
-const BookMarkRow = ({ data, prev }) => {
+const BookMarkRow = ({ data, prev, pnlData }) => {
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
+    const myPnl = pnlData?.find((ele) => ele?.marketId == data[0]?.mid);
+
+    const pnlBookMaker = [
+      {
+        pnl: myPnl?.pnl1,
+        selectionId: myPnl?.selection1,
+      },
+      {
+        pnl: myPnl?.pnl2,
+        selectionId: myPnl?.selection2,
+      },
+      {
+        pnl: myPnl?.pnl3,
+        selectionId: myPnl?.selection3,
+      },
+    ];
     return (
       <div>
         {data?.map((item, index) => {
+          const pnlValue =
+            pnlBookMaker.find((ele) => ele.selectionId == item.sid)?.pnl || 0;
           return (
-            <div className="table-row-col">
+            <div className="table-row-col" key={item.sid}>
               <div className="left-col-table">
                 <p>{item.nation}</p>
-                <p>{item.gstatus}</p>
+                {pnlValue >= 0 ? (
+                  <p style={{ color: "green" }}>{pnlValue}</p>
+                ) : (
+                  <p style={{ color: "red" }}>{pnlValue}</p>
+                )}
               </div>
               <div
                 className={`right-col-table ${
@@ -59,7 +81,7 @@ const BookMarkRow = ({ data, prev }) => {
                 </>
 
                 <Button
-                  className="layButton "
+                  className="layButton"
                   style={{
                     height: "37.5px",
                     backgroundColor:
@@ -77,7 +99,7 @@ const BookMarkRow = ({ data, prev }) => {
                   className="layButton"
                   style={{
                     height: "37.5px",
-                    backgroundColor: layColor[index],
+                    backgroundColor: layColor[1],
                   }}
                 >
                   <p>{"__"}</p>
@@ -86,7 +108,7 @@ const BookMarkRow = ({ data, prev }) => {
                   className="layButton"
                   style={{
                     height: "37.5px",
-                    backgroundColor: layColor[index],
+                    backgroundColor: layColor[2],
                   }}
                 >
                   <p>{"__"}</p>
