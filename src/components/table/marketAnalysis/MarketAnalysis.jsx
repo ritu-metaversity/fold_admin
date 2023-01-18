@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 ///styles
 import "./styles.scss";
 const Datatable = (props) => {
-  const data = props.data;
+  const data = props?.data;
 
   if (!data) {
     return (
@@ -25,20 +25,23 @@ const Datatable = (props) => {
   }
   return data?.map((res) => {
     return (
-      <div className="tabledata">
+      <div
+        className="tabledata"
+        key={res?.matchId + "marketAnalysis" + 1 + res.sportName}
+      >
         <table className="table table-bordered">
           <thead className="table-head">
             <tr className="winner-table">
-              <th colspan="6" scope="col">
-                <FaBasketballBall /> {res.sportName}
+              <th colSpan="6" scope="col">
+                <FaBasketballBall /> {res?.sportName}
               </th>
             </tr>
           </thead>
           <tbody>
             <tr className="winner-table">
-              <td scope="col" colspan="0" className="teams-name">
-                <Link to={`/test-match-screen?event-id=${res.matchId}`}>
-                  {res.matchName}
+              <td scope="col" colSpan="0" className="teams-name">
+                <Link to={`/test-match-screen?event-id=${res?.matchId}`}>
+                  {res?.matchName}
                 </Link>
               </td>
               <td scope="col">
@@ -50,7 +53,7 @@ const Datatable = (props) => {
                     paddingLeft: "20px",
                   }}
                 >
-                  {res.time}
+                  {res?.time}
                   <HiCheckCircle
                     style={{ fontSize: "18px", color: "#a01919" }}
                   />
@@ -59,27 +62,27 @@ const Datatable = (props) => {
               <td scope="col"></td>
               <td scope="col"></td>
             </tr>
-            {res.marketData.map((market) => {
+            {res?.marketData?.map((market, index) => {
               return (
-                <>
+                <React.Fragment key={market?.marketName + "marketName" + index}>
                   <tr className="winner-table">
                     <td>
                       <span style={{ display: "flex", alignItems: "center" }}>
-                        {market.marketName}
+                        {market?.marketName}
                         <HiCheckCircle
                           style={{ fontSize: "18px", color: "#a01919" }}
                         />
-                      </span>{" "}
+                      </span>
                     </td>
                     <td></td>
                     <td></td>
                     <td></td>
                   </tr>
                   <tr className="winner-table">
-                    {market.selectionName1 ? (
+                    {market?.selectionName1 ? (
                       <td>
-                        {market.selectionName1}{" "}
-                        {market.selectionAmount1 >= 0 ? (
+                        {market?.selectionName1}{" "}
+                        {market?.selectionAmount1 >= 0 ? (
                           <span
                             style={{
                               color: "green",
@@ -87,7 +90,7 @@ const Datatable = (props) => {
                               paddingRight: "20px",
                             }}
                           >
-                            {market.selectionAmount1}
+                            {market?.selectionAmount1}
                           </span>
                         ) : (
                           <span
@@ -97,17 +100,17 @@ const Datatable = (props) => {
                               paddingRight: "20px",
                             }}
                           >
-                            {market.selectionAmount1}
+                            {market?.selectionAmount1}
                           </span>
                         )}
                       </td>
                     ) : (
                       ""
                     )}
-                    {market.selectionName2 ? (
+                    {market?.selectionName2 ? (
                       <td>
-                        {market.selectionName2}{" "}
-                        {market.selectionAmount2 >= 0 ? (
+                        {market?.selectionName2}{" "}
+                        {market?.selectionAmount2 >= 0 ? (
                           <span
                             style={{
                               color: "green",
@@ -115,7 +118,7 @@ const Datatable = (props) => {
                               paddingRight: "20px",
                             }}
                           >
-                            {market.selectionAmount2}
+                            {market?.selectionAmount2}
                           </span>
                         ) : (
                           <span
@@ -125,17 +128,17 @@ const Datatable = (props) => {
                               paddingRight: "20px",
                             }}
                           >
-                            {market.selectionAmount2}
+                            {market?.selectionAmount2}
                           </span>
                         )}
                       </td>
                     ) : (
                       ""
                     )}
-                    {market.selectionName3 ? (
+                    {market?.selectionName3 ? (
                       <td>
-                        {market.selectionName3}{" "}
-                        {market.selectionAmount3 >= 0 ? (
+                        {market?.selectionName3}{" "}
+                        {market?.selectionAmount3 >= 0 ? (
                           <span
                             style={{
                               color: "green",
@@ -143,7 +146,7 @@ const Datatable = (props) => {
                               paddingRight: "20px",
                             }}
                           >
-                            {market.selectionAmount3}
+                            {market?.selectionAmount3}
                           </span>
                         ) : (
                           <span
@@ -153,7 +156,7 @@ const Datatable = (props) => {
                               paddingRight: "20px",
                             }}
                           >
-                            {market.selectionAmount3}
+                            {market?.selectionAmount3}
                           </span>
                         )}
                       </td>
@@ -161,7 +164,7 @@ const Datatable = (props) => {
                       ""
                     )}
                   </tr>
-                </>
+                </React.Fragment>
               );
             })}
           </tbody>

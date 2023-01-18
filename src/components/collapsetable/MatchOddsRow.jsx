@@ -68,7 +68,7 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
                   })
                   .reverse()}
 
-                {item.ex.availableToLay.map((curElm, index) => {
+                {item?.ex?.availableToLay?.map((curElm, index) => {
                   return (
                     <React.Fragment
                       key={curElm.price + item.selectionId + "lay" + index}

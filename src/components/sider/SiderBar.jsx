@@ -8,85 +8,87 @@ import "./styles.scss";
 const { SubMenu } = Menu;
 const SiderBar = ({ closeSidebar }) => {
   const navigate = useNavigate();
+
   const logout = () => {
-    console.log(localStorage.removeItem("token"));
+    localStorage.removeItem("token");
 
     navigate("/");
   };
+  const item = [
+    {
+      key: "1",
+      icon: <AiFillDashboard />,
+      label: <Link to="">Dashboard</Link>,
+    },
+    {
+      key: "2",
+      icon: <TbBrandGoogleAnalytics />,
+      label: <Link to="/marketanalysis">Market Analysis</Link>,
+    },
+    {
+      key: "3",
+      icon: <RiAccountCircleFill />,
+      label: "Market Analysis",
+      children: [
+        {
+          key: "4",
+          label: <Link to="/activeUser">Accounts List for Active Users</Link>,
+        },
+        {
+          key: "5",
+          label: <Link to="/accountList">Accounts List</Link>,
+        },
+        {
+          key: "6",
+          label: <Link to="/creatAaccounts">Create Accounts</Link>,
+        },
+        {
+          key: "7",
+          label: <Link to="/createdomain">Create Domain</Link>,
+        },
+      ],
+    },
+    {
+      key: "8",
+      icon: <RiBankFill />,
+      label: <Link to="/bank">Market Analysis</Link>,
+    },
 
+    {
+      key: "9",
+      icon: <TbFileReport />,
+      label: "Report",
+      children: [
+        {
+          key: "10",
+
+          label: <Link to="/currentsBets">CURRENT BETS</Link>,
+        },
+        {
+          key: "11",
+
+          label: <Link to="/betHistory"> BETS HISTORY</Link>,
+        },
+      ],
+    },
+    {
+      key: "12",
+      icon: <RiBankFill />,
+      label: (
+        <Link to="/" onClick={logout}>
+          Log Out
+        </Link>
+      ),
+    },
+  ];
   return (
     <div>
-      <Menu theme="dark" style={{ width: 256 }} mode="inline">
-        <Menu.Item icon={""} key="1">
-          <Link to="/">
-            <AiFillDashboard />
-            Dashboard
-          </Link>
-        </Menu.Item>
-        <Menu.Item icon={""} key="2">
-          <Link to="/marketanalysis">
-            <TbBrandGoogleAnalytics />
-            Market Analysis
-          </Link>
-        </Menu.Item>
-        <SubMenu
-          key="3"
-          title={
-            <span>
-              <RiAccountCircleFill />
-              Account
-            </span>
-          }
-        >
-          <Menu.Item key="4" style={{ paddingLeft: "40px!important" }}>
-            <Link to="/activeUser">Accounts List for Active Users</Link>{" "}
-          </Menu.Item>
-          <Menu.Item key="5" style={{ paddingLeft: "40px!important" }}>
-            <Link to="/accountList">Accounts List</Link>{" "}
-          </Menu.Item>
-          <Menu.Item key="6" style={{ paddingLeft: "40px!important" }}>
-            <Link to="/creatAaccounts">Create Accounts</Link>{" "}
-          </Menu.Item>
-          <Menu.Item key="7" style={{ paddingLeft: "40px!important" }}>
-            <Link to="/createdomain">Create Domain</Link>{" "}
-          </Menu.Item>
-        </SubMenu>
-        <Menu.Item icon={""} key="8">
-          <Link to="/bank">
-            <RiBankFill />
-            Bank
-          </Link>
-        </Menu.Item>
-
-        <SubMenu
-          key="sub3"
-          title={
-            <span to="/news">
-              <TbFileReport />
-              Report
-            </span>
-          }
-        >
-          <Menu.Item
-            key="9"
-            style={{
-              paddingLeft: "40px!important",
-              borderTop: "1px solid gray",
-            }}
-          >
-            <Link to="/currentsBets">CURRENT BETS</Link>
-          </Menu.Item>
-          <Menu.Item key="10" style={{ paddingLeft: "40px!important" }}>
-            <Link to="/betHistory"> BETS HISTORY</Link>
-          </Menu.Item>
-        </SubMenu>
-        <Menu.Item icon={""} key="11">
-          <Link to="/" onClick={logout}>
-            <RiBankFill />
-            Log Out
-          </Link>
-        </Menu.Item>
-      </Menu>
+      <Menu
+        theme="dark"
+        style={{ width: 256 }}
+        items={item}
+        mode="inline"
+      ></Menu>
     </div>
   );
 };

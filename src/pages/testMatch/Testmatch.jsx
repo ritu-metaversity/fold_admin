@@ -23,8 +23,10 @@ const Testmatch = () => {
           </div>
         </div>
         <div className="right-body-container">
-          <TestPageRightCollapse />
-          <MyBets />
+          <div style={{ position: "sticky", top: "5px" }}>
+            <TestPageRightCollapse />
+            <MyBets />
+          </div>
         </div>
       </div>
     </Mainlayout>

@@ -1,4 +1,4 @@
-import { Table, Tabs } from "antd";
+import { message, Table, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -25,8 +25,8 @@ const MyBets = () => {
         .then((res) => {
           setBetData(res?.data?.data);
         })
-        .catch((erroor) => {
-          console.log(erroor);
+        .catch((error) => {
+          message.error(error.response.data.message);
         });
     };
     const timer = setInterval(() => {
@@ -37,9 +37,10 @@ const MyBets = () => {
 
   const dataSource = [];
 
-  betData.forEach((res) => {
-    dataSource.push(
+  betData.forEach((res, index) => {
+    dataSource?.push(
       {
+        key: res.marketname + res.userid + index,
         UserName: res.marketname,
         // Nation: "Only 109 over run PAK / 100",
         Rate: data.split(" ")[0],
@@ -47,6 +48,7 @@ const MyBets = () => {
         isback: res.isback,
       },
       {
+        key: res.userid + res.marketname + index + 1,
         UserName: res.userid,
         Nation: (
           <div className="nation" style={{ whiteSpace: "pre-wrap" }}>
@@ -57,7 +59,9 @@ const MyBets = () => {
         isback: res.isback,
         Amount: res.stack,
       },
-      {}
+      {
+        key: res.userid + res.odds + index + 5,
+      }
     );
   });
 
@@ -83,29 +87,34 @@ const MyBets = () => {
       key: "Amount",
     },
   ];
-
+  const items = [
+    {
+      key: "0",
+      label: "Matched Bets",
+      children: (
+        <div className="bets-table">
+          <Table
+            dataSource={dataSource}
+            columns={columns}
+            rowClassName={(record) => {
+              return record.isback ? "blue" : "pink";
+            }}
+            pagination={{
+              pageSize: 50,
+            }}
+          />
+        </div>
+      ),
+    },
+  ];
   return (
     <div className="bets-tab">
       <Tabs
-        defaultActiveKey="1"
+        defaultActiveKey="0"
         type="card"
         // size={size}
-      >
-        <Tabs.TabPane tab="Matched Bets" key="1">
-          <div className="bets-table">
-            <Table
-              dataSource={dataSource}
-              columns={columns}
-              rowClassName={(record) => {
-                return record.isback ? "blue" : "pink";
-              }}
-              pagination={{
-                pageSize: 50,
-              }}
-            />
-          </div>
-        </Tabs.TabPane>
-      </Tabs>
+        items={items}
+      ></Tabs>
     </div>
   );
 };

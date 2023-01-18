@@ -35,7 +35,6 @@ const TestPageRightCollapse = () => {
       )
       .then((res) => {
         setTabData(res?.data?.data);
-        console.log(res.data.data);
       })
       .catch((error) => {
         console.log(error.response.data);
@@ -60,10 +59,10 @@ const TestPageRightCollapse = () => {
           defaultActiveKey="1"
           type="card"
           destroyInactiveTabPane
-          items={tabData?.map((ele) => {
+          items={tabData?.map((ele, index) => {
             return {
               label: ele,
-              key: ele,
+              key: ele + index,
               children: <ModalViewMore keyName={ele} />,
             };
           })}

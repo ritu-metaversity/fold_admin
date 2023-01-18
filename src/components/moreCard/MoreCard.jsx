@@ -11,33 +11,42 @@ import "./styles.scss";
 const MoreCard = ({ data }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
 
+  const items = [
+    {
+      key: "0",
+      label: "Profile",
+      children: <Profile data={data} />,
+    },
+    {
+      key: "1",
+      label: isMobile ? "Change Password" : "C Pass",
+      children: <Changpassword data={data} />,
+    },
+    {
+      key: "2",
+      label: isMobile ? "User lock" : "lock",
+      children: <UserLock data={data} />,
+    },
+    {
+      key: "3",
+      label: isMobile ? "Accounts history" : "Acc history",
+      children: <Transaction data={5} dataTransaction={data} />,
+    },
+    {
+      key: "4",
+      label: "Edit Profile",
+      children: <EditProfile data={data} />,
+    },
+  ];
+
   return (
     <div className="more-modal">
       <Tabs
-        defaultActiveKey="1"
+        defaultActiveKey="0"
         type="card"
-        // size={size}
-      >
-        <Tabs.TabPane tab="Profile" key="1">
-          <Profile data={data} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={isMobile ? "Change Password" : "C Pass"} key="2">
-          <Changpassword data={data} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={isMobile ? "User lock" : "lock"} key="3">
-          <UserLock data={data} />
-        </Tabs.TabPane>
-
-        <Tabs.TabPane
-          tab={isMobile ? "Accounts history" : "Acc history"}
-          key="4"
-        >
-          <Transaction data={5} dataTransaction={data} />
-        </Tabs.TabPane>
-        <Tabs.TabPane tab="Edit Profile" key="5">
-          <EditProfile data={data} />
-        </Tabs.TabPane>
-      </Tabs>
+        items={items}
+        destroyInactiveTabPane
+      ></Tabs>
     </div>
   );
 };

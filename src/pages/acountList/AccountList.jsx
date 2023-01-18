@@ -10,14 +10,7 @@ import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
-import { BASE_URL } from "../../_api/_api";
-import {
-  Account_List,
-  Table_ActiveUser,
-  Tab_Deposit,
-  Tab_MoreData,
-  Tab_Widrawal,
-} from "../../routes/Routes";
+import { Account_List } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 
@@ -28,30 +21,14 @@ const Activelist = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
-  const [PageIndex, setPageIndex] = useState(0);
   const [DataList, setDataList] = useState([]);
   const [userData, setuserData] = useState([]);
-  const [showMore, setShowMore] = useState([]);
 
   const [userId, setUserId] = useState("");
-  const [amount, setAmount] = useState("");
-  const [remark, setRemark] = useState("");
-  const [depositePass, setDepositPass] = useState("");
-  const [widrwalActivityRemark, setWidrwalActivityRemark] = useState("");
-  const [widrwalActivityAccount, setWidrwalActivityAccount] = useState("");
-
+  console.log(userData, "userData");
   //////// change password
-  const [password, setPassword] = useState("");
-  const [confirmPass, setConfirmPass] = useState("");
 
   ////edit profile State
-  const [name, setName] = useState("");
-  const [city, setCity] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [isStatus, setStatus] = useState(false);
-
-  const [pass, setPass] = useState("");
-  const [widrawalActivityPass, setwidrawalActivityPass] = useState("");
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
@@ -107,22 +84,11 @@ const Activelist = () => {
     setcredit(false);
   };
   const handleCancel = () => {
-    console.log("try");
-    setAmount("");
-    setRemark("");
     setIsModalOpen(false);
     setOpen(false);
     setprofileModal(false);
     setcredit(false);
     setInputBlank(!false);
-    setPassword("");
-    setConfirmPass("");
-    setName("");
-    setCity("");
-    setMobileNo("");
-    setStatus(false);
-    setWidrwalActivityRemark("");
-    setWidrwalActivityAccount("");
   };
 
   const tabledata = async () => {
@@ -142,7 +108,6 @@ const Activelist = () => {
         }
       )
       .then((res) => {
-        console.log("api", res.data.data.dataList);
         if (res.data.data.dataList) {
           setLoading(false);
           setPaginationData({
@@ -229,11 +194,11 @@ const Activelist = () => {
   ];
 
   const data = [];
-  DataList.map((res) => {
+  DataList?.map((res) => {
     if (res) {
       data.push({
-        key: "1",
-        username: res.username,
+        key: res?.username + res.id,
+        username: res?.username,
         CR: (
           <span
             style={{ color: "#f1b44c", cursor: "pointer" }}
@@ -244,14 +209,14 @@ const Activelist = () => {
         ),
 
         bst: res.betLock ? (
-          <Switch size="small" disabled={true} checked />
+          <Switch size="small" disabled={true} defaultChecked="true" />
         ) : (
-          <Switch size="small" disabled={true} defaultunchecked />
+          <Switch size="small" disabled={true} defaultunchecked="true" />
         ),
         ust: res.active ? (
-          <Switch size="small" disabled={true} checked />
+          <Switch size="small" disabled={true} defaultChecked="true" />
         ) : (
-          <Switch size="small" disabled={true} defaultunchecked />
+          <Switch size="small" disabled={true} defaultunchecked="true" />
         ),
         PName: res.pname,
         AccountType: res.accountType,
@@ -300,10 +265,6 @@ const Activelist = () => {
     }
   });
 
-  const onChange = (filters, sorter, extra) => {
-    console.log(filters, sorter, extra);
-  };
-
   const Increment = () => {
     if (paginationData.index < paginationData.totalPages) {
       setPaginationData({ ...paginationData, index: paginationData.index + 1 });
@@ -326,38 +287,11 @@ const Activelist = () => {
       index: paginationData.totalPages - 1,
     });
   };
-  console.log(userId, "outer");
 
   return (
     <UserModalContext.Provider
       value={{
         handleCancel: handleCancel,
-        setPassword,
-        setConfirmPass,
-        password,
-        confirmPass,
-        setAmount,
-        amount,
-        setRemark,
-        remark,
-        setName,
-        name,
-        setCity,
-        city,
-        setMobileNo,
-        mobileNo,
-        isStatus,
-        setStatus,
-        setPass,
-        pass,
-        setWidrwalActivityRemark,
-        widrwalActivityRemark,
-        setWidrwalActivityAccount,
-        widrwalActivityAccount,
-        setwidrawalActivityPass,
-        widrawalActivityPass,
-        setDepositPass,
-        depositePass,
       }}
     >
       <Mainlayout>
@@ -373,10 +307,6 @@ const Activelist = () => {
           <DepositForm
             userId={userId}
             handleCancel={handleCancel}
-            setAmount={setAmount}
-            setRemark={setRemark}
-            // amount={amount}
-            // remark={remark}
             data={userId}
             destroyOnClose="true"
           />
@@ -476,7 +406,6 @@ const Activelist = () => {
           <Table
             columns={columns}
             dataSource={data}
-            onChange={onChange}
             className="accountTable"
             loading={loading}
           />

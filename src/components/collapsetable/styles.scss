@@ -100,7 +100,10 @@ $breakpoint-common: 1280px;
     padding-top: 4px;
     padding-bottom: 4px;
     border-bottom: 1px solid #d4d4d4;
-   
+    @media (max-width: $breakpoint-mobile) {
+    padding-left: 16px;
+    padding-right: 16px;
+    }
     .left-col-table{
 
     width: calc(100% - 452px);
@@ -108,6 +111,7 @@ $breakpoint-common: 1280px;
         @media (max-width: $breakpoint-common) {
             width: 100%;
             display: flex;
+       
             justify-content: space-between;
              }
              p{
@@ -180,6 +184,10 @@ $breakpoint-common: 1280px;
 
 
 .bets-tab{
+    @media (max-width: $breakpoint-common) {
+        margin-left: 4px;
+        margin-right: 4px;
+         }
     .ant-table-thead >tr>th {
         font-size: 12px;
         font-weight: normal;
@@ -330,12 +338,14 @@ padding: 2px 0px;
 
 .row2{
     border-bottom: 1px solid #d4d4d4;
-    
-    width: 100%;
+  
+    // width: 100%;
     height: auto;
     padding: 2px 0px;
     @media (max-width: $breakpoint-common) {
         flex-direction: column;
+        padding-left: 16px;
+        padding-right: 16px;
          }
     .left-col-fancy{
     
@@ -344,6 +354,7 @@ padding: 2px 0px;
         font-size: 12px;
         @media (max-width: $breakpoint-common) {
          width: 100%;
+        
              }
     }
     .colwrapper{
@@ -361,6 +372,7 @@ padding: 2px 0px;
         width: 150px;
         @media (max-width: $breakpoint-common) {
             width: 70%;
+            justify-content: center;
                 }
         Button{
             width: 48%;
@@ -400,10 +412,16 @@ padding: 2px 0px;
     
 
 .bets-table{
-    .ant-table-thead>tr>th{
-        padding: 2px 0px;
+    .ant-table-tbody>tr>td{
         font-size: 12px;
+        // font-weight: 600;
+        padding: 2px 2px 2px 5px !important;
     
+    }
+    .ant-table-thead >tr>th{
+        font-size: 12px;
+        padding: 3px 2px 3px 10px!important;
+        font-weight: bolder!important;
     }
     .ant-table-wrapper table{
         border-collapse: separate !important;

@@ -4,15 +4,14 @@ $breakpoint-specific: 1218px;
 $breakpoint-custom:700px;
 
 
-.ant-table-tbody>tr>td{
-    font-size: 12px;
-    // font-weight: 600;
-    padding: 2px 2px 2px 5px !important;
-
-}
 
 .accountTable{
-
+    .ant-table-tbody>tr>td{
+        font-size: 12px;
+        // font-weight: 600;
+        padding: 2px 2px 2px 5px !important;
+    
+    }
     .ant-table-thead >tr>th{
         font-size: 12px;
         padding: 3px 2px 3px 10px!important;

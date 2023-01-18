@@ -57,8 +57,10 @@ const FancyTable = ({ data, prev }) => {
           </div>
         </div>
 
-        {data.map((item, rowIndex) => (
-          <FancyRow data={item} prev={prev[rowIndex]} />
+        {data?.map((item, rowIndex, index) => (
+          <React.Fragment key={item?.sid + rowIndex.sid + index}>
+            <FancyRow data={item} prev={prev[rowIndex]} />
+          </React.Fragment>
         ))}
       </div>
     </div>

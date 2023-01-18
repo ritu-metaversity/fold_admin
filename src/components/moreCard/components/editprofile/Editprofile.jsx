@@ -1,59 +1,64 @@
 import React, { useContext, useState } from "react";
-import { Button, Checkbox, Form, Input, message, Spin, Switch } from "antd";
+import { Button, message, Spin, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
-import { BASE_URL } from "../../../../_api/_api";
 import { Tab_EditProfileForm } from "../../../../routes/Routes";
 ///styles
 // import './styles.scss'
 const EditProfile = ({ data }) => {
-  const {
-    handleCancel,
-    setName,
-    name,
-    setCity,
-    city,
-    setMobileNo,
-    mobileNo,
-    setStatus,
-    isStatus,
-    setDepositPass,
-    depositePass,
-  } = useContext(UserModalContext);
+  const { handleCancel } = useContext(UserModalContext);
 
   const [error, setError] = useState({});
   const [loader, setloader] = useState(false);
-  const [depositbutton, setDepositbutton] = useState(false);
+  const [formData, setformData] = useState({});
 
-  const editProfile = {
-    userId: data.userId,
-    username: data.username,
-    mobile: mobileNo,
-    city: city,
-    lupassword: depositePass,
-    favMaster: isStatus,
+  const switchHandle = (value) => {
+    setformData({ ...formData, favMaster: value || false });
+  };
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    if (!value) {
+      setError((prev) => {
+        return {
+          ...prev,
+          [name]: true,
+        };
+      });
+    } else {
+      setError((prev) => {
+        return {
+          ...prev,
+          [name]: false,
+        };
+      });
+    }
+    setformData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
   };
 
   const updateProfile = async () => {
-    setError({
-      name: !name,
-      city: !city,
-      mobileNo: !mobileNo,
-      lupassword: !depositePass,
-    });
-
-    if (name && city && mobileNo && depositePass) {
-      setName("");
-      setCity("");
-      setMobileNo("");
-      setStatus(false);
-      setloader(true);
+    if (
+      formData?.username &&
+      formData?.mobile &&
+      formData?.city &&
+      formData?.lupassword
+    ) {
+      setformData({});
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_EditProfileForm}`,
-          editProfile,
+          {
+            ...formData,
+            favMaster: formData.favMaster ? formData.favMaster : false,
+            userId: data.userId,
+          },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -71,8 +76,18 @@ const EditProfile = ({ data }) => {
           setloader(false);
         });
     } else {
+      setError({
+        ...error,
+        username: !formData.username,
+        mobile: !formData.mobile,
+        city: !formData.city,
+        lupassword: !formData.lupassword,
+      });
     }
+
+    // {"userId":"b76246c","username":"aaqq","mobile":"","city":"","lupassword":"1111111","favMaster":false}
   };
+
   if (loader) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   }
@@ -85,14 +100,15 @@ const EditProfile = ({ data }) => {
             className="input"
             style={{
               background: "white",
-              border: `${error.name ? "1px solid red" : "1px solid #ced4da"}`,
+              border: `${
+                error.username ? "1px solid red" : "1px solid #ced4da"
+              }`,
               borderRadius: " 0.25rem",
             }}
           >
             <input
               type="text"
-              id="pwd"
-              name="pwd"
+              name="username"
               style={{
                 width: "100%",
                 textAlign: "left",
@@ -100,12 +116,14 @@ const EditProfile = ({ data }) => {
                 outline: "none",
               }}
               placeholder="Full name"
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
+              value={formData.username}
+              onChange={handleChange}
             />
-            {error.name ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+            {error.username ? (
+              <RxCross2 style={{ paddingRight: "10px" }} />
+            ) : (
+              ""
+            )}
           </div>
         </div>
         <div className="row-1">
@@ -120,9 +138,8 @@ const EditProfile = ({ data }) => {
           >
             <input
               type="text"
-              id="pwd"
-              name="pwd"
-              value={city}
+              name="city"
+              value={formData.city}
               style={{
                 width: "100%",
                 textAlign: "left",
@@ -130,7 +147,7 @@ const EditProfile = ({ data }) => {
                 outline: "none",
               }}
               placeholder="city"
-              onChange={(e) => setCity(e.target.value)}
+              onChange={handleChange}
             />
             {error.city ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
           </div>
@@ -141,17 +158,14 @@ const EditProfile = ({ data }) => {
             className="input"
             style={{
               background: "white",
-              border: `${
-                error.mobileNo ? "1px solid red" : "1px solid #ced4da"
-              }`,
+              border: `${error.mobile ? "1px solid red" : "1px solid #ced4da"}`,
               borderRadius: " 0.25rem",
             }}
           >
             <input
               type="number"
-              id="pwd"
-              name="pwd"
-              value={mobileNo}
+              name="mobile"
+              value={formData.mobile}
               style={{
                 width: "100%",
                 textAlign: "left",
@@ -159,13 +173,9 @@ const EditProfile = ({ data }) => {
                 outline: "none",
               }}
               placeholder="mobile no"
-              onChange={(e) => setMobileNo(e.target.value)}
+              onChange={handleChange}
             />
-            {error.mobileNo ? (
-              <RxCross2 style={{ paddingRight: "10px" }} />
-            ) : (
-              ""
-            )}
+            {error.mobile ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
           </div>
         </div>
 
@@ -173,8 +183,10 @@ const EditProfile = ({ data }) => {
           <label>Favorite Master</label>
           <div className="input">
             <Switch
-              onChange={() => setStatus(!isStatus)}
-              checked={isStatus}
+              type="checkbox"
+              onChange={switchHandle}
+              checked={formData.favMaster}
+              name="favMaster"
               size="small"
             />
           </div>
@@ -193,14 +205,10 @@ const EditProfile = ({ data }) => {
           >
             <input
               type="password"
-              id="pwd"
-              name="pwd"
+              name="lupassword"
               style={{ border: "none" }}
-              onChange={(e) => {
-                setDepositPass(e.target.value);
-                //  e.target.value?setError.lupassword?
-              }}
-              value={depositePass}
+              onChange={handleChange}
+              value={formData.lupassword}
             ></input>
             {error.lupassword ? (
               <RxCross2 style={{ paddingRight: "10px" }} />

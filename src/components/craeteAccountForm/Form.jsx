@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, Modal, Select } from "antd";
+import { Button, Form, Input, message, Modal, Select, Spin } from "antd";
 ///styles
 import "./styles.scss";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { Create_Admin, get_Sport_List } from "../../routes/Routes";
+import Item from "antd/es/list/Item";
 
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
   const [userPass, setUserPass] = useState("");
   const [downline, setDownLine] = useState(100);
+  const [loader, setLoader] = useState(false);
   const [data, setData] = useState({
     username: "",
     appId: "",
@@ -26,7 +28,7 @@ const Accountform = () => {
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
-    appId: false,
+    // appId: false,
     // city: false,
     fancyLossCommission: false,
     // mobile: false,
@@ -38,7 +40,6 @@ const Accountform = () => {
   const handleChange = (e) => {
     let name = e?.target?.name;
     let value = e?.target?.value;
-    console.log(name, ":", value);
 
     if (!value) {
       setErrorData((prev) => {
@@ -65,7 +66,6 @@ const Accountform = () => {
 
   const handleSelectChange = (e, Name) => {
     let value = e;
-    console.log(Name, ":", value);
 
     if (!value) {
       setErrorData((prev) => {
@@ -95,7 +95,6 @@ const Accountform = () => {
     let isNoError = true;
     for (let key of Object.keys(errorData)) {
       if (!data[key]) {
-        console.log(key, ":", data[key]);
         isNoError = false;
 
         setErrorData((prev) => {
@@ -124,6 +123,7 @@ const Accountform = () => {
     Object.assign(data, {
       appId: Number(data.appId),
     });
+    setLoader(true);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Create_Admin}`,
@@ -138,15 +138,18 @@ const Accountform = () => {
       .then((res) => {
         if (res.data.message) {
           message.success(res.data.message);
-          setuserId(res.data.username);
-          setUserPass(res.data.password);
-
+          setuserId(res?.data?.username);
+          setUserPass(res?.data?.password);
+          setData({});
           showModal();
         }
       })
       .catch((error) => {
         message.error(error?.response?.data?.message);
+        setLoader(false);
       });
+    setLoader(false);
+    setData({});
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -157,18 +160,38 @@ const Accountform = () => {
 
   const usertypeArray = {
     0: [
-      <Select.Option value={1}>Master</Select.Option>,
-      <Select.Option value={2}>Client</Select.Option>,
+      <Select.Option value={1} key="0">
+        Master
+      </Select.Option>,
+      <Select.Option value={2} key="1">
+        Client
+      </Select.Option>,
     ],
     1: [
-      <Select.Option value={1}>Agent</Select.Option>,
-      <Select.Option value={2}>Client</Select.Option>,
+      <Select.Option value={1} key="2">
+        Agent
+      </Select.Option>,
+      <Select.Option value={2} key="3">
+        Client
+      </Select.Option>,
     ],
-    2: [<Select.Option value={2}>Client</Select.Option>],
-    4: [<Select.Option value={1}>Sub Admin</Select.Option>],
+    2: [
+      <Select.Option value={2} key="4">
+        Client
+      </Select.Option>,
+    ],
+    4: [
+      <Select.Option value={1} key="5">
+        Sub Admin
+      </Select.Option>,
+    ],
     5: [
-      <Select.Option value={1}>Super Master</Select.Option>,
-      <Select.Option value={2}>Client</Select.Option>,
+      <Select.Option value={1} key="6">
+        Super Master
+      </Select.Option>,
+      <Select.Option value={2} key="7">
+        Client
+      </Select.Option>,
     ],
   };
 
@@ -185,7 +208,6 @@ const Accountform = () => {
           }
         )
         .then((res) => {
-          console.log(res.data.data);
           setSportsList(res.data.data);
         });
     };
@@ -204,6 +226,16 @@ const Accountform = () => {
     setuserId("");
     setUserPass("");
   };
+
+  const options = sportsList?.map((item, index) => ({
+    value: item?.appId,
+    label: item?.appUrl,
+    key: item?.appId + item?.appUrl + index,
+  }));
+
+  if (loader) {
+    return <Spin style={{ width: "100%", margin: "auto" }} />;
+  }
   return (
     <>
       <Modal
@@ -212,19 +244,19 @@ const Accountform = () => {
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <table class="table coupon-table mb-0">
+        <table className="table coupon-table mb-0">
           <thead>
             <tr>
-              <th class="text-end">User Id</th>
-              <th class="text-end">Password</th>
+              <th className="text-end">User Id</th>
+              <th className="text-end">Password</th>
             </tr>
           </thead>
-          <tbody class="table-blue-bg">
-            <tr class="back-border">
-              <td class="text-end bt0" style={{ textAlign: "center" }}>
+          <tbody className="table-blue-bg">
+            <tr className="back-border">
+              <td className="text-end bt0" style={{ textAlign: "center" }}>
                 {userId}
               </td>
-              <td class="text-end bt0" style={{ textAlign: "center" }}>
+              <td className="text-end bt0" style={{ textAlign: "center" }}>
                 {userPass}
               </td>
             </tr>
@@ -244,10 +276,10 @@ const Accountform = () => {
           <Form.Item
             name="username"
             label="User Name:"
-            bordered={false}
+            // bordered={false}
             // style={{ border: "1px solid red" }}
           >
-            <div className={errorData.username ? "col-input2" : "col-input"}>
+            <div className={errorData?.username ? "col-input2" : "col-input"}>
               <Input
                 placeholder="User Name"
                 name="username"
@@ -255,7 +287,7 @@ const Accountform = () => {
                 onChange={handleChange}
                 // style={{ border: "1px solid blue" }}
               />
-              {errorData.username ? (
+              {errorData?.username ? (
                 <RxCross2
                   style={{
                     paddingRight: "10px",
@@ -272,7 +304,7 @@ const Accountform = () => {
           <Form.Item name="city" label="City:">
             <div
               className={
-                errorData.oddLossCommission ? "col-input3" : "col-input"
+                errorData?.oddLossCommission ? "col-input3" : "col-input"
               }
             >
               <Input
@@ -287,14 +319,14 @@ const Accountform = () => {
           <Form.Item label="Mobile Number:">
             <div
               className={
-                errorData.oddLossCommission ? "col-input3" : "col-input"
+                errorData?.oddLossCommission ? "col-input3" : "col-input"
               }
             >
               <Input
                 placeholder="Mobile Number"
                 type="number"
                 name="mobile"
-                value={data.mobile}
+                value={data?.mobile}
                 onChange={handleChange}
               />
             </div>
@@ -303,17 +335,17 @@ const Accountform = () => {
           <Form.Item label="Match Commission:">
             <div
               className={
-                errorData.oddLossCommission ? "col-input2" : "col-input"
+                errorData?.oddLossCommission ? "col-input2" : "col-input"
               }
             >
               <Input
                 placeholder="Match Commission:"
                 type="number"
                 name="oddLossCommission"
-                value={data.oddLossCommission}
+                value={data?.oddLossCommission}
                 onChange={handleChange}
               />
-              {errorData.oddLossCommission ? (
+              {errorData?.oddLossCommission ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
               ) : (
                 ""
@@ -324,17 +356,17 @@ const Accountform = () => {
           <Form.Item label="Session Commission:">
             <div
               className={
-                errorData.fancyLossCommission ? "col-input2" : "col-input"
+                errorData?.fancyLossCommission ? "col-input2" : "col-input"
               }
             >
               <Input
                 placeholder="Session Commission:"
                 type="number"
                 name="fancyLossCommission"
-                value={data.fancyLossCommission}
+                value={data?.fancyLossCommission}
                 onChange={handleChange}
               />
-              {errorData.fancyLossCommission ? (
+              {errorData?.fancyLossCommission ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
               ) : (
                 ""
@@ -343,31 +375,27 @@ const Accountform = () => {
           </Form.Item>
         </div>
         <div className="right-col-section">
-          <Form.Item label="App Url:">
-            <div className={errorData.appId ? "col-input2" : "col-input"}>
-              <Select
-                defaultValue={"Select App Url"}
-                name="appId"
-                onChange={(e) => {
-                  handleSelectChange(e, "appId");
-                }}
-              >
-                {sportsList.map((item) => {
-                  return (
-                    <Select.Option value={item.appId}>
-                      {item.appUrl}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-              {errorData.appId ? (
-                <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
-              ) : (
-                ""
-              )}
-            </div>
-          </Form.Item>
-
+          {userType === "4" ? (
+            <Form.Item label="App Url:">
+              <div className={errorData?.appId ? "col-input2" : "col-input"}>
+                <Select
+                  defaultValue={"Select App Url"}
+                  name="appId"
+                  onChange={(e) => {
+                    handleSelectChange(e, "appId");
+                  }}
+                  options={options}
+                ></Select>
+                {errorData.appId ? (
+                  <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
+                ) : (
+                  ""
+                )}
+              </div>
+            </Form.Item>
+          ) : (
+            ""
+          )}
           <Form.Item label="User Type" name="userRole">
             <div className={errorData.userRole ? "col-input2" : "col-input"}>
               <Select
@@ -379,7 +407,7 @@ const Accountform = () => {
               >
                 {usertypeArray[userType]}
               </Select>
-              {errorData.userRole ? (
+              {errorData?.userRole ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
               ) : (
                 ""
@@ -394,7 +422,7 @@ const Accountform = () => {
           >
             <div
               className={
-                errorData.sportPartnership ? "col-input2" : "col-input"
+                errorData?.sportPartnership ? "col-input2" : "col-input"
               }
             >
               <Input
@@ -404,7 +432,7 @@ const Accountform = () => {
                 value={data.sportPartnership}
                 onChange={handleChange}
               />
-              {errorData.sportPartnership ? (
+              {errorData?.sportPartnership ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
               ) : (
                 ""
@@ -412,7 +440,7 @@ const Accountform = () => {
             </div>
           </Form.Item>
           <p style={{ fontSize: "14px" }}>
-            Our : {data.sportPartnership ? data.sportPartnership : downline}|
+            Our : {data?.sportPartnership ? data.sportPartnership : downline}|
             Down Line:
             {data.sportPartnership ? downline - data.sportPartnership : 0}
           </p>
@@ -432,7 +460,7 @@ const Accountform = () => {
               <Input
                 placeholder="Transaction Password"
                 name="lupassword"
-                value={data.lupassword}
+                value={data?.lupassword}
                 onChange={handleChange}
               />
               {errorData.lupassword ? (

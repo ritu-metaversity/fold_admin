@@ -17,7 +17,6 @@ const Loginform = () => {
       .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, values)
       .then((res) => {
         setloader(false);
-        console.log(res);
         if (res.data.token && res.status === 200) {
           localStorage.setItem("token", res.data.token);
           navigate("/marketAnalysis");
