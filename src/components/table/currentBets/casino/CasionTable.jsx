@@ -48,46 +48,46 @@ const Casinotable = () => {
 
   ///show profile modal
 
-  const tabledata = async () => {
-    setLoading(true);
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
-        {
-          id: "",
-          index: paginationData.index,
-          noOfRecords: paginationData.noOfRecords,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        console.log("api", res.data.data.dataList);
-        if (res.data.data.dataList) {
-          setLoading(false);
-          setPaginationData({
-            ...paginationData,
-            totalPages: res.data.data?.totalPages || 1,
-          });
-          setDataList(res.data.data.dataList);
-        } else {
-          setDataList();
-          navigate("/");
-        }
-      })
-      .catch((error) => {
-        if (error.message == "Request failed with status code 401") {
-          navigate("/");
-        }
-      });
-  };
+  // const tabledata = async () => {
+  //   setLoading(true);
+  //   await axios
+  //     .post(
+  //       `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
+  //       {
+  //         id: "",
+  //         index: paginationData.index,
+  //         noOfRecords: paginationData.noOfRecords,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       console.log("api", res.data.data.dataList);
+  //       if (res.data.data.dataList) {
+  //         setLoading(false);
+  //         setPaginationData({
+  //           ...paginationData,
+  //           totalPages: res.data.data?.totalPages || 1,
+  //         });
+  //         setDataList(res.data.data.dataList);
+  //       } else {
+  //         setDataList();
+  //         navigate("/");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       if (error.message == "Request failed with status code 401") {
+  //         navigate("/");
+  //       }
+  //     });
+  // };
 
-  useEffect(() => {
-    tabledata();
-  }, [paginationData.index, paginationData.noOfRecords]);
+  // useEffect(() => {
+  //   tabledata();
+  // }, [paginationData.index, paginationData.noOfRecords]);
 
   const columns = [
     {
@@ -173,43 +173,39 @@ const Casinotable = () => {
   ];
 
   const data = [];
-  DataList.map((res) => {
-    if (res) {
-      data.push({
-        key: "1",
-        EventType: res.username,
-        EventName: "Event Name",
-        UserName: "User Name",
+  // DataList.map((res,index) => {
+  //   if (res) {
+  //     data.push({
+  //       key: res.URate+res.IP+index,
+  //       EventType: res.username,
+  //       EventName: "Event Name",
+  //       UserName: "User Name",
 
-        Nation: "Nation",
-        URate: "URate",
-        Amount: "Amount",
-        PlaceDate: "Place Date",
-        IP: "IP",
-        Browser: "Browser",
-        Action: <Checkbox />,
-      });
-    } else {
-      data.push({
-        key: "",
-        EventType: "",
-        EventName: "",
-        UserName: "",
+  //       Nation: "Nation",
+  //       URate: "URate",
+  //       Amount: "Amount",
+  //       PlaceDate: "Place Date",
+  //       IP: "IP",
+  //       Browser: "Browser",
+  //       Action: <Checkbox />,
+  //     });
+  //   } else {
+  //     data.push({
+  //       key: "",
+  //       EventType: "",
+  //       EventName: "",
+  //       UserName: "",
 
-        Nation: "",
-        URate: "",
-        Amount: "",
-        PlaceDate: "",
-        IP: "",
-        Browser: "",
-        Action: <Checkbox />,
-      });
-    }
-  });
-
-  const onChange = (filters, sorter, extra) => {
-    console.log(filters, sorter, extra);
-  };
+  //       Nation: "",
+  //       URate: "",
+  //       Amount: "",
+  //       PlaceDate: "",
+  //       IP: "",
+  //       Browser: "",
+  //       Action: <Checkbox />,
+  //     });
+  //   }
+  // });
 
   const Increment = () => {
     if (paginationData.index < paginationData.totalPages) {
@@ -322,7 +318,6 @@ const Casinotable = () => {
         <Table
           columns={columns}
           dataSource={data}
-          onChange={onChange}
           className="accountTable"
           loading={loading}
         />

@@ -1,6 +1,16 @@
 
 .acountTable{
-
+    .ant-table-tbody>tr>td{
+        font-size: 12px;
+        // font-weight: 600;
+        padding: 2px 2px 2px 5px !important;
+    
+    }
+    .ant-table-thead >tr>th{
+        font-size: 12px;
+        padding:2px 2px 2px 5px!important;
+        font-weight: bolder!important;
+    }
     .ant-table-tbody{
         tr{
             height: 30px!important;

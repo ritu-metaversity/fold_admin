@@ -6,7 +6,6 @@ import { Bet_Search } from "../../routes/Routes";
 import "./styles.scss";
 import TableComponent from "./Table";
 const ModalViewMore = ({ keyName }) => {
-  console.log(keyName, "keename");
   const [activeClass, setActiveClass] = useState(false);
   const [viewMoreTable, setViewMoreTable] = useState([]);
   const [search, setSearch] = useState({});
@@ -18,7 +17,6 @@ const ModalViewMore = ({ keyName }) => {
   const [loading, setloading] = useState(false);
 
   const onChange = (e) => {
-    console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
 
@@ -32,6 +30,7 @@ const ModalViewMore = ({ keyName }) => {
     betType: value,
   };
   const viewMoreTabledata = async () => {
+    setSearch({});
     setloading(true);
     await axios
       .post(`${process.env.REACT_APP_BASE_URL}/${Bet_Search}`, data, {
@@ -47,6 +46,7 @@ const ModalViewMore = ({ keyName }) => {
         console.log(error);
         setloading(false);
       });
+    setloading(false);
   };
 
   useEffect(() => {
@@ -138,7 +138,6 @@ const ModalViewMore = ({ keyName }) => {
             <Button
               className="reset"
               onClick={() => {
-                console.log("ran");
                 setSearch({});
               }}
             >

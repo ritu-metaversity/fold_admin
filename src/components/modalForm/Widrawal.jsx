@@ -9,58 +9,58 @@ import { Tab_Widrawal, Tab_WidrawalSubmitForm } from "../../routes/Routes";
 import { BASE_URL } from "../../_api/_api";
 import "./styles.scss";
 const Widrawal = ({ data }) => {
-  const {
-    amount,
-    remark,
-    handleCancel,
-    setAmount,
-    setRemark,
+  const { handleCancel } = useContext(UserModalContext);
 
-    setDepositPass,
-    depositePass,
-  } = useContext(UserModalContext);
-
-  const [change, setChangeAmount] = useState("");
-  const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
-  const [ammountbutton, setAmmountbutton] = useState(false);
   const [widrawal, setWidrawal] = useState([]);
+  const [error, setError] = useState({});
+  const [formData, setformData] = useState({});
   const [loader, setloader] = useState(false);
-  const [depositbutton, setDepositbutton] = useState(false);
 
   const navigate = useNavigate();
 
-  function handleChange(event) {
-    if (event.target.value) {
-      setAmount(Math.abs(event.target.value));
-      setChangeAmount(amount);
-      setAmmountbutton(false);
+  const handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    console.log(formData, "formdata");
+    if (!value) {
+      setError(() => {
+        return {
+          ...error,
+          [name]: true,
+        };
+      });
     } else {
-      setAmount("");
-      setAmmountbutton(true);
-      setChangeAmount("");
+      setError(() => {
+        return {
+          ...error,
+          [name]: false,
+        };
+      });
     }
-  }
-
-  const formdata = {
-    userId: data.userId,
-    amount: amount,
-    lupassword: depositePass,
-    remark: remark,
+    if (name === "amount") {
+      setformData(() => {
+        return {
+          ...formData,
+          [name]: Math.abs(value),
+        };
+      });
+    } else {
+      setformData(() => {
+        return {
+          ...formData,
+          [name]: value,
+        };
+      });
+    }
   };
 
   const Submit = async () => {
-    setAmmountbutton(amount ? false : true);
-    setRemarkCancelbutton(remark ? false : true);
-    setDepositbutton(depositePass ? false : true);
-    if (amount && remark && depositePass) {
-      setRemark("");
-      setAmount("");
-      setloader(true);
-      setDepositPass("");
+    if (formData?.amount && formData?.lupassword && formData?.remark) {
+      setformData({});
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalSubmitForm}`,
-          formdata,
+          { ...formData, userId: data.userId },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -77,9 +77,16 @@ const Widrawal = ({ data }) => {
           handleCancel();
           setloader(false);
         });
+    } else {
+      setError({
+        ...error,
+        amount: !formData.amount,
+        lupassword: !formData.lupassword,
+        remark: !formData.remark,
+      });
     }
   };
-  //////widrawal
+
   useEffect(() => {
     const withdrawal = async () => {
       setloader(true);
@@ -126,7 +133,11 @@ const Widrawal = ({ data }) => {
           <input
             type="text"
             disabled={true}
-            value={amount ? Number(widrawal.parentAmount) + Number(amount) : 0}
+            value={
+              formData.amount
+                ? Number(widrawal.parentAmount) + Number(formData.amount)
+                : 0
+            }
           />
         </div>
       </div>
@@ -137,7 +148,11 @@ const Widrawal = ({ data }) => {
           <input
             type="text"
             disabled={true}
-            value={amount ? Number(widrawal.childAmount) - Number(amount) : 0}
+            value={
+              formData.amount
+                ? Number(widrawal.childAmount) - Number(formData.amount)
+                : 0
+            }
           />
         </div>
       </div>
@@ -153,7 +168,9 @@ const Widrawal = ({ data }) => {
             type="text"
             disabled={true}
             value={
-              amount ? Number(widrawal.childUplineAmount) - Number(amount) : 0
+              formData.amount
+                ? Number(widrawal.childUplineAmount) - Number(formData.amount)
+                : 0
             }
           />
         </div>
@@ -164,13 +181,14 @@ const Widrawal = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${ammountbutton ? "1px solid red" : "1px solid #ced4da"}`,
+            border: `${error.amount ? "1px solid red" : "1px solid #ced4da"}`,
             borderRadius: " 0.25rem",
           }}
         >
           <input
             type="number"
-            value={amount}
+            name="amount"
+            value={formData.amount || 0}
             style={{
               width: "100%",
               textAlign: "right",
@@ -180,7 +198,7 @@ const Widrawal = ({ data }) => {
             placeholder="Accounts"
             onChange={handleChange}
           />
-          {ammountbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
       <div className="row-1">
@@ -189,32 +207,20 @@ const Widrawal = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${
-              remarkCancelbutton ? "1px solid red" : "1px solid #ced4da"
-            }`,
+            border: `${error.remark ? "1px solid red" : "1px solid #ced4da"}`,
             borderRadius: " 0.25rem",
           }}
         >
           <textarea
-            id="w3review"
-            name="w3review"
+            name="remark"
             rows="4"
             cols="50"
             style={{ border: "none", outline: "none" }}
             placeholder="Remark"
-            value={remark}
-            onChange={(e) => {
-              setRemark(e.target.value);
-              e.target.value
-                ? setRemarkCancelbutton(false)
-                : setRemarkCancelbutton(true);
-            }}
+            value={formData.remark}
+            onChange={handleChange}
           ></textarea>
-          {remarkCancelbutton ? (
-            <RxCross2 style={{ paddingRight: "10px" }} />
-          ) : (
-            ""
-          )}
+          {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
       <div className="row-1">
@@ -223,22 +229,24 @@ const Widrawal = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${depositbutton ? "1px solid red" : "1px solid #ced4da"}`,
+            border: `${
+              error.lupassword ? "1px solid red" : "1px solid #ced4da"
+            }`,
             borderRadius: " 0.25rem",
           }}
         >
           <input
             type="password"
-            id="pwd"
-            name="pwd"
+            name="lupassword"
             style={{ width: "100%", textAlign: "left", border: "none" }}
-            onChange={(e) => {
-              setDepositPass(e.target.value);
-              e.target.value ? setDepositbutton(false) : setDepositbutton(true);
-            }}
-            value={depositePass}
+            onChange={handleChange}
+            value={formData.lupassword}
           ></input>
-          {depositbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          {error.lupassword ? (
+            <RxCross2 style={{ paddingRight: "10px" }} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="row-button">

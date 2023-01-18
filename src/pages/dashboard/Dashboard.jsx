@@ -14,17 +14,12 @@ const Dashboard = () => {
   const [sports, setSports] = useState([]);
   const [loader, setloader] = useState(false);
 
-  const [loading, setLoading] = useState(false);
-
-  const toggle = (checked) => {
-    setLoading(checked);
-  };
   const navigate = useNavigate();
 
   const data = {
     data: { id: tab1 },
   };
-  console.log(tab1);
+
   useEffect(() => {
     const tabledata = async (data) => {
       setloader(true);
@@ -89,6 +84,25 @@ const Dashboard = () => {
     };
     getData();
   }, []);
+  const items = sports?.map((res) => {
+    return {
+      label: res?.sportName,
+      key: res?.sportId,
+      children: loader ? (
+        <Spin
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "35%",
+            height: "31px",
+            width: "31px",
+          }}
+        />
+      ) : (
+        <Datatable rowLength={4} data={cricket} />
+      ),
+    };
+  });
 
   return (
     <>
@@ -100,31 +114,8 @@ const Dashboard = () => {
             tabIndex={tab1}
             // size={size}
             onChange={onChange}
-          >
-            {sports.map((res) => {
-              return (
-                <Tabs.TabPane
-                  style={{ position: "relative" }}
-                  tab={res.sportName}
-                  key={res.sportId}
-                >
-                  {loader ? (
-                    <Spin
-                      style={{
-                        position: "absolute",
-                        left: "50%",
-                        top: "35%",
-                        height: "31px",
-                        width: "31px",
-                      }}
-                    />
-                  ) : (
-                    <Datatable rowLength={4} data={cricket} />
-                  )}
-                </Tabs.TabPane>
-              );
-            })}
-          </Tabs>
+            items={items}
+          ></Tabs>
         </div>
       </Mainlayout>
     </>

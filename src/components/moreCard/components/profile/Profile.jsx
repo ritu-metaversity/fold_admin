@@ -121,45 +121,45 @@ const Profile = ({ data }) => {
               <tr>
                 <th scope="row" className="br-0">
                   User Name:
-                </th>{" "}
+                </th>
                 <td className="br-0">{showMore.username}</td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Mobile Number:
-                </th>{" "}
+                </th>
                 <td className="br-0">{showMore.mobile}</td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th scope="row" className="br-0">
                   City:
-                </th>{" "}
+                </th>
                 <td className="br-0">{showMore.city}</td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Credit pts:
-                </th>{" "}
+                </th>
                 <td className="br-0">{showMore.creidtReference}</td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th scope="row" className="br-0">
                   pts:
-                </th>{" "}
+                </th>
                 <td className="br-0">
                   <span>{showMore.availableBalance}</span>
                 </td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Client P/L:
-                </th>{" "}
+                </th>
                 <td className="br-0">{showMore.clientPl}</td>
-              </tr>{" "}
+              </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Created Date :
-                </th>{" "}
+                </th>
                 <td className="br-0">
                   <span>{showMore.createdDate}</span>
                 </td>

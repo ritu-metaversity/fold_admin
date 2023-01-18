@@ -27,11 +27,11 @@ const BookMarkRow = ({ data, prev, pnlData }) => {
       <div>
         {data?.map((item, index) => {
           const pnlValue =
-            pnlBookMaker.find((ele) => ele.selectionId == item.sid)?.pnl || 0;
+            pnlBookMaker.find((ele) => ele?.selectionId == item?.sid)?.pnl || 0;
           return (
-            <div className="table-row-col" key={item.sid}>
+            <div className="table-row-col" key={item?.sid}>
               <div className="left-col-table">
-                <p>{item.nation}</p>
+                <p>{item?.nation}</p>
                 {pnlValue >= 0 ? (
                   <p style={{ color: "green" }}>{pnlValue}</p>
                 ) : (
@@ -40,9 +40,8 @@ const BookMarkRow = ({ data, prev, pnlData }) => {
               </div>
               <div
                 className={`right-col-table ${
-                  item.gstatus == "SUSPENDED" ? "over" : ""
+                  item?.gstatus == "SUSPENDED" ? "over" : ""
                 }`}
-                // style={{ padding: "4px 0px 4px 0px" }}
               >
                 <>
                   <Button
@@ -68,15 +67,15 @@ const BookMarkRow = ({ data, prev, pnlData }) => {
                     style={{
                       height: "37.5px",
                       backgroundColor:
-                        item.b1 > prev[index].b1
+                        item?.b1 > prev[index]?.b1
                           ? "#03B37F"
-                          : item.b1 < prev[index].b1
+                          : item?.b1 < prev[index]?.b1
                           ? "#FC4242"
                           : backColor[0],
                     }}
                   >
-                    <p>{item.b1 == 0 ? "" : item.b1}</p>
-                    <p>{item.bs1 == 0 ? "" : item.bs1}</p>
+                    <p>{item?.b1 == 0 ? "" : item?.b1}</p>
+                    <p>{item?.bs1 == 0 ? "" : item?.bs1}</p>
                   </Button>
                 </>
 
@@ -85,15 +84,15 @@ const BookMarkRow = ({ data, prev, pnlData }) => {
                   style={{
                     height: "37.5px",
                     backgroundColor:
-                      item.l1 > prev[index].l1
+                      item?.l1 > prev[index]?.l1
                         ? "#03B37F"
-                        : item.l1 < prev[index].l1
+                        : item?.l1 < prev[index]?.l1
                         ? "#FC4242"
                         : layColor[0],
                   }}
                 >
-                  <p>{item.l1 == 0 ? "" : item.l1}</p>
-                  <p>{item.ls1 == 0 ? "" : item.ls1}</p>
+                  <p>{item?.l1 == 0 ? "" : item?.l1}</p>
+                  <p>{item?.ls1 == 0 ? "" : item?.ls1}</p>
                 </Button>
                 <Button
                   className="layButton"

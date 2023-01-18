@@ -12,50 +12,49 @@ import {
 import { BASE_URL } from "../../_api/_api";
 // import './styles.scss'
 const WidrawalActivity = ({ data }) => {
-  const [change, setChangeAmount] = useState("");
-  const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
-  const [transactionCancelbutton, setTransactionCancelbutton] = useState(false);
+  const [error, setError] = useState({});
+  const [formData, setformData] = useState({});
 
-  const [ammountbutton, setAmmountbutton] = useState(false);
   const [depositActivity, setDepositActivity] = useState([]);
   const [loader, setloader] = useState(false);
 
-  const navigate = useNavigate();
+  const { handleCancel } = useContext(UserModalContext);
 
-  const {
-    handleCancel,
-    setAmount,
-    setRemark,
+  const handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
 
-    setWidrwalActivityRemark,
-    widrwalActivityRemark,
-    setWidrwalActivityAccount,
-    widrwalActivityAccount,
-    setwidrawalActivityPass,
-    widrawalActivityPass,
-  } = useContext(UserModalContext);
-
-  const dataValue = {
-    userId: data.userId,
-    amount: widrwalActivityAccount,
-    lupassword: widrawalActivityPass,
-    remark: widrwalActivityRemark,
+    if (!value) {
+      setError(() => {
+        return {
+          ...error,
+          [name]: true,
+        };
+      });
+    } else {
+      setError(() => {
+        return {
+          ...error,
+          [name]: false,
+        };
+      });
+    }
+    if (name === "amount") {
+      setformData(() => {
+        return {
+          ...formData,
+          [name]: Math.abs(value),
+        };
+      });
+    } else {
+      setformData(() => {
+        return {
+          ...formData,
+          [name]: value,
+        };
+      });
+    }
   };
-
-  function handleChange(event) {
-    let value = Math.abs(event.target.value);
-    value ? setAmmountbutton(false) : setAmmountbutton(true);
-    setWidrwalActivityAccount(value);
-    // setChangeAmount(widrwalActivityAccount);
-
-    //  else {
-    //   // setAmount("");
-    //   setWidrwalActivityAccount("");
-    //   setWidrwalActivityRemark("");
-    //   setChangeAmount("");
-    //   setwidrawalActivityPass("");
-    // }
-  }
   useEffect(() => {
     const ActivityDeposit = async () => {
       setloader(true);
@@ -77,26 +76,11 @@ const WidrawalActivity = ({ data }) => {
     ActivityDeposit();
   }, []);
   const Submit = async () => {
-    setAmmountbutton(widrwalActivityAccount ? false : true);
-    setRemarkCancelbutton(widrwalActivityRemark ? false : true);
-    setTransactionCancelbutton(widrawalActivityPass ? false : true);
-
-    if (
-      widrwalActivityAccount &&
-      widrwalActivityRemark &&
-      widrawalActivityPass
-    ) {
-      setRemark("");
-      setAmount("");
-      // setPass("");
-      setloader(true);
-      setWidrwalActivityRemark("");
-      setWidrwalActivityAccount("");
-      setwidrawalActivityPass("");
+    if (formData.amount && formData.lupassword && formData.remark) {
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalActivitySubmitForm}`,
-          dataValue,
+          { ...formData, userId: data.userId },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -113,6 +97,13 @@ const WidrawalActivity = ({ data }) => {
           handleCancel();
           setloader(false);
         });
+    } else {
+      setError({
+        ...error,
+        amount: !formData.amount,
+        remark: !formData.remark,
+        lupassword: !formData.lupassword,
+      });
     }
   };
   if (loader) {
@@ -132,9 +123,8 @@ const WidrawalActivity = ({ data }) => {
             type="text"
             disabled={true}
             value={
-              widrwalActivityAccount
-                ? Number(depositActivity.parentAmount) +
-                  Number(widrwalActivityAccount)
+              formData.amount
+                ? Number(depositActivity.parentAmount) + Number(formData.amount)
                 : 0
             }
           />
@@ -152,9 +142,8 @@ const WidrawalActivity = ({ data }) => {
             type="text"
             disabled={true}
             value={
-              widrwalActivityAccount
-                ? Number(depositActivity.childAmount) -
-                  Number(widrwalActivityAccount)
+              formData.amount
+                ? Number(depositActivity.childAmount) - Number(formData.amount)
                 : 0
             }
           />
@@ -167,12 +156,13 @@ const WidrawalActivity = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${ammountbutton ? "1px solid red" : "1px solid #ced4da"}`,
+            border: `${error.amount ? "1px solid red" : "1px solid #ced4da"}`,
             borderRadius: " 0.25rem",
           }}
         >
           <input
             type="text"
+            name="amount"
             style={{
               width: "100%",
               textAlign: "right",
@@ -181,9 +171,9 @@ const WidrawalActivity = ({ data }) => {
             }}
             placeholder="Accounts"
             onChange={handleChange}
-            value={widrwalActivityAccount ? widrwalActivityAccount : 0}
+            value={formData.amount || 0}
           />
-          {ammountbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
       <div className="row-1">
@@ -192,19 +182,17 @@ const WidrawalActivity = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${
-              remarkCancelbutton ? "1px solid red" : "1px solid #ced4da"
-            }`,
+            border: `${error.remark ? "1px solid red" : "1px solid #ced4da"}`,
             borderRadius: " 0.25rem",
           }}
         >
           <textarea
             id="w3review"
-            name="w3review"
+            name="remark"
             rows="3"
             cols="100"
             placeholder="Remark"
-            value={widrwalActivityRemark}
+            value={formData.remark}
             style={{
               width: "100%",
               textAlign: "right",
@@ -212,19 +200,9 @@ const WidrawalActivity = ({ data }) => {
 
               outline: "none",
             }}
-            onChange={(e) => {
-              let value = e.target.value;
-              setWidrwalActivityRemark(value);
-              value
-                ? setRemarkCancelbutton(false)
-                : setRemarkCancelbutton(true);
-            }}
+            onChange={handleChange}
           ></textarea>
-          {remarkCancelbutton ? (
-            <RxCross2 style={{ paddingRight: "10px" }} />
-          ) : (
-            ""
-          )}
+          {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
       <div className="row-1">
@@ -234,26 +212,19 @@ const WidrawalActivity = ({ data }) => {
           style={{
             background: "white",
             border: `${
-              transactionCancelbutton ? "1px solid red" : "1px solid #ced4da"
+              error.lupassword ? "1px solid red" : "1px solid #ced4da"
             }`,
             borderRadius: " 0.25rem",
           }}
         >
           <input
             type="password"
-            id="pwd"
-            name="pwd"
+            name="lupassword"
             style={{ width: "100%", textAlign: "left", border: "none" }}
-            onChange={(e) => {
-              setwidrawalActivityPass(e.target.value);
-
-              e.target.value
-                ? setTransactionCancelbutton(false)
-                : setTransactionCancelbutton(true);
-            }}
-            value={widrawalActivityPass}
+            onChange={handleChange}
+            value={formData.lupassword}
           ></input>
-          {transactionCancelbutton ? (
+          {error.lupassword ? (
             <RxCross2 style={{ paddingRight: "10px" }} />
           ) : (
             ""

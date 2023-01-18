@@ -1,66 +1,64 @@
 import { Button, message, Spin } from "antd";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { UserModalContext } from "../../pages/activeUser/ActiveUser";
-// import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { Tab_Deposit, Tab_SubmitDepositForm } from "../../routes/Routes";
-import { BASE_URL } from "../../_api/_api";
 import "./styles.scss";
 const DepositForm = ({ data }) => {
-  const {
-    amount,
-    remark,
-    handleCancel,
-    setAmount,
-    setRemark,
-    setDepositPass,
-    depositePass,
-  } = useContext(UserModalContext);
-  const [change, setChangeAmount] = useState("");
-  const [remarkCancelbutton, setRemarkCancelbutton] = useState(false);
-  const [ammountbutton, setAmmountbutton] = useState(false);
-  const [depositbutton, setDepositbutton] = useState(false);
+  const { handleCancel } = useContext(UserModalContext);
 
   const [deposit, setDeposit] = useState([]);
   const [loader, setloader] = useState(false);
+  const [error, setError] = useState({});
+  const [formData, setformData] = useState({});
   const navigate = useNavigate();
-  console.log(remark, "remark", amount, "amount");
+  const AmountRef = useRef(null);
 
-  function handleChange(event) {
-    if (event.target.value) {
-      setAmount(Math.abs(event.target.value));
-      setChangeAmount(amount);
-      setAmmountbutton(false);
+  const handleChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    if (!value) {
+      setError(() => {
+        return {
+          ...error,
+          [name]: true,
+        };
+      });
     } else {
-      setAmount("");
-      setChangeAmount("");
-      setAmmountbutton(true);
+      setError(() => {
+        return {
+          ...error,
+          [name]: false,
+        };
+      });
     }
-  }
-  console.log(data, "id");
-  const formdata = {
-    userId: data.userId,
-    amount: amount,
-    lupassword: depositePass,
-    remark: remark,
+    if (name === "amount") {
+      setformData(() => {
+        return {
+          ...formData,
+          [name]: Math.abs(value),
+        };
+      });
+    } else {
+      setformData(() => {
+        return {
+          ...formData,
+          [name]: value,
+        };
+      });
+    }
   };
-
   const Submit = async () => {
-    setAmmountbutton(amount ? false : true);
-    setRemarkCancelbutton(remark ? false : true);
-    setDepositbutton(depositePass ? false : true);
-    if (amount && remark && depositePass) {
-      setRemark("");
-      setAmount("");
-      setloader(true);
-      setDepositPass("");
+    if (formData.amount && formData.lupassword && formData.remark) {
+      setformData({});
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_SubmitDepositForm}`,
-          formdata,
+          { ...formData, userId: data.userId },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -77,6 +75,13 @@ const DepositForm = ({ data }) => {
           handleCancel();
           setloader(false);
         });
+    } else {
+      setError({
+        ...error,
+        amount: !formData.amount,
+        remark: !formData.remark,
+        lupassword: !formData.lupassword,
+      });
     }
   };
   ///////deoposit Api
@@ -126,7 +131,11 @@ const DepositForm = ({ data }) => {
           <input
             type="text"
             disabled={true}
-            value={amount ? Number(deposit.parentAmount) - Number(amount) : 0}
+            value={
+              formData.amount
+                ? Number(deposit.parentAmount) - Number(formData.amount)
+                : 0
+            }
           />
         </div>
       </div>
@@ -137,7 +146,11 @@ const DepositForm = ({ data }) => {
           <input
             type="text"
             disabled={true}
-            value={amount ? Number(deposit.childAmount) + Number(amount) : 0}
+            value={
+              formData.amount
+                ? Number(deposit.childAmount) + Number(formData.amount)
+                : 0
+            }
           />
         </div>
       </div>
@@ -153,7 +166,9 @@ const DepositForm = ({ data }) => {
             type="text"
             disabled={true}
             value={
-              amount ? Number(deposit.childUplineAmount) + Number(amount) : 0
+              formData.amount
+                ? Number(deposit.childUplineAmount) + Number(formData.amount)
+                : 0
             }
           />
         </div>
@@ -164,13 +179,15 @@ const DepositForm = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${ammountbutton ? "1px solid red" : "1px solid #ced4da"}`,
+            border: `${error.amount ? "1px solid red" : "1px solid #ced4da"}`,
             borderRadius: " 0.25rem",
           }}
         >
           <input
             type="number"
-            value={amount}
+            name="amount"
+            ref={AmountRef}
+            value={formData.amount || 0}
             style={{
               width: "100%",
               textAlign: "right",
@@ -178,9 +195,9 @@ const DepositForm = ({ data }) => {
               outline: "none",
             }}
             placeholder="Accounts"
-            onChange={handleChange}
+            onChange={(event) => handleChange(event, "amount")}
           />
-          {ammountbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
       <div className="row-1">
@@ -189,32 +206,21 @@ const DepositForm = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${
-              remarkCancelbutton ? "1px solid red" : "1px solid #ced4da"
-            }`,
+            border: `${error.remark ? "1px solid red" : "1px solid #ced4da"}`,
             borderRadius: " 0.25rem",
           }}
         >
           <textarea
             id="w3review"
-            name="w3review"
+            name="remark"
             rows="4"
             cols="50"
             style={{ border: "none", outline: "none" }}
             placeholder="Remark"
-            value={remark}
-            onChange={(e) => {
-              setRemark(e.target.value);
-              e.target.value
-                ? setRemarkCancelbutton(false)
-                : setRemarkCancelbutton(true);
-            }}
+            value={formData.remark}
+            onChange={handleChange}
           ></textarea>
-          {remarkCancelbutton ? (
-            <RxCross2 style={{ paddingRight: "10px" }} />
-          ) : (
-            ""
-          )}
+          {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
 
@@ -224,22 +230,25 @@ const DepositForm = ({ data }) => {
           className="input"
           style={{
             background: "white",
-            border: `${depositbutton ? "1px solid red" : "1px solid #ced4da"}`,
+            border: `${
+              error.lupassword ? "1px solid red" : "1px solid #ced4da"
+            }`,
             borderRadius: " 0.25rem",
           }}
         >
           <input
             type="password"
             id="pwd"
-            name="pwd"
+            name="lupassword"
             style={{ width: "100%", textAlign: "left", border: "none" }}
-            onChange={(e) => {
-              setDepositPass(e.target.value);
-              e.target.value ? setDepositbutton(false) : setDepositbutton(true);
-            }}
-            value={depositePass}
+            onChange={handleChange}
+            value={formData.lupassword}
           ></input>
-          {depositbutton ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          {error.lupassword ? (
+            <RxCross2 style={{ paddingRight: "10px" }} />
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="row-button">
