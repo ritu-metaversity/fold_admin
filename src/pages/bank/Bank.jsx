@@ -1,14 +1,5 @@
-import {
-  Button,
-  Input,
-  Switch,
-  Table,
-  Modal,
-  Tooltip,
-  Form,
-  message,
-} from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import { Button, Input, Table, message, Spin } from "antd";
+import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 // import { AiOutlinePlus } from "react-icons/ai";
 ///styles
@@ -16,7 +7,6 @@ import "./styles.scss";
 import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { BASE_URL } from "../../_api/_api";
 import { Table_ActiveUser } from "../../routes/Routes";
 import { BsArrowRightShort } from "react-icons/bs";
 import { UserModalContext } from "../activeUser/ActiveUser";
@@ -50,8 +40,6 @@ const Bank = () => {
   const handleClick = () => {
     setSearchText(Inputvalue);
   };
-
-  // const [inputBlank, setInputBlank] = useState(false);
 
   const navigate = useNavigate();
 
@@ -99,6 +87,7 @@ const Bank = () => {
   }, [paginationData.index, paginationData.noOfRecords]);
 
   const submit = async (obj) => {
+    setLoading(true);
     if (value[obj]) {
       const currentVaue = value[obj];
 
@@ -122,10 +111,13 @@ const Bank = () => {
         .then((res) => {
           // console.log(res.data);
           message.success(res.data.message);
+          setLoading(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          setLoading(false);
         });
+      setLoading(false);
     } else {
       setError({ ...error, [obj]: true });
       console.log("undefine");
@@ -292,167 +284,173 @@ const Bank = () => {
   return (
     <UserModalContext.Provider>
       <Mainlayout>
-        <div className="heading">
-          <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
-        </div>
-        <div className="table">
-          <div className="search">
-            <div className="left-col">
-              <Input
-                placeholder="search here....."
-                name="message"
-                onChange={handleChange}
-                value={Inputvalue}
+        {loading ? (
+          <Spin style={{ width: "100%", margin: "auto" }} />
+        ) : (
+          <>
+            <div className="heading">
+              <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
+            </div>
+            <div className="table">
+              <div className="search">
+                <div className="left-col">
+                  <Input
+                    placeholder="search here....."
+                    name="message"
+                    onChange={handleChange}
+                    value={Inputvalue}
+                  />
+                  <div className="serch-btn">
+                    <Button
+                      onClick={reset}
+                      style={{ background: "#23292E", color: "white" }}
+                    >
+                      Reset
+                    </Button>
+                    <Button
+                      onClick={handleClick}
+                      style={{ background: "#eff2f7", color: "black" }}
+                    >
+                      Search
+                    </Button>
+                  </div>
+                </div>
+                <div className="right-col">
+                  <input
+                    placeholder="Transaction Code"
+                    style={{
+                      height: "32px",
+                      borderRadius: "5px",
+                      outline: "none",
+                      border: "1px solid #ced4da",
+                    }}
+                  />
+                  <Button style={{ background: "black", color: "white" }}>
+                    <Link to="">Transfer All</Link>
+                  </Button>
+                </div>
+              </div>
+
+              <div style={{ paddingLeft: "5px" }}>
+                <label className="d-inline-flex align-items-center">
+                  Show&nbsp;
+                  <select
+                    className="custom-select-sm"
+                    value={paginationData.noOfRecords}
+                    onChange={(e) =>
+                      setPaginationData({
+                        ...paginationData,
+                        noOfRecords: Number(e.target.value),
+                      })
+                    }
+                  >
+                    <option value="2">2</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="250">250</option>
+                    <option value="500">500</option>
+                    <option value="750">750</option>
+                    <option value="1000">1000</option>
+                  </select>
+                  &nbsp;entries
+                </label>
+              </div>
+              <Table
+                columns={columns}
+                dataSource={data}
+                onChange={onChange}
+                className="accountTable"
+                loading={loading}
               />
-              <div className="serch-btn">
-                <Button
-                  onClick={reset}
-                  style={{ background: "#23292E", color: "white" }}
-                >
-                  Reset
-                </Button>
-                <Button
-                  onClick={handleClick}
-                  style={{ background: "#eff2f7", color: "black" }}
-                >
-                  Search
-                </Button>
+              <div className="pagination">
+                <ul className="pagination-rounded mb-0">
+                  <ul
+                    role="menubar"
+                    aria-disabled="false"
+                    aria-label="Pagination"
+                    className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
+                  >
+                    <li
+                      role="presentation"
+                      aria-hidden="true"
+                      className="page-item disabled"
+                    >
+                      <span
+                        role="menuitem"
+                        aria-label="Go to first page"
+                        aria-disabled="true"
+                        style={{ cursor: "pointer" }}
+                        onClick={ResetCounter}
+                      >
+                        «
+                      </span>
+                    </li>
+                    <li
+                      role="presentation"
+                      aria-hidden="true"
+                      className="page-item disabled"
+                    >
+                      <span
+                        role="menuitem"
+                        aria-label="Go to previous page"
+                        aria-disabled="true"
+                        style={{ cursor: "pointer" }}
+                        onClick={Decrement}
+                      >
+                        ‹
+                      </span>
+                    </li>
+                    <li role="presentation" className="page-item active">
+                      <button
+                        role="menuitemradio"
+                        type="button"
+                        aria-label="Go to page 1"
+                        aria-checked="true"
+                        aria-posinset="1"
+                        aria-setsize="1"
+                        tabIndex="0"
+                        className="page-link"
+                      >
+                        {paginationData.index + 1}
+                      </button>
+                    </li>
+                    <li
+                      role="presentation"
+                      aria-hidden="true"
+                      className="page-item disabled"
+                    >
+                      <span
+                        role="menuitem"
+                        aria-label="Go to next page"
+                        aria-disabled="true"
+                        style={{ cursor: "pointer" }}
+                        onClick={Increment}
+                      >
+                        ›
+                      </span>
+                    </li>
+                    <li
+                      role="presentation"
+                      aria-hidden="true"
+                      className="page-item disabled"
+                    >
+                      <span
+                        role="menuitem"
+                        aria-label="Go to last page"
+                        aria-disabled="true"
+                        onClick={LastCounter}
+                        style={{ cursor: "pointer" }}
+                      >
+                        »
+                      </span>
+                    </li>
+                  </ul>
+                </ul>
               </div>
             </div>
-            <div className="right-col">
-              <input
-                placeholder="Transaction Code"
-                style={{
-                  height: "32px",
-                  borderRadius: "5px",
-                  outline: "none",
-                  border: "1px solid #ced4da",
-                }}
-              />
-              <Button style={{ background: "black", color: "white" }}>
-                <Link to="">Transfer All</Link>
-              </Button>
-            </div>
-          </div>
-
-          <div style={{ paddingLeft: "5px" }}>
-            <label className="d-inline-flex align-items-center">
-              Show&nbsp;
-              <select
-                className="custom-select-sm"
-                value={paginationData.noOfRecords}
-                onChange={(e) =>
-                  setPaginationData({
-                    ...paginationData,
-                    noOfRecords: Number(e.target.value),
-                  })
-                }
-              >
-                <option value="2">2</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="250">250</option>
-                <option value="500">500</option>
-                <option value="750">750</option>
-                <option value="1000">1000</option>
-              </select>
-              &nbsp;entries
-            </label>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={data}
-            onChange={onChange}
-            className="accountTable"
-            loading={loading}
-          />
-          <div className="pagination">
-            <ul className="pagination-rounded mb-0">
-              <ul
-                role="menubar"
-                aria-disabled="false"
-                aria-label="Pagination"
-                className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
-              >
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to first page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={ResetCounter}
-                  >
-                    «
-                  </span>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to previous page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={Decrement}
-                  >
-                    ‹
-                  </span>
-                </li>
-                <li role="presentation" className="page-item active">
-                  <button
-                    role="menuitemradio"
-                    type="button"
-                    aria-label="Go to page 1"
-                    aria-checked="true"
-                    aria-posinset="1"
-                    aria-setsize="1"
-                    tabIndex="0"
-                    className="page-link"
-                  >
-                    {paginationData.index + 1}
-                  </button>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to next page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={Increment}
-                  >
-                    ›
-                  </span>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to last page"
-                    aria-disabled="true"
-                    onClick={LastCounter}
-                    style={{ cursor: "pointer" }}
-                  >
-                    »
-                  </span>
-                </li>
-              </ul>
-            </ul>
-          </div>
-        </div>
+          </>
+        )}
       </Mainlayout>
     </UserModalContext.Provider>
   );

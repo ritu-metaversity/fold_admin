@@ -14,8 +14,8 @@ $breakpoint-common: 1280px;
     }
     .content-conatiner{
         margin-top: 64px;
-
-  
+position: fixed;
+  width: 100%;
     .d-flex{
         display: flex;
         height: 92.3vh;

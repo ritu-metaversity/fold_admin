@@ -1,5 +1,6 @@
 $breakpoint-specific: 1218px;
 $breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
 .view-more-header{
     margin-bottom: 10px;
     button{
@@ -26,7 +27,7 @@ $breakpoint-tablet: 870px;
     padding: 7px;
     @media (max-width: $breakpoint-specific) {
     padding: 2px;
-      
+    // width: 97%;
          }
 .search-filter{
     // height: 66px;
@@ -37,14 +38,19 @@ $breakpoint-tablet: 870px;
     gap: 15px;
     align-items: flex-end;
     width: 99%;
+  
     @media (max-width: $breakpoint-specific) {
         width: 99%;
         flex-direction: column;
         gap: 5px;
+
         p{
             margin-top: 0px;
         }
          }
+         @media (max-width: $breakpoint-mobile) {
+            width: 97%;
+        }
     .user-name-input{
         width: 16%;
         @media (max-width: $breakpoint-specific) {
@@ -170,6 +176,13 @@ $breakpoint-tablet: 870px;
   }
 }
 .table-container{
+    
+    .ant-table-tbody>tr>td{
+        font-size: 12px;
+        // font-weight: 600;
+        padding: 2px 2px 2px 5px !important;
+    
+    }
 tr{
     height: 30px;
 }

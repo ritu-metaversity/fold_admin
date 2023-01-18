@@ -11,29 +11,17 @@ const Transaction = ({ data, dataTransaction }) => {
 
   const dataSource = [];
 
-  transaction.map((res) => {
-    if (res) {
-      dataSource.push({
-        sno: res.sno,
-        remark: res.remark,
-        pts: res.pts,
-        fromto: res.fromto,
-        debit: res.debit,
-        date: res.date,
-        credit: res.credit,
-      });
-    } else {
-      dataSource.push({
-        sno: "",
-        remark: "",
-        pts: "",
-        marketid: "",
-        fromto: "",
-        debit: "",
-        date: "",
-        credit: "",
-      });
-    }
+  transaction?.map((res) => {
+    dataSource?.push({
+      key: res.sno + res?.remark + res?.pts,
+      sno: res?.sno,
+      remark: res?.remark,
+      pts: res?.pts,
+      fromto: res?.fromto,
+      debit: res?.debit,
+      date: res?.date,
+      credit: res?.credit,
+    });
   });
   const columns = [
     {
@@ -92,7 +80,7 @@ const Transaction = ({ data, dataTransaction }) => {
         })
         .then((res) => {
           setLoading(false);
-          setTransaction(res.data.data.dataList);
+          setTransaction(res?.data?.data?.dataList);
         });
     };
     getTransaction();

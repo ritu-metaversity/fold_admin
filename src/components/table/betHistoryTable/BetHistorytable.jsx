@@ -73,8 +73,8 @@ const BetHistorytable = () => {
       .post(
         `${process.env.REACT_APP_BASE_URL}/${TabBet_History}`,
         {
-          index: paginationData.index,
-          noOfRecords: paginationData.noOfRecords,
+          index: paginationData?.index,
+          noOfRecords: paginationData?.noOfRecords,
           sportId: sendSportId,
           matchId: sendEventId,
           userId: "",
@@ -86,25 +86,23 @@ const BetHistorytable = () => {
         }
       )
       .then((res) => {
-        setsada(res.data.data.totalBets);
-        setTotalAmount(res.data.data.totalStake);
-        console.log(res.data.data.dataList);
-        console.log("api", res.data.data.dataList);
+        setsada(res?.data?.data?.totalBets);
+        setTotalAmount(res?.data?.data?.totalStake);
 
-        if (res.data.data.dataList) {
+        if (res?.data?.data?.dataList) {
           setLoading(false);
           setPaginationData({
             ...paginationData,
-            totalPages: res.data.data?.totalPages || 1,
+            totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res.data.data.dataList);
+          setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
           navigate("/");
         }
       })
       .catch((error) => {
-        if (error.message == "Request failed with status code 401") {
+        if (error?.message == "Request failed with status code 401") {
           navigate("/");
         }
       });
@@ -115,8 +113,8 @@ const BetHistorytable = () => {
   }, [
     sendSportId,
     sendEventId,
-    paginationData.index,
-    paginationData.noOfRecords,
+    paginationData?.index,
+    paginationData?.noOfRecords,
   ]);
 
   const columns = [
@@ -129,7 +127,7 @@ const BetHistorytable = () => {
       dataIndex: "EventName",
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return String(record.EventName)
+        return String(record?.EventName)
           .toLowerCase()
           .includes(value.toLowerCase());
       },
@@ -198,60 +196,45 @@ const BetHistorytable = () => {
   ];
 
   const data = [];
-  DataList.map((res) => {
-    if (res) {
-      data.push({
-        key: "1",
-        isBack: res.isback,
-        EventType: res.eventType,
-        EventName: res.eventNamem,
-        UserName: res.username,
-        MName: res.marketname,
-        Nation: res.nation,
-        URate: res.rate,
-        Amount: res.amount,
-        PlaceDate: res.time,
+  DataList?.map((res, index) => {
+    data.push({
+      key: res?.rate + res?.time + res?.amount + index,
+      isBack: res?.isback,
+      EventType: res?.eventType,
+      EventName: res?.eventNamem,
+      UserName: res?.username,
+      MName: res?.marketname,
+      Nation: res?.nation,
+      URate: res?.rate,
+      Amount: res?.amount,
+      PlaceDate: res?.time,
 
-        Detail: (
-          <>
-            <Tooltip title={res.deviceInfo}>
-              <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-            </Tooltip>
-          </>
-        ),
-      });
-    } else {
-      data.push({
-        key: "",
-        username: "",
-        CR: "",
-        PTS: "",
-        Client: "",
-        Clientp: "",
-        Exposer: "",
-        Available: "",
-        bst: "",
-        ust: "",
-        PPhone: "",
-        AccountType: "",
-      });
-    }
+      Detail: (
+        <>
+          <Tooltip title={res?.deviceInfo}>
+            <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+          </Tooltip>
+        </>
+      ),
+    });
   });
 
-  const onChange = (filters, sorter, extra) => {
-    console.log(filters, sorter, extra);
-  };
-
   const Increment = () => {
-    if (paginationData.index < paginationData.totalPages) {
-      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
+    if (paginationData?.index < paginationData?.totalPages) {
+      setPaginationData({
+        ...paginationData,
+        index: paginationData?.index + 1,
+      });
     }
 
     // setPageIndex(PageIndex + 1);
   };
   const Decrement = () => {
-    if (paginationData.index > 0) {
-      setPaginationData({ ...paginationData, index: paginationData.index - 1 });
+    if (paginationData?.index > 0) {
+      setPaginationData({
+        ...paginationData,
+        index: paginationData?.index - 1,
+      });
     }
     // setPageIndex(PageIndex - 1);
   };
@@ -261,7 +244,7 @@ const BetHistorytable = () => {
   const LastCounter = () => {
     setPaginationData({
       ...paginationData,
-      index: paginationData.totalPages - 1,
+      index: paginationData?.totalPages - 1,
     });
   };
   /////////sprots list api
@@ -270,8 +253,7 @@ const BetHistorytable = () => {
       await axios
         .post("http://api.a2zscore.com/admin-new-apis/sport/active-sport-list")
         .then((res) => {
-          console.log(res.data.data);
-          setSportsList(res.data.data);
+          setSportsList(res?.data?.data);
         });
     };
     getSpotsList();
@@ -279,14 +261,14 @@ const BetHistorytable = () => {
 
   //////first drop down value
   const handleChange = (value) => {
-    setvalueDropDown(value.key);
+    setvalueDropDown(value.value);
     //  console.log(value.key); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
-    gatSportsId(value?.key);
+    gatSportsId(value.value);
   };
 
   // second dropdown value
   const sportChange = (value) => {
-    setSportChangeId(value.key);
+    setSportChangeId(value.value);
   };
 
   const gatSportsId = async (id) => {
@@ -301,9 +283,8 @@ const BetHistorytable = () => {
         }
       )
       .then((res) => {
-        console.log(res.data, "====");
         if (res?.data) {
-          setSportsId(res.data.data);
+          setSportsId(res?.data?.data);
         } else {
           setSportsId({});
         }
@@ -315,6 +296,17 @@ const BetHistorytable = () => {
     setSendSportId(valueDropDown);
     setSendEventId(sportChangeId);
   };
+  const option1 = sportsList?.map((item, index) => ({
+    key: item.sportId + item?.sportName + index,
+    value: item?.sportId,
+    label: item?.sportName,
+  }));
+
+  const option2 = sportsId?.map((item, index) => ({
+    key: item.eventId + item?.eventName + index,
+    value: item?.eventId,
+    label: item?.eventName,
+  }));
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
@@ -344,15 +336,8 @@ const BetHistorytable = () => {
                 width: 120,
               }}
               onChange={handleChange}
-            >
-              {sportsList.map((item) => {
-                return (
-                  <Select.Option value={item.sportId}>
-                    {item.sportName}
-                  </Select.Option>
-                );
-              })}
-            </Select>
+              options={option1}
+            ></Select>
 
             <Select
               labelInValue
@@ -364,15 +349,8 @@ const BetHistorytable = () => {
                 width: 120,
               }}
               onChange={sportChange}
-            >
-              {sportsId.map((item) => {
-                return (
-                  <Select.Option value={item.eventId}>
-                    {item.eventName}
-                  </Select.Option>
-                );
-              })}
-            </Select>
+              options={option2}
+            ></Select>
 
             <div className="load-btn">
               <Button onClick={getSportsid}> load</Button>
@@ -397,7 +375,7 @@ const BetHistorytable = () => {
             Show&nbsp;
             <select
               className="custom-select-sm"
-              value={paginationData.noOfRecords}
+              value={paginationData?.noOfRecords}
               onChange={(e) =>
                 setPaginationData({
                   ...paginationData,
@@ -428,10 +406,9 @@ const BetHistorytable = () => {
         <Table
           columns={columns}
           dataSource={data}
-          onChange={onChange}
           className="accountTable currentBetTable"
           rowClassName={(record) => {
-            return record.isBack ? "blue" : "pink";
+            return record?.isBack ? "blue" : "pink";
           }}
           loading={loading}
         />

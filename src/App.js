@@ -37,14 +37,11 @@ import NoteFound from "./pages/noteFound/NoteFound";
 
 function App() {
   // const { pathname } = useLocation();
-  const [searchparam] = useSearchParams();
-  const id = searchparam.get("event-id");
-  console.log(id);
+
   const nav = useNavigate();
   const loc = useLocation();
   useEffect(() => {
     const x = localStorage.getItem("token");
-    console.log(x);
     if (x) {
       if (loc.pathname === "/") {
         nav("/marketAnalysis");

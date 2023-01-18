@@ -1,9 +1,8 @@
-import { Button, Collapse, message, Spin } from "antd";
+import { Button, Collapse, message, Modal, Spin } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import {
-  bets_Lock,
   bets_Lock_Status,
   Bets_Odds_Pnl,
   Bet_Lock,
@@ -12,14 +11,15 @@ import {
 import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
+import UserBook from "../userBook/UserBook";
 ///styles
 import "./styles.scss";
 const { Panel } = Collapse;
 
 const oddAbbrev = {
-  Fancy2: "f2",
-  Fancy3: "f3",
-  OddEven: "od",
+  Fancy2: "F2",
+  Fancy3: "F3",
+  OddEven: "OE",
 };
 
 const TestPageLeftCollapse = () => {
@@ -28,11 +28,22 @@ const TestPageLeftCollapse = () => {
   const [prevState, setPrevState] = useState();
   const [oddPnl, setOddPnl] = useState([]);
   const [betStatus, setBetlockStatus] = useState([]);
-  const [loader, setLoader] = useState(false);
-
+  const [loader, setLoader] = useState({});
+  const [userBook, setUserBook] = useState([]);
   const navigate = useNavigate();
 
   const id = searchparam.get("event-id");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = (marketId) => {
+    getUserBook(marketId);
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const getOdds = async () => {
     await axios
@@ -99,8 +110,11 @@ const TestPageLeftCollapse = () => {
         }
       )
       .then((res) => {
-        setBetlockStatus(res.data.data);
-        console.log(res.data.data);
+        if (res.data.data) {
+          setBetlockStatus(res?.data?.data);
+        } else {
+          setBetlockStatus([]);
+        }
       })
       .catch((error) => {
         if (error.message === "Request failed with status code 401") {
@@ -113,7 +127,7 @@ const TestPageLeftCollapse = () => {
 
   useEffect(() => {
     BetLockStatus();
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -126,8 +140,9 @@ const TestPageLeftCollapse = () => {
 
   const getBetLock = async (marketNameid) => {
     setLoader({ ...loader, [marketNameid]: true });
-    await axios
-      .post(
+
+    try {
+      const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/${Bet_Lock}`,
         { matchId: id, marketName: marketNameid },
         {
@@ -135,19 +150,41 @@ const TestPageLeftCollapse = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-      )
-      .then((res) => {
-        console.log(res.data.data);
+      );
+
+      if (response) {
+        message.success(response.data.message);
         BetLockStatus();
-      })
-      .catch((error) => {
-        if (error.message === "Request failed with status code 401") {
+      }
+    } catch (err) {
+      if (err) {
+        if (err.response.data.status === 401) {
           localStorage.removeItem("token");
           navigate("/");
-          message.error(error.response.data.message);
+          message.error(err.response.data.message);
+        } else {
+          message.error(err.response.data.message);
         }
-      });
+      }
+    }
+
     setLoader({ ...loader, [marketNameid]: false });
+  };
+
+  const getUserBook = async (marketId) => {
+    const data = { marketId: marketId, userId: "" };
+    await axios
+      .post("http://api.a2zscore.com/admin-new-apis/bets/user-book", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setUserBook(res.data.data);
+      })
+      .catch((error) => {
+        message.error(error.response.data.message);
+      });
   };
 
   if (!odddata || !prevState) {
@@ -162,8 +199,8 @@ const TestPageLeftCollapse = () => {
     )
       return "";
 
-    if (odddata[keyName] && odddata[keyName].length <= 0)
-      endUIArray?.push(
+    if (odddata[keyName] && odddata[keyName]?.length <= 0)
+      endUIArray.push(
         <Collapse key={keyName}>
           <Panel
             header={
@@ -180,6 +217,7 @@ const TestPageLeftCollapse = () => {
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
+                      showModal(odddata[keyName][0]?.mid);
                     }}
                     type="primary"
                     style={{
@@ -233,7 +271,7 @@ const TestPageLeftCollapse = () => {
                   >
                     {loader[oddAbbrev[keyName]] ? (
                       <Spin style={{ width: "100%", margin: "auto" }} />
-                    ) : betStatus[oddAbbrev[keyName]] ? (
+                    ) : betStatus.find((res) => res === oddAbbrev[keyName]) ? (
                       " Bet / Unlock"
                     ) : (
                       "Bet Lock"
@@ -259,168 +297,231 @@ const TestPageLeftCollapse = () => {
 
   return (
     <div>
+      <Modal
+        title="User Book"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={1140}
+        footer={null}
+        destroyOnClose
+        className="user-Book-modal"
+      >
+        <UserBook data={userBook} />
+      </Modal>
       <Collapse bordered={false} defaultActiveKey={["1", "2"]}>
-        <Panel
-          header={
-            <div
-              className="panel-header"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              MATCH_ODDS
-              <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    getBetLock("modss");
-                  }}
-                  type="primary"
-                  style={{ background: "#F18521", color: "white" }}
-                >
-                  {loader.modss ? (
-                    <Spin style={{ width: "100%", margin: "auto" }} />
-                  ) : betStatus.modss ? (
-                    " Bet / Unlock"
-                  ) : (
-                    "Bet Lock"
-                  )}
-                </Button>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  type="primary"
-                  style={{
-                    background: "#F18521",
-                    color: "white",
-                  }}
-                >
-                  User Book
-                </Button>
+        {odddata.Odds.length > 0 ? (
+          <Panel
+            header={
+              <div
+                className="panel-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                MATCH_ODDS
+                <div className="btn" style={{ gap: "10px", display: "flex" }}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      getBetLock(odddata?.Odds[0].marketId);
+                    }}
+                    type="primary"
+                    style={{ background: "#F18521", color: "white" }}
+                  >
+                    {loader[odddata?.Odds[0].marketId] ? (
+                      <Spin style={{ width: "100%", margin: "auto" }} />
+                    ) : betStatus?.find(
+                        (res) => res === odddata?.Odds[0].marketId
+                      ) ? (
+                      " Bet / Unlock"
+                    ) : (
+                      "Bet Lock"
+                    )}
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      showModal(odddata?.Odds[0].marketId);
+                    }}
+                    type="primary"
+                    style={{
+                      background: "#F18521",
+                      color: "white",
+                    }}
+                  >
+                    User Book
+                  </Button>
+                </div>
               </div>
+            }
+            key="1"
+            className="left-panel-header"
+          >
+            <div className="collpase-div">
+              <MatchOddTable
+                name={"10k"}
+                data={odddata?.Odds}
+                prev={prevState?.Odds}
+                pnlData={oddPnl}
+              />
             </div>
-          }
-          key="1"
-          className="left-panel-header"
-        >
-          <div className="collpase-div">
-            <MatchOddTable
-              name={"10k"}
-              data={odddata.Odds}
-              prev={prevState.Odds}
-              pnlData={oddPnl}
-            />
-          </div>
-        </Panel>
-
-        <Panel
-          header={
-            <div
-              className="panel-header"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              Bookmaker
-              <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    getBetLock("bm");
-                  }}
-                  type="primary"
-                  style={{ background: "#F18521", color: "white" }}
-                >
-                  {loader.bm ? (
-                    <Spin style={{ width: "100%", margin: "auto" }} />
-                  ) : betStatus.bm ? (
-                    "Bet / Unlock"
-                  ) : (
-                    "Bet Lock"
-                  )}
-                </Button>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  type="primary"
-                  style={{
-                    background: "#F18521",
-                    color: "white",
-                  }}
-                >
-                  User Book
-                </Button>
+          </Panel>
+        ) : (
+          ""
+        )}
+        {odddata?.Bookmaker.filter((ele) => ele?.t !== "TOSS").length > 0 ? (
+          <Panel
+            header={
+              <div
+                className="panel-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                Bookmaker
+                <div className="btn" style={{ gap: "10px", display: "flex" }}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      getBetLock(
+                        odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
+                          .mid
+                      );
+                    }}
+                    type="primary"
+                    style={{ background: "#F18521", color: "white" }}
+                  >
+                    {loader[
+                      odddata?.Bookmaker?.find((type) => type.t !== "TOSS").mid
+                    ] ? (
+                      <Spin style={{ width: "100%", margin: "auto" }} />
+                    ) : betStatus?.find(
+                        (res) =>
+                          res ===
+                          odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
+                            .mid
+                      ) ? (
+                      "Bet / Unlock"
+                    ) : (
+                      "Bet Lock"
+                    )}
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      showModal(
+                        odddata?.Bookmaker?.filter(
+                          (ele) => ele?.t !== "TOSS"
+                        )[0].mid
+                      );
+                    }}
+                    type="primary"
+                    style={{
+                      background: "#F18521",
+                      color: "white",
+                    }}
+                  >
+                    User Book
+                  </Button>
+                </div>
               </div>
+            }
+            key="2"
+            className="left-panel-header"
+          >
+            <div className="collpase-div">
+              <Bookmarktable
+                name={"10k"}
+                data={odddata?.Bookmaker?.filter((ele) => ele?.t !== "TOSS")}
+                prev={prevState?.Bookmaker?.filter((ele) => ele?.t !== "TOSS")}
+                pnlData={oddPnl}
+              />
             </div>
-          }
-          key="2"
-          className="left-panel-header"
-        >
-          <div className="collpase-div">
-            <Bookmarktable
-              name={"10k"}
-              data={odddata.Bookmaker.filter((ele) => ele?.t !== "TOSS")}
-              prev={prevState.Bookmaker.filter((ele) => ele?.t !== "TOSS")}
-              pnlData={oddPnl}
-            />
-          </div>
-        </Panel>
+          </Panel>
+        ) : (
+          ""
+        )}
       </Collapse>
       <Collapse bordered={false}>
-        <Panel
-          header={
-            <div
-              className="panel-header"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              Bookmaker TOSS
-              <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  type="primary"
-                  style={{ background: "#F18521", color: "white" }}
-                >
-                  Bet Lock
-                </Button>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  type="primary"
-                  style={{
-                    background: "#F18521",
-                    color: "white",
-                  }}
-                >
-                  User Book
-                </Button>
+        {odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
+          <Panel
+            header={
+              <div
+                className="panel-header"
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                Bookmaker TOSS
+                <div className="btn" style={{ gap: "10px", display: "flex" }}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      getBetLock(
+                        odddata?.Bookmaker?.find((type) => type.t === "TOSS")
+                          .mid
+                      );
+                    }}
+                    type="primary"
+                    style={{ background: "#F18521", color: "white" }}
+                  >
+                    {loader[
+                      odddata?.Bookmaker.find((type) => type.t === "TOSS").mid
+                    ] ? (
+                      <Spin style={{ width: "100%", margin: "auto" }} />
+                    ) : betStatus?.find(
+                        (res) =>
+                          res ===
+                          odddata?.Bookmaker.find((type) => type.t === "TOSS")
+                            .mid
+                      ) ? (
+                      "Bet / Unlock"
+                    ) : (
+                      "Bet Lock"
+                    )}
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      showModal(
+                        odddata?.Bookmaker?.filter(
+                          (ele) => ele?.t === "TOSS"
+                        )[0].mid
+                      );
+                    }}
+                    type="primary"
+                    style={{
+                      background: "#F18521",
+                      color: "white",
+                    }}
+                  >
+                    User Book
+                  </Button>
+                </div>
               </div>
+            }
+            key="2"
+            className="left-panel-header"
+          >
+            <div className="collpase-div">
+              <Bookmarktable
+                name={"10k"}
+                data={odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS")}
+                prev={prevState?.Bookmaker?.filter((ele) => ele?.t === "TOSS")}
+                pnlData={oddPnl}
+              />
             </div>
-          }
-          key="2"
-          className="left-panel-header"
-        >
-          <div className="collpase-div">
-            <Bookmarktable
-              name={"10k"}
-              data={odddata.Bookmaker.filter((ele) => ele?.t === "TOSS")}
-              prev={prevState.Bookmaker.filter((ele) => ele?.t === "TOSS")}
-              pnlData={oddPnl}
-            />
-          </div>
-        </Panel>
+          </Panel>
+        ) : (
+          ""
+        )}
         <div className="fancy-panel-conatiner">
           {UIArray.map((item) => {
             return item;

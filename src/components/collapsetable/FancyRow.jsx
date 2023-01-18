@@ -77,33 +77,38 @@ const FancyRow = ({ data, prev }) => {
                 Amount
               </h4>
             </div>
-            {pnl?.map((res) => {
+            {pnl?.map((res, index) => {
               return (
-                <div
-                  className="pnl"
-                  style={{ display: "flex", border: "1px solid rgb(60 70 72)" }}
-                >
-                  <p
+                <React.Fragment key={res?.pnl + index + 1}>
+                  <div
+                    className="pnl"
                     style={{
-                      width: "200px",
-                      margin: "2px",
-                      paddingLeft: "5px",
-                      color: "rgb(136 154 168)",
-                      fontWeight: "500",
+                      display: "flex",
+                      border: "1px solid rgb(60 70 72)",
                     }}
                   >
-                    {res?.odds}
-                  </p>
-                  <p
-                    style={{
-                      margin: "2px",
-                      color: res.pnl >= 0 ? "Green" : "red",
-                      fontWeight: "500",
-                    }}
-                  >
-                    {res?.pnl}
-                  </p>
-                </div>
+                    <p
+                      style={{
+                        width: "200px",
+                        margin: "2px",
+                        paddingLeft: "5px",
+                        color: "rgb(136 154 168)",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {res?.odds}
+                    </p>
+                    <p
+                      style={{
+                        margin: "2px",
+                        color: res?.pnl >= 0 ? "Green" : "red",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {res?.pnl}
+                    </p>
+                  </div>
+                </React.Fragment>
               );
             })}
           </div>
@@ -120,9 +125,9 @@ const FancyRow = ({ data, prev }) => {
             <div className="left-col-fancy">
               <span
                 style={{ cursor: "pointer" }}
-                onClick={() => showModal(data.sid)}
+                onClick={() => showModal(data?.sid)}
               >
-                {data.nation}
+                {data?.nation}
               </span>
             </div>
             <div className="colwrapper">
@@ -140,32 +145,32 @@ const FancyRow = ({ data, prev }) => {
                   className="layButton"
                   style={{
                     backgroundColor:
-                      data.l1 > prev.l1
+                      data?.l1 > prev?.l1
                         ? "#03B37F"
-                        : data.l1 < prev.l1
+                        : data?.l1 < prev?.l1
                         ? "#FC4242"
                         : layColor[0],
                   }}
                 >
-                  <p>{data.l1 == 0 ? "" : data.l1}</p>
-                  <p>{data.ls1 == 0 ? "" : data.ls1}</p>
+                  <p>{data?.l1 == 0 ? "" : data?.l1}</p>
+                  <p>{data?.ls1 == 0 ? "" : data?.ls1}</p>
                 </Button>
                 <Button
                   className="backButton"
                   style={{
                     backgroundColor:
-                      data.b1 > prev.b1
+                      data?.b1 > prev?.b1
                         ? "#03B37F"
-                        : data.b1 < prev.b1
+                        : data?.b1 < prev?.b1
                         ? "#FC4242"
                         : backColor[0],
                   }}
                 >
-                  <p>{data.b1 == 0 ? "" : data.b1}</p>
-                  <p>{data.bs1 == 0 ? "" : data.bs1}</p>
+                  <p>{data?.b1 == 0 ? "" : data?.b1}</p>
+                  <p>{data?.bs1 == 0 ? "" : data?.bs1}</p>
                 </Button>
                 <div className="overlay">
-                  <p>SUSPENDED</p>
+                  <p style={{ fontSize: "12px" }}>SUSPENDED</p>
                 </div>
               </div>
               <div

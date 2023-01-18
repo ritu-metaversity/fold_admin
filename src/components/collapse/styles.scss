@@ -15,10 +15,14 @@ $breakpoint-medium: 1370px;
     border-radius: 5px 5px 0px 0px ;
     background: #3c444b;
   
-    margin-top: 2%;
+   
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: $breakpoint-tablet) {
+        margin-left: 4px;
+        margin-right: 4px;
+         }
     h5{
         font-size: 14px;
         font-weight: 400;
@@ -117,5 +121,18 @@ $breakpoint-medium: 1370px;
             color: #495057 !important;
           
         }
+    }
+}
+.user-Book-modal{
+    top: 5px;
+    @media (max-width: $breakpoint-tablet) {
+        top: 64px;
+         }
+    .ant-modal-header{
+        margin-bottom: 0px;
+    }
+    .ant-modal-title{
+        background-color: white;
+        color: black;
     }
 }

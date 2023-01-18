@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
 import { IoIosAlert } from "react-icons/io";
@@ -7,27 +7,30 @@ import { Dropdown, Space } from "antd";
 import { BsWallet2 } from "react-icons/bs";
 import { HiOutlineKey } from "react-icons/hi";
 import { FiLogOut } from "react-icons/fi";
-import { RxHamburgerMenu } from "react-icons/rx";
 import img from "../../assets/img/logo.png";
 import "./styles.scss";
+import { Link } from "react-router-dom";
 
-const Header = ({ SiderBar, setSidebar }) => {
+const Header = () => {
+  const logout = () => {
+    localStorage.removeItem("token");
+  };
   const items = [
     {
       label: (
-        <a href="/">
+        <Link>
           <BsWallet2 />
           Self Deposit
-        </a>
+        </Link>
       ),
       key: "0",
     },
     {
       label: (
-        <a href="/">
+        <Link>
           <HiOutlineKey />
           Change Password
-        </a>
+        </Link>
       ),
       key: "1",
     },
@@ -36,10 +39,10 @@ const Header = ({ SiderBar, setSidebar }) => {
     },
     {
       label: (
-        <a href="/">
+        <Link to="/" onClick={logout}>
           <FiLogOut />
           Log Out
-        </a>
+        </Link>
       ),
       key: "3",
     },

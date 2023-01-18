@@ -2,6 +2,7 @@ $breakpoint-tablet: 870px;
 $breakpoint-mobile: 600px;
 $breakpoint-specific: 1218px;
 $breakpoint-custom-header :710px;
+
 .header-col{
     display: flex;
     align-items: center;
@@ -12,6 +13,9 @@ $breakpoint-custom-header :710px;
  @media (min-width: $breakpoint-specific) {
    justify-content: space-between;
 }
+@media (max-width: $breakpoint-specific) {
+    justify-content: space-between;
+ }
 //    justify-content: space-around;
 @media (max-width: $breakpoint-mobile) {
  width: auto;

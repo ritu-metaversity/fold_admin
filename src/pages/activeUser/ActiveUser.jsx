@@ -10,28 +10,11 @@ import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
-import { BASE_URL } from "../../_api/_api";
 import { Table_ActiveUser } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
-  remark: "",
-  amount: 0,
-  setPassword: "",
-  setConfirmPass: "",
-  password: "",
-  confirmPass: "",
-  setAmount: "",
-  setRemark: "",
-  setName: "",
-  name: "",
-  setCity: "",
-  city: "",
-  setMobileNo: "",
-  mobileNo: "",
-  isStatus: "",
-  setStatus: "",
 });
 
 const ActiveUser = () => {
@@ -43,25 +26,13 @@ const ActiveUser = () => {
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
   const [DataList, setDataList] = useState([]);
-  const [userData, setuserData] = useState([]);
 
   const [userId, setUserId] = useState("");
-  const [amount, setAmount] = useState(0);
-  const [remark, setRemark] = useState("");
+
   //////// change password
-  const [password, setPassword] = useState("");
-  const [confirmPass, setConfirmPass] = useState("");
 
   ////edit profile State
-  const [name, setName] = useState("");
-  const [city, setCity] = useState("");
-  const [mobileNo, setMobileNo] = useState("");
-  const [isStatus, setStatus] = useState(false);
-  const [pass, setPass] = useState("");
-  const [depositePass, setDepositPass] = useState("");
-  const [widrwalActivityRemark, setWidrwalActivityRemark] = useState("");
-  const [widrwalActivityAccount, setWidrwalActivityAccount] = useState("");
-  const [widrawalActivityPass, setwidrawalActivityPass] = useState("");
+
   const [paginationData, setPaginationData] = useState({
     index: 0,
     noOfRecords: 25,
@@ -73,7 +44,6 @@ const ActiveUser = () => {
   };
   const handleChange = (event) => {
     setMessage(event.target.value);
-    // console.log(event);
   };
   const handleClick = () => {
     // 👇 "message" stores input field value
@@ -87,26 +57,26 @@ const ActiveUser = () => {
   //////deposit Modal
   const showModal = (obj) => {
     setIsModalOpen(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
   //////withdrawal Modal
   const showModals = (obj) => {
     setOpen(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
 
   ///show profile modal
   const showModalProfile = (obj) => {
     setprofileModal(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
   /////show credit Activity Modal
   const showCredit = (obj) => {
     setcredit(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
   const handleOk = () => {
@@ -116,20 +86,11 @@ const ActiveUser = () => {
     setcredit(false);
   };
   const handleCancel = () => {
-    console.log("try");
-    setAmount("");
-    setRemark("");
     setIsModalOpen(false);
     setOpen(false);
     setprofileModal(false);
     setcredit(false);
     setInputBlank(!false);
-    setPassword("");
-    setConfirmPass("");
-    setName("");
-    setCity("");
-    setMobileNo("");
-    setStatus(false);
   };
 
   const tabledata = async () => {
@@ -149,7 +110,6 @@ const ActiveUser = () => {
         }
       )
       .then((res) => {
-        console.log("api", res.data.data.dataList);
         if (res.data.data.dataList) {
           setLoading(false);
           setPaginationData({
@@ -275,106 +235,87 @@ const ActiveUser = () => {
   ];
 
   const data = [];
-  DataList.map((res) => {
-    if (res) {
-      data.push({
-        key: res.id,
+  DataList?.map((res) => {
+    data?.push({
+      key: res?.id,
 
-        username: `${res.username} (${res.userId})`,
-        CR: (
-          <span
-            style={{ color: "#f1b44c", cursor: "pointer" }}
-            onClick={() => showCredit(res.id)}
-          >
-            8
-          </span>
-        ),
-        PTS: res.pts,
-        Client: res.clientPl,
-        Clientp: res.clientPlPercentage,
-        Exposer: res.exposure,
-        Available: res.availabePts,
-        bst: res.betLock ? (
-          <Switch size="small" disabled={true} defaultChecked />
-        ) : (
-          <Switch size="small" disabled={true} defaultunchecked />
-        ),
+      username: `${res?.username} (${res?.userId})`,
+      CR: (
+        <span
+          style={{ color: "#f1b44c", cursor: "pointer" }}
+          onClick={() => showCredit(res.id)}
+        >
+          8
+        </span>
+      ),
+      PTS: res?.pts,
+      Client: res?.clientPl,
+      Clientp: res?.clientPlPercentage,
+      Exposer: res?.exposure,
+      Available: res?.availabePts,
+      bst: res?.betLock ? (
+        <Switch size="small" disabled={true} defaultChecked="true" />
+      ) : (
+        <Switch size="small" disabled={true} defaultunchecked="true" />
+      ),
 
-        ust: res.accountLock ? (
-          <Switch size="small" disabled={true} defaultChecked />
-        ) : (
-          <Switch size="small" disabled={true} defaultunchecked />
-        ),
-        PPhone: res.pname,
-        AccountType: res.accountType,
-        Action: (
-          <>
-            <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
-              <Button
-                style={{
-                  background: "#34c38f",
-                  color: "white",
-                  borderColor: "#34c38f",
-                  borderRadius: "5px 0px 0px 5px",
-                }}
-                onClick={() => showModal(res.id)}
-              >
-                D
-              </Button>
-            </Tooltip>
-            <Tooltip placement="top" title={isMobile ? "withdrawal" : ""}>
-              <Button
-                style={{
-                  background: "#f46a6a",
-                  color: "white",
-                  borderColor: "#f46a6a",
-                  borderRadius: "0px 0px 0px 0px",
-                }}
-                onClick={() => showModals(res.id)}
-              >
-                w
-              </Button>
-            </Tooltip>
+      ust: res.accountLock ? (
+        <Switch size="small" disabled={true} defaultChecked="true" />
+      ) : (
+        <Switch size="small" disabled={true} defaultunchecked="true" />
+      ),
+      PPhone: res?.pname,
+      AccountType: res?.accountType,
+      Action: (
+        <>
+          <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
             <Button
               style={{
-                background: "#50a5f1",
+                background: "#34c38f",
                 color: "white",
-                borderColor: "#50a5f1",
-                borderRadius: "0px 5px 5px 0px",
+                borderColor: "#34c38f",
+                borderRadius: "5px 0px 0px 5px",
               }}
-              onClick={() => showModalProfile(res.id)}
+              onClick={() => showModal(res?.id)}
             >
-              more
+              D
             </Button>
-          </>
-        ),
-      });
-    } else {
-      data.push({
-        key: "",
-        username: "",
-        CR: "",
-        PTS: "",
-        Client: "",
-        Clientp: "",
-        Exposer: "",
-        Available: "",
-        bst: "",
-        ust: "",
-        PPhone: "",
-        AccountType: "",
-        Action: "",
-      });
-    }
+          </Tooltip>
+          <Tooltip placement="top" title={isMobile ? "withdrawal" : ""}>
+            <Button
+              style={{
+                background: "#f46a6a",
+                color: "white",
+                borderColor: "#f46a6a",
+                borderRadius: "0px 0px 0px 0px",
+              }}
+              onClick={() => showModals(res?.id)}
+            >
+              w
+            </Button>
+          </Tooltip>
+          <Button
+            style={{
+              background: "#50a5f1",
+              color: "white",
+              borderColor: "#50a5f1",
+              borderRadius: "0px 5px 5px 0px",
+            }}
+            onClick={() => showModalProfile(res?.id)}
+          >
+            more
+          </Button>
+        </>
+      ),
+    });
   });
 
-  const onChange = (filters, sorter, extra) => {
-    console.log(filters, sorter, extra);
-  };
-
   const Increment = () => {
-    if (paginationData.index < paginationData.totalPages) {
-      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
+    if (paginationData?.index < paginationData?.totalPages) {
+      setPaginationData({
+        ...paginationData,
+        index: paginationData?.index + 1,
+      });
     }
 
     // setPageIndex(PageIndex + 1);
@@ -399,33 +340,6 @@ const ActiveUser = () => {
     <UserModalContext.Provider
       value={{
         handleCancel: handleCancel,
-
-        setPassword,
-        setConfirmPass,
-        password,
-        confirmPass,
-        setAmount,
-        amount,
-        setRemark,
-        remark,
-        setName,
-        name,
-        setCity,
-        city,
-        setMobileNo,
-        mobileNo,
-        isStatus,
-        setStatus,
-        setPass,
-        pass,
-        setWidrwalActivityRemark,
-        widrwalActivityRemark,
-        setWidrwalActivityAccount,
-        widrwalActivityAccount,
-        setwidrawalActivityPass,
-        widrawalActivityPass,
-        setDepositPass,
-        depositePass,
       }}
     >
       <Mainlayout>
@@ -438,14 +352,7 @@ const ActiveUser = () => {
           className="deposite"
           destroyOnClose="true"
         >
-          <DepositForm
-            handleCancel={handleCancel}
-            setAmount={setAmount}
-            setRemark={setRemark}
-            amount={amount}
-            remark={remark}
-            data={userId}
-          />
+          <DepositForm handleCancel={handleCancel} data={userId} />
         </Modal>
         <Modal
           title="WITHDRAW"
@@ -455,17 +362,10 @@ const ActiveUser = () => {
           className="widrwal"
           destroyOnClose="true"
         >
-          <Widrawal
-            handleCancel={handleCancel}
-            setAmount={setAmount}
-            setRemark={setRemark}
-            amount={amount}
-            remark={remark}
-            data={userId}
-          />
+          <Widrawal handleCancel={handleCancel} data={userId} />
         </Modal>
         <Modal
-          title={DataList.find((item) => item.id == userData)?.username}
+          // title={DataList.find((item) => item.id == userData)?.username}
           open={profileModal}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -551,7 +451,7 @@ const ActiveUser = () => {
           <Table
             columns={columns}
             dataSource={data}
-            onChange={onChange}
+            // onChange={onChange}
             className="accountTable"
             loading={loading}
           />

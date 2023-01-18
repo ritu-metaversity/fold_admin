@@ -20,7 +20,6 @@ const DomainCard = () => {
   ////////image
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
-    console.log(fileList, "inner");
     setFileList(newFileList);
   };
   // console.log(fileList[0].name, "outer");
@@ -118,7 +117,7 @@ const DomainCard = () => {
         })
         .catch((error) => {
           setlaoder(false);
-          console.log(error);
+          console.log(error.response);
           message.error(error.response.data.message);
         });
     }

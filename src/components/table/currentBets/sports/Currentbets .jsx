@@ -80,7 +80,6 @@ const CurrentBetsTable = () => {
       .then((res) => {
         setsada(res.data.data.totalBets);
         setTotalAmount(res.data.data.totalStake);
-        console.log("api", res.data.data.dataList);
 
         if (res.data.data.dataList) {
           setLoading(false);
@@ -183,49 +182,28 @@ const CurrentBetsTable = () => {
   ];
 
   const data = [];
-  DataList.map((res) => {
-    if (res) {
-      data.push({
-        key: "1",
-        isBack: res.isback,
-        EventType: res.eventType,
-        EventName: res.eventNamem,
-        UserName: res.username,
-        MName: res.marketname,
-        Nation: res.nation,
-        URate: res.rate,
-        Amount: res.amount,
-        PlaceDate: res.time,
+  DataList?.map((res, index) => {
+    data?.push({
+      key: res?.rate + res.time + index,
+      isBack: res?.isback,
+      EventType: res?.eventType,
+      EventName: res?.eventNamem,
+      UserName: res?.username,
+      MName: res?.marketname,
+      Nation: res?.nation,
+      URate: res?.rate,
+      Amount: res?.amount,
+      PlaceDate: res?.time,
 
-        Detail: (
-          <>
-            <Tooltip title={res.deviceInfo}>
-              <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-            </Tooltip>
-          </>
-        ),
-      });
-    } else {
-      data.push({
-        key: "",
-        username: "",
-        CR: "",
-        PTS: "",
-        Client: "",
-        Clientp: "",
-        Exposer: "",
-        Available: "",
-        bst: "",
-        ust: "",
-        PPhone: "",
-        AccountType: "",
-      });
-    }
+      Detail: (
+        <>
+          <Tooltip title={res.deviceInfo}>
+            <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+          </Tooltip>
+        </>
+      ),
+    });
   });
-
-  const onChange = (filters, sorter, extra) => {
-    console.log(filters, sorter, extra);
-  };
 
   const Increment = () => {
     if (paginationData.index < paginationData.totalPages) {
@@ -343,7 +321,6 @@ const CurrentBetsTable = () => {
         <Table
           columns={columns}
           dataSource={data}
-          onChange={onChange}
           className="accountTable currentBetTable"
           rowClassName={(record) => {
             return record.isBack ? "blue" : "pink";
