@@ -6,13 +6,17 @@ import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { Create_Admin, get_Sport_List } from "../../routes/Routes";
 import Item from "antd/es/list/Item";
-
+import { useContext } from "react";
+import { LoaderContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
   const [userPass, setUserPass] = useState("");
   const [downline, setDownLine] = useState(100);
-  const [loader, setLoader] = useState(false);
+
+  const { loading, setLoading } = useContext(LoaderContext);
+  const navigate = useNavigate();
   const [data, setData] = useState({
     username: "",
     appId: "",
@@ -56,12 +60,22 @@ const Accountform = () => {
         };
       });
     }
-    setData((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+    if (name === "city") {
+      const result = value.replace(/[^a-z]/gi, "");
+      setData((prev) => {
+        return {
+          ...prev,
+          [name]: result,
+        };
+      });
+    } else {
+      setData((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    }
   };
 
   const handleSelectChange = (e, Name) => {
@@ -123,7 +137,7 @@ const Accountform = () => {
     Object.assign(data, {
       appId: Number(data.appId),
     });
-    setLoader(true);
+    setLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Create_Admin}`,
@@ -146,9 +160,9 @@ const Accountform = () => {
       })
       .catch((error) => {
         message.error(error?.response?.data?.message);
-        setLoader(false);
+        setLoading(false);
       });
-    setLoader(false);
+    setLoading(false);
     setData({});
   };
 
@@ -209,6 +223,17 @@ const Accountform = () => {
         )
         .then((res) => {
           setSportsList(res.data.data);
+        })
+        .catch((error) => {
+          message.error(error.response.data.message);
+
+          if (error.response.data.status === 401) {
+            localStorage.removeItem("token");
+            navigate("/");
+            message.error(error.response.data.message);
+          } else {
+            message.error(error.response.data.message);
+          }
         });
     };
     getSpotsList();
@@ -233,9 +258,6 @@ const Accountform = () => {
     key: item?.appId + item?.appUrl + index,
   }));
 
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
   return (
     <>
       <Modal
@@ -462,6 +484,7 @@ const Accountform = () => {
                 name="lupassword"
                 value={data?.lupassword}
                 onChange={handleChange}
+                type="password"
               />
               {errorData.lupassword ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />

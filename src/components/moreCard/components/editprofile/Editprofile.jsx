@@ -1,19 +1,19 @@
 import React, { useContext, useState } from "react";
 import { Button, message, Spin, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
-import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
+// import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { Tab_EditProfileForm } from "../../../../routes/Routes";
+import { useNavigate } from "react-router-dom";
+import { LoaderContext } from "../../../../App";
 ///styles
 // import './styles.scss'
-const EditProfile = ({ data }) => {
-  const { handleCancel } = useContext(UserModalContext);
-
+const EditProfile = ({ data, handleCancelfunction }) => {
   const [error, setError] = useState({});
-  const [loader, setloader] = useState(false);
+  const { loading, setLoading } = useContext(LoaderContext);
   const [formData, setformData] = useState({});
-
+  const navigate = useNavigate();
   const switchHandle = (value) => {
     setformData({ ...formData, favMaster: value || false });
   };
@@ -51,6 +51,7 @@ const EditProfile = ({ data }) => {
       formData?.lupassword
     ) {
       setformData({});
+      setLoading((prev) => ({ ...prev, changePassword: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_EditProfileForm}`,
@@ -67,14 +68,17 @@ const EditProfile = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
-          handleCancel();
-          setloader(false);
+          handleCancelfunction();
         })
         .catch((error) => {
           message.error(error.response.data.message);
-          handleCancel();
-          setloader(false);
+          if (error.response.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
         });
+      setLoading((prev) => ({ ...prev, changePassword: false }));
     } else {
       setError({
         ...error,
@@ -84,13 +88,8 @@ const EditProfile = ({ data }) => {
         lupassword: !formData.lupassword,
       });
     }
-
-    // {"userId":"b76246c","username":"aaqq","mobile":"","city":"","lupassword":"1111111","favMaster":false}
   };
 
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>
@@ -206,9 +205,9 @@ const EditProfile = ({ data }) => {
             <input
               type="password"
               name="lupassword"
-              style={{ border: "none" }}
               onChange={handleChange}
               value={formData.lupassword}
+              style={{ textAlign: "left", border: "none" }}
             ></input>
             {error.lupassword ? (
               <RxCross2 style={{ paddingRight: "10px" }} />

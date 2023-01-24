@@ -102,8 +102,10 @@ const BetHistorytable = () => {
         }
       })
       .catch((error) => {
-        if (error?.message == "Request failed with status code 401") {
+        if (error.response.status === 401) {
+          localStorage.removeItem("token");
           navigate("/");
+          message.error(error.response.data.message);
         }
       });
   };
@@ -254,6 +256,14 @@ const BetHistorytable = () => {
         .post("http://api.a2zscore.com/admin-new-apis/sport/active-sport-list")
         .then((res) => {
           setSportsList(res?.data?.data);
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+            navigate("/");
+            message.error(error.response.data.message);
+          }
         });
     };
     getSpotsList();
@@ -287,6 +297,14 @@ const BetHistorytable = () => {
           setSportsId(res?.data?.data);
         } else {
           setSportsId({});
+        }
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          navigate("/");
+          localStorage.removeItem("token");
+          navigate("/");
+          message.error(error.response.data.message);
         }
       });
   };

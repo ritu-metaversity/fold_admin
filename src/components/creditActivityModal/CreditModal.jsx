@@ -5,7 +5,7 @@ import WidrawalActivity from "../modalForm/WidrawalActivity";
 import Transaction from "../moreCard/components/transaction/Transaction";
 ///styles
 import "./styles.scss";
-const CreditModal = ({ data }) => {
+const CreditModal = ({ data, gettableData, handleCancelfunction }) => {
   const [tab1, settab1] = useState(0);
 
   const classes = ["credit-tab", "credit-tab2", "credit-tab3"];
@@ -19,17 +19,36 @@ const CreditModal = ({ data }) => {
     {
       key: "0",
       label: "Credit Deposit",
-      children: <DepositActivity data={data} />,
+      children: (
+        <DepositActivity
+          data={data}
+          gettableData={gettableData}
+          handleCancelfunction={handleCancelfunction}
+        />
+      ),
     },
     {
       key: "1",
       label: "Credit Withdraw",
-      children: <WidrawalActivity data={data} />,
+      children: (
+        <WidrawalActivity
+          data={data}
+          gettableData={gettableData}
+          handleCancelfunction={handleCancelfunction}
+        />
+      ),
     },
     {
       key: "2",
       label: "Credit History",
-      children: <Transaction data={4} dataTransaction={data} />,
+      children: (
+        <Transaction
+          data={4}
+          dataTransaction={data}
+          gettableData={gettableData}
+          handleCancelfunction={handleCancelfunction}
+        />
+      ),
     },
   ];
   return (

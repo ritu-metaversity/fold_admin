@@ -1,7 +1,8 @@
 import { Button, Radio } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { LoaderContext } from "../../App";
 import { Bet_Search } from "../../routes/Routes";
 import "./styles.scss";
 import TableComponent from "./Table";
@@ -12,9 +13,8 @@ const ModalViewMore = ({ keyName }) => {
   const [searchparam] = useSearchParams();
 
   const id = searchparam.get("event-id");
-
+  const { loading, setLoading } = useContext(LoaderContext);
   const [value, setValue] = useState(1);
-  const [loading, setloading] = useState(false);
 
   const onChange = (e) => {
     setValue(e.target.value);
@@ -31,7 +31,7 @@ const ModalViewMore = ({ keyName }) => {
   };
   const viewMoreTabledata = async () => {
     setSearch({});
-    setloading(true);
+    setLoading((prev) => ({ ...prev, viewMoreTabledata: true }));
     await axios
       .post(`${process.env.REACT_APP_BASE_URL}/${Bet_Search}`, data, {
         headers: {
@@ -40,13 +40,11 @@ const ModalViewMore = ({ keyName }) => {
       })
       .then((res) => {
         setViewMoreTable(res.data.data);
-        setloading(false);
       })
       .catch((error) => {
         console.log(error);
-        setloading(false);
       });
-    setloading(false);
+    setLoading((prev) => ({ ...prev, viewMoreTabledata: false }));
   };
 
   useEffect(() => {

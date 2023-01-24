@@ -1,7 +1,8 @@
-import { Button, Collapse, Modal, Tabs } from "antd";
+import { Button, Collapse, Empty, message, Modal, Tabs } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { LoaderContext } from "../../App";
 import { Market_Name_MatchId } from "../../routes/Routes";
 import ModalViewMore from "../myBetsModal/Modal-View-More";
 
@@ -10,7 +11,8 @@ import "./styles.scss";
 const TestPageRightCollapse = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabData, setTabData] = useState([]);
-
+  const { loading, setLoading } = useContext(LoaderContext);
+  const [searchparam] = useSearchParams();
   const showModal = () => {
     setIsModalOpen(true);
     getViewMoreTabData();
@@ -21,12 +23,14 @@ const TestPageRightCollapse = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  const id = searchparam.get("event-id");
+  const navigate = useNavigate();
   const getViewMoreTabData = async () => {
+    setLoading((prev) => ({ ...prev, getViewMoreTabData: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Market_Name_MatchId}`,
-        { matchId: 31903483 },
+        { matchId: id },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -37,8 +41,17 @@ const TestPageRightCollapse = () => {
         setTabData(res?.data?.data);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        message.error(error.response.data.message);
+
+        if (error.response.data.status === 401) {
+          localStorage.removeItem("token");
+          navigate("/");
+          message.error(error.response.data.message);
+        } else {
+          message.error(error.response.data.message);
+        }
       });
+    setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
   };
 
   return (
@@ -55,19 +68,23 @@ const TestPageRightCollapse = () => {
         style={{ top: "8px" }}
         // cancelButtonProps={{ hidden: isExFlag }}
       >
-        <Tabs
-          defaultActiveKey="1"
-          type="card"
-          destroyInactiveTabPane
-          items={tabData?.map((ele, index) => {
-            return {
-              label: ele,
-              key: ele + index,
-              children: <ModalViewMore keyName={ele} />,
-            };
-          })}
-          className="my-Bets-view-more"
-        />
+        {tabData?.length > 0 ? (
+          <Tabs
+            defaultActiveKey="1"
+            type="card"
+            destroyInactiveTabPane
+            items={tabData?.map((ele, index) => {
+              return {
+                label: ele,
+                key: ele + index,
+                children: <ModalViewMore keyName={ele} />,
+              };
+            })}
+            className="my-Bets-view-more"
+          />
+        ) : (
+          <Empty />
+        )}
       </Modal>
       <div className="heading-match-bet">
         <h5>MY BETS</h5>

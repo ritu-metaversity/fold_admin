@@ -17,19 +17,23 @@ const Loginform = () => {
       .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, values)
       .then((res) => {
         setloader(false);
+        console.log(res.data, "login");
         if (res.data.token && res.status === 200) {
+          localStorage.setItem("username", res.data.username);
           localStorage.setItem("token", res.data.token);
           navigate("/marketAnalysis");
           localStorage.setItem("userType", res.data.userType);
           // message.success("Success");
         } else {
-          navigate("/");
           setloader(false);
         }
       })
       .catch((error) => {
         message.error(error.response.data.message);
-        localStorage.removeItem("token");
+        if (error.response.data.status === 401) {
+          navigate("/");
+          localStorage.removeItem("token");
+        }
         setloader(false);
       });
   };

@@ -8,10 +8,14 @@ import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import { RxCross2 } from "react-icons/rx";
 import { BASE_URL } from "../../../../_api/_api";
 import { Tab_ChangePasword } from "../../../../routes/Routes";
-const Changpassword = ({ data }) => {
-  const [loader, setloader] = useState(false);
+import { useNavigate } from "react-router-dom";
+import { LoaderContext } from "../../../../App";
+
+const Changpassword = ({ data, handleCancelfunction }) => {
+  const { loading, setLoading } = useContext(LoaderContext);
   const [formData, setformData] = useState({});
   const [error, setError] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -59,7 +63,7 @@ const Changpassword = ({ data }) => {
       }
       setformData({});
       setError({});
-      setloader(true);
+      setLoading((prev) => ({ ...prev, changePassword: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
@@ -72,22 +76,22 @@ const Changpassword = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
-          // handleCancel();
-          setloader(false);
+          handleCancelfunction();
         })
         .catch((error) => {
           message.error(error.response.data.message);
-          // handleCancel();
+          if (error.response.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
         });
-      setloader(false);
+      setLoading((prev) => ({ ...prev, changePassword: false }));
     } else {
-      console.log("ran");
       setError({ ...error, newPassword: true });
     }
   };
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
+
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

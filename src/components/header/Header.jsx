@@ -15,16 +15,21 @@ const Header = () => {
   const logout = () => {
     localStorage.removeItem("token");
   };
+
+  const userType = localStorage.getItem("userType");
+  const userName = localStorage.getItem("username");
   const items = [
-    {
-      label: (
-        <Link>
-          <BsWallet2 />
-          Self Deposit
-        </Link>
-      ),
-      key: "0",
-    },
+    userType === "4"
+      ? {
+          label: (
+            <Link>
+              <BsWallet2 />
+              Self Deposit
+            </Link>
+          ),
+          key: "0",
+        }
+      : "",
     {
       label: (
         <Link>
@@ -56,7 +61,7 @@ const Header = () => {
         </div>
 
         <div className="up-coming">
-          <marquee width="100%" direction="right" height="100%">
+          <marquee width="100%" height="100%">
             This is a sample scrolling text that has scrolls texts to right.
           </marquee>
         </div>
@@ -92,7 +97,7 @@ const Header = () => {
           >
             <a onClick={(e) => e.preventDefault()}>
               <Space>
-                verygood777
+                {userName}
                 <RiArrowDropDownLine />
               </Space>
             </a>

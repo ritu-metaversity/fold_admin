@@ -11,13 +11,15 @@ const CreateAccount = () => {
       <div className="hading-create-accounts">
         <h4>Create Account</h4>
         <p>
-          <NavLink to="">Home / </NavLink>
+          <NavLink to="/marketAnalysis">Home / </NavLink>
           <NavLink to="/activeUser">User / </NavLink>
-          <NavLink to="">Create Accounts</NavLink>
+          <NavLink to="/creatAaccounts" style={{ color: "#74788d" }}>
+            Create Accounts
+          </NavLink>
         </p>
       </div>
       <div className="section">
-       <Accountform/>
+        <Accountform />
       </div>
     </Mainlayout>
   );
