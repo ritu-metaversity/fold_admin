@@ -133,7 +133,10 @@ const FancyRow = ({ data, prev }) => {
             <div className="colwrapper">
               <div
                 className={`middle-col-fancy ${
-                  data.gstatus === "SUSPENDED" ? "over" : ""
+                  data.gstatus === "SUSPENDED" ||
+                  data.gstatus === "BALL RUNNING"
+                    ? "over"
+                    : ""
                 }`}
                 style={{
                   display: "flex",

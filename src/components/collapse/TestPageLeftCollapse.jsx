@@ -53,6 +53,7 @@ const TestPageLeftCollapse = () => {
     setIsModalOpen(false);
   };
   const handleCancel = () => {
+    setUserBook([]);
     setIsModalOpen(false);
   };
 

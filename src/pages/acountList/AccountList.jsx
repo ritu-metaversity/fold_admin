@@ -31,14 +31,14 @@ const Activelist = () => {
   const [userId, setUserId] = useState("");
   const queryParams = new URLSearchParams(window.location.search);
   const name = queryParams.get("evemt-id");
-  console.log(name, "name");
+  console.log(DataList, "DataList");
   //////// change password
 
   ////edit profile State
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 5,
+    noOfRecords: 25,
     totalPages: 1,
   });
   const reset = () => {
@@ -61,26 +61,26 @@ const Activelist = () => {
   //////deposit Modal
   const showModal = (obj) => {
     setIsModalOpen(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
   //////withdrawal Modal
   const showModals = (obj) => {
     setOpen(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
 
   ///show profile modal
   const showModalProfile = (obj) => {
     setprofileModal(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
   /////show credit Activity Modal
   const showCredit = (obj) => {
     setcredit(true);
-    const data = DataList?.find((item) => item.id == obj);
+    const data = DataList?.find((item) => item?.id == obj);
     setUserId(data);
   };
   const handleOk = () => {
@@ -114,22 +114,22 @@ const Activelist = () => {
         }
       )
       .then((res) => {
-        if (res.data.data.dataList) {
+        if (res?.data?.data?.dataList) {
           setPaginationData({
             ...paginationData,
-            totalPages: res.data.data?.totalPages || 1,
+            totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res.data.data.dataList);
+          setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
-          navigate("/");
         }
       })
       .catch((error) => {
+        message.error(error.response.data.message);
         if (error.response.status === 401) {
           navigate("/");
           localStorage.removeItem("token");
-          message.error(error.response.data.message);
+          message.error(error.response?.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, accountTableData: false }));
@@ -212,9 +212,9 @@ const Activelist = () => {
         CR: (
           <span
             style={{ color: "#f1b44c", cursor: "pointer" }}
-            onClick={() => showCredit(res.id)}
+            onClick={() => showCredit(res?.id)}
           >
-            {res.chips}
+            {res?.chips}
           </span>
         ),
 
@@ -228,8 +228,8 @@ const Activelist = () => {
         ) : (
           <Switch size="small" disabled={true} defaultunchecked="true" />
         ),
-        PName: res.pname,
-        AccountType: res.accountType,
+        PName: res?.pname,
+        AccountType: res?.accountType,
         Action: (
           <>
             <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
@@ -240,7 +240,7 @@ const Activelist = () => {
                   borderColor: "#34c38f",
                   borderRadius: "5px 0px 0px 5px",
                 }}
-                onClick={() => showModal(res.id)}
+                onClick={() => showModal(res?.id)}
               >
                 D
               </Button>
@@ -253,7 +253,7 @@ const Activelist = () => {
                   borderColor: "#f46a6a",
                   borderRadius: "0px 0px 0px 0px",
                 }}
-                onClick={() => showModals(res.id)}
+                onClick={() => showModals(res?.id)}
               >
                 w
               </Button>
@@ -265,7 +265,7 @@ const Activelist = () => {
                 borderColor: "#50a5f1",
                 borderRadius: "0px 5px 5px 0px",
               }}
-              onClick={() => showModalProfile(res.id)}
+              onClick={() => showModalProfile(res?.id)}
             >
               more
             </Button>
@@ -334,7 +334,7 @@ const Activelist = () => {
           <Widrawal data={userId} gettableData={tabledata} />
         </Modal>
         <Modal
-          title={DataList.find((item) => item.id == userData)?.username}
+          title={DataList?.find((item) => item?.id == userData)?.username}
           open={profileModal}
           onOk={handleOk}
           onCancel={handleCancel}
@@ -410,7 +410,7 @@ const Activelist = () => {
                   })
                 }
               >
-                <option value="5">5</option>
+                <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
                 <option value="250">250</option>

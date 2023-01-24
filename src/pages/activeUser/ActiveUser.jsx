@@ -38,7 +38,7 @@ const ActiveUser = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 5,
+    noOfRecords: 25,
     totalPages: 1,
   });
   const reset = () => {
@@ -113,18 +113,19 @@ const ActiveUser = () => {
         }
       )
       .then((res) => {
-        if (res.data.data.dataList) {
+        if (res?.data?.data?.dataList) {
           setPaginationData({
             ...paginationData,
-            totalPages: res.data.data?.totalPages || 1,
+            totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res.data.data.dataList);
+          setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
-          navigate("/");
+          // navigate("/");
         }
       })
       .catch((error) => {
+        message.error(error.response.data.message);
         if (error.response.status === 401) {
           navigate("/");
           localStorage.removeItem("token");
@@ -240,6 +241,7 @@ const ActiveUser = () => {
   ];
 
   const data = [];
+
   DataList?.map((res) => {
     data?.push({
       key: res?.id,
@@ -250,7 +252,7 @@ const ActiveUser = () => {
           style={{ color: "#f1b44c", cursor: "pointer" }}
           onClick={() => showCredit(res.id)}
         >
-          8
+          {res?.chips}
         </span>
       ),
       PTS: res?.pts,
@@ -458,7 +460,6 @@ const ActiveUser = () => {
                   })
                 }
               >
-                <option value="5">5</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
