@@ -154,7 +154,7 @@ const ModalViewMore = ({ keyName }) => {
           </p>
         </div>
         <div className="table-col">
-          <TableComponent data={viewMoreTable} loading={loading} />
+          <TableComponent data={viewMoreTable} />
         </div>
       </div>
     </div>

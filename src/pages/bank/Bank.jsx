@@ -1,5 +1,5 @@
 import { Button, Input, Table, message, Spin } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 // import { AiOutlinePlus } from "react-icons/ai";
 ///styles
@@ -7,16 +7,17 @@ import "./styles.scss";
 import { Link, useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { Table_ActiveUser } from "../../routes/Routes";
+import { Bank_deposit_amount, Table_ActiveUser } from "../../routes/Routes";
 import { BsArrowRightShort } from "react-icons/bs";
 import { UserModalContext } from "../activeUser/ActiveUser";
+import { LoaderContext } from "../../App";
 
 const Bank = () => {
   const [searchText, setSearchText] = useState("");
   const [Inputvalue, setInputvalue] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({});
 
+  const [error, setError] = useState({});
+  const { loading, setLoading } = useContext(LoaderContext);
   const [DataList, setDataList] = useState([]);
 
   ////edit profile State
@@ -86,8 +87,7 @@ const Bank = () => {
   }, [paginationData.index, paginationData.noOfRecords]);
 
   const submit = async (obj) => {
-    console.group(obj);
-    setLoading((prev) => ({ ...prev, SubmitData: true }));
+    setLoading((prev) => ({ ...prev, submitBankData: true }));
     if (value[obj]) {
       const currentVaue = value[obj];
 
@@ -96,7 +96,7 @@ const Bank = () => {
 
       await axios
         .post(
-          "http://api.a2zscore.com/admin-new-apis/dwc/bank-deposit-withdraw",
+          `${process.env.REACT_APP_BASE_URL}/${Bank_deposit_amount}`,
           {
             userid: obj,
             amount: currentVaue,
@@ -116,7 +116,7 @@ const Bank = () => {
         .catch((error) => {
           message.error(error.response.data.message);
         });
-      setLoading((prev) => ({ ...prev, SubmitData: false }));
+      setLoading((prev) => ({ ...prev, submitBankData: false }));
     } else {
       setError({ ...error, [obj]: true });
     }
@@ -258,172 +258,165 @@ const Bank = () => {
   return (
     <>
       <Mainlayout>
-        {loading ? (
-          <Spin style={{ width: "100%", margin: "auto" }} />
-        ) : (
-          <>
-            <div className="heading">
-              <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
-            </div>
-            <div className="table">
-              <div className="search">
-                <div className="left-col">
-                  <Input
-                    placeholder="search here....."
-                    name="message"
-                    onChange={handleChange}
-                    value={Inputvalue.message}
-                  />
-                  <div className="serch-btn">
-                    <Button
-                      onClick={reset}
-                      style={{ background: "#23292E", color: "white" }}
-                    >
-                      Reset
-                    </Button>
-                    <Button
-                      onClick={handleClick}
-                      style={{ background: "#eff2f7", color: "black" }}
-                    >
-                      Search
-                    </Button>
-                  </div>
-                </div>
-                <div className="right-col">
-                  <input
-                    placeholder="Transaction Code"
-                    style={{
-                      height: "32px",
-                      borderRadius: "5px",
-                      outline: "none",
-                      border: "1px solid #ced4da",
-                    }}
-                  />
-                  <Button style={{ background: "black", color: "white" }}>
-                    <Link to="">Transfer All</Link>
+        <>
+          <div className="heading">
+            <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
+          </div>
+          <div className="table">
+            <div className="search">
+              <div className="left-col">
+                <Input
+                  placeholder="search here....."
+                  name="message"
+                  onChange={handleChange}
+                  value={Inputvalue.message}
+                />
+                <div className="serch-btn">
+                  <Button
+                    onClick={reset}
+                    style={{ background: "#23292E", color: "white" }}
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    onClick={handleClick}
+                    style={{ background: "#eff2f7", color: "black" }}
+                  >
+                    Search
                   </Button>
                 </div>
               </div>
-
-              <div style={{ paddingLeft: "5px" }}>
-                <label className="d-inline-flex align-items-center">
-                  Show&nbsp;
-                  <select
-                    className="custom-select-sm"
-                    value={paginationData.noOfRecords}
-                    onChange={(e) =>
-                      setPaginationData({
-                        ...paginationData,
-                        noOfRecords: Number(e.target.value),
-                      })
-                    }
-                  >
-                    <option value="2">2</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="250">250</option>
-                    <option value="500">500</option>
-                    <option value="750">750</option>
-                    <option value="1000">1000</option>
-                  </select>
-                  &nbsp;entries
-                </label>
-              </div>
-              <Table
-                columns={columns}
-                dataSource={data}
-                className="accountTable"
-                loading={loading}
-              />
-              <div className="pagination">
-                <ul className="pagination-rounded mb-0">
-                  <ul
-                    role="menubar"
-                    aria-disabled="false"
-                    aria-label="Pagination"
-                    className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
-                  >
-                    <li
-                      role="presentation"
-                      aria-hidden="true"
-                      className="page-item disabled"
-                    >
-                      <span
-                        role="menuitem"
-                        aria-label="Go to first page"
-                        aria-disabled="true"
-                        style={{ cursor: "pointer" }}
-                        onClick={ResetCounter}
-                      >
-                        «
-                      </span>
-                    </li>
-                    <li
-                      role="presentation"
-                      aria-hidden="true"
-                      className="page-item disabled"
-                    >
-                      <span
-                        role="menuitem"
-                        aria-label="Go to previous page"
-                        aria-disabled="true"
-                        style={{ cursor: "pointer" }}
-                        onClick={Decrement}
-                      >
-                        ‹
-                      </span>
-                    </li>
-                    <li role="presentation" className="page-item active">
-                      <button
-                        role="menuitemradio"
-                        type="button"
-                        aria-label="Go to page 1"
-                        aria-checked="true"
-                        aria-posinset="1"
-                        aria-setsize="1"
-                        tabIndex="0"
-                        className="page-link"
-                      >
-                        {paginationData.index + 1}
-                      </button>
-                    </li>
-                    <li
-                      role="presentation"
-                      aria-hidden="true"
-                      className="page-item disabled"
-                    >
-                      <span
-                        role="menuitem"
-                        aria-label="Go to next page"
-                        aria-disabled="true"
-                        style={{ cursor: "pointer" }}
-                        onClick={Increment}
-                      >
-                        ›
-                      </span>
-                    </li>
-                    <li
-                      role="presentation"
-                      aria-hidden="true"
-                      className="page-item disabled"
-                    >
-                      <span
-                        role="menuitem"
-                        aria-label="Go to last page"
-                        aria-disabled="true"
-                        onClick={LastCounter}
-                        style={{ cursor: "pointer" }}
-                      >
-                        »
-                      </span>
-                    </li>
-                  </ul>
-                </ul>
+              <div className="right-col">
+                <input
+                  placeholder="Transaction Code"
+                  style={{
+                    height: "32px",
+                    borderRadius: "5px",
+                    outline: "none",
+                    border: "1px solid #ced4da",
+                  }}
+                />
+                <Button style={{ background: "black", color: "white" }}>
+                  <Link to="">Transfer All</Link>
+                </Button>
               </div>
             </div>
-          </>
-        )}
+
+            <div style={{ paddingLeft: "5px" }}>
+              <label className="d-inline-flex align-items-center">
+                Show&nbsp;
+                <select
+                  className="custom-select-sm"
+                  value={paginationData.noOfRecords}
+                  onChange={(e) =>
+                    setPaginationData({
+                      ...paginationData,
+                      noOfRecords: Number(e.target.value),
+                    })
+                  }
+                >
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                  <option value="250">250</option>
+                  <option value="500">500</option>
+                </select>
+                &nbsp;entries
+              </label>
+            </div>
+            <Table
+              columns={columns}
+              dataSource={data}
+              className="accountTable"
+              pagination={{ pageSize: paginationData.noOfRecords }}
+            />
+            <div className="pagination">
+              <ul className="pagination-rounded mb-0">
+                <ul
+                  role="menubar"
+                  aria-disabled="false"
+                  aria-label="Pagination"
+                  className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
+                >
+                  <li
+                    role="presentation"
+                    aria-hidden="true"
+                    className="page-item disabled"
+                  >
+                    <span
+                      role="menuitem"
+                      aria-label="Go to first page"
+                      aria-disabled="true"
+                      style={{ cursor: "pointer" }}
+                      onClick={ResetCounter}
+                    >
+                      «
+                    </span>
+                  </li>
+                  <li
+                    role="presentation"
+                    aria-hidden="true"
+                    className="page-item disabled"
+                  >
+                    <span
+                      role="menuitem"
+                      aria-label="Go to previous page"
+                      aria-disabled="true"
+                      style={{ cursor: "pointer" }}
+                      onClick={Decrement}
+                    >
+                      ‹
+                    </span>
+                  </li>
+                  <li role="presentation" className="page-item active">
+                    <button
+                      role="menuitemradio"
+                      type="button"
+                      aria-label="Go to page 1"
+                      aria-checked="true"
+                      aria-posinset="1"
+                      aria-setsize="1"
+                      tabIndex="0"
+                      className="page-link"
+                    >
+                      {paginationData.index + 1}
+                    </button>
+                  </li>
+                  <li
+                    role="presentation"
+                    aria-hidden="true"
+                    className="page-item disabled"
+                  >
+                    <span
+                      role="menuitem"
+                      aria-label="Go to next page"
+                      aria-disabled="true"
+                      style={{ cursor: "pointer" }}
+                      onClick={Increment}
+                    >
+                      ›
+                    </span>
+                  </li>
+                  <li
+                    role="presentation"
+                    aria-hidden="true"
+                    className="page-item disabled"
+                  >
+                    <span
+                      role="menuitem"
+                      aria-label="Go to last page"
+                      aria-disabled="true"
+                      onClick={LastCounter}
+                      style={{ cursor: "pointer" }}
+                    >
+                      »
+                    </span>
+                  </li>
+                </ul>
+              </ul>
+            </div>
+          </div>
+        </>
       </Mainlayout>
     </>
   );
