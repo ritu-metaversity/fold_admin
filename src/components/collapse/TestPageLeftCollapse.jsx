@@ -188,14 +188,14 @@ const TestPageLeftCollapse = () => {
         BetLockStatus();
       }
     } catch (err) {
-      if (err) {
-        if (err.response.data.status === 401) {
-          localStorage.removeItem("token");
-          navigate("/");
-          message.error(err.response.data.message);
-        } else {
-          message.error(err.response.data.message);
-        }
+      message.error(err.response.data.message);
+
+      if (err.response.data.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/");
+        message.error(err.response.data.message);
+      } else {
+        message.error(err.response.data.message);
       }
     }
     setLoading({ ...loading, [marketNameid]: false });
@@ -215,6 +215,14 @@ const TestPageLeftCollapse = () => {
       })
       .catch((error) => {
         message.error(error.response.data.message);
+
+        if (error.response.data.status === 401) {
+          localStorage.removeItem("token");
+          navigate("/");
+          message.error(error.response.data.message);
+        } else {
+          message.error(error.response.data.message);
+        }
       });
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };

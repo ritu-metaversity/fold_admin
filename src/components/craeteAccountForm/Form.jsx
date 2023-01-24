@@ -8,6 +8,7 @@ import { Create_Admin, get_Sport_List } from "../../routes/Routes";
 import Item from "antd/es/list/Item";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
@@ -15,7 +16,7 @@ const Accountform = () => {
   const [downline, setDownLine] = useState(100);
 
   const { loading, setLoading } = useContext(LoaderContext);
-
+  const navigate = useNavigate();
   const [data, setData] = useState({
     username: "",
     appId: "",
@@ -222,6 +223,17 @@ const Accountform = () => {
         )
         .then((res) => {
           setSportsList(res.data.data);
+        })
+        .catch((error) => {
+          message.error(error.response.data.message);
+
+          if (error.response.data.status === 401) {
+            localStorage.removeItem("token");
+            navigate("/");
+            message.error(error.response.data.message);
+          } else {
+            message.error(error.response.data.message);
+          }
         });
     };
     getSpotsList();

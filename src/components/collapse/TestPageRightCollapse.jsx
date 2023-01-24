@@ -1,7 +1,7 @@
-import { Button, Collapse, Empty, Modal, Tabs } from "antd";
+import { Button, Collapse, Empty, message, Modal, Tabs } from "antd";
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import { Market_Name_MatchId } from "../../routes/Routes";
 import ModalViewMore from "../myBetsModal/Modal-View-More";
@@ -24,7 +24,7 @@ const TestPageRightCollapse = () => {
     setIsModalOpen(false);
   };
   const id = searchparam.get("event-id");
-
+  const navigate = useNavigate();
   const getViewMoreTabData = async () => {
     setLoading((prev) => ({ ...prev, getViewMoreTabData: true }));
     await axios
@@ -41,7 +41,15 @@ const TestPageRightCollapse = () => {
         setTabData(res?.data?.data);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        message.error(error.response.data.message);
+
+        if (error.response.data.status === 401) {
+          localStorage.removeItem("token");
+          navigate("/");
+          message.error(error.response.data.message);
+        } else {
+          message.error(error.response.data.message);
+        }
       });
     setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
   };

@@ -103,6 +103,7 @@ const DomainCard = () => {
         transactionCode: "",
       });
       setFileList([]);
+      setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Create_app_detail}`,
@@ -120,11 +121,10 @@ const DomainCard = () => {
           message.success(res.data.data.message);
         })
         .catch((error) => {
-          setLoading(false);
           console.log(error.response);
           message.error(error.response.data.message);
         });
-      setLoading(false);
+      setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };
 
