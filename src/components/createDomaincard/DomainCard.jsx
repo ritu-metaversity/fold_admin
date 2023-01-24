@@ -165,7 +165,7 @@ const DomainCard = () => {
         />
         <label>Transaction Code:</label>
         <input
-          type="text"
+          type="password"
           placeholder="Transaction Code"
           value={data.transactionCode}
           name="transactionCode"

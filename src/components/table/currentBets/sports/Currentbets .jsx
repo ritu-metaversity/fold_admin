@@ -9,7 +9,7 @@ import {
   Radio,
   Checkbox,
 } from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Mainlayout from "../../../../common/Mainlayout";
 import { AiFillEye, AiOutlinePlus } from "react-icons/ai";
 ///styles
@@ -23,6 +23,7 @@ import axios from "axios";
 import { BASE_URL } from "../../../../_api/_api";
 import { Table_ActiveUser, Tab_CurrentBet } from "../../../../routes/Routes";
 import { useMediaQuery } from "../../../modalForm/UseMedia";
+import { LoaderContext } from "../../../../App";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
@@ -33,7 +34,7 @@ const CurrentBetsTable = () => {
 
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoaderContext);
   const [open, setOpen] = useState(false);
 
   const [DataList, setDataList] = useState([]);
@@ -61,7 +62,7 @@ const CurrentBetsTable = () => {
   ///show profile modal
 
   const tabledata = async () => {
-    setLoading(true);
+    setLoading((prev) => ({ ...prev, currentBettabledata: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Tab_CurrentBet}`,
@@ -81,7 +82,7 @@ const CurrentBetsTable = () => {
         setsada(res.data.data.totalBets);
         setTotalAmount(res.data.data.totalStake);
 
-        if (res.data.data.dataList) {
+        if (res?.data?.data?.dataList) {
           setLoading(false);
           setPaginationData({
             ...paginationData,
@@ -90,14 +91,17 @@ const CurrentBetsTable = () => {
           setDataList(res.data.data.dataList);
         } else {
           setDataList();
-          navigate("/");
         }
       })
       .catch((error) => {
-        if (error.message == "Request failed with status code 401") {
+        message.error(error.response?.data.message);
+        if (error.response.status === 401) {
           navigate("/");
+          localStorage.removeItem("token");
+          message.error(error.response?.data.message);
         }
       });
+    setLoading((prev) => ({ ...prev, currentBettabledata: false }));
   };
 
   useEffect(() => {
@@ -298,8 +302,7 @@ const CurrentBetsTable = () => {
                 })
               }
             >
-              <option value="2">2</option>
-              <option value="5">5</option>
+              <option value="25">25</option>
               <option value="50">50</option>
               <option value="100">100</option>
               <option value="250">250</option>
@@ -325,7 +328,7 @@ const CurrentBetsTable = () => {
           rowClassName={(record) => {
             return record.isBack ? "blue" : "pink";
           }}
-          loading={loading}
+          pagination={{ pageSize: paginationData.noOfRecords }}
         />
         <div className="pagination">
           <ul className="pagination-rounded mb-0">

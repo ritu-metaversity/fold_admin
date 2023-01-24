@@ -8,8 +8,12 @@ const UserBook = ({ data }) => {
     dataSource.push({
       key: res.userId + res.pnl2 + 2,
       name: res?.userId,
-      selectionName1: res?.pnl1,
-      selectionName2: res?.pnl2,
+      selectionName1: (
+        <p style={{ color: res?.pnl1 > 0 ? "green" : "red" }}>{res?.pnl1}</p>
+      ),
+      selectionName2: (
+        <p style={{ color: res?.pnl2 > 0 ? "green" : "red" }}>{res?.pnl2}</p>
+      ),
       selectionName3: data?.selectionName3 ? res?.pnl3 : "",
     });
   });

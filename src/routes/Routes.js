@@ -23,6 +23,7 @@ export const Bet_Search = "bets/search";
 export const bets_Lock_Status = "bets/market-bet-lock-list";
 export const Bet_Lock = "bets/add-remove-market-bet-lock";
 export const Log_Out = "login/logout";
+export const Bank_deposit_amount = "dwc/bank-deposit-withdraw";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";

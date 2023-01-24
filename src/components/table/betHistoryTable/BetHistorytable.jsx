@@ -9,7 +9,7 @@ import {
   Select,
 } from "antd";
 
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { AiFillEye } from "react-icons/ai";
 ///styles
@@ -21,6 +21,7 @@ import axios from "axios";
 import { useMediaQuery } from "../../modalForm/UseMedia";
 import { TabBet_History } from "../../../routes/Routes";
 import { click } from "@testing-library/user-event/dist/click";
+import { LoaderContext } from "../../../App";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
@@ -31,7 +32,7 @@ const BetHistorytable = () => {
 
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoaderContext);
   const [open, setOpen] = useState(false);
 
   const [DataList, setDataList] = useState([]);
@@ -68,7 +69,7 @@ const BetHistorytable = () => {
   ///show profile modal
 
   const tabledata = async () => {
-    setLoading(true);
+    setLoading((prev) => ({ ...prev, bethistorytabledata: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${TabBet_History}`,
@@ -98,16 +99,17 @@ const BetHistorytable = () => {
           setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
-          navigate("/");
         }
       })
       .catch((error) => {
+        message.error(error.response.data.message);
         if (error.response.status === 401) {
           localStorage.removeItem("token");
           navigate("/");
           message.error(error.response.data.message);
         }
       });
+    setLoading((prev) => ({ ...prev, bethistorytabledata: false }));
   };
 
   useEffect(() => {
@@ -282,6 +284,7 @@ const BetHistorytable = () => {
   };
 
   const gatSportsId = async (id) => {
+    setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
     await axios
       .post(
         "http://api.a2zscore.com/admin-new-apis/sport/event-detail-sport-wise",
@@ -307,6 +310,7 @@ const BetHistorytable = () => {
           message.error(error.response.data.message);
         }
       });
+    setLoading((prev) => ({ ...prev, bethistorygatSportsId: false }));
   };
 
   /////call api on load button
@@ -428,7 +432,7 @@ const BetHistorytable = () => {
           rowClassName={(record) => {
             return record?.isBack ? "blue" : "pink";
           }}
-          loading={loading}
+          pagination={{ pageSize: paginationData.noOfRecords }}
         />
         <div className="pagination">
           <ul className="pagination-rounded mb-0">
