@@ -3,7 +3,6 @@
     background-color: transparent;
     
     .ant-menu-item{
-        border-bottom: 1px solid gray;
         border-radius: 0px;
         .ant-menu-title-content{
             a{
@@ -35,4 +34,20 @@
 }
 .ant-menu-item-only-child{
     // padding-left: 0px!;
+}
+.sider-bar{
+    .ant-menu-item{
+
+        height: auto !important;
+    }
+    .ant-menu-title-content{
+        white-space: break-spaces;
+        // line-height: 1.3px;
+    }
+}
+.acount-list{
+    line-height: 20px;
+    text-align: left;
+  margin-top: 3px;
+  margin-bottom: 0px;
 }

@@ -21,3 +21,37 @@ li{
 textarea:focus, input:focus{
   outline: none;
 }
+.loader-container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  z-index: 2147483645;
+ display: flex;
+ justify-content: center;
+  background-color: rgba(256, 256, 256, 0.3) !important;
+}
+.loader-modal .ant-modal-body {
+  background: transparent !important;
+}
+.loader-modal .ant-modal-content {
+  background: transparent !important;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+
+} 
+
+/* Track */
+/* ::-webkit-scrollbar-track {
+  background: #2E3438; 
+} */
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #e6e6e8; 
+  border-radius: 50px;
+}

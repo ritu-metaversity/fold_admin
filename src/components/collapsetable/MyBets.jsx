@@ -108,7 +108,7 @@ const MyBets = () => {
     },
   ];
   return (
-    <div className="bets-tab">
+    <div className="bets-tab" style={{ marginTop: "5px" }}>
       <Tabs
         defaultActiveKey="0"
         type="card"

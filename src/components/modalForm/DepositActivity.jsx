@@ -4,17 +4,20 @@ import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { UserModalContext } from "../../pages/activeUser/ActiveUser";
+import { LoaderContext } from "../../App";
 import {
   Tab_DepositActivity,
   Tab_DepositActivityForm,
 } from "../../routes/Routes";
+import { useNavigate } from "react-router-dom";
 // import './styles.scss'
-const DepositActivity = ({ data }) => {
+const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
+  // console.log(data, "data");
   const [depositActivity, setDepositActivity] = useState([]);
-  const [loader, setloader] = useState(false);
+  const { loading, setLoading } = useContext(LoaderContext);
+  const navigate = useNavigate();
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
-  const { handleCancel } = useContext(UserModalContext);
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -36,6 +39,9 @@ const DepositActivity = ({ data }) => {
       });
     }
     if (name === "amount") {
+      if (!Math.abs(value)) {
+        return;
+      }
       setformData(() => {
         return {
           ...formData,
@@ -52,31 +58,42 @@ const DepositActivity = ({ data }) => {
     }
   };
 
+  const ActivityDeposit = async () => {
+    setLoading((prev) => ({ ...prev, submitUserActivityDeposit: true }));
+
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Tab_DepositActivity}`,
+        { userId: data.userId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setDepositActivity(res.data.data);
+      })
+      .catch((error) => {
+        message.error(error.response.data.message);
+        if (error.response.status === 401) {
+          navigate("/");
+          localStorage.removeItem("token");
+          message.error(error.response.data.message);
+        }
+      });
+
+    setLoading((prev) => ({ ...prev, submitUserActivityDeposit: false }));
+  };
+
   useEffect(() => {
-    const ActivityDeposit = async () => {
-      setloader(true);
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_DepositActivity}`,
-          { userId: data.userId },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          setDepositActivity(res.data.data);
-          setloader(false);
-        });
-    };
     ActivityDeposit();
   }, []);
 
   const Submit = async () => {
     if (formData.amount && formData.remark && formData.lupassword) {
       setformData({});
-      setloader(true);
+      setLoading((prev) => ({ ...prev, submitDATAActivityDeposit: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_DepositActivityForm}`,
@@ -89,14 +106,14 @@ const DepositActivity = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
-          handleCancel();
-          setloader(false);
+          handleCancelfunction();
+
+          gettableData();
         })
         .catch((error) => {
           message.error(error.response.data.message);
-          handleCancel();
-          setloader(false);
         });
+      setLoading((prev) => ({ ...prev, submitDATAActivityDeposit: false }));
     } else {
       setError({
         ...error,
@@ -106,9 +123,6 @@ const DepositActivity = ({ data }) => {
       });
     }
   };
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">
@@ -171,7 +185,7 @@ const DepositActivity = ({ data }) => {
             }}
             placeholder="Accounts"
             onChange={handleChange}
-            value={formData.amount || 0}
+            value={formData.amount || ""}
           />
           {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
@@ -193,7 +207,7 @@ const DepositActivity = ({ data }) => {
             value={formData.remark}
             style={{
               width: "100%",
-              textAlign: "right",
+              textAlign: "left",
               border: "none",
               outline: "none",
             }}

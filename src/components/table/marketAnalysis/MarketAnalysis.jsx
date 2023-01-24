@@ -1,4 +1,4 @@
-import { Spin } from "antd";
+import { Empty, Spin } from "antd";
 import React from "react";
 import { FaBasketballBall } from "react-icons/fa";
 import { HiCheckCircle } from "react-icons/hi";
@@ -11,15 +11,7 @@ const Datatable = (props) => {
   if (!data) {
     return (
       <>
-        <Spin
-          style={{
-            position: "absolute",
-            left: "50%",
-            top: "35%",
-            height: "31px",
-            width: "31px",
-          }}
-        />
+        <Empty />
       </>
     );
   }
@@ -40,7 +32,7 @@ const Datatable = (props) => {
           <tbody>
             <tr className="winner-table">
               <td scope="col" colSpan="0" className="teams-name">
-                <Link to={`/test-match-screen?event-id=${res?.matchId}`}>
+                <Link to={`/test-match-screen/?event-id=${res?.matchId}`}>
                   {res?.matchName}
                 </Link>
               </td>

@@ -46,7 +46,7 @@ const Bank = () => {
   //////deposit Modal
 
   const tabledata = async () => {
-    setLoading(true);
+    setLoading((prev) => ({ ...prev, BankTable: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
@@ -62,9 +62,7 @@ const Bank = () => {
         }
       )
       .then((res) => {
-        console.log("api", res.data.data.dataList);
         if (res.data.data.dataList) {
-          setLoading(false);
           setPaginationData({
             ...paginationData,
             totalPages: res.data.data?.totalPages || 1,
@@ -76,10 +74,11 @@ const Bank = () => {
         }
       })
       .catch((error) => {
-        if (error.message == "Request failed with status code 401") {
+        if (error.response.status === 401) {
           navigate("/");
         }
       });
+    setLoading((prev) => ({ ...prev, BankTable: false }));
   };
 
   useEffect(() => {
@@ -87,7 +86,8 @@ const Bank = () => {
   }, [paginationData.index, paginationData.noOfRecords]);
 
   const submit = async (obj) => {
-    setLoading(true);
+    console.group(obj);
+    setLoading((prev) => ({ ...prev, SubmitData: true }));
     if (value[obj]) {
       const currentVaue = value[obj];
 
@@ -100,8 +100,9 @@ const Bank = () => {
           {
             userid: obj,
             amount: currentVaue,
-            lupassword: localStorage.getItem("pass"),
+            lupassword: "",
           },
+
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -111,16 +112,13 @@ const Bank = () => {
         .then((res) => {
           // console.log(res.data);
           message.success(res.data.message);
-          setLoading(false);
         })
         .catch((error) => {
           message.error(error.response.data.message);
-          setLoading(false);
         });
-      setLoading(false);
+      setLoading((prev) => ({ ...prev, SubmitData: false }));
     } else {
       setError({ ...error, [obj]: true });
-      console.log("undefine");
     }
   };
   const columns = [
@@ -171,92 +169,68 @@ const Bank = () => {
   ];
 
   const data = [];
-  DataList.map((res) => {
-    if (res) {
-      data.push({
-        // key: "1",
-        username: res.username,
-        CR: res.chips,
-        PTS: res.pts,
-        Client: res.clientPlPercentage,
-        Exposer: res.exposure,
-        Available: res.availabePts,
-        AccountType: res.accountType,
+  DataList?.map((res, index) => {
+    data.push({
+      key: res.chips + res.pts + res.availabePts + index,
+      username: res?.username,
+      CR: res?.chips,
+      PTS: res?.pts,
+      Client: res?.clientPlPercentage,
+      Exposer: res?.exposure,
+      Available: res?.availabePts,
+      AccountType: res?.accountType,
 
-        Action: (
-          <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <p
-              style={{
-                fontSize: "12px",
-                color: "#128412",
-                display: "flex",
-                alignItems: "center",
-                fontWeight: "500",
-              }}
-              onClick={() =>
-                setvalue({
-                  ...value,
-                  [res.userId]: -Number(res.clientPlPercentage),
-                })
-              }
-            >
-              All
-              <BsArrowRightShort />
-            </p>
-            <input
-              style={{
-                height: "18px",
-                width: "90px",
-                padding: " 0.25rem 0.5rem",
-                border: "1px solid #ced4da",
-                borderRadius: "5px",
-                border: error[res.userId]
-                  ? "1px solid red"
-                  : "1px solid #ced4da",
-              }}
-              onChange={(e) =>
-                setvalue({ ...value, [res.userId]: e.target.value })
-              }
-              value={value[res.userId]}
-            />
-            <Button
-              style={{
-                padding: "0.25rem 0.5rem",
-                background: "#50a5f1",
-                color: "white",
-                border: "none",
-              }}
-              onClick={() => {
-                submit(res.userId);
-              }}
-            >
-              Submit
-            </Button>
-          </span>
-        ),
-      });
-    } else {
-      data.push({
-        key: "",
-        username: "",
-        CR: "",
-        PTS: "",
-        Client: "",
-        Clientp: "",
-        Exposer: "",
-        Available: "",
-        bst: "",
-        ust: "",
-        PPhone: "",
-        AccountType: "",
-        Action: "",
-      });
-    }
+      Action: (
+        <span style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <p
+            style={{
+              fontSize: "12px",
+              color: "#128412",
+              display: "flex",
+              alignItems: "center",
+              fontWeight: "500",
+            }}
+            onClick={() =>
+              setvalue({
+                ...value,
+                [res.userId]: -Number(res.clientPlPercentage),
+              })
+            }
+          >
+            All
+            <BsArrowRightShort />
+          </p>
+          <input
+            style={{
+              height: "18px",
+              width: "90px",
+              padding: " 0.25rem 0.5rem",
+              border: "1px solid #ced4da",
+              borderRadius: "5px",
+              border: error[res.userId] ? "1px solid red" : "1px solid #ced4da",
+            }}
+            onChange={(e) =>
+              setvalue({ ...value, [res.userId]: e.target.value })
+            }
+            value={value[res.userId]}
+          />
+          <Button
+            style={{
+              padding: "0.25rem 0.5rem",
+              background: "#50a5f1",
+              color: "white",
+              border: "none",
+            }}
+            onClick={() => {
+              submit(res.userId);
+            }}
+          >
+            Submit
+          </Button>
+        </span>
+      ),
+    });
   });
-
-  const onChange = (filters, sorter, extra) => {
-    console.log(filters, sorter, extra);
-  };
 
   const Increment = () => {
     if (paginationData.index < paginationData.totalPages) {
@@ -282,7 +256,7 @@ const Bank = () => {
   };
 
   return (
-    <UserModalContext.Provider>
+    <>
       <Mainlayout>
         {loading ? (
           <Spin style={{ width: "100%", margin: "auto" }} />
@@ -298,7 +272,7 @@ const Bank = () => {
                     placeholder="search here....."
                     name="message"
                     onChange={handleChange}
-                    value={Inputvalue}
+                    value={Inputvalue.message}
                   />
                   <div className="serch-btn">
                     <Button
@@ -359,7 +333,6 @@ const Bank = () => {
               <Table
                 columns={columns}
                 dataSource={data}
-                onChange={onChange}
                 className="accountTable"
                 loading={loading}
               />
@@ -452,7 +425,7 @@ const Bank = () => {
           </>
         )}
       </Mainlayout>
-    </UserModalContext.Provider>
+    </>
   );
 };
 

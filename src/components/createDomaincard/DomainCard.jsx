@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import ImgCrop from "antd-img-crop";
 import "./styles.scss";
 import axios from "axios";
+import { useContext } from "react";
+import { LoaderContext } from "../../App";
 import { Create_app_detail } from "../../routes/Routes";
 const DomainCard = () => {
+  const { loading, setLoading } = useContext(LoaderContext);
+
   const [data, setData] = useState({
     appName: "",
     appUrl: "",
@@ -16,7 +20,6 @@ const DomainCard = () => {
     appUrl: false,
     transactionCode: false,
   });
-  const [loader, setlaoder] = useState(false);
   ////////image
   const [fileList, setFileList] = useState([]);
   const onChange = ({ fileList: newFileList }) => {
@@ -50,6 +53,7 @@ const DomainCard = () => {
         [name]: value,
       };
     });
+
     setError((prev) => {
       return {
         ...prev,
@@ -92,13 +96,14 @@ const DomainCard = () => {
     console.log("formData", formData.get("file"));
     if (error.appName || error.appUrl || error.transactionCode) {
     } else {
-      setlaoder(true);
+      setLoading(true);
       setData({
         appName: "",
         appUrl: "",
         transactionCode: "",
       });
       setFileList([]);
+      setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Create_app_detail}`,
@@ -111,20 +116,18 @@ const DomainCard = () => {
           }
         )
         .then((res) => {
-          setlaoder(false);
+          setLoading(false);
           console.log(res.data);
           message.success(res.data.data.message);
         })
         .catch((error) => {
-          setlaoder(false);
           console.log(error.response);
           message.error(error.response.data.message);
         });
+      setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
+
   return (
     <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>

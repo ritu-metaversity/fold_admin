@@ -1,7 +1,8 @@
-import { Button, Collapse, message, Modal, Spin } from "antd";
+import { Button, Collapse, Empty, message, Modal, Spin } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { LoaderContext } from "../../App";
 import {
   bets_Lock_Status,
   Bets_Odds_Pnl,
@@ -12,8 +13,10 @@ import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
 import UserBook from "../userBook/UserBook";
+import loader from "../../assets/img/loder.svg";
 ///styles
 import "./styles.scss";
+
 const { Panel } = Collapse;
 
 const oddAbbrev = {
@@ -24,15 +27,23 @@ const oddAbbrev = {
 
 const TestPageLeftCollapse = () => {
   const [searchparam] = useSearchParams();
+  const { loading, setLoading } = useContext(LoaderContext);
   const [odddata, setOdddata] = useState();
   const [prevState, setPrevState] = useState();
   const [oddPnl, setOddPnl] = useState([]);
   const [betStatus, setBetlockStatus] = useState([]);
-  const [loader, setLoader] = useState({});
+
   const [userBook, setUserBook] = useState([]);
   const navigate = useNavigate();
 
   const id = searchparam.get("event-id");
+
+  useEffect(() => {
+    if (!id) {
+      navigate("/404");
+    }
+  }, [id]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (marketId) => {
     getUserBook(marketId);
@@ -76,6 +87,7 @@ const TestPageLeftCollapse = () => {
   };
 
   const getOddPnl = async () => {
+    // setLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Bets_Odds_Pnl}`,
@@ -88,17 +100,21 @@ const TestPageLeftCollapse = () => {
       )
       .then((res) => {
         setOddPnl(res.data.data);
+        // setLoading(false);
       })
       .catch((error) => {
+        // setLoading(false);
         if (error.message === "Request failed with status code 401") {
           localStorage.removeItem("token");
           navigate("/");
           message.error(error.response.data.message);
         }
       });
+    // setLoading(false);
   };
 
   const BetLockStatus = async () => {
+    setLoading((prev) => ({ ...prev, BetLockStatus: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${bets_Lock_Status}`,
@@ -110,6 +126,7 @@ const TestPageLeftCollapse = () => {
         }
       )
       .then((res) => {
+        // setLoading(false);
         if (res.data.data) {
           setBetlockStatus(res?.data?.data);
         } else {
@@ -117,18 +134,32 @@ const TestPageLeftCollapse = () => {
         }
       })
       .catch((error) => {
+        // setLoading(false);
         if (error.message === "Request failed with status code 401") {
           localStorage.removeItem("token");
           navigate("/");
           message.error(error.response.data.message);
         }
       });
+    setLoading((prev) => ({ ...prev, BetLockStatus: false }));
   };
 
   useEffect(() => {
     BetLockStatus();
   }, []);
+  useEffect(() => {
+    if (!odddata || !prevState) {
+      if (!loading.getOdds) {
+        setLoading((prev) => ({ ...prev, getOdds: true }));
+      }
+    } else {
+      if (loading.getOdds) {
+        setLoading((prev) => ({ ...prev, getOdds: false }));
+      }
+    }
 
+    return () => setLoading((prev) => ({ ...prev, getOdds: false }));
+  }, [odddata, prevState]);
   useEffect(() => {
     const timer = setInterval(() => {
       getOdds();
@@ -139,7 +170,7 @@ const TestPageLeftCollapse = () => {
   }, [odddata]);
 
   const getBetLock = async (marketNameid) => {
-    setLoader({ ...loader, [marketNameid]: true });
+    setLoading({ ...loading, [marketNameid]: true });
 
     try {
       const response = await axios.post(
@@ -157,22 +188,22 @@ const TestPageLeftCollapse = () => {
         BetLockStatus();
       }
     } catch (err) {
-      if (err) {
-        if (err.response.data.status === 401) {
-          localStorage.removeItem("token");
-          navigate("/");
-          message.error(err.response.data.message);
-        } else {
-          message.error(err.response.data.message);
-        }
+      message.error(err.response.data.message);
+
+      if (err.response.data.status === 401) {
+        localStorage.removeItem("token");
+        navigate("/");
+        message.error(err.response.data.message);
+      } else {
+        message.error(err.response.data.message);
       }
     }
-
-    setLoader({ ...loader, [marketNameid]: false });
+    setLoading({ ...loading, [marketNameid]: false });
   };
 
   const getUserBook = async (marketId) => {
     const data = { marketId: marketId, userId: "" };
+    setLoading((prev) => ({ ...prev, getUserBook: true }));
     await axios
       .post("http://api.a2zscore.com/admin-new-apis/bets/user-book", data, {
         headers: {
@@ -184,11 +215,20 @@ const TestPageLeftCollapse = () => {
       })
       .catch((error) => {
         message.error(error.response.data.message);
+
+        if (error.response.data.status === 401) {
+          localStorage.removeItem("token");
+          navigate("/");
+          message.error(error.response.data.message);
+        } else {
+          message.error(error.response.data.message);
+        }
       });
+    setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
 
   if (!odddata || !prevState) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
+    return;
   }
   const endUIArray = [];
 
@@ -269,13 +309,9 @@ const TestPageLeftCollapse = () => {
                       color: "white",
                     }}
                   >
-                    {loader[oddAbbrev[keyName]] ? (
-                      <Spin style={{ width: "100%", margin: "auto" }} />
-                    ) : betStatus.find((res) => res === oddAbbrev[keyName]) ? (
-                      " Bet / Unlock"
-                    ) : (
-                      "Bet Lock"
-                    )}
+                    {betStatus.find((res) => res === oddAbbrev[keyName])
+                      ? " Bet / Unlock"
+                      : "Bet Lock"}
                   </Button>
                 </div>
               </div>
@@ -331,15 +367,9 @@ const TestPageLeftCollapse = () => {
                     type="primary"
                     style={{ background: "#F18521", color: "white" }}
                   >
-                    {loader[odddata?.Odds[0].marketId] ? (
-                      <Spin style={{ width: "100%", margin: "auto" }} />
-                    ) : betStatus?.find(
-                        (res) => res === odddata?.Odds[0].marketId
-                      ) ? (
-                      " Bet / Unlock"
-                    ) : (
-                      "Bet Lock"
-                    )}
+                    {betStatus?.find((res) => res === odddata?.Odds[0].marketId)
+                      ? " Bet / Unlock"
+                      : "Bet Lock"}
                   </Button>
                   <Button
                     onClick={(e) => {
@@ -396,20 +426,14 @@ const TestPageLeftCollapse = () => {
                     type="primary"
                     style={{ background: "#F18521", color: "white" }}
                   >
-                    {loader[
-                      odddata?.Bookmaker?.find((type) => type.t !== "TOSS").mid
-                    ] ? (
-                      <Spin style={{ width: "100%", margin: "auto" }} />
-                    ) : betStatus?.find(
-                        (res) =>
-                          res ===
-                          odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
-                            .mid
-                      ) ? (
-                      "Bet / Unlock"
-                    ) : (
-                      "Bet Lock"
-                    )}
+                    {betStatus?.find(
+                      (res) =>
+                        res ===
+                        odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
+                          .mid
+                    )
+                      ? "Bet / Unlock"
+                      : "Bet Lock"}
                   </Button>
                   <Button
                     onClick={(e) => {
@@ -472,20 +496,13 @@ const TestPageLeftCollapse = () => {
                     type="primary"
                     style={{ background: "#F18521", color: "white" }}
                   >
-                    {loader[
-                      odddata?.Bookmaker.find((type) => type.t === "TOSS").mid
-                    ] ? (
-                      <Spin style={{ width: "100%", margin: "auto" }} />
-                    ) : betStatus?.find(
-                        (res) =>
-                          res ===
-                          odddata?.Bookmaker.find((type) => type.t === "TOSS")
-                            .mid
-                      ) ? (
-                      "Bet / Unlock"
-                    ) : (
-                      "Bet Lock"
-                    )}
+                    {betStatus?.find(
+                      (res) =>
+                        res ===
+                        odddata?.Bookmaker.find((type) => type.t === "TOSS").mid
+                    )
+                      ? "Bet / Unlock"
+                      : "Bet Lock"}
                   </Button>
                   <Button
                     onClick={(e) => {

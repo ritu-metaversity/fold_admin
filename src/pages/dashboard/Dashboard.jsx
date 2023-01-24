@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { Button, message, Result, Spin, Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
@@ -8,12 +8,13 @@ import { useNavigate } from "react-router-dom";
 ///styles
 import "./styles.scss";
 import { Active_Sport_List, DASHBOARD } from "../../routes/Routes";
+import { LoaderContext } from "../../App";
 const Dashboard = () => {
   const [tab1, settab1] = useState(4);
   const [cricket, setCricket] = useState([]);
   const [sports, setSports] = useState([]);
   const [loader, setloader] = useState(false);
-
+  const { loading, setLoading } = useContext(LoaderContext);
   const navigate = useNavigate();
 
   const data = {
@@ -22,7 +23,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const tabledata = async (data) => {
-      setloader(true);
+      setLoading((prev) => ({ ...prev, marketAnalysisTable: true }));
       await axios
         .post(`${process.env.REACT_APP_BASE_URL}/${DASHBOARD}`, data.data, {
           headers: {
@@ -30,8 +31,6 @@ const Dashboard = () => {
           },
         })
         .then((res) => {
-          setloader(false);
-
           if (res.data) {
             setCricket(res.data.data);
           } else {
@@ -41,13 +40,16 @@ const Dashboard = () => {
           }
         })
         .catch((error) => {
-          setloader(false);
-          if (error.message === "Request failed with status code 401") {
+          if (error.response.status === 401) {
+            navigate("/");
             localStorage.removeItem("token");
             navigate("/");
             message.error(error.response.data.message);
           }
+          if (error.message === "Request failed with status code 401") {
+          }
         });
+      setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
     };
     tabledata(data);
   }, [tab1]);
@@ -61,7 +63,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const getData = async () => {
-      setloader(true);
+      setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
       await axios
         .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_List}`, {
           headers: {
@@ -69,7 +71,6 @@ const Dashboard = () => {
           },
         })
         .then((res) => {
-          setloader(false);
           if (res.data.data) {
             setSports(res.data.data);
           } else {
@@ -79,8 +80,8 @@ const Dashboard = () => {
           localStorage.removeItem("token");
           navigate("/");
           message.error(error.response.data.message);
-          setloader(false);
         });
+      setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
     };
     getData();
   }, []);

@@ -7,15 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { Tab_Widrawal, Tab_WidrawalSubmitForm } from "../../routes/Routes";
 import { BASE_URL } from "../../_api/_api";
+import { LoaderContext } from "../../App";
+
 import "./styles.scss";
-const Widrawal = ({ data }) => {
+const Widrawal = ({ data, gettableData }) => {
   const { handleCancel } = useContext(UserModalContext);
 
   const [widrawal, setWidrawal] = useState([]);
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
-  const [loader, setloader] = useState(false);
-
+  const { loading, setLoading } = useContext(LoaderContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -38,6 +39,9 @@ const Widrawal = ({ data }) => {
       });
     }
     if (name === "amount") {
+      if (!Math.abs(value)) {
+        return;
+      }
       setformData(() => {
         return {
           ...formData,
@@ -57,6 +61,7 @@ const Widrawal = ({ data }) => {
   const Submit = async () => {
     if (formData?.amount && formData?.lupassword && formData?.remark) {
       setformData({});
+      setLoading((prev) => ({ ...prev, submitWidrawal: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalSubmitForm}`,
@@ -70,13 +75,14 @@ const Widrawal = ({ data }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
-          setloader(false);
+
+          gettableData();
         })
         .catch((error) => {
           message.error(error.response.data.message);
           handleCancel();
-          setloader(false);
         });
+      setLoading((prev) => ({ ...prev, submitWidrawal: false }));
     } else {
       setError({
         ...error,
@@ -89,7 +95,7 @@ const Widrawal = ({ data }) => {
 
   useEffect(() => {
     const withdrawal = async () => {
-      setloader(true);
+      setLoading((prev) => ({ ...prev, showwithdrawal: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_Widrawal}`,
@@ -103,24 +109,23 @@ const Widrawal = ({ data }) => {
         .then((res) => {
           if (res.data.data) {
             setWidrawal(res.data.data);
-            setloader(false);
           } else {
             navigate("/");
           }
         })
         .catch((error) => {
-          if (error.message == "Request failed with status code 401") {
+          message.error(error.response.data.message);
+          if (error.response.status === 401) {
             navigate("/");
-            setloader(false);
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
           }
         });
+      setLoading((prev) => ({ ...prev, showwithdrawal: false }));
     };
     withdrawal();
   }, []);
 
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
   return (
     <div className="form">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>
@@ -186,9 +191,9 @@ const Widrawal = ({ data }) => {
           }}
         >
           <input
-            type="number"
+            type="text"
             name="amount"
-            value={formData.amount || 0}
+            value={formData.amount || ""}
             style={{
               width: "100%",
               textAlign: "right",
@@ -215,6 +220,7 @@ const Widrawal = ({ data }) => {
             name="remark"
             rows="4"
             cols="50"
+            textAlign="left"
             style={{ border: "none", outline: "none" }}
             placeholder="Remark"
             value={formData.remark}

@@ -6,12 +6,13 @@ import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { Tab_Deposit, Tab_SubmitDepositForm } from "../../routes/Routes";
-import "./styles.scss";
-const DepositForm = ({ data }) => {
-  const { handleCancel } = useContext(UserModalContext);
 
+import { LoaderContext } from "../../App";
+import "./styles.scss";
+const DepositForm = ({ data, gettableData, handleCancel }) => {
   const [deposit, setDeposit] = useState([]);
-  const [loader, setloader] = useState(false);
+  const { loading, setLoading } = useContext(LoaderContext);
+
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
   const navigate = useNavigate();
@@ -37,6 +38,9 @@ const DepositForm = ({ data }) => {
       });
     }
     if (name === "amount") {
+      if (!Math.abs(value)) {
+        return;
+      }
       setformData(() => {
         return {
           ...formData,
@@ -55,6 +59,7 @@ const DepositForm = ({ data }) => {
   const Submit = async () => {
     if (formData.amount && formData.lupassword && formData.remark) {
       setformData({});
+      setLoading((prev) => ({ ...prev, submitDeposit: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_SubmitDepositForm}`,
@@ -68,13 +73,14 @@ const DepositForm = ({ data }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
-          setloader(false);
+
+          gettableData();
         })
         .catch((error) => {
           message.error(error.response.data.message);
           handleCancel();
-          setloader(false);
         });
+      setLoading((prev) => ({ ...prev, submitDeposit: false }));
     } else {
       setError({
         ...error,
@@ -87,7 +93,7 @@ const DepositForm = ({ data }) => {
   ///////deoposit Api
   useEffect(() => {
     const showDeposit = async () => {
-      setloader(true);
+      setLoading((prev) => ({ ...prev, showDeposit: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_Deposit}`,
@@ -99,7 +105,6 @@ const DepositForm = ({ data }) => {
           }
         )
         .then((res) => {
-          setloader(false);
           if (res.data.data) {
             setDeposit(res.data.data);
           } else {
@@ -107,18 +112,18 @@ const DepositForm = ({ data }) => {
           }
         })
         .catch((error) => {
-          if (error.message == "Request failed with status code 401") {
+          message.error(error.response.data.message);
+          if (error.response.status === 401) {
             navigate("/");
-            setloader(false);
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
           }
         });
+      setLoading((prev) => ({ ...prev, showDeposit: false }));
     };
     showDeposit();
   }, []);
 
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
   return (
     <div className="form">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>
@@ -184,10 +189,10 @@ const DepositForm = ({ data }) => {
           }}
         >
           <input
-            type="number"
+            type="text"
             name="amount"
             ref={AmountRef}
-            value={formData.amount || 0}
+            value={formData.amount || ""}
             style={{
               width: "100%",
               textAlign: "right",
@@ -217,6 +222,7 @@ const DepositForm = ({ data }) => {
             cols="50"
             style={{ border: "none", outline: "none" }}
             placeholder="Remark"
+            textAlign="left"
             value={formData.remark}
             onChange={handleChange}
           ></textarea>
