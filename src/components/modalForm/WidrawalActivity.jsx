@@ -5,21 +5,21 @@ import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { UserModalContext } from "../../pages/activeUser/ActiveUser";
+import { LoaderContext } from "../../App";
 import {
   Tab_WidrawalActivity,
   Tab_WidrawalActivitySubmitForm,
 } from "../../routes/Routes";
 import { BASE_URL } from "../../_api/_api";
 // import './styles.scss'
-const WidrawalActivity = ({ data }) => {
+const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
+  const { loading, setLoading } = useContext(LoaderContext);
 
   const [depositActivity, setDepositActivity] = useState([]);
-  const [loader, setloader] = useState(false);
 
-  const { handleCancel } = useContext(UserModalContext);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -40,6 +40,9 @@ const WidrawalActivity = ({ data }) => {
       });
     }
     if (name === "amount") {
+      if (!Math.abs(value)) {
+        return;
+      }
       setformData(() => {
         return {
           ...formData,
@@ -57,7 +60,7 @@ const WidrawalActivity = ({ data }) => {
   };
   useEffect(() => {
     const ActivityDeposit = async () => {
-      setloader(true);
+      setLoading((prev) => ({ ...prev, ActivityDeposit: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalActivity}`,
@@ -70,13 +73,14 @@ const WidrawalActivity = ({ data }) => {
         )
         .then((res) => {
           setDepositActivity(res.data.data);
-          setloader(false);
         });
+      setLoading((prev) => ({ ...prev, ActivityDeposit: false }));
     };
     ActivityDeposit();
   }, []);
   const Submit = async () => {
     if (formData.amount && formData.lupassword && formData.remark) {
+      setLoading((prev) => ({ ...prev, submitActivityDeposit: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalActivitySubmitForm}`,
@@ -89,14 +93,21 @@ const WidrawalActivity = ({ data }) => {
         )
         .then((res) => {
           message.success(res.data.message);
-          handleCancel();
-          setloader(false);
+          console.log("hit");
+          handleCancelfunction();
+
+          gettableData();
         })
         .catch((error) => {
           message.error(error.response.data.message);
-          handleCancel();
-          setloader(false);
+          if (error.response.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+
+            message.error(error.response.data.message);
+          }
         });
+      setLoading((prev) => ({ ...prev, submitActivityDeposit: false }));
     } else {
       setError({
         ...error,
@@ -106,9 +117,6 @@ const WidrawalActivity = ({ data }) => {
       });
     }
   };
-  if (loader) {
-    return <Spin style={{ width: "100%", margin: "auto" }} />;
-  }
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">
@@ -171,7 +179,7 @@ const WidrawalActivity = ({ data }) => {
             }}
             placeholder="Accounts"
             onChange={handleChange}
-            value={formData.amount || 0}
+            value={formData.amount || ""}
           />
           {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
@@ -192,10 +200,11 @@ const WidrawalActivity = ({ data }) => {
             rows="3"
             cols="100"
             placeholder="Remark"
+            textAlign="left"
             value={formData.remark}
             style={{
               width: "100%",
-              textAlign: "right",
+
               border: "none",
 
               outline: "none",

@@ -1,14 +1,16 @@
-import { Table } from "antd";
+import { message, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Tab_Transaction } from "../../../../routes/Routes";
-import { BASE_URL } from "../../../../_api/_api";
+import { useContext } from "react";
+import { LoaderContext } from "../../../../App";
 import "./styles.scss";
 
 const Transaction = ({ data, dataTransaction }) => {
   const [transaction, setTransaction] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
+  const { loading, setLoading } = useContext(LoaderContext);
   const dataSource = [];
 
   transaction?.map((res) => {
@@ -71,9 +73,10 @@ const Transaction = ({ data, dataTransaction }) => {
   };
   useEffect(() => {
     const getTransaction = async () => {
-      setLoading(true);
+      setLoading((prev) => ({ ...prev, getTransaction: true }));
       await axios
-        .post(`${BASE_URL}/${Tab_Transaction}`, value, {
+
+        .post(`${process.env.REACT_APP_BASE_URL}/${Tab_Transaction}`, value, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -81,7 +84,15 @@ const Transaction = ({ data, dataTransaction }) => {
         .then((res) => {
           setLoading(false);
           setTransaction(res?.data?.data?.dataList);
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
         });
+      setLoading((prev) => ({ ...prev, getTransaction: false }));
     };
     getTransaction();
   }, []);
@@ -91,7 +102,6 @@ const Transaction = ({ data, dataTransaction }) => {
         dataSource={dataSource}
         columns={columns}
         className="acountTable"
-        loading={loading}
       />
     </div>
   );

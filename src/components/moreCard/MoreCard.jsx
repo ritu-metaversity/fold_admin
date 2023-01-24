@@ -8,34 +8,51 @@ import Transaction from "./components/transaction/Transaction";
 import UserLock from "./components/userlock/UserLock";
 ///styles
 import "./styles.scss";
-const MoreCard = ({ data }) => {
+const MoreCard = ({ data, handleCancelfunction }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
 
   const items = [
     {
       key: "0",
       label: "Profile",
-      children: <Profile data={data} />,
+      children: (
+        <Profile data={data} handleCancelfunction={handleCancelfunction} />
+      ),
     },
     {
       key: "1",
       label: isMobile ? "Change Password" : "C Pass",
-      children: <Changpassword data={data} />,
+      children: (
+        <Changpassword
+          data={data}
+          handleCancelfunction={handleCancelfunction}
+        />
+      ),
     },
     {
       key: "2",
       label: isMobile ? "User lock" : "lock",
-      children: <UserLock data={data} />,
+      children: (
+        <UserLock data={data} handleCancelfunction={handleCancelfunction} />
+      ),
     },
     {
       key: "3",
       label: isMobile ? "Accounts history" : "Acc history",
-      children: <Transaction data={5} dataTransaction={data} />,
+      children: (
+        <Transaction
+          data={5}
+          dataTransaction={data}
+          handleCancelfunction={handleCancelfunction}
+        />
+      ),
     },
     {
       key: "4",
       label: "Edit Profile",
-      children: <EditProfile data={data} />,
+      children: (
+        <EditProfile data={data} handleCancelfunction={handleCancelfunction} />
+      ),
     },
   ];
 

@@ -4,7 +4,7 @@ import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import DepositForm from "../../components/modalForm/DepositForm";
 import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
@@ -12,7 +12,8 @@ import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
 import { Table_ActiveUser } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
-
+import { useContext } from "react";
+import { LoaderContext } from "../../App";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
@@ -22,12 +23,14 @@ const ActiveUser = () => {
 
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoaderContext);
+
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
   const [DataList, setDataList] = useState([]);
 
   const [userId, setUserId] = useState("");
+  const [searchparam, setSearchParam] = useSearchParams();
 
   //////// change password
 
@@ -35,7 +38,7 @@ const ActiveUser = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 5,
     totalPages: 1,
   });
   const reset = () => {
@@ -94,7 +97,7 @@ const ActiveUser = () => {
   };
 
   const tabledata = async () => {
-    setLoading(true);
+    setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
@@ -111,7 +114,6 @@ const ActiveUser = () => {
       )
       .then((res) => {
         if (res.data.data.dataList) {
-          setLoading(false);
           setPaginationData({
             ...paginationData,
             totalPages: res.data.data?.totalPages || 1,
@@ -123,10 +125,13 @@ const ActiveUser = () => {
         }
       })
       .catch((error) => {
-        if (error.message == "Request failed with status code 401") {
+        if (error.response.status === 401) {
           navigate("/");
+          localStorage.removeItem("token");
+          message.error(error.response.data.message);
         }
       });
+    setLoading((prev) => ({ ...prev, activeUsertable: false }));
   };
 
   useEffect(() => {
@@ -352,7 +357,11 @@ const ActiveUser = () => {
           className="deposite"
           destroyOnClose="true"
         >
-          <DepositForm handleCancel={handleCancel} data={userId} />
+          <DepositForm
+            handleCancel={handleCancel}
+            data={userId}
+            gettableData={tabledata}
+          />
         </Modal>
         <Modal
           title="WITHDRAW"
@@ -362,7 +371,11 @@ const ActiveUser = () => {
           className="widrwal"
           destroyOnClose="true"
         >
-          <Widrawal handleCancel={handleCancel} data={userId} />
+          <Widrawal
+            handleCancel={handleCancel}
+            data={userId}
+            gettableData={tabledata}
+          />
         </Modal>
         <Modal
           // title={DataList.find((item) => item.id == userData)?.username}
@@ -372,7 +385,7 @@ const ActiveUser = () => {
           className="more"
           destroyOnClose="true"
         >
-          <MoreCard data={userId} />
+          <MoreCard data={userId} handleCancelfunction={handleCancel} />
         </Modal>
         {/* /////credit Activity modal */}
         <Modal
@@ -383,13 +396,22 @@ const ActiveUser = () => {
           className="CREDI-ACTIVITY"
           destroyOnClose="true"
         >
-          <CreditModal data={userId} />
+          <CreditModal
+            data={userId}
+            gettableData={tabledata}
+            handleCancelfunction={handleCancel}
+          />
         </Modal>
-        <div className="heading">
-          <h4 style={{ fontSize: "15px!important" }}>
-            ACCOUNT LIST FOR ACTIVE USERS
-          </h4>
+        <div className="hading-create-accounts">
+          <h4>ACCOUNT LIST FOR ACTIVE USERS</h4>
+          <p>
+            <NavLink to="/marketAnalysis">Home / </NavLink>
+            <NavLink to="/activeUser" style={{ color: "#74788d" }}>
+              Active Users
+            </NavLink>
+          </p>
         </div>
+
         <div className="table">
           <div className="search">
             <div className="left-col">
@@ -415,12 +437,12 @@ const ActiveUser = () => {
               </div>
             </div>
             <div className="right-col">
-              <Button>
-                <Link to="/creatAaccounts">
+              <Link to="/creatAaccounts">
+                <Button style={{ color: "white", border: "none" }}>
                   <AiOutlinePlus />
                   Create Account
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </div>
           </div>
           <div style={{ paddingLeft: "5px" }}>
@@ -436,14 +458,12 @@ const ActiveUser = () => {
                   })
                 }
               >
-                <option value="2">2</option>
+                <option value="5">5</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
                 <option value="250">250</option>
                 <option value="500">500</option>
-                <option value="750">750</option>
-                <option value="1000">1000</option>
               </select>
               &nbsp;entries
             </label>
@@ -453,7 +473,7 @@ const ActiveUser = () => {
             dataSource={data}
             // onChange={onChange}
             className="accountTable"
-            loading={loading}
+            pagination={{ pageSize: paginationData.noOfRecords }}
           />
           <div className="pagination">
             <ul className="pagination-rounded mb-0">

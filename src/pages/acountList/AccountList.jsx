@@ -4,7 +4,7 @@ import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import DepositForm from "../../components/modalForm/DepositForm";
 import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
@@ -13,26 +13,32 @@ import axios from "axios";
 import { Account_List } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
+import { useContext } from "react";
+import { LoaderContext } from "../../App";
 
 const Activelist = () => {
   const isMobile = useMediaQuery("(min-width: 768px)");
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoaderContext);
+
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
   const [DataList, setDataList] = useState([]);
   const [userData, setuserData] = useState([]);
 
   const [userId, setUserId] = useState("");
-  console.log(userData, "userData");
+  const queryParams = new URLSearchParams(window.location.search);
+  const name = queryParams.get("evemt-id");
+  console.log(name, "name");
   //////// change password
 
   ////edit profile State
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 5,
     totalPages: 1,
   });
   const reset = () => {
@@ -92,7 +98,7 @@ const Activelist = () => {
   };
 
   const tabledata = async () => {
-    setLoading(true);
+    setLoading((prev) => ({ ...prev, accountTableData: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Account_List}`,
@@ -109,7 +115,6 @@ const Activelist = () => {
       )
       .then((res) => {
         if (res.data.data.dataList) {
-          setLoading(false);
           setPaginationData({
             ...paginationData,
             totalPages: res.data.data?.totalPages || 1,
@@ -121,10 +126,15 @@ const Activelist = () => {
         }
       })
       .catch((error) => {
-        if (error.message == "Request failed with status code 401") {
+        if (error.response.status === 401) {
           navigate("/");
+          localStorage.removeItem("token");
+          message.error(error.response.data.message);
         }
       });
+    setLoading((prev) => ({ ...prev, accountTableData: false }));
+
+    // setLoading(false);
   };
 
   useEffect(() => {
@@ -309,6 +319,7 @@ const Activelist = () => {
             handleCancel={handleCancel}
             data={userId}
             destroyOnClose="true"
+            gettableData={tabledata}
           />
         </Modal>
         <Modal
@@ -320,7 +331,7 @@ const Activelist = () => {
           data={userId}
           destroyOnClose="true"
         >
-          <Widrawal data={userId} />
+          <Widrawal data={userId} gettableData={tabledata} />
         </Modal>
         <Modal
           title={DataList.find((item) => item.id == userData)?.username}
@@ -341,10 +352,17 @@ const Activelist = () => {
           className="CREDI-ACTIVITY"
           destroyOnClose="true"
         >
-          <CreditModal data={userId} />
+          <CreditModal data={userId} gettableData={tabledata} />
         </Modal>
-        <div className="heading">
-          <h4 style={{ fontSize: "15px!important" }}>ACCOUNT LIST</h4>
+
+        <div className="hading-create-accounts">
+          <h4>ACCOUNT LIST</h4>
+          <p>
+            <NavLink to="/marketAnalysis">Home / </NavLink>
+            <NavLink to="/accountList" style={{ color: "#74788d" }}>
+              Account List
+            </NavLink>
+          </p>
         </div>
         <div className="table">
           <div className="search">
@@ -371,12 +389,12 @@ const Activelist = () => {
               </div>
             </div>
             <div className="right-col">
-              <Button>
-                <Link to="/creatAaccounts">
+              <Link to="/creatAaccounts">
+                <Button style={{ color: "white", border: "none" }}>
                   <AiOutlinePlus />
                   Create Account
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </div>
           </div>
           <div style={{ paddingLeft: "5px" }}>
@@ -397,8 +415,6 @@ const Activelist = () => {
                 <option value="100">100</option>
                 <option value="250">250</option>
                 <option value="500">500</option>
-                <option value="750">750</option>
-                <option value="1000">1000</option>
               </select>
               &nbsp;entries
             </label>
@@ -407,7 +423,7 @@ const Activelist = () => {
             columns={columns}
             dataSource={data}
             className="accountTable"
-            loading={loading}
+            pagination={{ pageSize: paginationData.noOfRecords }}
           />
           <div className="pagination">
             <ul className="pagination-rounded mb-0">

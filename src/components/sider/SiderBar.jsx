@@ -1,18 +1,35 @@
 import React, { useEffect } from "react";
-import { Menu } from "antd";
+import { Menu, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillDashboard } from "react-icons/ai";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
 import "./styles.scss";
+import { Log_Out } from "../../routes/Routes";
+import axios from "axios";
 const { SubMenu } = Menu;
 const SiderBar = ({ closeSidebar }) => {
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem("token");
-
-    navigate("/");
+  const logout = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Log_Out}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        message.success(res.data.message);
+        navigate("/");
+      })
+      .catch((error) => {
+        message.error(error.response.data.message);
+      });
+    //
   };
   const item = [
     {
@@ -28,11 +45,15 @@ const SiderBar = ({ closeSidebar }) => {
     {
       key: "3",
       icon: <RiAccountCircleFill />,
-      label: "Market Analysis",
+      label: "Accounts",
       children: [
         {
           key: "4",
-          label: <Link to="/activeUser">Accounts List for Active Users</Link>,
+          label: (
+            <Link to="/activeUser">
+              <p className="acount-list">Accounts List for Active Users</p>
+            </Link>
+          ),
         },
         {
           key: "5",
@@ -51,7 +72,7 @@ const SiderBar = ({ closeSidebar }) => {
     {
       key: "8",
       icon: <RiBankFill />,
-      label: <Link to="/bank">Market Analysis</Link>,
+      label: <Link to="/bank">Bank</Link>,
     },
 
     {
@@ -74,11 +95,7 @@ const SiderBar = ({ closeSidebar }) => {
     {
       key: "12",
       icon: <RiBankFill />,
-      label: (
-        <Link to="/" onClick={logout}>
-          Log Out
-        </Link>
-      ),
+      label: <span onClick={logout}>Log Out</span>,
     },
   ];
   return (
@@ -88,6 +105,7 @@ const SiderBar = ({ closeSidebar }) => {
         style={{ width: 256 }}
         items={item}
         mode="inline"
+        className="sider-bar"
       ></Menu>
     </div>
   );
