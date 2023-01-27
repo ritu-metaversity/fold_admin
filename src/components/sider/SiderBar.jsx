@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillDashboard } from "react-icons/ai";
@@ -6,7 +6,7 @@ import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
-import { Log_Out } from "../../routes/Routes";
+import { Log_Out, Payment_List } from "../../routes/Routes";
 import axios from "axios";
 import { MdOutlinePayment } from "react-icons/md";
 import { FaImage } from "react-icons/fa";
@@ -14,6 +14,7 @@ const { SubMenu } = Menu;
 const SiderBar = ({ closeSidebar }) => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
+  const [paymentListData, setPaymentListData] = useState([]);
 
   const logout = async () => {
     await axios
@@ -36,6 +37,44 @@ const SiderBar = ({ closeSidebar }) => {
       });
     //
   };
+
+  const paymentMethod = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Payment_List}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setPaymentListData(res.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    paymentMethod();
+  }, []);
+  const UrlArray = [
+    "/Upi_Method_Screen",
+    "/Bank_Method_Screen",
+    "/Qr_Method_Screen",
+  ];
+  const payment_list = [];
+  paymentListData?.map((res) => {
+    payment_list.push({
+      key: res?.id + 2 + res?.methodName,
+      label: (
+        <Link to={UrlArray[res?.id - 1]}>
+          <p className="acount-list">{res?.methodName}</p>
+        </Link>
+      ),
+    });
+  });
   const item = [
     {
       key: "1",
@@ -81,11 +120,15 @@ const SiderBar = ({ closeSidebar }) => {
       icon: <RiBankFill />,
       label: <Link to="/bank">Bank</Link>,
     },
-    {
-      key: "9",
-      icon: <RiBankFill />,
-      label: <Link to="/Payment-method">Add Payment Method</Link>,
-    },
+    userType !== "4"
+      ? {
+          key: "9",
+          icon: <RiBankFill />,
+          label: "Add Payment Method",
+          children: payment_list,
+        }
+      : {},
+
     {
       key: "10",
       icon: <FaImage />,
@@ -112,18 +155,6 @@ const SiderBar = ({ closeSidebar }) => {
       key: "14",
       icon: <MdOutlinePayment />,
       label: "Payment Method",
-      // children: [
-      //   {
-      //     key: "15",
-
-      //     label: <Link to="">CURRENT BETS</Link>,
-      //   },
-      //   {
-      //     key: "16",
-
-      //     label: <Link to=""> BETS HISTORY</Link>,
-      //   },
-      // ],
     },
     {
       key: "17",
