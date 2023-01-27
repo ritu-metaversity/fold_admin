@@ -20,6 +20,7 @@ import CurrentBets from "./pages/currentBets/CurrentBets";
 import {
   AccountList_Screen,
   ActiveUser_Screen,
+  Bank_Method,
   Bank_Screen,
   Banner_Update,
   BetHistory_Screen,
@@ -30,7 +31,9 @@ import {
   Home_Screen,
   MarketAnalysis_Screen,
   Payment_Method,
+  Qr_Method,
   TestMatch_Screen,
+  Upi_Method,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -43,6 +46,9 @@ import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogi
 import PaymentMethod from "./pages/paymentMethod/PaymentMethod";
 import PaymentMethodPage from "./pages/paymentMethod/PaymentMethod";
 import Banner from "./pages/banner/Banner";
+import BankPage from "./pages/bankMethod/BankPage";
+import Upi from "./pages/bankMethod/Upi";
+import QR from "./pages/bankMethod/Qr";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -86,6 +92,10 @@ function App() {
         <Route path={Change_Password} element={<ChangePasswordLogin />}></Route>
         <Route path={Payment_Method} element={<PaymentMethodPage />}></Route>
         <Route path={Banner_Update} element={<Banner />}></Route>
+        <Route path={Bank_Method} element={<BankPage />}></Route>
+        <Route path={Upi_Method} element={<Upi />}></Route>
+        <Route path={Qr_Method} element={<QR />}></Route>
+
         <Route path="*" element={<NoteFound />} />
       </Routes>
     </LoaderContext.Provider>
