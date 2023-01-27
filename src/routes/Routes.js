@@ -12,7 +12,9 @@ export const TestMatch_Screen = "/test-match-screen";
 export const Change_Password = "/change-password";
 export const Payment_Method = "/Payment-method";
 export const Banner_Update = "/Update-Banner";
-
+export const Bank_Method = "/Bank_Method_Screen";
+export const Upi_Method = "/Upi_Method_Screen";
+export const Qr_Method = "/Qr_Method_Screen";
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
 export const Account_List = "user/child-list";
@@ -31,6 +33,10 @@ export const Cahnge_pass = "user/first-login-cp";
 export const Payment_method_api = "bank/add-payment-method";
 export const Add_banner = "banner/add";
 export const Banner_List = "banner/list";
+export const Payment_List = "bank/list-payment-method";
+export const Add_Bank = "bank/add-bank";
+export const Add_Upi = "bank/add-upi";
+export const Add_QR = "bank/add-qr-code";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
