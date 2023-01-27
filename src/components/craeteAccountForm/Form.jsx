@@ -16,6 +16,7 @@ const Accountform = () => {
   const [downline, setDownLine] = useState(100);
 
   const { loading, setLoading } = useContext(LoaderContext);
+  const userType = localStorage.getItem("userType");
   const navigate = useNavigate();
   const [data, setData] = useState({
     username: "",
@@ -37,7 +38,7 @@ const Accountform = () => {
     fancyLossCommission: false,
     // mobile: false,
     oddLossCommission: false,
-    sportPartnership: false,
+    sportPartnership: userType == "4" ? false : undefined,
     userRole: false,
   });
 
@@ -170,8 +171,6 @@ const Accountform = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const userType = localStorage.getItem("userType");
-
   const usertypeArray = {
     0: [
       <Select.Option value={1} key="0">
@@ -209,34 +208,36 @@ const Accountform = () => {
     ],
   };
 
-  useEffect(() => {
-    const getSpotsList = async () => {
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${get_Sport_List}`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          setSportsList(res.data.data);
-        })
-        .catch((error) => {
+  const getSpotsList = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${get_Sport_List}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setSportsList(res.data.data);
+      })
+      .catch((error) => {
+        message.error(error.response.data.message);
+        if (error.response.data.status === 401) {
+          navigate("/");
+          localStorage.removeItem("token");
           message.error(error.response.data.message);
+        }
+      });
+  };
 
-          if (error.response.data.status === 401) {
-            localStorage.removeItem("token");
-            navigate("/");
-            message.error(error.response.data.message);
-          } else {
-            message.error(error.response.data.message);
-          }
-        });
-    };
-    getSpotsList();
+  useEffect(() => {
+    if (userType === "4") {
+      getSpotsList();
+    } else {
+      return;
+    }
   }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -436,37 +437,42 @@ const Accountform = () => {
               )}
             </div>
           </Form.Item>
-
-          <p>Partnership Information</p>
-          <Form.Item
-            label="Partnership With No Return:"
-            name="sportPartnership"
-          >
-            <div
-              className={
-                errorData?.sportPartnership ? "col-input2" : "col-input"
-              }
-            >
-              <Input
-                placeholder="Partnership With No Return"
-                type="number"
+          {data.userRole !== 2 ? (
+            <>
+              <p>Partnership Information</p>
+              <Form.Item
+                label="Partnership With No Return:"
                 name="sportPartnership"
-                value={data.sportPartnership}
-                onChange={handleChange}
-              />
-              {errorData?.sportPartnership ? (
-                <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
-              ) : (
-                ""
-              )}
-            </div>
-          </Form.Item>
-          <p style={{ fontSize: "14px" }}>
-            Our : {data?.sportPartnership ? data.sportPartnership : downline}|
-            Down Line:
-            {data.sportPartnership ? downline - data.sportPartnership : 0}
-          </p>
-
+              >
+                <div
+                  className={
+                    errorData?.sportPartnership ? "col-input2" : "col-input"
+                  }
+                >
+                  <Input
+                    placeholder="Partnership With No Return"
+                    type="number"
+                    name="sportPartnership"
+                    value={data.sportPartnership}
+                    onChange={handleChange}
+                  />
+                  {errorData?.sportPartnership ? (
+                    <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
+                  ) : (
+                    ""
+                  )}
+                </div>
+              </Form.Item>
+              <p style={{ fontSize: "14px" }}>
+                Our :{" "}
+                {data?.sportPartnership ? data.sportPartnership : downline}|
+                Down Line:
+                {data.sportPartnership ? downline - data.sportPartnership : 0}
+              </p>
+            </>
+          ) : (
+            ""
+          )}
           {/* <Form.Item name="Remark" label="Remark:">
             <Input
               placeholder="Remark"

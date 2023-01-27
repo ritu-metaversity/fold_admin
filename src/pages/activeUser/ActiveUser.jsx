@@ -121,14 +121,14 @@ const ActiveUser = () => {
           setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
-          // navigate("/");
         }
       })
       .catch((error) => {
         message.error(error.response.data.message);
         if (error.response.status === 401) {
-          navigate("/");
+          setLoading((prev) => ({ ...prev, activeUsertable: false }));
           localStorage.removeItem("token");
+          navigate("/");
           message.error(error.response.data.message);
         }
       });

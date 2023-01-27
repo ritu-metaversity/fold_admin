@@ -130,6 +130,10 @@ const CurrentBetsTable = () => {
     {
       title: "User Name",
       dataIndex: "UserName",
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return record.UserName.toLowerCase().includes(value.toLowerCase());
+      },
       sorter: {
         compare: (a, b) => a.PTS - b.PTS,
         multiple: 2,
@@ -271,9 +275,9 @@ const CurrentBetsTable = () => {
             >
               Lay
             </Radio>
-            <div className="load-btn">
+            {/* <div className="load-btn">
               <Button> load</Button>
-            </div>
+            </div> */}
           </div>
           <div className="filter-Right-col">
             <h5>

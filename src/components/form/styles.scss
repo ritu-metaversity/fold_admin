@@ -1,3 +1,4 @@
+$breakpoint-tablet: 870px;
 .input-tag{
     height: 50px;
     background-color: #2e3439;
@@ -26,5 +27,41 @@
         background-color: #fdcf13!important;
         color: white;
         transition: 0.4s;
+    }
+}
+.banner-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    .form-domain-card1{
+        background-color: #fff;
+        border: 1px solid #c6bdbd;
+        border-radius: 5px;
+        width: 530px;
+        padding: 20px;
+        height: 300px;
+        @media (max-width: $breakpoint-tablet) {
+           width: 98%;
+           padding: 5px;
+             }
+    }
+    .form-domain-card2{
+        background-color: #fff;
+        border: 1px solid #c6bdbd;
+        border-radius: 5px;
+        width: 530px;
+        padding: 10px;
+        height: 320px;
+        overflow-y: scroll;
+        @media (max-width: $breakpoint-tablet) {
+           width: 98%;
+           padding: 5px;
+             }
+    }
+}
+.table{
+    .ant-table-tbody>tr>td{
+        padding: 3px;
     }
 }
