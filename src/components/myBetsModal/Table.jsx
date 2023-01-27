@@ -67,7 +67,6 @@ const TableComponent = ({ data, loading }) => {
         rowClassName={(record) => {
           return record.isback ? "blue" : "pink";
         }}
-        loading={loading}
       />
     </div>
   );

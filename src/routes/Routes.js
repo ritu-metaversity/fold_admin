@@ -8,7 +8,10 @@ export const CreatAaccounts_Screen = "/creatAaccounts";
 export const currentsBets_Screen = "/currentsBets";
 export const BetHistory_Screen = "/betHistory";
 export const CreateDomain_Screen = "/createdomain";
-export const TestMatch_Screen = "test-match-screen";
+export const TestMatch_Screen = "/test-match-screen";
+export const Change_Password = "/change-password";
+export const Payment_Method = "/Payment-method";
+export const Banner_Update = "/Update-Banner";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
@@ -24,6 +27,10 @@ export const bets_Lock_Status = "bets/market-bet-lock-list";
 export const Bet_Lock = "bets/add-remove-market-bet-lock";
 export const Log_Out = "login/logout";
 export const Bank_deposit_amount = "dwc/bank-deposit-withdraw";
+export const Cahnge_pass = "user/first-login-cp";
+export const Payment_method_api = "bank/add-payment-method";
+export const Add_banner = "banner/add";
+export const Banner_List = "banner/list";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";

@@ -60,7 +60,6 @@ const Widrawal = ({ data, gettableData }) => {
 
   const Submit = async () => {
     if (formData?.amount && formData?.lupassword && formData?.remark) {
-      setformData({});
       setLoading((prev) => ({ ...prev, submitWidrawal: true }));
       await axios
         .post(
@@ -75,12 +74,17 @@ const Widrawal = ({ data, gettableData }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
-
+          setformData({});
           gettableData();
         })
         .catch((error) => {
           message.error(error.response.data.message);
-          handleCancel();
+          if (error.response.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+
+            message.error(error.response.data.message);
+          }
         });
       setLoading((prev) => ({ ...prev, submitWidrawal: false }));
     } else {
@@ -200,7 +204,7 @@ const Widrawal = ({ data, gettableData }) => {
               border: "none",
               outline: "none",
             }}
-            placeholder="Accounts"
+            placeholder="Amount"
             onChange={handleChange}
           />
           {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}

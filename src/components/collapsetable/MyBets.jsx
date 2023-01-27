@@ -1,7 +1,7 @@
 import { message, Table, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Bet_List } from "../../routes/Routes";
 let data = "04/01/2023 15:46:48";
 const MyBets = () => {
@@ -9,7 +9,7 @@ const MyBets = () => {
   const [searchparam] = useSearchParams();
 
   const id = searchparam.get("event-id");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getBetsData = async () => {
       await axios
@@ -27,6 +27,11 @@ const MyBets = () => {
         })
         .catch((error) => {
           message.error(error.response.data.message);
+          if (error.response.data.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
         });
     };
     const timer = setInterval(() => {

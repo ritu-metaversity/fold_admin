@@ -1,57 +1,47 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Button, Form, Input, message, Spin } from "antd";
 ////
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Login_Api } from "../../routes/Routes";
+import { Cahnge_pass, Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
-const Loginform = () => {
+const ChangePasswordLoginForm = () => {
   // const [state, setstate] = useState([]);
   const navigate = useNavigate();
   const { loading, setLoading } = useContext(LoaderContext);
 
+  const userId = localStorage.getItem("userid");
+  const token = localStorage.getItem("refresh-token");
   const onFinish = async (values) => {
-    setLoading((prev) => ({ ...prev, LoginUser: true }));
-    await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, values)
-      .then((res) => {
-        if (res.data.token && res.status === 200) {
-          localStorage.setItem("username", res.data.username);
+    setLoading((prev) => ({ ...prev, LoginUserChange: true }));
 
-          setLoading((prev) => ({ ...prev, LoginUser: false }));
-          localStorage.setItem("userid", res.data.userId);
-          localStorage.setItem("userType", res.data.userType);
-          console.log(res.data.userType);
-          if (res.data.passwordtype === "old") {
-            localStorage.setItem("refresh-token", res.data.token);
-            navigate("/change-password");
-            message.success("Success");
-          } else {
-            localStorage.setItem("token", res.data.token);
-            navigate("/marketAnalysis");
-            message.success("Success");
-          }
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Cahnge_pass}`,
+        { ...values, userId: userId, token: token },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("refresh-token")}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
+      )
+      .then((res) => {
+        console.log(res.data, "login");
       })
       .catch((error) => {
         message.error(error.response.data.message);
         if (error.response.data.status === 401) {
           navigate("/");
-          localStorage.removeItem("token");
+          localStorage.removeItem("refresh- token");
           message.error(error.response.data.message);
         }
-        setLoading((prev) => ({ ...prev, LoginUser: false }));
+        setLoading((prev) => ({ ...prev, LoginUserChange: false }));
       });
   };
-  let x = localStorage.getItem("token");
-  useEffect(() => {
-    if (!x) {
-      return;
-    } else {
-      navigate("/marketAnalysis");
-    }
-  }, []);
+  // let x = localStorage.getItem("token");
+
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>
@@ -65,26 +55,34 @@ const Loginform = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          name="userId"
+          name="oldPassword"
           rules={[
             {
               required: true,
-              message: "Please input your Username!",
+              message: "Please input your oldPassword!",
             },
           ]}
         >
-          <Input placeholder="Username" className="input-tag" />
+          <Input
+            type="password"
+            placeholder="OldPassword"
+            className="input-tag"
+          />
         </Form.Item>
         <Form.Item
-          name="password"
+          name="newPassword"
           rules={[
             {
               required: true,
-              message: "Please input your Password!",
+              message: "Please input your New assword!",
             },
           ]}
         >
-          <Input type="password" placeholder="Password" className="input-tag" />
+          <Input
+            type="password"
+            placeholder="New Password"
+            className="input-tag"
+          />
         </Form.Item>
 
         <Form.Item>
@@ -114,4 +112,4 @@ const Loginform = () => {
   );
 };
 
-export default Loginform;
+export default ChangePasswordLoginForm;

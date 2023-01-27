@@ -58,7 +58,6 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
   };
   const Submit = async () => {
     if (formData.amount && formData.lupassword && formData.remark) {
-      setformData({});
       setLoading((prev) => ({ ...prev, submitDeposit: true }));
       await axios
         .post(
@@ -73,12 +72,16 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancel();
-
+          setformData({});
           gettableData();
         })
         .catch((error) => {
           message.error(error.response.data.message);
-          handleCancel();
+          if (error.response.status === 401) {
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
         });
       setLoading((prev) => ({ ...prev, submitDeposit: false }));
     } else {
@@ -199,7 +202,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
               border: "none",
               outline: "none",
             }}
-            placeholder="Accounts"
+            placeholder="Amount"
             onChange={(event) => handleChange(event, "amount")}
           />
           {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}

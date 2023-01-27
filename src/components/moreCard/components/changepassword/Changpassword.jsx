@@ -61,7 +61,6 @@ const Changpassword = ({ data, handleCancelfunction }) => {
       ) {
         return;
       }
-      setformData({});
       setError({});
       setLoading((prev) => ({ ...prev, changePassword: true }));
       await axios
@@ -77,6 +76,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancelfunction();
+          setformData({});
         })
         .catch((error) => {
           message.error(error.response.data.message);

@@ -42,6 +42,10 @@ $breakpoint-custom:700px;
 }
 .section{
     display: flex;
+    height: auto;
     flex-wrap: wrap;
     justify-content: space-between;
+    @media (max-width: $breakpoint-mobile) {
+        height: 100vh;   
+    }
 }

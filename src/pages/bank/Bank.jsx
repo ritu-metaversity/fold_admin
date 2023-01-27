@@ -4,7 +4,7 @@ import Mainlayout from "../../common/Mainlayout";
 // import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import { Bank_deposit_amount, Table_ActiveUser } from "../../routes/Routes";
@@ -259,8 +259,18 @@ const Bank = () => {
     <>
       <Mainlayout>
         <>
-          <div className="heading">
+          {/* <div className="heading">
             <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
+          </div> */}
+          <div className="hading-create-accounts">
+            <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
+            <p>
+              <NavLink to="/marketAnalysis">Home / </NavLink>
+              <NavLink to="/activeUser">User / </NavLink>
+              <NavLink to="/bank" style={{ color: "#74788d" }}>
+                Bank
+              </NavLink>
+            </p>
           </div>
           <div className="table">
             <div className="search">
