@@ -92,7 +92,6 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
 
   const Submit = async () => {
     if (formData.amount && formData.remark && formData.lupassword) {
-      setformData({});
       setLoading((prev) => ({ ...prev, submitDATAActivityDeposit: true }));
       await axios
         .post(
@@ -107,7 +106,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancelfunction();
-
+          setformData({});
           gettableData();
         })
         .catch((error) => {
@@ -183,7 +182,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
               border: "none",
               outline: "none",
             }}
-            placeholder="Accounts"
+            placeholder="Amount"
             onChange={handleChange}
             value={formData.amount || ""}
           />

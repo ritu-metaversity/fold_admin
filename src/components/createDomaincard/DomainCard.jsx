@@ -1,4 +1,4 @@
-import { Button, message, Spin, Upload } from "antd";
+import { Button, message, Select, Spin, Upload } from "antd";
 import React, { useState } from "react";
 import ImgCrop from "antd-img-crop";
 import "./styles.scss";
@@ -6,27 +6,49 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Create_app_detail } from "../../routes/Routes";
+import { useNavigate } from "react-router-dom";
 const DomainCard = () => {
   const { loading, setLoading } = useContext(LoaderContext);
-
+  const navigate = useNavigate();
   const [data, setData] = useState({
     appName: "",
     appUrl: "",
     transactionCode: "",
+    isSelfAllowed: "",
   });
 
   const [error, setError] = useState({
     appName: false,
     appUrl: false,
     transactionCode: false,
+    isSelfAllowed: false,
   });
   ////////image
   const [fileList, setFileList] = useState([]);
+  const [type, setType] = useState("");
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
   // console.log(fileList[0].name, "outer");
-
+  const handleChangeSelct = (value) => {
+    setType(value);
+    setError((prev) => {
+      return {
+        ...prev,
+        isSelfAllowed: !Boolean(value),
+      };
+    });
+  };
+  const options = [
+    {
+      value: "live",
+      label: "live",
+    },
+    {
+      value: "admin",
+      label: "admin",
+    },
+  ];
   const onPreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -82,21 +104,31 @@ const DomainCard = () => {
       };
     });
 
+    setError((prev) => {
+      return {
+        ...prev,
+        isSelfAllowed: !Boolean(type),
+      };
+    });
+
     let formData = new FormData();
     if (!fileList.length) {
       console.log("no file");
       return;
     }
 
-    console.log(data.appName, data.appUrl, "before");
     formData.append("appname", data.appName);
     formData.append("appurl", data.appUrl);
     formData.append("logo", fileList[0].originFileObj);
     formData.append("lupassword", data.transactionCode);
+    formData.append(
+      "isSelfAllowed",
+      type == "live" ? true : type == "admin" ? false : false
+    );
     console.log("formData", formData.get("file"));
+
     if (error.appName || error.appUrl || error.transactionCode) {
     } else {
-      setLoading(true);
       setData({
         appName: "",
         appUrl: "",
@@ -121,8 +153,13 @@ const DomainCard = () => {
           message.success(res.data.data.message);
         })
         .catch((error) => {
-          console.log(error.response);
           message.error(error.response.data.message);
+          if (error.response.data.status === 401) {
+            setLoading((prev) => ({ ...prev, createDomain: false }));
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
         });
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
@@ -179,6 +216,18 @@ const DomainCard = () => {
             borderRadius: "5px",
           }}
           onChange={handleChange}
+        />
+        <label>Type</label>
+        <Select
+          defaultValue="please select Type"
+          style={{
+            width: "100%",
+            border: `${
+              error.isSelfAllowed ? "1px solid red" : "1px solid #ced4da"
+            }`,
+          }}
+          onChange={handleChangeSelct}
+          options={options}
         />
         <div className="img-div">
           <ImgCrop rotate>

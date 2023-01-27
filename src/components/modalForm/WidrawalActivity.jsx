@@ -93,9 +93,8 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
         )
         .then((res) => {
           message.success(res.data.message);
-          console.log("hit");
           handleCancelfunction();
-
+          setformData({});
           gettableData();
         })
         .catch((error) => {
@@ -177,7 +176,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
               border: "none",
               outline: "none",
             }}
-            placeholder="Accounts"
+            placeholder="Amount"
             onChange={handleChange}
             value={formData.amount || ""}
           />

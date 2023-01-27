@@ -1,0 +1,395 @@
+import {
+  Button,
+  Image,
+  Input,
+  message,
+  Select,
+  Spin,
+  Table,
+  Upload,
+} from "antd";
+import React, { useEffect, useState } from "react";
+import ImgCrop from "antd-img-crop";
+import "./styles.scss";
+import axios from "axios";
+import { useContext } from "react";
+import { LoaderContext } from "../../App";
+import { Add_banner, Banner_List } from "../../routes/Routes";
+import { NavLink, useNavigate } from "react-router-dom";
+
+const BannerFormComponent = () => {
+  const { loading, setLoading } = useContext(LoaderContext);
+  const [priority, setPriority] = useState("");
+
+  const [fileList, setFileList] = useState([]);
+  const [type, setType] = useState("");
+  const [typeValue, setTypeValue] = useState(1);
+  const [bannerList, setBannerList] = useState([]);
+  const navigate = useNavigate();
+
+  const [error, setError] = useState({
+    priority: false,
+    type: false,
+    image: false,
+  });
+  ////////image
+  const onChange = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+  // console.log(fileList[0].name, "outer");
+
+  const handleChangeSelctType = (value) => {
+    setTypeValue(value);
+  };
+  const handleChangeSelct = (value) => {
+    setType(value);
+    setError((prev) => {
+      return {
+        ...prev,
+        type: !Boolean(value),
+      };
+    });
+  };
+  const options = [
+    {
+      value: 1,
+      label: 1,
+    },
+    {
+      value: 2,
+      label: 2,
+    },
+    {
+      value: 3,
+      label: 3,
+    },
+  ];
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+  //////////////
+
+  // const handleChange = (event) => {
+  //   let name = event.target.name;
+  //   let value = event.target.value;
+
+  //   setData((prev) => {
+  //     return {
+  //       ...prev,
+  //       [name]: value,
+  //     };
+  //   });
+
+  //   setError((prev) => {
+  //     return {
+  //       ...prev,
+  //       [name]: !Boolean(value),
+  //     };
+  //   });
+  // };
+
+  const handleChangeSelctPriority = (value) => {
+    setPriority(value);
+    setError((prev) => {
+      return {
+        ...prev,
+        priority: !Boolean(value),
+      };
+    });
+  };
+  const onSubmit = async () => {
+    setError((prev) => {
+      return {
+        ...prev,
+        priority: !Boolean(priority),
+        type: !Boolean(type),
+      };
+    });
+    let formData = new FormData();
+    if (!fileList.length) {
+      setError((prev) => {
+        return {
+          ...prev,
+          image: !Boolean(fileList),
+        };
+      });
+    }
+
+    formData.append("type", type);
+    formData.append("priority", priority);
+    formData.append("image", fileList[0].originFileObj);
+
+    if (error.priority && error.type) {
+      setError((prev) => {
+        return {
+          ...prev,
+          priority: !Boolean(priority),
+          type: !Boolean(type),
+        };
+      });
+    } else {
+      setLoading((prev) => ({ ...prev, createDomain: true }));
+      await axios
+        .post(`${process.env.REACT_APP_BASE_URL}/${Add_banner}`, formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          setFileList([]);
+          setType();
+          setPriority();
+          message.success(res.data.message);
+        })
+        .catch((error) => {
+          message.error(error.response.data.message);
+          if (error.response.data.status === 401) {
+            setLoading((prev) => ({ ...prev, createDomain: false }));
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
+        });
+      setLoading((prev) => ({ ...prev, createDomain: false }));
+    }
+  };
+  const option = [
+    {
+      value: 1,
+      label: "Top",
+    },
+    {
+      value: 2,
+      label: "Left",
+    },
+  ];
+  const optionType = [
+    {
+      value: 1,
+      label: 1,
+    },
+    {
+      value: 2,
+      label: 2,
+    },
+  ];
+  const dataSource = [];
+
+  bannerList.map((res) => {
+    dataSource.push({
+      key: "1",
+      name: res.type,
+      age: <Image width={100} height={100} src={res.path} />,
+      address: res.priority,
+      Action: (
+        <>
+          <Button onClick={() => deleteRow(res.id)}> Delete</Button>
+        </>
+      ),
+    });
+  });
+  const deleteRow = async (id) => {
+    setBannerList(bannerList.filter((row) => row.id !== id));
+    await axios
+      .post(
+        "http://api.a2zscore.com/admin-new-apis/banner/delete",
+        {
+          bannerId: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        message.success(res.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        message.error(error.response.data.message);
+      });
+  };
+  const columns = [
+    {
+      title: "Type",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Name",
+      dataIndex: "age",
+      key: "age",
+      width: "30px",
+    },
+    {
+      title: "priority",
+      dataIndex: "address",
+      key: "address",
+    },
+    {
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
+    },
+  ];
+
+  const BannerListData = async () => {
+    setLoading((prev) => ({ ...prev, BannerList: true }));
+
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Banner_List}`,
+        { type: typeValue },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            // "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data, "login");
+        setBannerList(res.data.data);
+      })
+      .catch((error) => {
+        message.error(error.response.data.message);
+        if (error.response.data.status === 401) {
+          setLoading((prev) => ({ ...prev, BannerList: false }));
+          navigate("/");
+          localStorage.removeItem("refresh- token");
+          message.error(error.response.data.message);
+        }
+      });
+    setLoading((prev) => ({ ...prev, BannerList: false }));
+  };
+  useEffect(() => {
+    BannerListData();
+  }, [typeValue]);
+  ////////list Pyment method
+  /////bank/list-payment-method
+  return (
+    <>
+      <div className="hading-create-accounts">
+        <h4>ADD BANNER</h4>
+        <p>
+          <NavLink to="/marketAnalysis">Home / </NavLink>
+          <NavLink to="/activeUser">User / </NavLink>
+          <NavLink to="/Update-Banner" style={{ color: "#74788d" }}>
+            ADD BANNER
+          </NavLink>
+        </p>
+      </div>
+      <div className="banner-container">
+        <div className="form-domain-card1">
+          <form
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <div
+              className="img-div"
+              style={{ display: "flex", gap: "20px", alignItems: "center" }}
+            >
+              <label> Image</label>
+              <ImgCrop rotate>
+                <Upload
+                  listType="picture-card"
+                  fileList={fileList}
+                  onChange={onChange}
+                  onPreview={onPreview}
+                  style={{ border: "1px solid red" }}
+                >
+                  {fileList.length < 1 && "+ Upload"}
+                </Upload>
+              </ImgCrop>
+            </div>
+            <div
+              className="img-div"
+              style={{ display: "flex", gap: "20px", alignItems: "center" }}
+            >
+              <label style={{ width: "60px" }}>Type</label>
+              <Select
+                defaultValue=""
+                value={type || "Select Type"}
+                style={{
+                  width: "100%",
+                  border: `${
+                    error.type ? "1px solid red" : "1px solid #ced4da"
+                  }`,
+                }}
+                onChange={handleChangeSelct}
+                options={option}
+              />
+            </div>
+            <div
+              className="img-div"
+              style={{ display: "flex", gap: "20px", alignItems: "center" }}
+            >
+              <label style={{ width: "50px" }}>Priority</label>
+              <Select
+                defaultValue=""
+                value={priority || "Select Priority"}
+                style={{
+                  width: "100%",
+                  border: `${
+                    error.priority ? "1px solid red" : "1px solid #ced4da"
+                  }`,
+                }}
+                onChange={handleChangeSelctPriority}
+                options={options}
+              />
+            </div>
+            <div className="btn" style={{ textAlign: "right" }}>
+              <Button
+                style={{ background: "black", color: "white", width: "auto" }}
+                onClick={onSubmit}
+              >
+                Submit
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className="form-domain-card2">
+          <p style={{ marginTop: "8px", marginBottom: "8px" }}>Banner List</p>
+          <form
+            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+          >
+            <div
+              className="img-div"
+              style={{ display: "flex", gap: "20px", alignItems: "center" }}
+            >
+              <label style={{ width: "60px" }}>Type</label>
+              <Select
+                value={typeValue || "Select Type"}
+                style={{
+                  width: "100%",
+                  border: `${
+                    error.type ? "1px solid red" : "1px solid #ced4da"
+                  }`,
+                }}
+                onChange={handleChangeSelctType}
+                options={optionType}
+              />
+            </div>
+            <div className="table">
+              <Table dataSource={dataSource} columns={columns} />
+            </div>
+          </form>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default BannerFormComponent;

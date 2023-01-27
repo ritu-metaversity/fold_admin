@@ -21,12 +21,15 @@ import {
   AccountList_Screen,
   ActiveUser_Screen,
   Bank_Screen,
+  Banner_Update,
   BetHistory_Screen,
+  Change_Password,
   CreatAaccounts_Screen,
   CreateDomain_Screen,
   currentsBets_Screen,
   Home_Screen,
   MarketAnalysis_Screen,
+  Payment_Method,
   TestMatch_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
@@ -36,6 +39,10 @@ import Testmatch from "./pages/testMatch/Testmatch";
 import NoteFound from "./pages/noteFound/NoteFound";
 import { Card, Modal, Spin } from "antd";
 import loader from "./assets/img/loder.svg";
+import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogin";
+import PaymentMethod from "./pages/paymentMethod/PaymentMethod";
+import PaymentMethodPage from "./pages/paymentMethod/PaymentMethod";
+import Banner from "./pages/banner/Banner";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -76,6 +83,9 @@ function App() {
         <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
         <Route path={CreateDomain_Screen} element={<CreateDomain />}></Route>
         <Route path={TestMatch_Screen} element={<Testmatch />}></Route>
+        <Route path={Change_Password} element={<ChangePasswordLogin />}></Route>
+        <Route path={Payment_Method} element={<PaymentMethodPage />}></Route>
+        <Route path={Banner_Update} element={<Banner />}></Route>
         <Route path="*" element={<NoteFound />} />
       </Routes>
     </LoaderContext.Provider>

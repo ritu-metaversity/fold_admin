@@ -50,7 +50,6 @@ const EditProfile = ({ data, handleCancelfunction }) => {
       formData?.city &&
       formData?.lupassword
     ) {
-      setformData({});
       setLoading((prev) => ({ ...prev, changePassword: true }));
       await axios
         .post(
@@ -69,6 +68,7 @@ const EditProfile = ({ data, handleCancelfunction }) => {
         .then((res) => {
           message.success(res.data.message);
           handleCancelfunction();
+          setformData({});
         })
         .catch((error) => {
           message.error(error.response.data.message);

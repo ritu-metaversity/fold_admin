@@ -137,6 +137,7 @@ const ModalViewMore = ({ keyName }) => {
               className="reset"
               onClick={() => {
                 setSearch({});
+                setValue(1);
               }}
             >
               Reset
