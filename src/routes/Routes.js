@@ -15,6 +15,8 @@ export const Banner_Update = "/Update-Banner";
 export const Bank_Method = "/Bank_Method_Screen";
 export const Upi_Method = "/Upi_Method_Screen";
 export const Qr_Method = "/Qr_Method_Screen";
+export const Power_List_Screen = "/Power_List_Screen";
+
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
 export const Account_List = "user/child-list";
@@ -37,6 +39,9 @@ export const Payment_List = "bank/list-payment-method";
 export const Add_Bank = "bank/add-bank";
 export const Add_Upi = "bank/add-upi";
 export const Add_QR = "bank/add-qr-code";
+export const Create_Power_user = "user/create-power-user-sa";
+export const Power_list = "user/list-power-user-sa";
+export const Delete_Power_List = "user/delete-power-user-sa";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";

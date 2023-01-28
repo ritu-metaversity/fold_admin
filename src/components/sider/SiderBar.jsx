@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Menu, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillDashboard } from "react-icons/ai";
@@ -6,17 +6,20 @@ import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
-import { Log_Out, Payment_List } from "../../routes/Routes";
+import { Create_Power_user, Log_Out, Payment_List } from "../../routes/Routes";
 import axios from "axios";
 import { MdOutlinePayment } from "react-icons/md";
 import { FaImage } from "react-icons/fa";
+import { LoaderContext } from "../../App";
 const { SubMenu } = Menu;
 const SiderBar = ({ closeSidebar }) => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
+  const { loading, setLoading } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
 
   const logout = async () => {
+    setLoading((prev) => ({ ...prev, logout: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Log_Out}`,
@@ -28,6 +31,7 @@ const SiderBar = ({ closeSidebar }) => {
         }
       )
       .then((res) => {
+        setLoading((prev) => ({ ...prev, logout: false }));
         navigate("/");
         localStorage.clear();
         message.success(res.data.message);
@@ -35,7 +39,30 @@ const SiderBar = ({ closeSidebar }) => {
       .catch((error) => {
         message.error(error.response.data.message);
       });
+    setLoading((prev) => ({ ...prev, logout: false }));
     //
+  };
+
+  const CreatePowerUser = async () => {
+    console.log("user");
+    setLoading((prev) => ({ ...prev, CreatePowerUser: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Create_Power_user}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        message.success(res.data.message);
+      })
+      .catch((error) => {
+        message.error(error.response.data.message);
+      });
+    setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
   const paymentMethod = async () => {
@@ -75,6 +102,7 @@ const SiderBar = ({ closeSidebar }) => {
       ),
     });
   });
+
   const item = [
     {
       key: "1",
@@ -101,12 +129,23 @@ const SiderBar = ({ closeSidebar }) => {
         },
         {
           key: "5",
+          label: <Link to="/Power_List_Screen">Power List</Link>,
+        },
+        {
+          key: "67",
           label: <Link to="/accountList">Accounts List</Link>,
         },
+
         {
           key: "6",
           label: <Link to="/creatAaccounts">Create Accounts</Link>,
         },
+        userType == "5"
+          ? {
+              key: "23",
+              label: <span onClick={CreatePowerUser}>Create Power User</span>,
+            }
+          : "",
         userType == "4"
           ? {
               key: "7",
@@ -120,7 +159,7 @@ const SiderBar = ({ closeSidebar }) => {
       icon: <RiBankFill />,
       label: <Link to="/bank">Bank</Link>,
     },
-    userType !== "4"
+    userType == "5"
       ? {
           key: "9",
           icon: <RiBankFill />,
