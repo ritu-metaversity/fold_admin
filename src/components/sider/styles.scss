@@ -1,7 +1,7 @@
 .ant-menu{
     // height: 100%!important;
     background-color: transparent;
-    
+   
     .ant-menu-item{
         border-radius: 0px;
         .ant-menu-title-content{
@@ -14,7 +14,6 @@
                 align-items: center;
                 font-size: 15px;
                 font-weight: 500;
-                color: white;
             }
         }
     }
@@ -29,7 +28,6 @@
                 align-items: center;
                 font-size: 15px;
                 font-weight: 500;
-                color: white;
     }
 }
 .ant-menu-item-only-child{
@@ -51,3 +49,12 @@
   margin-top: 3px;
   margin-bottom: 0px;
 }
+
+
+.ant-menu-sub.ant-menu-inline{
+    background-color: transparent !important;
+}
+// .ant-menu-dark {
+//     color: rgba(255, 255, 255, 0.65)!important;
+
+// }

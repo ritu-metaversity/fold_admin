@@ -107,7 +107,11 @@ const SiderBar = ({ closeSidebar }) => {
     {
       key: "1",
       icon: <AiFillDashboard />,
-      label: <Link to="">Dashboard</Link>,
+      label: (
+        <Link to="" style={{ color: "white" }}>
+          Dashboard
+        </Link>
+      ),
     },
     {
       key: "2",
@@ -127,10 +131,12 @@ const SiderBar = ({ closeSidebar }) => {
             </Link>
           ),
         },
-        {
-          key: "5",
-          label: <Link to="/Power_List_Screen">Power List</Link>,
-        },
+        userType == "5"
+          ? {
+              key: "5",
+              label: <Link to="/Power_List_Screen">Power List</Link>,
+            }
+          : "",
         {
           key: "67",
           label: <Link to="/accountList">Accounts List</Link>,
@@ -166,18 +172,24 @@ const SiderBar = ({ closeSidebar }) => {
           label: "Add Payment Method",
           children: payment_list,
         }
-      : {},
-
-    {
-      key: "10",
-      icon: <FaImage />,
-      label: <Link to="/Update-Banner">Banner</Link>,
-    },
+      : "",
+    userType != "5"
+      ? {
+          key: "10",
+          icon: <FaImage />,
+          label: <Link to="/Update-Banner">Banner</Link>,
+        }
+      : "",
     {
       key: "11",
       icon: <TbFileReport />,
       label: "Report",
       children: [
+        {
+          key: "45",
+
+          label: <Link to="/account-Statement">Account Statement</Link>,
+        },
         {
           key: "12",
 
@@ -201,6 +213,7 @@ const SiderBar = ({ closeSidebar }) => {
       label: <span onClick={logout}>Log Out</span>,
     },
   ];
+
   return (
     <div>
       <Menu
