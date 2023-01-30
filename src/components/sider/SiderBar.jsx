@@ -80,7 +80,7 @@ const SiderBar = ({ closeSidebar }) => {
         setPaymentListData(res.data.data);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
   useEffect(() => {
@@ -201,11 +201,6 @@ const SiderBar = ({ closeSidebar }) => {
           label: <Link to="/betHistory"> BETS HISTORY</Link>,
         },
       ],
-    },
-    {
-      key: "14",
-      icon: <MdOutlinePayment />,
-      label: "Payment Method",
     },
     {
       key: "17",
