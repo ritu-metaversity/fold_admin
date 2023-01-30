@@ -31,6 +31,7 @@ import {
   Home_Screen,
   MarketAnalysis_Screen,
   Payment_Method,
+  Power_List_Screen,
   Qr_Method,
   TestMatch_Screen,
   Upi_Method,
@@ -49,6 +50,7 @@ import Banner from "./pages/banner/Banner";
 import BankPage from "./pages/bankMethod/BankPage";
 import Upi from "./pages/bankMethod/Upi";
 import QR from "./pages/bankMethod/Qr";
+import PoerList from "./pages/powerList/PowerList";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -95,7 +97,7 @@ function App() {
         <Route path={Bank_Method} element={<BankPage />}></Route>
         <Route path={Upi_Method} element={<Upi />}></Route>
         <Route path={Qr_Method} element={<QR />}></Route>
-
+        <Route path={Power_List_Screen} element={<PoerList />}></Route>
         <Route path="*" element={<NoteFound />} />
       </Routes>
     </LoaderContext.Provider>
