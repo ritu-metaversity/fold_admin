@@ -16,6 +16,7 @@ export const Bank_Method = "/Bank_Method_Screen";
 export const Upi_Method = "/Upi_Method_Screen";
 export const Qr_Method = "/Qr_Method_Screen";
 export const Power_List_Screen = "/Power_List_Screen";
+export const Account_Statement = "account-Statement";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
@@ -42,6 +43,7 @@ export const Add_QR = "bank/add-qr-code";
 export const Create_Power_user = "user/create-power-user-sa";
 export const Power_list = "user/list-power-user-sa";
 export const Delete_Power_List = "user/delete-power-user-sa";
+export const Account_Statement_Api = "report/account-statement";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
