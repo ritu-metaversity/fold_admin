@@ -44,6 +44,7 @@ export const Create_Power_user = "user/create-power-user-sa";
 export const Power_list = "user/list-power-user-sa";
 export const Delete_Power_List = "user/delete-power-user-sa";
 export const Account_Statement_Api = "report/account-statement";
+export const Admin_Self_Deposit = "admin/admin-self-deposit";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";

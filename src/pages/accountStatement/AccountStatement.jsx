@@ -1,21 +1,11 @@
-import {
-  Button,
-  Input,
-  Switch,
-  Table,
-  Modal,
-  Tooltip,
-  DatePicker,
-  Select,
-} from "antd";
+import { Button, Input, Table, DatePicker, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { AiOutlinePlus } from "react-icons/ai";
 
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
-import { Account_List, Account_Statement_Api } from "../../routes/Routes";
+import { Account_Statement_Api } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
@@ -25,7 +15,6 @@ import dayjs from "dayjs";
 import "./styles.scss";
 const AccountStatement = () => {
   const dateFormat = "YYYY-MM-DD";
-  const isMobile = useMediaQuery("(min-width: 768px)");
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
