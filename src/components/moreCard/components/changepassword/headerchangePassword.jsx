@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Button, Checkbox, Form, Input, message, Spin } from "antd";
+import { message as antmessage } from "antd";
 ///styles
 import "./styles.scss";
 import { MdOutlineLogin } from "react-icons/md";
@@ -14,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { LoaderContext } from "../../../../App";
 
-const Changpassword = ({ data, handleCancelfunction }) => {
+const Changpasswordheader = ({ handleCancelfunction }) => {
   const { loading, setLoading } = useContext(LoaderContext);
   const [formData, setformData] = useState({});
   const [error, setError] = useState({});
@@ -49,7 +50,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
   const changePassword = async () => {
     const newError = {
       ...error,
-      lupassword: !formData.lupassword,
+      currentPassword: !formData.currentPassword,
       newPassword: !formData.newPassword,
       password: !formData.password,
     };
@@ -60,11 +61,11 @@ const Changpassword = ({ data, handleCancelfunction }) => {
         return;
       }
       setError({});
-      setLoading((prev) => ({ ...prev, changePassword: true }));
+      setLoading((prev) => ({ ...prev, changePasswordHeader: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Change_Password_User}`,
-          { ...formData, userId: data.userId },
+          formData,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -72,19 +73,26 @@ const Changpassword = ({ data, handleCancelfunction }) => {
           }
         )
         .then((res) => {
-          message.success(res.data.message);
-          handleCancelfunction();
-          setformData({});
+          console.log(res.data);
+          if (res.data.status) {
+            antmessage.success(res.data?.message);
+            handleCancelfunction();
+            setformData({});
+          } else {
+            antmessage.error(res.data?.message);
+          }
+          setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
         })
         .catch((error) => {
-          message.error(error.response.data.message);
+          antmessage.error(error.response?.data.message);
           if (error.response.status === 401) {
+            setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
             navigate("/");
             localStorage.removeItem("token");
-            message.error(error.response.data.message);
+            antmessage.error(error.response?.data.message);
           }
         });
-      setLoading((prev) => ({ ...prev, changePassword: false }));
+      setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
     } else {
       setError({ ...error, newPassword: true });
     }
@@ -93,11 +101,47 @@ const Changpassword = ({ data, handleCancelfunction }) => {
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>
+        <span style={{ fontSize: "15px", fontWeight: "500" }}>
+          CHANGE PASSWORD
+        </span>
         <div className="row-1">
-          <label>Password</label>
           <div
             className="input"
             style={{
+              width: "100%",
+              background: "white",
+              border: `${
+                error.currentPassword ? "1px solid red" : "1px solid #ced4da"
+              }`,
+              borderRadius: " 0.25rem",
+            }}
+          >
+            <input
+              type="password"
+              name="currentPassword"
+              value={formData.currentPassword}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                border: "none",
+                outline: "none",
+              }}
+              placeholder="Transaction Code"
+              onChange={handleChange}
+            />
+
+            {error.currentPassword ? (
+              <RxCross2 style={{ paddingRight: "10px" }} />
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+        <div className="row-1">
+          <div
+            className="input"
+            style={{
+              width: "100%",
               background: "white",
               border: `${
                 error.password ? "1px solid red" : "1px solid #ced4da"
@@ -126,10 +170,10 @@ const Changpassword = ({ data, handleCancelfunction }) => {
           </div>
         </div>
         <div className="row-1">
-          <label>Confim password</label>
           <div
             className="input"
             style={{
+              width: "100%",
               background: "white",
               border: `${
                 error.newPassword ? "1px solid red" : "1px solid #ced4da"
@@ -165,45 +209,9 @@ const Changpassword = ({ data, handleCancelfunction }) => {
             )}
           </div>
         </div>
-        <div className="row-1">
-          <label>Transaction Code</label>
-          <div
-            className="input"
-            style={{
-              background: "white",
-              border: `${
-                error.lupassword ? "1px solid red" : "1px solid #ced4da"
-              }`,
-              borderRadius: " 0.25rem",
-            }}
-          >
-            <input
-              type="password"
-              name="lupassword"
-              value={formData.lupassword}
-              style={{
-                width: "100%",
-                textAlign: "left",
-                border: "none",
-                outline: "none",
-              }}
-              placeholder="Transaction Code"
-              onChange={handleChange}
-            />
-
-            {error.lupassword ? (
-              <RxCross2 style={{ paddingRight: "10px" }} />
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
 
         <div className="row-button">
-          <Button
-            style={{ background: "black", borderColor: "black" }}
-            onClick={changePassword}
-          >
+          <Button className="changePasswordBtn" onClick={changePassword}>
             Submit
             <MdOutlineLogin />
           </Button>
@@ -213,4 +221,4 @@ const Changpassword = ({ data, handleCancelfunction }) => {
   );
 };
 
-export default Changpassword;
+export default Changpasswordheader;

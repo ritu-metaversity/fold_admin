@@ -51,7 +51,19 @@ textarea:focus, input:focus{
 } */
  
 /* Handle */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 ::-webkit-scrollbar-thumb {
   background: #e6e6e8; 
   border-radius: 50px;
+}
+.ant-menu-item{
+  margin-block: 0px;
+}
+.ant-table-wrapper{
+  overflow-x: scroll;
 }

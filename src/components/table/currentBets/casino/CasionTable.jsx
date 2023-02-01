@@ -95,9 +95,24 @@ const Casinotable = () => {
       dataIndex: "EventType",
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return String(record.EventType)
-          .toLowerCase()
-          .includes(value.toLowerCase());
+        return (
+          String(record.EventType)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.EventName)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.URate)
+            .toLowerCase()
+            .includes(String(value).toLowerCase()) ||
+          String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.PlaceDate)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.IP).toLowerCase().includes(value.toLowerCase())
+        );
       },
     },
     {

@@ -19,26 +19,32 @@ const ChangePasswordLoginForm = () => {
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Cahnge_pass}`,
-        { ...values, userId: userId, token: token },
+        { ...values, userid: userId, token: token },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("refresh-token")}`,
-            "Content-Type": "multipart/form-data",
           },
         }
       )
       .then((res) => {
-        console.log(res.data, "login");
+        // console.log(res.data, "login");
+        if (res.data.status === true) {
+          message.success(res.data.message);
+          setLoading((prev) => ({ ...prev, LoginUserChange: false }));
+          navigate("/");
+        }
       })
       .catch((error) => {
         message.error(error.response.data.message);
+
         if (error.response.data.status === 401) {
+          setLoading((prev) => ({ ...prev, LoginUserChange: false }));
           navigate("/");
-          localStorage.removeItem("refresh- token");
+          localStorage.removeItem("refresh-token");
           message.error(error.response.data.message);
         }
-        setLoading((prev) => ({ ...prev, LoginUserChange: false }));
       });
+    setLoading((prev) => ({ ...prev, LoginUserChange: false }));
   };
   // let x = localStorage.getItem("token");
 

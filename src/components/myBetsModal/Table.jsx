@@ -1,25 +1,25 @@
 import { Table, Tooltip } from "antd";
 import React, { useState } from "react";
 
-const TableComponent = ({ data, loading }) => {
+const TableComponent = ({ data }) => {
+  console.log(data, "data");
   const dataSource = [];
-
-  data.map((res) =>
-    dataSource.push({
-      key: "1",
-      UserName: res.userid,
-      Nation: res.selectionname,
-      Rate: res.pricevalue,
-      Amount: res.stack,
-      Date: res.matchedtime,
-      IP: res.ipAddress,
+  data?.map((res, index) =>
+    dataSource?.push({
+      key: res?.userid + index + res?.pricevalue,
+      UserName: res?.userid,
+      Nation: res?.selectionname,
+      Rate: res?.pricevalue,
+      Amount: res?.stack,
+      Date: res?.matchedtime,
+      IP: res?.ipAddress,
       BDetails: (
-        <Tooltip title={res.deviceInfo} placement="top">
+        <Tooltip title={res?.deviceInfo} placement="top">
           <span style={{ color: "#128412" }}>Detail</span>
         </Tooltip>
       ),
 
-      isback: res.isback,
+      isback: res?.isback,
     })
   );
   const columns = [

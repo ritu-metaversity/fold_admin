@@ -17,6 +17,8 @@ export const Upi_Method = "/Upi_Method_Screen";
 export const Qr_Method = "/Qr_Method_Screen";
 export const Power_List_Screen = "/Power_List_Screen";
 export const Account_Statement = "account-Statement";
+export const Deposit_Pending_Request = "Deposit-Pending-Request";
+export const Widrwal_Pending_Request = "Widrwal-Pending-Request";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
@@ -45,6 +47,13 @@ export const Power_list = "user/list-power-user-sa";
 export const Delete_Power_List = "user/delete-power-user-sa";
 export const Account_Statement_Api = "report/account-statement";
 export const Admin_Self_Deposit = "admin/admin-self-deposit";
+export const Deposit_Pending_Request_Api = "pw/deposit-pending";
+export const Widrwal_Pending_Request_Api = "pw/withdraw-pending";
+export const Reject_Deposit_Request = "pw/reject-deposit-request";
+export const Reject_Withdraw_Request = "pw/reject-withdraw-request";
+export const Approve_Deposit_Request = "pw/approve-deposit-request";
+export const Approve_Withdraw_Request = "pw/approve-withdraw-request";
+export const Change_Password_User = "user/change-password-self";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";

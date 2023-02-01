@@ -1,7 +1,15 @@
-import { Button, Input, Table, DatePicker, Select } from "antd";
+import {
+  Button,
+  Input,
+  Table,
+  DatePicker,
+  Select,
+  Dropdown,
+  Space,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-
+import { message as antdmessage } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -22,8 +30,8 @@ const AccountStatement = () => {
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
   const [selectValue, setSelectValue] = useState(1);
-  const [dateTo, setDateTo] = useState("00:00:0000");
-  const [dateFrom, setDateFrom] = useState("00:00:0000");
+  const [dateTo, setDateTo] = useState(dayjs());
+  const [dateFrom, setDateFrom] = useState(dayjs);
 
   ////edit profile State
 
@@ -38,6 +46,10 @@ const AccountStatement = () => {
   };
   const handleChange = (event) => {
     setMessage(event.target.value);
+    // console.log(event);
+  };
+  const handleChange2 = (event) => {
+    setSearchText(event.target.value);
     // console.log(event);
   };
   const handleChangeSelect = (value) => {
@@ -65,14 +77,15 @@ const AccountStatement = () => {
 
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
+    console.log(dateTo, dateTo.toISOString());
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Account_Statement_Api}`,
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
-          toDate: dateTo,
-          fromDate: dateFrom,
+          toDate: dateTo.toISOString().split("T")[0],
+          fromDate: dateFrom.toISOString().split("T")[0],
           userid: message,
           type: selectValue,
         },
@@ -95,12 +108,12 @@ const AccountStatement = () => {
         }
       })
       .catch((erro) => {
-        message.error(erro.response.data.message);
+        antdmessage.error(erro.response.data.message);
         if (erro.response.status === 401) {
           setLoading((prev) => ({ ...prev, accountStatement: false }));
           navigate("/");
           localStorage.removeItem("token");
-          message.error(erro.response?.data.message);
+          antdmessage.error(erro.response?.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, accountStatement: false }));
@@ -116,9 +129,17 @@ const AccountStatement = () => {
       dataIndex: "Date",
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return String(record.username)
-          .toLowerCase()
-          .includes(value.toLowerCase());
+        return (
+          String(record.Date).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.SrNo).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Credit).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Debit).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.pts)
+            .toLowerCase()
+            .includes(String(value).toLowerCase()) ||
+          String(record.Remark).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Fromto).toLowerCase().includes(value.toLowerCase())
+        );
       },
     },
     {
@@ -213,12 +234,43 @@ const AccountStatement = () => {
   };
   const option = [
     {
+      value: 1,
+      label: "ALL",
+    },
+    {
       value: 3,
       label: "Deposit/Withdraw Report",
     },
     {
       value: 2,
       label: "Game Report",
+    },
+  ];
+
+  const items = [
+    {
+      key: "1",
+      label: "one",
+    },
+    {
+      key: "2",
+      label: "two",
+    },
+    {
+      key: "3",
+      label: "three",
+    },
+    {
+      key: "4",
+      label: "three",
+    },
+    {
+      key: "5",
+      label: "three",
+    },
+    {
+      key: "6",
+      label: "three",
     },
   ];
   return (
@@ -246,6 +298,14 @@ const AccountStatement = () => {
                 >
                   Search By Client Name
                 </label>
+                {/* <div style={{ position: "relative", background: "red" }}>
+                  <Dropdown
+                    // open={Boolean(items.length)}
+                    style={{ position: "absolute", top: "0px" }}
+                    menu={{
+                      items,
+                    }}
+                  > */}
                 <Input
                   placeholder="search here....."
                   name="message"
@@ -253,6 +313,8 @@ const AccountStatement = () => {
                   value={message}
                   style={{ margin: "7px 0px 7px 0px" }}
                 />
+                {/* </Dropdown> */}
+                {/* </div> */}
               </div>
 
               <div className="date-search">
@@ -269,6 +331,11 @@ const AccountStatement = () => {
                   bordered={false}
                   className="rane-picker"
                   onChange={onRangeChange}
+                  disabledDate={(d) =>
+                    !d ||
+                    d.isBefore(dayjs().subtract(7, "day")) ||
+                    d.isAfter(dayjs())
+                  }
                   defaultValue={[
                     dayjs("2015-06-06", dateFormat),
                     dayjs("2015-06-06", dateFormat),
@@ -344,6 +411,7 @@ const AccountStatement = () => {
               <input
                 type="search"
                 placeholder="search..."
+                onChange={handleChange2}
                 style={{
                   border: "1px solid #ced4da",
                   padding: "0.4rem 0.5rem",

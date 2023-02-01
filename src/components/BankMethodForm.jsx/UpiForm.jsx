@@ -91,7 +91,7 @@ const UpiForm = () => {
         <label>UPI</label>
         <input
           type="text"
-          placeholder="Enter Upi"
+          placeholder="Enter UPI"
           name="upiId"
           value={data.upiId}
           style={{
@@ -106,7 +106,7 @@ const UpiForm = () => {
         <label>UPI Display Name</label>
         <input
           type="text"
-          placeholder="Upi Display Name"
+          placeholder="UPI Display Name"
           value={data.upiDisplayName}
           name="upiDisplayName"
           style={{

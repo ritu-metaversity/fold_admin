@@ -1,5 +1,6 @@
 import { Button, Collapse, Empty, message, Modal, Spin } from "antd";
 import axios from "axios";
+import { message as antdmessage } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
@@ -26,6 +27,7 @@ const oddAbbrev = {
 };
 
 const TestPageLeftCollapse = () => {
+  const userType = localStorage.getItem("userType");
   const [searchparam] = useSearchParams();
   const { loading, setLoading } = useContext(LoaderContext);
   const [odddata, setOdddata] = useState();
@@ -69,6 +71,8 @@ const TestPageLeftCollapse = () => {
         }
       )
       .then((res) => {
+        // console.log(res.data);
+
         if (res?.status == 200) {
           if (!odddata) {
             setPrevState(res?.data);
@@ -79,9 +83,10 @@ const TestPageLeftCollapse = () => {
         }
       })
       .catch((error) => {
-        if (error.message === "Request failed with status code 401") {
-          localStorage.removeItem("token");
+        message.error(error.response.data.message);
+        if (error.response.data.status === 401) {
           navigate("/");
+          localStorage.clear();
           message.error(error.response.data.message);
         }
       });
@@ -101,13 +106,14 @@ const TestPageLeftCollapse = () => {
       )
       .then((res) => {
         setOddPnl(res.data.data);
+
         // setLoading(false);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        antdmessage.error(error.response.data.message);
         if (error.response.data.status === 401) {
           navigate("/");
-          localStorage.removeItem("token");
+          localStorage.clear();
           message.error(error.response.data.message);
         }
       });
@@ -139,7 +145,7 @@ const TestPageLeftCollapse = () => {
         message.error(error.response.data.message);
         if (error.response.data.status === 401) {
           navigate("/");
-          localStorage.removeItem("token");
+          localStorage.clear();
           message.error(error.response.data.message);
         }
       });
@@ -300,21 +306,25 @@ const TestPageLeftCollapse = () => {
               >
                 {keyName}
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      getBetLock(oddAbbrev[keyName]);
-                    }}
-                    type="primary"
-                    style={{
-                      background: "#F18521",
-                      color: "white",
-                    }}
-                  >
-                    {betStatus.find((res) => res === oddAbbrev[keyName])
-                      ? " Bet / Unlock"
-                      : "Bet Lock"}
-                  </Button>
+                  {userType == 4 ? (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        getBetLock(oddAbbrev[keyName]);
+                      }}
+                      type="primary"
+                      style={{
+                        background: "#F18521",
+                        color: "white",
+                      }}
+                    >
+                      {betStatus.find((res) => res === oddAbbrev[keyName])
+                        ? " Bet / Unlock"
+                        : "Bet Lock"}
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             }
@@ -348,7 +358,11 @@ const TestPageLeftCollapse = () => {
         <UserBook data={userBook} />
       </Modal>
       <Collapse bordered={false} defaultActiveKey={["1", "2"]}>
-        {odddata.Odds.length > 0 ? (
+        <div className="heading">
+          <h4>TEST MATCHES PAKISTAN V NEW ZEALAND</h4>
+          <h4>26/12/2022 10:30:00</h4>
+        </div>
+        {odddata?.Odds?.length > 0 ? (
           <Panel
             header={
               <div
@@ -361,18 +375,24 @@ const TestPageLeftCollapse = () => {
               >
                 MATCH_ODDS
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      getBetLock(odddata?.Odds[0].marketId);
-                    }}
-                    type="primary"
-                    style={{ background: "#F18521", color: "white" }}
-                  >
-                    {betStatus?.find((res) => res === odddata?.Odds[0].marketId)
-                      ? " Bet / Unlock"
-                      : "Bet Lock"}
-                  </Button>
+                  {userType == 4 ? (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        getBetLock(odddata?.Odds[0].marketId);
+                      }}
+                      type="primary"
+                      style={{ background: "#F18521", color: "white" }}
+                    >
+                      {betStatus?.find(
+                        (res) => res === odddata?.Odds[0].marketId
+                      )
+                        ? " Bet / Unlock"
+                        : "Bet Lock"}
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -417,26 +437,30 @@ const TestPageLeftCollapse = () => {
               >
                 Bookmaker
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      getBetLock(
-                        odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
-                          .mid
-                      );
-                    }}
-                    type="primary"
-                    style={{ background: "#F18521", color: "white" }}
-                  >
-                    {betStatus?.find(
-                      (res) =>
-                        res ===
-                        odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
-                          .mid
-                    )
-                      ? "Bet / Unlock"
-                      : "Bet Lock"}
-                  </Button>
+                  {userType == 4 ? (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        getBetLock(
+                          odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
+                            .mid
+                        );
+                      }}
+                      type="primary"
+                      style={{ background: "#F18521", color: "white" }}
+                    >
+                      {betStatus?.find(
+                        (res) =>
+                          res ===
+                          odddata?.Bookmaker?.find((type) => type.t !== "TOSS")
+                            .mid
+                      )
+                        ? "Bet / Unlock"
+                        : "Bet Lock"}
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -487,25 +511,30 @@ const TestPageLeftCollapse = () => {
               >
                 Bookmaker TOSS
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      getBetLock(
-                        odddata?.Bookmaker?.find((type) => type.t === "TOSS")
-                          .mid
-                      );
-                    }}
-                    type="primary"
-                    style={{ background: "#F18521", color: "white" }}
-                  >
-                    {betStatus?.find(
-                      (res) =>
-                        res ===
-                        odddata?.Bookmaker.find((type) => type.t === "TOSS").mid
-                    )
-                      ? "Bet / Unlock"
-                      : "Bet Lock"}
-                  </Button>
+                  {userType == 4 ? (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        getBetLock(
+                          odddata?.Bookmaker?.find((type) => type.t === "TOSS")
+                            .mid
+                        );
+                      }}
+                      type="primary"
+                      style={{ background: "#F18521", color: "white" }}
+                    >
+                      {betStatus?.find(
+                        (res) =>
+                          res ===
+                          odddata?.Bookmaker.find((type) => type.t === "TOSS")
+                            .mid
+                      )
+                        ? "Bet / Unlock"
+                        : "Bet Lock"}
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();

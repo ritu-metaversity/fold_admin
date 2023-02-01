@@ -107,10 +107,12 @@ const Accountform = () => {
   };
 
   const onFinish = async () => {
-    let isNoError = true;
-    for (let key of Object.keys(errorData)) {
+    let isError = false;
+    console.log(errorData, "data");
+    Object.keys(errorData).forEach((key) => {
       if (!data[key]) {
-        isNoError = false;
+        console.log("ram1", key);
+        isError = true;
 
         setErrorData((prev) => {
           return {
@@ -126,47 +128,53 @@ const Accountform = () => {
           };
         });
       }
-    }
-
-    if (!isNoError) return false;
-
-    Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
-    Object.assign(data, { oddLossCommission: Number(data.oddLossCommission) });
-    Object.assign(data, {
-      fancyLossCommission: Number(data.fancyLossCommission),
     });
-    Object.assign(data, {
-      appId: Number(data.appId),
-    });
-    setLoading(true);
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Create_Admin}`,
 
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (res.data.message) {
-          message.success(res.data.message);
-          setuserId(res?.data?.username);
-          setUserPass(res?.data?.password);
-          setData({});
-          showModal();
-        }
-      })
-      .catch((error) => {
-        message.error(error?.response?.data?.message);
-        setLoading(false);
+    if (isError) return false;
+    else {
+      Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
+      Object.assign(data, {
+        oddLossCommission: Number(data.oddLossCommission),
       });
-    setLoading(false);
-    setData({});
-  };
+      Object.assign(data, {
+        fancyLossCommission: Number(data.fancyLossCommission),
+      });
+      Object.assign(data, {
+        appId: Number(data.appId),
+      });
+      setLoading((prev) => ({ ...prev, CreateUserAccount: true }));
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Create_Admin}`,
 
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data.message) {
+            message.success(res.data.message);
+            setuserId(res?.data?.username);
+            setUserPass(res?.data?.password);
+            setData({});
+            showModal();
+          }
+        })
+        .catch((error) => {
+          message.error(error.response.data.message);
+          if (error.response.data.status === 401) {
+            setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
+            navigate("/");
+            localStorage.removeItem("token");
+            message.error(error.response.data.message);
+          }
+        });
+      setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
+    }
+  };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -301,6 +309,12 @@ const Accountform = () => {
             label="User Name:"
             // bordered={false}
             // style={{ border: "1px solid red" }}
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
           >
             <div className={errorData?.username ? "col-input2" : "col-input"}>
               <Input
