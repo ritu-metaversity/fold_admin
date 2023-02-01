@@ -127,7 +127,7 @@ const QrForm = () => {
         <label>Display Name</label>
         <input
           type="text"
-          placeholder="App Name"
+          placeholder="Display Name"
           name="displayName"
           value={data.displayName}
           style={{

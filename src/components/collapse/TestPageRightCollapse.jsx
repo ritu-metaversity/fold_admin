@@ -38,12 +38,14 @@ const TestPageRightCollapse = () => {
         }
       )
       .then((res) => {
+        console.log(res.data);
         setTabData(res?.data?.data);
       })
       .catch((error) => {
         message.error(error.response.data.message);
 
         if (error.response.data.status === 401) {
+          setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
           localStorage.removeItem("token");
           navigate("/");
           message.error(error.response.data.message);

@@ -104,15 +104,15 @@ const SiderBar = ({ closeSidebar }) => {
   });
 
   const item = [
-    {
-      key: "1",
-      icon: <AiFillDashboard />,
-      label: (
-        <Link to="" style={{ color: "white" }}>
-          Dashboard
-        </Link>
-      ),
-    },
+    // {
+    //   key: "1",
+    //   icon: <AiFillDashboard />,
+    //   label: (
+    //     <Link to="" style={{ color: "white" }}>
+    //       Dashboard
+    //     </Link>
+    //   ),
+    // },
     {
       key: "2",
       icon: <TbBrandGoogleAnalytics />,
@@ -165,7 +165,36 @@ const SiderBar = ({ closeSidebar }) => {
       icon: <RiBankFill />,
       label: <Link to="/bank">Bank</Link>,
     },
-    userType == "5"
+    userType == 5 || userType == 7
+      ? {
+          key: "76",
+          icon: <RiAccountCircleFill />,
+          label: "Payment",
+          children: [
+            {
+              key: "79",
+              label: (
+                <Link to="/Deposit-Pending-Request">
+                  <span style={{ fontSize: "14px" }}>
+                    Pending deposit request
+                  </span>
+                </Link>
+              ),
+            },
+            {
+              key: "90",
+              label: (
+                <Link to="/Widrwal-Pending-Request">
+                  <span style={{ fontSize: "14px" }}>
+                    Pending Withdraw request
+                  </span>
+                </Link>
+              ),
+            },
+          ],
+        }
+      : "",
+    userType != "4"
       ? {
           key: "9",
           icon: <RiBankFill />,
@@ -193,12 +222,12 @@ const SiderBar = ({ closeSidebar }) => {
         {
           key: "12",
 
-          label: <Link to="/currentsBets">CURRENT BETS</Link>,
+          label: <Link to="/currentsBets">Current Bets</Link>,
         },
         {
           key: "13",
 
-          label: <Link to="/betHistory"> BETS HISTORY</Link>,
+          label: <Link to="/betHistory">Bets History</Link>,
         },
       ],
     },

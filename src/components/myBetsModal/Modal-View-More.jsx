@@ -30,7 +30,6 @@ const ModalViewMore = ({ keyName }) => {
     betType: value,
   };
   const viewMoreTabledata = async () => {
-    setSearch({});
     setLoading((prev) => ({ ...prev, viewMoreTabledata: true }));
     await axios
       .post(`${process.env.REACT_APP_BASE_URL}/${Bet_Search}`, data, {
@@ -39,17 +38,19 @@ const ModalViewMore = ({ keyName }) => {
         },
       })
       .then((res) => {
-        setViewMoreTable(res.data.data);
+        setSearch({});
+
+        setViewMoreTable(res?.data?.data?.betList);
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error, "eror");
       });
     setLoading((prev) => ({ ...prev, viewMoreTabledata: false }));
   };
 
   useEffect(() => {
     viewMoreTabledata();
-  }, [value]);
+  }, []);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -88,7 +89,7 @@ const ModalViewMore = ({ keyName }) => {
               placeholder=" Search Username"
               name="userName"
               onChange={handleChange}
-              value={search.userName || ""}
+              value={search?.userName || ""}
             />
           </div>
           <div className="form-to">
@@ -101,7 +102,7 @@ const ModalViewMore = ({ keyName }) => {
                 placeholder="Amount From"
                 name="amountFrom"
                 onChange={handleChange}
-                value={search.amountFrom || ""}
+                value={search?.amountFrom || ""}
               />
             </div>
             <div className="amount-to-input">
@@ -113,7 +114,7 @@ const ModalViewMore = ({ keyName }) => {
                 placeholder="Amount To"
                 name="amountTo"
                 onChange={handleChange}
-                value={search.amountTo || ""}
+                value={search?.amountTo || ""}
               />
             </div>
           </div>
@@ -126,7 +127,7 @@ const ModalViewMore = ({ keyName }) => {
               placeholder="IP Address"
               name="ip"
               onChange={handleChange}
-              value={search.ip || ""}
+              value={search?.ip || ""}
             />
           </div>
           <div className="btn">

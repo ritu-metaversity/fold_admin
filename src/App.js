@@ -29,6 +29,7 @@ import {
   CreatAaccounts_Screen,
   CreateDomain_Screen,
   currentsBets_Screen,
+  Deposit_Pending_Request,
   Home_Screen,
   MarketAnalysis_Screen,
   Payment_Method,
@@ -36,6 +37,7 @@ import {
   Qr_Method,
   TestMatch_Screen,
   Upi_Method,
+  Widrwal_Pending_Request,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -53,6 +55,8 @@ import Upi from "./pages/bankMethod/Upi";
 import QR from "./pages/bankMethod/Qr";
 import PoerList from "./pages/powerList/PowerList";
 import AccountStatement from "./pages/accountStatement/AccountStatement";
+import DepositPendingRequest from "./pages/depoitPending/DepositPendingRequest";
+import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingRequest";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -101,6 +105,16 @@ function App() {
         <Route path={Qr_Method} element={<QR />}></Route>
         <Route path={Power_List_Screen} element={<PoerList />}></Route>
         <Route path={Account_Statement} element={<AccountStatement />}></Route>
+        <Route
+          path={Widrwal_Pending_Request}
+          element={<WidrwalPendingRequest />}
+        ></Route>
+
+        <Route
+          path={Deposit_Pending_Request}
+          element={<DepositPendingRequest />}
+        ></Route>
+
         <Route path="*" element={<NoteFound />} />
       </Routes>
     </LoaderContext.Provider>

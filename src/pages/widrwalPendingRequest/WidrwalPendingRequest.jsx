@@ -1,37 +1,49 @@
-import { Button, Input, Switch, Table, Modal, Tooltip, Form } from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import {
+  Button,
+  Input,
+  Switch,
+  Table,
+  Modal,
+  Tooltip,
+  Form,
+  Image,
+} from "antd";
+import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
-import "./styles.scss";
-import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
+// import "./styles.scss";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import DepositForm from "../../components/modalForm/DepositForm";
 import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
-import { Table_ActiveUser } from "../../routes/Routes";
+import { message as antdmessase } from "antd";
+import {
+  Account_List,
+  Approve_Withdraw_Request,
+  Deposit_Pending_Request_Api,
+  Reject_Withdraw_Request,
+  Widrwal_Pending_Request_Api,
+} from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
+import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-export const UserModalContext = createContext({
-  handleCancel: () => {},
-});
 
-const ActiveUser = () => {
+const WidrwalPendingRequest = () => {
   const isMobile = useMediaQuery("(min-width: 768px)");
-
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
+  const [apiCall, setApiCall] = useState(0);
+  const [deleteRowId, setdeleteRowId] = useState("");
   const { loading, setLoading } = useContext(LoaderContext);
-
-  const [open, setOpen] = useState(false);
-  const [profileModal, setprofileModal] = useState(false);
+  const [textareaError, settextareaError] = useState(false);
   const [DataList, setDataList] = useState([]);
-
-  const [userId, setUserId] = useState("");
-  const [searchparam, setSearchParam] = useSearchParams();
-
+  const [userData, setuserData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [textArea, setTextArea] = useState("");
   //////// change password
 
   ////edit profile State
@@ -47,60 +59,21 @@ const ActiveUser = () => {
   };
   const handleChange = (event) => {
     setMessage(event.target.value);
+    // console.log(event);
   };
   const handleClick = () => {
     // 👇 "message" stores input field value
     setSearchText(message);
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
   const [inputBlank, setInputBlank] = useState(false);
   const navigate = useNavigate();
 
-  //////deposit Modal
-  const showModal = (obj) => {
-    setIsModalOpen(true);
-    const data = DataList?.find((item) => item?.id == obj);
-    setUserId(data);
-  };
-  //////withdrawal Modal
-  const showModals = (obj) => {
-    setOpen(true);
-    const data = DataList?.find((item) => item?.id == obj);
-    setUserId(data);
-  };
-
-  ///show profile modal
-  const showModalProfile = (obj) => {
-    setprofileModal(true);
-    const data = DataList?.find((item) => item?.id == obj);
-    setUserId(data);
-  };
-  /////show credit Activity Modal
-  const showCredit = (obj) => {
-    setcredit(true);
-    const data = DataList?.find((item) => item?.id == obj);
-    setUserId(data);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-    setOpen(false);
-    setprofileModal(false);
-    setcredit(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-    setOpen(false);
-    setprofileModal(false);
-    setcredit(false);
-    setInputBlank(!false);
-  };
-
   const tabledata = async () => {
-    setLoading((prev) => ({ ...prev, activeUsertable: true }));
+    setLoading((prev) => ({ ...prev, depositPendingRequest: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
+        `${process.env.REACT_APP_BASE_URL}/${Widrwal_Pending_Request_Api}`,
         {
           id: "",
           index: paginationData.index,
@@ -113,26 +86,28 @@ const ActiveUser = () => {
         }
       )
       .then((res) => {
-        if (res?.data?.data?.dataList) {
+        if (res?.data?.data) {
           setPaginationData({
             ...paginationData,
             totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res?.data?.data?.dataList);
+          setDataList(res?.data?.data);
         } else {
           setDataList();
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        antdmessase.error(error.response.data.message);
         if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, activeUsertable: false }));
-          localStorage.removeItem("token");
+          setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
           navigate("/");
-          message.error(error.response.data.message);
+          localStorage.removeItem("token");
+          antdmessase.error(error.response?.data.message);
         }
       });
-    setLoading((prev) => ({ ...prev, activeUsertable: false }));
+    setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
+
+    // setLoading(false);
   };
 
   useEffect(() => {
@@ -141,197 +116,108 @@ const ActiveUser = () => {
 
   const columns = [
     {
-      title: "User Name",
-      dataIndex: "username",
+      title: "UserId",
+      dataIndex: "userId",
+      width: "15%",
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return String(record.username)
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      },
-      width: 100,
-      onCell: () => {
-        return {
-          style: {
-            whiteSpace: "break-spaces",
-            maxWidth: 100,
-          },
-        };
-      },
-    },
-    {
-      title: "CR",
-      dataIndex: "CR",
-      sorter: {
-        compare: (a, b) => a.CR - b.CR,
-        multiple: 3,
+        return (
+          String(record.userId).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.amount).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.accountNumber)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.accountHolderName)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.accountType)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.bankName).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.ifsc).toLowerCase().includes(value.toLowerCase())
+        );
       },
     },
     {
-      title: "PTS",
-      dataIndex: "PTS",
-      sorter: {
-        compare: (a, b) => a.PTS - b.PTS,
-        multiple: 2,
-      },
+      title: "Amount",
+      dataIndex: "amount",
+      width: "25%",
     },
     {
-      title: "Client (P/L)",
-      dataIndex: "Client",
-      sorter: {
-        compare: (a, b) => a.Client - b.Client,
-        multiple: 1,
-      },
+      title: "Account Number",
+      dataIndex: "accountNumber",
+      width: "25%",
     },
     {
-      title: "Client (P/L)%",
-      dataIndex: "Clientp",
-      sorter: {
-        compare: (a, b) => a.Clientp - b.Clientp,
-        multiple: 1,
-      },
-    },
-    {
-      title: "Exposure",
-      dataIndex: "Exposer",
-      sorter: {
-        compare: (a, b) => a.Exposer - b.Exposer,
-        multiple: 1,
-      },
-    },
-    {
-      title: "Available pts",
-      dataIndex: "Available",
-      sorter: {
-        compare: (a, b) => a.Available - b.Available,
-        multiple: 1,
-      },
-    },
-    {
-      title: "B st",
-      dataIndex: "bst",
-      sorter: {
-        compare: (a, b) => a.bst - b.bst,
-        multiple: 1,
-      },
-    },
-    {
-      title: "U st",
-      dataIndex: "ust",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
-    },
-    {
-      title: "PPhone",
-      dataIndex: "PPhone",
-      sorter: {
-        compare: (a, b) => a.PPhone - b.PPhone,
-        multiple: 1,
-      },
+      title: "Account Holder Name",
+      dataIndex: "accountHolderName",
+      width: "25%",
     },
     {
       title: "Account Type",
-      dataIndex: "AccountType",
-      sorter: {
-        compare: (a, b) => a.AccountType - b.AccountType,
-        multiple: 1,
-      },
+      dataIndex: "accountType",
+      width: "25%",
+    },
+    {
+      title: "Bank Name",
+      dataIndex: "bankName",
+      width: "25%",
+    },
+    {
+      title: "Ifsc",
+      dataIndex: "ifsc",
+      width: "25%",
     },
     {
       title: "Action",
       dataIndex: "Action",
-      sorter: {
-        compare: (a, b) => a.Action - b.Action,
-        multiple: 1,
-      },
     },
   ];
 
   const data = [];
-
   DataList?.map((res) => {
-    data?.push({
-      key: res?.id,
-
-      username: `${res?.username} (${res?.userId})`,
-      CR: (
-        <span
-          style={{ color: "#f1b44c", cursor: "pointer" }}
-          onClick={() => showCredit(res.id)}
-        >
-          {res?.chips}
-        </span>
-      ),
-      PTS: res?.pts,
-      Client: res?.clientPl,
-      Clientp: res?.clientPlPercentage,
-      Exposer: res?.exposure,
-      Available: res?.availabePts,
-      bst: res?.betLock ? (
-        <Switch size="small" disabled={true} defaultChecked="true" />
-      ) : (
-        <Switch size="small" disabled={true} defaultunchecked="true" />
-      ),
-
-      ust: res.accountLock ? (
-        <Switch size="small" disabled={true} defaultChecked="true" />
-      ) : (
-        <Switch size="small" disabled={true} defaultunchecked="true" />
-      ),
-      PPhone: res?.pname,
-      AccountType: res?.accountType,
-      Action: (
-        <>
-          <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
-            <Button
-              style={{
-                background: "#34c38f",
-                color: "white",
-                borderColor: "#34c38f",
-                borderRadius: "5px 0px 0px 5px",
-              }}
-              onClick={() => showModal(res?.id)}
-            >
-              D
-            </Button>
-          </Tooltip>
-          <Tooltip placement="top" title={isMobile ? "withdrawal" : ""}>
-            <Button
-              style={{
-                background: "#f46a6a",
-                color: "white",
-                borderColor: "#f46a6a",
-                borderRadius: "0px 0px 0px 0px",
-              }}
-              onClick={() => showModals(res?.id)}
-            >
-              w
-            </Button>
-          </Tooltip>
-          <Button
-            style={{
-              background: "#50a5f1",
-              color: "white",
-              borderColor: "#50a5f1",
-              borderRadius: "0px 5px 5px 0px",
-            }}
-            onClick={() => showModalProfile(res?.id)}
+    if (res) {
+      data.push({
+        key: res?.username + res.id,
+        userId: res.userId,
+        amount: res.amount,
+        accountNumber: res.accountNumber,
+        accountHolderName: res.accountHolderName,
+        accountType: res.accountType,
+        bankName: res.bankName,
+        ifsc: res.ifsc,
+        Action: (
+          <div
+            className="action"
+            style={{ display: "flex", alignItems: "center", gap: "10px" }}
           >
-            more
-          </Button>
-        </>
-      ),
-    });
+            <Button
+              style={{ background: "#34c38f", color: "white", border: "none" }}
+              onClick={() => {
+                showModal(res.id);
+                setApiCall(1);
+              }}
+            >
+              Approve
+            </Button>
+            <Button
+              style={{ background: "#ed5c5c", color: "white", border: "none" }}
+              onClick={() => {
+                showModal(res.id);
+                setApiCall(0);
+              }}
+            >
+              Reject
+            </Button>
+          </div>
+        ),
+      });
+    }
   });
 
   const Increment = () => {
-    if (paginationData?.index < paginationData?.totalPages) {
-      setPaginationData({
-        ...paginationData,
-        index: paginationData?.index + 1,
-      });
+    if (paginationData.index < paginationData.totalPages) {
+      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
     }
 
     // setPageIndex(PageIndex + 1);
@@ -352,77 +238,144 @@ const ActiveUser = () => {
     });
   };
 
+  const reject = async (id) => {
+    if (textArea) {
+      settextareaError(false);
+
+      setLoading((prev) => ({ ...prev, reject: true }));
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Reject_Withdraw_Request}`,
+          {
+            id: id,
+            remark: textArea,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          antdmessase.success(res.data.message);
+          handleCancel();
+          setTextArea("");
+          setDataList(DataList.filter((row) => row.id !== id));
+        })
+        .catch((error) => {
+          antdmessase.error(error.response.data.message);
+          if (error.response.status === 401) {
+            setLoading((prev) => ({ ...prev, reject: false }));
+            navigate("/");
+            localStorage.removeItem("token");
+            antdmessase.error(error.response?.data.message);
+          }
+        });
+      setLoading((prev) => ({ ...prev, reject: false }));
+    } else {
+      settextareaError(true);
+    }
+  };
+
+  const approve = async (id) => {
+    if (textArea) {
+      settextareaError(false);
+
+      setLoading((prev) => ({ ...prev, approve: true }));
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Approve_Withdraw_Request}`,
+          {
+            id: id,
+            remark: textArea,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          antdmessase.success(res.data.message);
+          handleCancel();
+          setTextArea("");
+          setDataList(DataList.filter((row) => row.id !== id));
+        })
+        .catch((error) => {
+          antdmessase.error(error.response?.data.message);
+          if (error.response.status === 401) {
+            setLoading((prev) => ({ ...prev, approve: false }));
+            navigate("/");
+            localStorage.removeItem("token");
+            antdmessase.error(error.response?.data.message);
+          }
+        });
+      setLoading((prev) => ({ ...prev, approve: false }));
+    } else {
+      settextareaError(true);
+    }
+  };
+  const showModal = (id) => {
+    setIsModalOpen(true);
+    setdeleteRowId(id);
+  };
+  const handleOk = () => {
+    // if (textareaError) {
+    //   return "";
+    // } else {
+    //   setIsModalOpen(false);
+    // }
+    apiCall == 1 ? approve(deleteRowId) : reject(deleteRowId);
+  };
+  const handleCancel = () => {
+    setTextArea("");
+    setIsModalOpen(false);
+  };
+  const handleChangetextArea = (e) => {
+    const value = e.target.value;
+    console.log(value);
+
+    settextareaError(!value);
+
+    setTextArea(value);
+  };
+
   return (
-    <UserModalContext.Provider
-      value={{
-        handleCancel: handleCancel,
-      }}
-    >
+    <UserModalContext.Provider>
       <Mainlayout>
         <Modal
-          title="Deposit"
+          title={apiCall == 1 ? "Approve" : "Reject"}
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
-          okText="Submit"
-          className="deposite"
-          destroyOnClose="true"
+          destroyOnClose
+          className={apiCall != 1 ? "warning-header-reject" : "warning-header"}
         >
-          <DepositForm
-            handleCancel={handleCancel}
-            data={userId}
-            gettableData={tabledata}
-          />
-        </Modal>
-        <Modal
-          title="WITHDRAW"
-          open={open}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          className="widrwal"
-          destroyOnClose="true"
-        >
-          <Widrawal
-            handleCancel={handleCancel}
-            data={userId}
-            gettableData={tabledata}
-          />
-        </Modal>
-        <Modal
-          // title={DataList.find((item) => item.id == userData)?.username}
-          open={profileModal}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          className="more"
-          destroyOnClose="true"
-        >
-          <MoreCard data={userId} handleCancelfunction={handleCancel} />
-        </Modal>
-        {/* /////credit Activity modal */}
-        <Modal
-          title="CREDIT ACTIVITY"
-          open={credit}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          className="CREDI-ACTIVITY"
-          destroyOnClose="true"
-        >
-          <CreditModal
-            data={userId}
-            gettableData={tabledata}
-            handleCancelfunction={handleCancel}
-          />
+          <p>Are You Sure You Want To Continue</p>
+          <textarea
+            style={{
+              width: "100%",
+              height: "50px",
+
+              border: `${
+                !textareaError ? "1px solid #d9d9d9" : "1px solid red"
+              }`,
+            }}
+            value={textArea}
+            placeholder="Enter Remark"
+            onChange={handleChangetextArea}
+          ></textarea>
         </Modal>
         <div className="hading-create-accounts">
-          <h4>ACCOUNT LIST FOR ACTIVE USERS</h4>
+          <h4>Withdraw Pending Request</h4>
           <p>
             <NavLink to="/marketAnalysis">Home / </NavLink>
-            <NavLink to="/activeUser" style={{ color: "#74788d" }}>
-              Active Users
+            <NavLink to="" style={{ color: "#74788d" }}>
+              Withdraw Pending Request
             </NavLink>
           </p>
         </div>
-
         <div className="table">
           <div className="search">
             <div className="left-col">
@@ -448,12 +401,12 @@ const ActiveUser = () => {
               </div>
             </div>
             <div className="right-col">
-              <Link to="/creatAaccounts">
-                <Button style={{ color: "white", border: "none" }}>
-                  <AiOutlinePlus />
-                  Create Account
-                </Button>
-              </Link>
+              {/* <Link to="/creatAaccounts">
+                  <Button style={{ color: "white", border: "none" }}>
+                    <AiOutlinePlus />
+                    Create Account
+                  </Button>
+                </Link> */}
             </div>
           </div>
           <div style={{ paddingLeft: "5px" }}>
@@ -481,7 +434,6 @@ const ActiveUser = () => {
           <Table
             columns={columns}
             dataSource={data}
-            // onChange={onChange}
             className="accountTable"
             pagination={{ pageSize: paginationData.noOfRecords }}
           />
@@ -576,4 +528,4 @@ const ActiveUser = () => {
   );
 };
 
-export default ActiveUser;
+export default WidrwalPendingRequest;

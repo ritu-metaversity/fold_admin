@@ -3,9 +3,11 @@ import {
   Image,
   Input,
   message,
+  Modal,
   Select,
   Spin,
   Table,
+  Tooltip,
   Upload,
 } from "antd";
 import React, { useEffect, useState } from "react";
@@ -14,8 +16,10 @@ import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
+import { GoTrashcan } from "react-icons/go";
 import { Add_banner, Banner_List } from "../../routes/Routes";
 import { NavLink, useNavigate } from "react-router-dom";
+import DeleteModal from "../deleteModal/DeleteModal";
 
 const BannerFormComponent = () => {
   const { loading, setLoading } = useContext(LoaderContext);
@@ -25,6 +29,9 @@ const BannerFormComponent = () => {
   const [type, setType] = useState("");
   const [typeValue, setTypeValue] = useState(1);
   const [bannerList, setBannerList] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteRowId, setdeleteRowId] = useState("");
+
   const navigate = useNavigate();
 
   const [error, setError] = useState({
@@ -35,6 +42,12 @@ const BannerFormComponent = () => {
   ////////image
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+    setError((prev) => {
+      return {
+        ...prev,
+        image: !Boolean(fileList),
+      };
+    });
   };
   // console.log(fileList[0].name, "outer");
 
@@ -80,25 +93,6 @@ const BannerFormComponent = () => {
   };
   //////////////
 
-  // const handleChange = (event) => {
-  //   let name = event.target.name;
-  //   let value = event.target.value;
-
-  //   setData((prev) => {
-  //     return {
-  //       ...prev,
-  //       [name]: value,
-  //     };
-  //   });
-
-  //   setError((prev) => {
-  //     return {
-  //       ...prev,
-  //       [name]: !Boolean(value),
-  //     };
-  //   });
-  // };
-
   const handleChangeSelctPriority = (value) => {
     setPriority(value);
     setError((prev) => {
@@ -114,6 +108,7 @@ const BannerFormComponent = () => {
         ...prev,
         priority: !Boolean(priority),
         type: !Boolean(type),
+        image: !Boolean(fileList),
       };
     });
     let formData = new FormData();
@@ -121,7 +116,7 @@ const BannerFormComponent = () => {
       setError((prev) => {
         return {
           ...prev,
-          image: !Boolean(fileList),
+          image: Boolean(fileList),
         };
       });
     }
@@ -187,21 +182,34 @@ const BannerFormComponent = () => {
   ];
   const dataSource = [];
 
-  bannerList.map((res) => {
+  bannerList?.map((res, index) => {
     dataSource.push({
-      key: "1",
+      key: res.type + index,
       name: res.type,
-      age: <Image width={100} height={100} src={res.path} />,
+      age: (
+        <Image
+          width={60}
+          height={60}
+          style={{ borderRadius: "100px" }}
+          src={res.path}
+        />
+      ),
       address: res.priority,
       Action: (
         <>
-          <Button onClick={() => deleteRow(res.id)}> Delete</Button>
+          <Tooltip placement="top" title={"Delete"}>
+            <Button
+              onClick={() => showModal(res.id)}
+              style={{ border: "none" }}
+            >
+              <GoTrashcan style={{ color: "red" }} />
+            </Button>
+          </Tooltip>
         </>
       ),
     });
   });
   const deleteRow = async (id) => {
-    setBannerList(bannerList.filter((row) => row.id !== id));
     await axios
       .post(
         "http://api.a2zscore.com/admin-new-apis/banner/delete",
@@ -216,6 +224,7 @@ const BannerFormComponent = () => {
       )
       .then((res) => {
         message.success(res.data.message);
+        setBannerList(bannerList.filter((row) => row.id !== id));
       })
       .catch((error) => {
         console.log(error);
@@ -233,6 +242,7 @@ const BannerFormComponent = () => {
       dataIndex: "age",
       key: "age",
       width: "30px",
+      width: "27%",
     },
     {
       title: "priority",
@@ -280,8 +290,25 @@ const BannerFormComponent = () => {
   }, [typeValue]);
   ////////list Pyment method
   /////bank/list-payment-method
+
+  const showModal = (id) => {
+    setIsModalOpen(true);
+    setdeleteRowId(id);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+    deleteRow(deleteRowId);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <>
+      <DeleteModal
+        showModal={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
       <div className="hading-create-accounts">
         <h4>ADD BANNER</h4>
         <p>
@@ -308,7 +335,7 @@ const BannerFormComponent = () => {
                   fileList={fileList}
                   onChange={onChange}
                   onPreview={onPreview}
-                  style={{ border: "1px solid red" }}
+                  className={error.image ? "image-upload" : ""}
                 >
                   {fileList.length < 1 && "+ Upload"}
                 </Upload>
@@ -324,9 +351,7 @@ const BannerFormComponent = () => {
                 value={type || "Select Type"}
                 style={{
                   width: "100%",
-                  border: `${
-                    error.type ? "1px solid red" : "1px solid #ced4da"
-                  }`,
+                  border: `${error.type ? "1px solid red" : ""}`,
                 }}
                 onChange={handleChangeSelct}
                 options={option}
@@ -336,15 +361,13 @@ const BannerFormComponent = () => {
               className="img-div"
               style={{ display: "flex", gap: "20px", alignItems: "center" }}
             >
-              <label style={{ width: "50px" }}>Priority</label>
+              <label style={{ width: "60px" }}>Priority</label>
               <Select
                 defaultValue=""
                 value={priority || "Select Priority"}
                 style={{
                   width: "100%",
-                  border: `${
-                    error.priority ? "1px solid red" : "1px solid #ced4da"
-                  }`,
+                  border: `${error.priority ? "1px solid red" : ""}`,
                 }}
                 onChange={handleChangeSelctPriority}
                 options={options}
@@ -352,7 +375,12 @@ const BannerFormComponent = () => {
             </div>
             <div className="btn" style={{ textAlign: "right" }}>
               <Button
-                style={{ background: "black", color: "white", width: "auto" }}
+                style={{
+                  background: "black",
+                  color: "white",
+                  width: "auto",
+                  border: "none",
+                }}
                 onClick={onSubmit}
               >
                 Submit
@@ -374,16 +402,17 @@ const BannerFormComponent = () => {
                 value={typeValue || "Select Type"}
                 style={{
                   width: "100%",
-                  border: `${
-                    error.type ? "1px solid red" : "1px solid #ced4da"
-                  }`,
                 }}
                 onChange={handleChangeSelctType}
                 options={optionType}
               />
             </div>
             <div className="table">
-              <Table dataSource={dataSource} columns={columns} />
+              <Table
+                dataSource={dataSource}
+                columns={columns}
+                pagination={{ pageSize: "500" }}
+              />
             </div>
           </form>
         </div>

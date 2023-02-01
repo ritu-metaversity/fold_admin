@@ -118,7 +118,8 @@ const SelfDepositForm = ({ handleCancel }) => {
             >
               <label style={{ width: "30%" }}>Amount</label>
               <Input
-                placeholder="amount"
+                type="number"
+                placeholder="Amount"
                 value={data.amount}
                 name="amount"
                 style={{
@@ -140,6 +141,7 @@ const SelfDepositForm = ({ handleCancel }) => {
             >
               <label style={{ width: "30%" }}>Transaction Code</label>
               <Input
+                type="password"
                 placeholder="Transaction Code"
                 name="lupassword"
                 value={data.lupassword}
@@ -153,7 +155,12 @@ const SelfDepositForm = ({ handleCancel }) => {
             </div>
             <div className="btn" style={{ textAlign: "right" }}>
               <Button
-                style={{ background: "black", color: "white", width: "auto" }}
+                style={{
+                  background: "black",
+                  color: "white",
+                  width: "auto",
+                  border: "none",
+                }}
                 onClick={onSubmit}
               >
                 Submit

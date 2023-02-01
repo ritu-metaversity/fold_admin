@@ -65,3 +65,13 @@ $breakpoint-tablet: 870px;
         padding: 3px;
     }
 }
+.image-upload{
+
+    .ant-upload.ant-upload-select{
+    
+        border: 1px dashed red !important;
+    }
+}
+.ant-upload-list-item-error{
+    border-color: #e6dbdb !important;
+}

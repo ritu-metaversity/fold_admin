@@ -12,12 +12,14 @@ import "./styles.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
-
+import Changpassword from "../moreCard/components/changepassword/Changpassword";
+import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
 const Header = () => {
   const logout = () => {
     localStorage.removeItem("token");
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalKey, setModalKey] = useState(0);
   const userType = localStorage.getItem("userType");
   const userName = localStorage.getItem("username");
 
@@ -36,7 +38,10 @@ const Header = () => {
       ? {
           label: (
             <span
-              onClick={showModal}
+              onClick={() => {
+                showModal();
+                setModalKey(0);
+              }}
               style={{
                 display: "flex",
                 gap: "10px",
@@ -53,10 +58,21 @@ const Header = () => {
       : "",
     {
       label: (
-        <Link>
+        <span
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            fontSize: "12px",
+          }}
+          onClick={() => {
+            showModal();
+            setModalKey(1);
+          }}
+        >
           <HiOutlineKey />
           Change Password
-        </Link>
+        </span>
       ),
       key: "1",
     },
@@ -82,8 +98,13 @@ const Header = () => {
         onCancel={handleCancel}
         footer={null}
         className="modal-self-deposit"
+        destroyOnClose
       >
-        <SelfDepositForm handleCancel={handleCancel} />
+        {modalKey == 0 ? (
+          <SelfDepositForm handleCancel={handleCancel} />
+        ) : (
+          <Changpasswordheader />
+        )}
       </Modal>
       <div className="header-col">
         <div className="logo">
