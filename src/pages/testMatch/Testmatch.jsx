@@ -14,10 +14,6 @@ const Testmatch = () => {
     <Mainlayout>
       <div className="container-test-match">
         <div className="left-body-container">
-          <div className="heading">
-            <h4>TEST MATCHES PAKISTAN V NEW ZEALAND</h4>
-            <h4>26/12/2022 10:30:00</h4>
-          </div>
           <div className="Collapse">
             <TestPageLeftCollapse />
           </div>

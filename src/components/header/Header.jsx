@@ -3,39 +3,76 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
 import { IoIosAlert } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
-import { Dropdown, Space } from "antd";
+import { Dropdown, Modal, Space } from "antd";
 import { BsWallet2 } from "react-icons/bs";
 import { HiOutlineKey } from "react-icons/hi";
 import { FiLogOut } from "react-icons/fi";
 import img from "../../assets/img/logo.png";
 import "./styles.scss";
 import { Link } from "react-router-dom";
-
+import { useState } from "react";
+import SelfDepositForm from "../selfDeposit/SelfDeposit";
+import Changpassword from "../moreCard/components/changepassword/Changpassword";
+import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
 const Header = () => {
   const logout = () => {
     localStorage.removeItem("token");
   };
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalKey, setModalKey] = useState(0);
   const userType = localStorage.getItem("userType");
   const userName = localStorage.getItem("username");
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const items = [
     userType === "4"
       ? {
           label: (
-            <Link>
+            <span
+              onClick={() => {
+                showModal();
+                setModalKey(0);
+              }}
+              style={{
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                fontSize: "12px",
+              }}
+            >
               <BsWallet2 />
               Self Deposit
-            </Link>
+            </span>
           ),
           key: "0",
         }
       : "",
     {
       label: (
-        <Link>
+        <span
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            fontSize: "12px",
+          }}
+          onClick={() => {
+            showModal();
+            setModalKey(1);
+          }}
+        >
           <HiOutlineKey />
           Change Password
-        </Link>
+        </span>
       ),
       key: "1",
     },
@@ -54,6 +91,21 @@ const Header = () => {
   ];
   return (
     <>
+      <Modal
+        title="Basic Modal"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        className="modal-self-deposit"
+        destroyOnClose
+      >
+        {modalKey == 0 ? (
+          <SelfDepositForm handleCancel={handleCancel} />
+        ) : (
+          <Changpasswordheader />
+        )}
+      </Modal>
       <div className="header-col">
         <div className="logo">
           <img src={img} alt="" />

@@ -25,7 +25,7 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
           return (
             <div className="table-row-col" key={item.selectionId}>
               <div className="left-col-table">
-                <p>{item.selectionId}</p>
+                <p>{item.name}</p>
                 {pnlValue >= 0 ? (
                   <p style={{ color: "green" }}>{pnlValue}</p>
                 ) : (
@@ -48,20 +48,19 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
                           className="backButton"
                           style={{
                             backgroundColor:
-                              curElm.price >
-                              prev[0].runners[runnerIndex].ex.availableToBack[
-                                index
-                              ].price
+                              curElm?.price >
+                              prev[0]?.runners[runnerIndex]?.ex
+                                ?.availableToBack[index].price
                                 ? "#03B37F"
-                                : curElm.price <
-                                  prev[0].runners[runnerIndex].ex
-                                    .availableToBack[index].price
+                                : curElm?.price <
+                                  prev[0]?.runners[runnerIndex]?.ex
+                                    .availableToBack[index]?.price
                                 ? "#FC4242"
                                 : backColor[index],
                           }}
                         >
-                          <p>{curElm.price === 0 ? "__" : curElm.price}</p>
-                          <p>{curElm.size === 0 ? "" : curElm.size}</p>
+                          <p>{curElm?.price === 0 ? "__" : curElm?.price}</p>
+                          <p>{curElm?.size === 0 ? "" : curElm?.size}</p>
                         </Button>
                       </React.Fragment>
                     );
@@ -71,19 +70,19 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
                 {item?.ex?.availableToLay?.map((curElm, index) => {
                   return (
                     <React.Fragment
-                      key={curElm.price + item.selectionId + "lay" + index}
+                      key={curElm?.price + item?.selectionId + "lay" + index}
                     >
                       <Button
                         className="layButton"
                         style={{
                           backgroundColor:
                             curElm.price >
-                            prev[0].runners[runnerIndex].ex.availableToLay[
+                            prev[0].runners[runnerIndex]?.ex.availableToLay[
                               index
                             ].price
                               ? "#03B37F"
                               : curElm.price <
-                                prev[0].runners[runnerIndex].ex.availableToLay[
+                                prev[0].runners[runnerIndex]?.ex.availableToLay[
                                   index
                                 ].price
                               ? "#FC4242"

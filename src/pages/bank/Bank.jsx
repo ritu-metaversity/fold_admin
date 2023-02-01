@@ -131,6 +131,15 @@ const Bank = () => {
           .toLowerCase()
           .includes(value.toLowerCase());
       },
+      width: 100,
+      onCell: () => {
+        return {
+          style: {
+            whiteSpace: "break-spaces",
+            maxWidth: 100,
+          },
+        };
+      },
     },
     {
       title: "CR",
@@ -146,7 +155,7 @@ const Bank = () => {
     },
 
     {
-      title: "Exposur",
+      title: "Exposure",
       dataIndex: "Exposer",
     },
     {
@@ -162,10 +171,10 @@ const Bank = () => {
       title: "Action",
       dataIndex: "Action",
     },
-    {
-      title: "Status",
-      dataIndex: "Status",
-    },
+    // {
+    //   title: "Status",
+    //   dataIndex: "Status",
+    // },
   ];
 
   const data = [];
@@ -266,7 +275,7 @@ const Bank = () => {
             <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
             <p>
               <NavLink to="/marketAnalysis">Home / </NavLink>
-              <NavLink to="/activeUser">User / </NavLink>
+              {/* <NavLink to="/activeUser">User / </NavLink> */}
               <NavLink to="/bank" style={{ color: "#74788d" }}>
                 Bank
               </NavLink>
@@ -298,6 +307,7 @@ const Bank = () => {
               </div>
               <div className="right-col">
                 <input
+                  type="password"
                   placeholder="Transaction Code"
                   style={{
                     height: "32px",

@@ -131,9 +131,17 @@ const BetHistorytable = () => {
       dataIndex: "EventName",
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return String(record?.EventName)
-          .toLowerCase()
-          .includes(value.toLowerCase());
+        return (
+          String(record.EventName)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.MName).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.URate).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
+        );
       },
 
       sorter: {
@@ -144,6 +152,7 @@ const BetHistorytable = () => {
     {
       title: "User Name",
       dataIndex: "UserName",
+
       sorter: {
         compare: (a, b) => a.PTS - b.PTS,
         multiple: 2,

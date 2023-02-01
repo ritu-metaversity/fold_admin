@@ -1,41 +1,28 @@
 import { Button, Input, Switch, Table, Modal, Tooltip, Form } from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
+import { message as antdMessage } from "antd";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import DepositForm from "../../components/modalForm/DepositForm";
-import MoreCard from "../../components/moreCard/MoreCard";
-import Widrawal from "../../components/modalForm/Widrawal";
-import CreditModal from "../../components/creditActivityModal/CreditModal";
+
 import axios from "axios";
-import {
-  Account_List,
-  Delete_Power_List,
-  Power_list,
-} from "../../routes/Routes";
-import { useMediaQuery } from "../../components/modalForm/UseMedia";
-import { UserModalContext } from "../activeUser/ActiveUser";
+import { Delete_Power_List, Power_list } from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
+import DeleteModal from "../../components/deleteModal/DeleteModal";
+import { GoTrashcan } from "react-icons/go";
 
 const PoerList = () => {
-  const isMobile = useMediaQuery("(min-width: 768px)");
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
   const { loading, setLoading } = useContext(LoaderContext);
-
-  const [open, setOpen] = useState(false);
-  const [profileModal, setprofileModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteRowId, setdeleteRowId] = useState("");
   const [DataList, setDataList] = useState([]);
-  const [userData, setuserData] = useState([]);
-
-  const [userId, setUserId] = useState("");
-  const queryParams = new URLSearchParams(window.location.search);
-  const name = queryParams.get("evemt-id");
-  console.log(DataList, "DataList");
+  const [apiCall, setApiCall] = useState(0);
   //////// change password
 
   ////edit profile State
@@ -90,11 +77,12 @@ const PoerList = () => {
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        antdMessage.error(error.response.data.message);
         if (error.response.status === 401) {
+          setLoading((prev) => ({ ...prev, accountTableData: false }));
           navigate("/");
-          localStorage.removeItem("token");
-          message.error(error.response?.data.message);
+          localStorage.clear();
+          // antdMessage.error(error.response?.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, accountTableData: false }));
@@ -139,22 +127,23 @@ const PoerList = () => {
         Password: res.password,
         Active: res.active ? "True" : "False",
         Action: (
-          <Button
-            style={{
-              background: "rgb(80 165 241)",
-              borderColor: "rgb(80 165 241)",
-              color: "white",
-            }}
-            onClick={() => deletePoweList(res.userId)}
-          >
-            Delete
-          </Button>
+          <Tooltip placement="top" title={"Delete"}>
+            <Button
+              onClick={() => {
+                showModal(res.userId);
+                setApiCall(2);
+              }}
+              style={{ border: "none" }}
+            >
+              <GoTrashcan style={{ color: "red" }} />
+            </Button>
+          </Tooltip>
         ),
       });
     }
   });
   const deletePoweList = async (userId) => {
-    setDataList(DataList.filter((row) => row.userId !== userId));
+    setLoading((prev) => ({ ...prev, deletePoweList: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Delete_Power_List}`,
@@ -166,16 +155,20 @@ const PoerList = () => {
         }
       )
       .then((res) => {
-        message.success(res.data.message);
+        antdMessage.success(res.data.message);
+        setDataList(DataList?.filter((row) => row.userId !== userId));
+        handleCancel();
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        antdMessage.error(error.response.data.message);
         if (error.response.status === 401) {
+          setLoading((prev) => ({ ...prev, deletePoweList: false }));
           navigate("/");
           localStorage.removeItem("token");
-          message.error(error.response?.data.message);
+          antdMessage.error(error.response?.data.message);
         }
       });
+    setLoading((prev) => ({ ...prev, deletePoweList: false }));
   };
   const Increment = () => {
     if (paginationData.index < paginationData.totalPages) {
@@ -199,9 +192,25 @@ const PoerList = () => {
       index: paginationData.totalPages - 1,
     });
   };
-
+  const showModal = (id) => {
+    setIsModalOpen(true);
+    setdeleteRowId(id);
+  };
+  const handleOk = () => {
+    // setIsModalOpen(false);
+    deletePoweList(deleteRowId);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <Mainlayout>
+      <DeleteModal
+        showModal={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        headerColor={apiCall}
+      />
       <div className="hading-create-accounts">
         <h4>Power List</h4>
         <p>
@@ -236,12 +245,12 @@ const PoerList = () => {
             </div>
           </div>
           <div className="right-col">
-            <Link to="/creatAaccounts">
+            {/* <Link to="/creatAaccounts">
               <Button style={{ color: "white", border: "none" }}>
                 <AiOutlinePlus />
                 Create Account
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div style={{ paddingLeft: "5px" }}>

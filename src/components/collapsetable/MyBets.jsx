@@ -23,6 +23,7 @@ const MyBets = () => {
           }
         )
         .then((res) => {
+          console.log(res.data);
           setBetData(res?.data?.data);
         })
         .catch((error) => {
@@ -42,7 +43,7 @@ const MyBets = () => {
 
   const dataSource = [];
 
-  betData.forEach((res, index) => {
+  betData?.map((res, index) => {
     dataSource?.push(
       {
         key: res.marketname + res.userid + index,

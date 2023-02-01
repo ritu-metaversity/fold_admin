@@ -1,9 +1,22 @@
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-custom-header :710px;
+
+
 .Account-list-search{
     
     .left-col{
         display: flex;
+        @media (max-width: $breakpoint-tablet) {
+            display: flex;
+          flex-direction: column;
+         }
         .search-input-account-statement{
          width: 250px;
+         @media (max-width: $breakpoint-tablet) {
+         width: 98%;
+         }
         }
        
         .date-search{
@@ -13,10 +26,16 @@
             top: 0px;
             // display: flex;
             // flex-direction: column;
+            @media (max-width: $breakpoint-tablet) {
+                width: 98%;
+                }
             .rane-picker{
                 border: 1px solid #ced4da !important;
                 // position:absolute;
                 margin: 7px 0px 7px 0px;
+                @media (max-width: $breakpoint-tablet) {
+                    width: 98%;
+                    }
             }
         }
     }
@@ -24,10 +43,19 @@
 .selct-account-statement{
 display: flex;
 flex-direction: column;
+@media (max-width: $breakpoint-tablet) {
+    width: 98%;
+    }
 
 }
 .ant-select-dropdown  {
     width: 200px !important;
+   
+  }
+  .ant-select{
+    @media (max-width: $breakpoint-tablet) {
+        width: 98% !important;
+        }
   }
   .account-serch-btn{
     margin-bottom: 13px;

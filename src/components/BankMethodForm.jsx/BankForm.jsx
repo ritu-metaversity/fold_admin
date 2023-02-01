@@ -32,19 +32,36 @@ const BankForm = () => {
   const handleChange = (event) => {
     let name = event.target.name;
     let value = event.target.value;
-
-    setData((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-    setError((prev) => {
-      return {
-        ...prev,
-        [name]: !Boolean(value),
-      };
-    });
+    if (name == "ifsc") {
+      setData((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    } else {
+      setData((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    }
+    if (name == "ifsc") {
+      setError((prev) => {
+        return {
+          ...prev,
+          ifsc: !Boolean(value.match("^[A-Za-z]{4}0[A-Z0-9]{6}$")),
+        };
+      });
+    } else {
+      setError((prev) => {
+        return {
+          ...prev,
+          [name]: !Boolean(value),
+        };
+      });
+    }
   };
 
   const onSubmit = async () => {
@@ -69,7 +86,6 @@ const BankForm = () => {
       nerror.accountNumber ||
       nerror.accountType
     ) {
-      console.log("not hit");
     } else {
       setLoading((prev) => ({ ...prev, AddBank: true }));
       await axios
@@ -79,8 +95,14 @@ const BankForm = () => {
           },
         })
         .then((res) => {
-          setLoading(false);
           console.log(res.data);
+          setData({
+            bankName: "",
+            ifsc: "",
+            accountHolderName: "",
+            accountNumber: "",
+            accountType: "",
+          });
           message.success(res.data.message);
         })
         .catch((error) => {
@@ -106,7 +128,7 @@ const BankForm = () => {
         <label>Bank Name</label>
         <input
           type="text"
-          placeholder="bank Name"
+          placeholder="Bank Name"
           name="bankName"
           value={data.bankName}
           style={{
@@ -132,10 +154,10 @@ const BankForm = () => {
           }}
           onChange={handleChange}
         />
-        <label>AccountHolder Name</label>
+        <label>Account Holder Name</label>
         <input
           type="Text"
-          placeholder="Account HolderName"
+          placeholder="Account Holder Name"
           value={data.accountHolderName}
           name="accountHolderName"
           style={{
@@ -167,11 +189,11 @@ const BankForm = () => {
           }}
           onChange={handleChange}
         />
-        <label>accountType</label>
+        <label>Account Type</label>
 
         <input
           type="text"
-          placeholder="accountType"
+          placeholder="Account Type"
           value={data.accountType}
           name="accountType"
           style={{

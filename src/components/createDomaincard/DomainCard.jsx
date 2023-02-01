@@ -22,12 +22,19 @@ const DomainCard = () => {
     appUrl: false,
     transactionCode: false,
     isSelfAllowed: false,
+    image: false,
   });
   ////////image
   const [fileList, setFileList] = useState([]);
   const [type, setType] = useState("");
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+    setError((prev) => {
+      return {
+        ...prev,
+        image: !Boolean(fileList),
+      };
+    });
   };
   // console.log(fileList[0].name, "outer");
   const handleChangeSelct = (value) => {
@@ -113,8 +120,12 @@ const DomainCard = () => {
 
     let formData = new FormData();
     if (!fileList.length) {
-      console.log("no file");
-      return;
+      setError((prev) => {
+        return {
+          ...prev,
+          image: Boolean(fileList),
+        };
+      });
     }
 
     formData.append("appname", data.appName);
@@ -129,12 +140,6 @@ const DomainCard = () => {
 
     if (error.appName || error.appUrl || error.transactionCode) {
     } else {
-      setData({
-        appName: "",
-        appUrl: "",
-        transactionCode: "",
-      });
-      setFileList([]);
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
@@ -150,7 +155,9 @@ const DomainCard = () => {
         .then((res) => {
           setLoading(false);
           console.log(res.data);
-          message.success(res.data.data.message);
+          message.success(res.data.message);
+          setFileList([]);
+          setData({});
         })
         .catch((error) => {
           message.error(error.response.data.message);
@@ -222,9 +229,7 @@ const DomainCard = () => {
           defaultValue="please select Type"
           style={{
             width: "100%",
-            border: `${
-              error.isSelfAllowed ? "1px solid red" : "1px solid #ced4da"
-            }`,
+            border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
           }}
           onChange={handleChangeSelct}
           options={options}
@@ -236,6 +241,7 @@ const DomainCard = () => {
               fileList={fileList}
               onChange={onChange}
               onPreview={onPreview}
+              className={error.image ? "image-upload" : ""}
             >
               {fileList.length < 1 && "+ Upload"}
             </Upload>
