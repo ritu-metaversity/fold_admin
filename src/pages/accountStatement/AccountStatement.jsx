@@ -34,7 +34,21 @@ const AccountStatement = () => {
   const [dateFrom, setDateFrom] = useState(dayjs);
 
   ////edit profile State
+  const [sortedInfo, setSortedInfo] = useState({});
+  const handleChangeTable = (pagination, filters, sorter) => {
+    // console.log("Various parameters", pagination, filters, sorter);
+    setSortedInfo(sorter);
+  };
 
+  const clearAll = () => {
+    setSortedInfo({});
+  };
+  const setAgeSort = () => {
+    setSortedInfo({
+      order: "descend",
+      columnKey: "age",
+    });
+  };
   const [paginationData, setPaginationData] = useState({
     index: 0,
     noOfRecords: 25,
@@ -143,20 +157,18 @@ const AccountStatement = () => {
       },
     },
     {
-      title: "Sr No",
+      title: "Sr.No",
       dataIndex: "SrNo",
-      sorter: {
-        compare: (a, b) => a.CR - b.CR,
-        multiple: 3,
-      },
+      sorter: (a, b) => a.SrNo - b.SrNo,
+      sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
     },
 
     {
       title: "Credit",
       dataIndex: "Credit",
       sorter: {
-        compare: (a, b) => a.bst - b.bst,
-        multiple: 1,
+        compare: (a, b) => a.Credit - b.Credit,
+        sortOrder: sortedInfo.field === "Credit" ? sortedInfo.order : null,
       },
     },
     {
@@ -168,7 +180,7 @@ const AccountStatement = () => {
       },
     },
     {
-      title: "pts",
+      title: "Pts",
       dataIndex: "pts",
       sorter: {
         compare: (a, b) => a.PPhone - b.PPhone,
@@ -184,7 +196,7 @@ const AccountStatement = () => {
       },
     },
     {
-      title: "Fromto",
+      title: "From To",
       dataIndex: "Fromto",
       sorter: {
         compare: (a, b) => a.Action - b.Action,
@@ -424,6 +436,7 @@ const AccountStatement = () => {
             columns={columns}
             dataSource={data}
             className="accountTable"
+            onChange={handleChangeTable}
             pagination={{ pageSize: paginationData.noOfRecords }}
           />
           <div className="pagination">

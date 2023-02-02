@@ -103,7 +103,7 @@ const Header = () => {
         {modalKey == 0 ? (
           <SelfDepositForm handleCancel={handleCancel} />
         ) : (
-          <Changpasswordheader />
+          <Changpasswordheader handleCancelfunction={handleCancel} />
         )}
       </Modal>
       <div className="header-col">

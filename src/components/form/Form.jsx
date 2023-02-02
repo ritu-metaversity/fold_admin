@@ -22,6 +22,7 @@ const Loginform = () => {
           setLoading((prev) => ({ ...prev, LoginUser: false }));
           localStorage.setItem("userid", res.data.userId);
           localStorage.setItem("userType", res.data.userType);
+          localStorage.setItem("partnership", res.data.partnership);
           console.log(res.data.userType);
           if (res.data.passwordtype === "old") {
             localStorage.setItem("refresh-token", res.data.token);
@@ -38,13 +39,14 @@ const Loginform = () => {
         message.error(error.response.data.message);
         if (error.response.data.status === 401) {
           navigate("/");
-          localStorage.removeItem("token");
+          localStorage.clear();
           message.error(error.response.data.message);
         }
         setLoading((prev) => ({ ...prev, LoginUser: false }));
       });
   };
   let x = localStorage.getItem("token");
+
   useEffect(() => {
     if (!x) {
       return;
@@ -108,7 +110,7 @@ const Loginform = () => {
         under the registration number 152307, with address at Heelsumstraat 51,
         Curaçao, authorized by Antillephone under license number 8048/JAZ2020 -
         025. The transactions are processed by Ecofun Services NV which own and
-        operates world777.com.
+        operates world777.com
       </p>
     </div>
   );

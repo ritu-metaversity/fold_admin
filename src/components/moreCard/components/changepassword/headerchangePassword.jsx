@@ -74,18 +74,19 @@ const Changpasswordheader = ({ handleCancelfunction }) => {
         )
         .then((res) => {
           console.log(res.data);
-          if (res.data.status) {
+          if (res.data?.status) {
             antmessage.success(res.data?.message);
             handleCancelfunction();
             setformData({});
+            setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
           } else {
             antmessage.error(res.data?.message);
           }
           setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
         })
         .catch((error) => {
-          antmessage.error(error.response?.data.message);
-          if (error.response.status === 401) {
+          // antmessage.error(error.response?.data.message);
+          if (error.response?.status === 401) {
             setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
             navigate("/");
             localStorage.removeItem("token");

@@ -12,7 +12,7 @@ const CreateAccount = () => {
         <h4>Create Account</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
-          <NavLink to="/activeUser">User / </NavLink>
+          {/* <NavLink to="/activeUser">User / </NavLink> */}
           <NavLink to="/creatAaccounts" style={{ color: "#74788d" }}>
             Create Accounts
           </NavLink>

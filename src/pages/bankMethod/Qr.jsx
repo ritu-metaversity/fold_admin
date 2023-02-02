@@ -11,7 +11,7 @@ const QR = () => {
         <h4 style={{ fontSize: "15px!important" }}>ADD QR Code</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
-          <NavLink to="/activeUser">User / </NavLink>
+          {/* <NavLink to="/activeUser">User / </NavLink> */}
           <NavLink to="/bank/add-qr-code" style={{ color: "#74788d" }}>
             ADD QR Code
           </NavLink>

@@ -1,5 +1,6 @@
 import { Tabs } from "antd";
 import React from "react";
+import { NavLink } from "react-router-dom";
 import Mainlayout from "../../common/Mainlayout";
 import BetHistorytable from "../../components/table/betHistoryTable/BetHistorytable";
 
@@ -16,8 +17,13 @@ const BetHistory = () => {
   return (
     <Mainlayout>
       <div className="more-modal currentBets-Tab">
-        <div className="heading">
-          <h4 style={{ fontSize: "15px!important" }}>Bet History</h4>
+        <div className="hading-create-accounts">
+          <h4>Bet History</h4>
+          <p>
+            <NavLink to="/marketAnalysis">Home / </NavLink>
+            {/* <NavLink to="/activeUser">User / </NavLink> */}
+            <NavLink style={{ color: "#74788d" }}>Bet History</NavLink>
+          </p>
         </div>
         <Tabs defaultActiveKey="0" type="card" items={items}></Tabs>
       </div>

@@ -33,9 +33,15 @@
 .ant-menu-item-only-child{
     // padding-left: 0px!;
 }
+.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-submenu-title:active {
+background-color: transparent !important;
+
+}
 .sider-bar{
     .ant-menu-item{
-
+&:active{
+  background-color: transparent !important;
+}
         height: auto !important;
     }
     .ant-menu-title-content{
