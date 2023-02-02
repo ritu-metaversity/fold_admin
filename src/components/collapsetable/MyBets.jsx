@@ -23,7 +23,6 @@ const MyBets = () => {
           }
         )
         .then((res) => {
-          console.log(res.data);
           setBetData(res?.data?.data);
         })
         .catch((error) => {

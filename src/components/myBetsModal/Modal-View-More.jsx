@@ -11,7 +11,8 @@ const ModalViewMore = ({ keyName }) => {
   const [viewMoreTable, setViewMoreTable] = useState([]);
   const [search, setSearch] = useState({});
   const [searchparam] = useSearchParams();
-
+  const [totalAmount, setTotalAmount] = useState("");
+  const [totalSoda, setTotalSoda] = useState("");
   const id = searchparam.get("event-id");
   const { loading, setLoading } = useContext(LoaderContext);
   const [value, setValue] = useState(1);
@@ -39,7 +40,8 @@ const ModalViewMore = ({ keyName }) => {
       })
       .then((res) => {
         setSearch({});
-
+        setTotalAmount(res?.data?.data.totalAmount);
+        setTotalSoda(res?.data?.data.totalBet);
         setViewMoreTable(res?.data?.data?.betList);
       })
       .catch((error) => {
@@ -50,7 +52,7 @@ const ModalViewMore = ({ keyName }) => {
 
   useEffect(() => {
     viewMoreTabledata();
-  }, []);
+  }, [value]);
 
   const handleChange = (e) => {
     const name = e.target.name;
@@ -152,7 +154,9 @@ const ModalViewMore = ({ keyName }) => {
             <Radio value={3}>Lay</Radio>
           </Radio.Group>
           <p>
-            Total Soda: <span>1</span> Total Amount: <span>100.00</span>
+            Total Soda: <span style={{ color: "green" }}>{totalSoda}</span>{" "}
+            Total Amount:
+            <span style={{ color: "green" }}>{totalAmount}</span>
           </p>
         </div>
         <div className="table-col">

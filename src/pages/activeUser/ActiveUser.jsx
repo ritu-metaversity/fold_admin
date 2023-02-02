@@ -32,6 +32,22 @@ const ActiveUser = () => {
   const [userId, setUserId] = useState("");
   const [searchparam, setSearchParam] = useSearchParams();
 
+  const [sortedInfo, setSortedInfo] = useState({});
+  const handleChangeTable = (pagination, filters, sorter) => {
+    // console.log("Various parameters", pagination, filters, sorter);
+    setSortedInfo(sorter);
+  };
+
+  const clearAll = () => {
+    setSortedInfo({});
+  };
+  const setAgeSort = () => {
+    setSortedInfo({
+      order: "descend",
+      columnKey: "age",
+    });
+  };
+
   //////// change password
 
   ////edit profile State
@@ -162,90 +178,58 @@ const ActiveUser = () => {
     {
       title: "CR",
       dataIndex: "CR",
-      sorter: {
-        compare: (a, b) => a.CR - b.CR,
-        multiple: 3,
-      },
+      sorter: (a, b) => a.CR?.props?.children - b.CR?.props?.children,
+      sortOrder: sortedInfo.field === "CR" ? sortedInfo.order : null,
     },
     {
       title: "PTS",
       dataIndex: "PTS",
-      sorter: {
-        compare: (a, b) => a.PTS - b.PTS,
-        multiple: 2,
-      },
+      sorter: (a, b) => a.PTS - b.PTS,
+      sortOrder: sortedInfo.field === "PTS" ? sortedInfo.order : null,
     },
     {
       title: "Client (P/L)",
       dataIndex: "Client",
-      sorter: {
-        compare: (a, b) => a.Client - b.Client,
-        multiple: 1,
-      },
+      sorter: (a, b) => a.Client - b.Client,
+      sortOrder: sortedInfo.field === "Client" ? sortedInfo.order : null,
     },
     {
       title: "Client (P/L)%",
       dataIndex: "Clientp",
-      sorter: {
-        compare: (a, b) => a.Clientp - b.Clientp,
-        multiple: 1,
-      },
+      sorter: (a, b) => a.Clientp - b.Clientp,
+      sortOrder: sortedInfo.field === "Clientp" ? sortedInfo.order : null,
     },
     {
       title: "Exposure",
       dataIndex: "Exposer",
-      sorter: {
-        compare: (a, b) => a.Exposer - b.Exposer,
-        multiple: 1,
-      },
+      sorter: (a, b) => a.Exposer - b.Exposer,
+      sortOrder: sortedInfo.field === "Exposer" ? sortedInfo.order : null,
     },
     {
       title: "Available pts",
       dataIndex: "Available",
-      sorter: {
-        compare: (a, b) => a.Available - b.Available,
-        multiple: 1,
-      },
+      sorter: (a, b) => a.Available - b.Available,
+      sortOrder: sortedInfo.field === "Available" ? sortedInfo.order : null,
     },
     {
       title: "B st",
       dataIndex: "bst",
-      sorter: {
-        compare: (a, b) => a.bst - b.bst,
-        multiple: 1,
-      },
     },
     {
       title: "U st",
       dataIndex: "ust",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
     },
     {
       title: "PPhone",
       dataIndex: "PPhone",
-      sorter: {
-        compare: (a, b) => a.PPhone - b.PPhone,
-        multiple: 1,
-      },
     },
     {
       title: "Account Type",
       dataIndex: "AccountType",
-      sorter: {
-        compare: (a, b) => a.AccountType - b.AccountType,
-        multiple: 1,
-      },
     },
     {
       title: "Action",
       dataIndex: "Action",
-      sorter: {
-        compare: (a, b) => a.Action - b.Action,
-        multiple: 1,
-      },
     },
   ];
 
@@ -481,7 +465,7 @@ const ActiveUser = () => {
           <Table
             columns={columns}
             dataSource={data}
-            // onChange={onChange}
+            onChange={handleChangeTable}
             className="accountTable"
             pagination={{ pageSize: paginationData.noOfRecords }}
           />

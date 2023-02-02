@@ -308,12 +308,13 @@ const BannerFormComponent = () => {
         showModal={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
+        remarkRender={1}
       />
       <div className="hading-create-accounts">
         <h4>ADD BANNER</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
-          <NavLink to="/activeUser">User / </NavLink>
+          {/* <NavLink to="/activeUser">User / </NavLink> */}
           <NavLink to="/Update-Banner" style={{ color: "#74788d" }}>
             ADD BANNER
           </NavLink>

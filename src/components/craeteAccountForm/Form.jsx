@@ -17,6 +17,8 @@ const Accountform = () => {
 
   const { loading, setLoading } = useContext(LoaderContext);
   const userType = localStorage.getItem("userType");
+  const partnership = localStorage.getItem("partnership");
+
   const navigate = useNavigate();
   const [data, setData] = useState({
     username: "",
@@ -477,11 +479,14 @@ const Accountform = () => {
                   )}
                 </div>
               </Form.Item>
+
               <p style={{ fontSize: "14px" }}>
                 Our :{" "}
-                {data?.sportPartnership ? data.sportPartnership : downline}|
+                {data?.sportPartnership ? data.sportPartnership : partnership}|
                 Down Line:
-                {data.sportPartnership ? downline - data.sportPartnership : 0}
+                {data.sportPartnership
+                  ? partnership - data.sportPartnership
+                  : 0}
               </p>
             </>
           ) : (

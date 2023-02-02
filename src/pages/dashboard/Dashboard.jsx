@@ -31,23 +31,14 @@ const Dashboard = () => {
           },
         })
         .then((res) => {
-          if (res.data) {
-            setCricket(res.data.data);
-          } else {
-            setCricket([]);
-            navigate("/");
-            setloader(false);
-          }
+          setCricket(res?.data?.data);
         })
         .catch((error) => {
+          message.error(error.response.data.message);
           if (error.response.status === 401) {
             setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
             navigate("/");
-            localStorage.removeItem("token");
-            navigate("/");
-            message.error(error.response.data.message);
-          }
-          if (error.message === "Request failed with status code 401") {
+            localStorage.clear();
           }
         });
       setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
@@ -64,7 +55,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const getData = async () => {
-      setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
+      setLoading((prev) => ({ ...prev, marketAnalysisgetData: true }));
       await axios
         .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_List}`, {
           headers: {
@@ -72,15 +63,15 @@ const Dashboard = () => {
           },
         })
         .then((res) => {
-          if (res.data.data) {
-            setSports(res.data.data);
-          } else {
-          }
+          setSports(res?.data?.data);
         })
         .catch((error) => {
-          localStorage.removeItem("token");
-          navigate("/");
           message.error(error.response.data.message);
+          if (error.response.status === 401) {
+            setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
+            navigate("/");
+            localStorage.clear();
+          }
         });
       setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
     };
