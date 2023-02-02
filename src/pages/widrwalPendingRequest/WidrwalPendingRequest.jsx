@@ -31,6 +31,7 @@ import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
+import DeleteModal from "../../components/deleteModal/DeleteModal";
 
 const WidrwalPendingRequest = () => {
   const isMobile = useMediaQuery("(min-width: 768px)");
@@ -39,11 +40,10 @@ const WidrwalPendingRequest = () => {
   const [apiCall, setApiCall] = useState(0);
   const [deleteRowId, setdeleteRowId] = useState("");
   const { loading, setLoading } = useContext(LoaderContext);
-  const [textareaError, settextareaError] = useState(false);
   const [DataList, setDataList] = useState([]);
   const [userData, setuserData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [textArea, setTextArea] = useState("");
+
   //////// change password
 
   ////edit profile State
@@ -175,10 +175,10 @@ const WidrwalPendingRequest = () => {
   ];
 
   const data = [];
-  DataList?.map((res) => {
+  DataList?.map((res, index) => {
     if (res) {
       data.push({
-        key: res?.username + res.id,
+        key: res?.username + res.id + index,
         userId: res.userId,
         amount: res.amount,
         accountNumber: res.accountNumber,
@@ -238,9 +238,9 @@ const WidrwalPendingRequest = () => {
     });
   };
 
-  const reject = async (id) => {
-    if (textArea) {
-      settextareaError(false);
+  const reject = async (id, remark) => {
+    if (remark) {
+      // settextareaError(false);
 
       setLoading((prev) => ({ ...prev, reject: true }));
       await axios
@@ -248,7 +248,7 @@ const WidrwalPendingRequest = () => {
           `${process.env.REACT_APP_BASE_URL}/${Reject_Withdraw_Request}`,
           {
             id: id,
-            remark: textArea,
+            remark,
           },
           {
             headers: {
@@ -259,7 +259,7 @@ const WidrwalPendingRequest = () => {
         .then((res) => {
           antdmessase.success(res.data.message);
           handleCancel();
-          setTextArea("");
+          // setTextArea("");
           setDataList(DataList.filter((row) => row.id !== id));
         })
         .catch((error) => {
@@ -273,21 +273,21 @@ const WidrwalPendingRequest = () => {
         });
       setLoading((prev) => ({ ...prev, reject: false }));
     } else {
-      settextareaError(true);
+      // settextareaError(true);
     }
   };
 
-  const approve = async (id) => {
-    if (textArea) {
-      settextareaError(false);
+  const approve = async (id, remark) => {
+    if (remark) {
+      // settextareaError(false);
 
       setLoading((prev) => ({ ...prev, approve: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Approve_Withdraw_Request}`,
           {
-            id: id,
-            remark: textArea,
+            id,
+            remark,
           },
           {
             headers: {
@@ -299,7 +299,7 @@ const WidrwalPendingRequest = () => {
           console.log(res.data);
           antdmessase.success(res.data.message);
           handleCancel();
-          setTextArea("");
+          // setTextArea("");
           setDataList(DataList.filter((row) => row.id !== id));
         })
         .catch((error) => {
@@ -308,65 +308,40 @@ const WidrwalPendingRequest = () => {
             setLoading((prev) => ({ ...prev, approve: false }));
             navigate("/");
             localStorage.removeItem("token");
-            antdmessase.error(error.response?.data.message);
           }
         });
       setLoading((prev) => ({ ...prev, approve: false }));
     } else {
-      settextareaError(true);
+      // settextareaError(true);
     }
   };
   const showModal = (id) => {
     setIsModalOpen(true);
     setdeleteRowId(id);
   };
-  const handleOk = () => {
+  const handleOk = (remark) => {
     // if (textareaError) {
     //   return "";
     // } else {
     //   setIsModalOpen(false);
     // }
-    apiCall == 1 ? approve(deleteRowId) : reject(deleteRowId);
+    apiCall == 1 ? approve(deleteRowId, remark) : reject(deleteRowId, remark);
   };
   const handleCancel = () => {
-    setTextArea("");
+    // setTextArea("");
     setIsModalOpen(false);
-  };
-  const handleChangetextArea = (e) => {
-    const value = e.target.value;
-    console.log(value);
-
-    settextareaError(!value);
-
-    setTextArea(value);
   };
 
   return (
     <UserModalContext.Provider>
       <Mainlayout>
-        <Modal
-          title={apiCall == 1 ? "Approve" : "Reject"}
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          destroyOnClose
-          className={apiCall != 1 ? "warning-header-reject" : "warning-header"}
-        >
-          <p>Are You Sure You Want To Continue</p>
-          <textarea
-            style={{
-              width: "100%",
-              height: "50px",
-
-              border: `${
-                !textareaError ? "1px solid #d9d9d9" : "1px solid red"
-              }`,
-            }}
-            value={textArea}
-            placeholder="Enter Remark"
-            onChange={handleChangetextArea}
-          ></textarea>
-        </Modal>
+        <DeleteModal
+          showModal={isModalOpen}
+          handleOk={handleOk}
+          handleCancel={handleCancel}
+          headerColor={apiCall}
+          remarkRender={0}
+        />
         <div className="hading-create-accounts">
           <h4>Withdraw Pending Request</h4>
           <p>

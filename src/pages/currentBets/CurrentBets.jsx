@@ -25,7 +25,7 @@ const CurrentBets = () => {
           <h4>Current Bets</h4>
           <p>
             <NavLink to="/marketAnalysis">Home / </NavLink>
-            <NavLink to="/activeUser">User / </NavLink>
+            {/* <NavLink to="/activeUser">User / </NavLink> */}
             <NavLink to="/currentsBets" style={{ color: "#74788d" }}>
               Current Bets
             </NavLink>

@@ -160,12 +160,11 @@ const PoerList = () => {
         handleCancel();
       })
       .catch((error) => {
-        antdMessage.error(error.response.data.message);
+        antdMessage.error(error.response?.data.message);
         if (error.response.status === 401) {
           setLoading((prev) => ({ ...prev, deletePoweList: false }));
           navigate("/");
           localStorage.removeItem("token");
-          antdMessage.error(error.response?.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, deletePoweList: false }));
@@ -210,6 +209,7 @@ const PoerList = () => {
         handleOk={handleOk}
         handleCancel={handleCancel}
         headerColor={apiCall}
+        remarkRender={1}
       />
       <div className="hading-create-accounts">
         <h4>Power List</h4>

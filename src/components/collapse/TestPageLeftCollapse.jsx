@@ -39,7 +39,7 @@ const TestPageLeftCollapse = () => {
   const navigate = useNavigate();
 
   const id = searchparam.get("event-id");
-
+  // console.log(, "odddata");
   useEffect(() => {
     if (!id) {
       navigate("/404");
@@ -144,9 +144,11 @@ const TestPageLeftCollapse = () => {
         // setLoading(false);
         message.error(error.response.data.message);
         if (error.response.data.status === 401) {
+          setLoading((prev) => ({ ...prev, BetLockStatus: false }));
+          console.log("navigate");
           navigate("/");
           localStorage.clear();
-          message.error(error.response.data.message);
+          // message.error(error.response.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, BetLockStatus: false }));
@@ -239,10 +241,9 @@ const TestPageLeftCollapse = () => {
     return;
   }
   const endUIArray = [];
-
   const UIArray = Object.keys(odddata).map((keyName) => {
     if (
-      ["Odds", "Bookmaker", "Fancy"].includes(keyName) ||
+      !["Fancy2", "Fancy3", "Odds", "Bookmaker", "OddEven"].includes(keyName) ||
       !odddata[keyName]?.length
     )
       return "";
@@ -278,7 +279,7 @@ const TestPageLeftCollapse = () => {
                 </div>
               </div>
             }
-            key="3"
+            key={keyName}
             className="left-panel-header"
           >
             <div className="collpase-div">
@@ -357,73 +358,72 @@ const TestPageLeftCollapse = () => {
       >
         <UserBook data={userBook} />
       </Modal>
-      <Collapse bordered={false} defaultActiveKey={["1", "2"]}>
-        <div className="heading">
-          <h4>TEST MATCHES PAKISTAN V NEW ZEALAND</h4>
-          <h4>26/12/2022 10:30:00</h4>
-        </div>
-        {odddata?.Odds?.length > 0 ? (
-          <Panel
-            header={
-              <div
-                className="panel-header"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                MATCH_ODDS
-                <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
+      <div className="heading">
+        <h4>TEST MATCHES PAKISTAN V NEW ZEALAND</h4>
+        <h4>{odddata.Odds[0].eventTime}</h4>
+      </div>
+      <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
+        {odddata?.Odds?.map((item, index) => {
+          return (
+            <Panel
+              key={index}
+              header={
+                <div
+                  className="panel-header"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  {item.Name}
+                  <div className="btn" style={{ gap: "10px", display: "flex" }}>
+                    {userType == 4 ? (
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          getBetLock(item.marketId);
+                        }}
+                        type="primary"
+                        style={{ background: "#F18521", color: "white" }}
+                      >
+                        {betStatus?.find((res) => res === item.marketId)
+                          ? " Bet / Unlock"
+                          : "Bet Lock"}
+                      </Button>
+                    ) : (
+                      ""
+                    )}
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
-                        getBetLock(odddata?.Odds[0].marketId);
+                        showModal(item.marketId);
                       }}
                       type="primary"
-                      style={{ background: "#F18521", color: "white" }}
+                      style={{
+                        background: "#F18521",
+                        color: "white",
+                      }}
                     >
-                      {betStatus?.find(
-                        (res) => res === odddata?.Odds[0].marketId
-                      )
-                        ? " Bet / Unlock"
-                        : "Bet Lock"}
+                      User Book
                     </Button>
-                  ) : (
-                    ""
-                  )}
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      showModal(odddata?.Odds[0].marketId);
-                    }}
-                    type="primary"
-                    style={{
-                      background: "#F18521",
-                      color: "white",
-                    }}
-                  >
-                    User Book
-                  </Button>
+                  </div>
                 </div>
+              }
+              className="left-panel-header"
+            >
+              <div className="collpase-div">
+                <MatchOddTable
+                  name={"10k"}
+                  data={item}
+                  prev={prevState?.Odds[index]}
+                  pnlData={oddPnl}
+                />
               </div>
-            }
-            key="1"
-            className="left-panel-header"
-          >
-            <div className="collpase-div">
-              <MatchOddTable
-                name={"10k"}
-                data={odddata?.Odds}
-                prev={prevState?.Odds}
-                pnlData={oddPnl}
-              />
-            </div>
-          </Panel>
-        ) : (
-          ""
-        )}
+            </Panel>
+          );
+        })}
+
         {odddata?.Bookmaker.filter((ele) => ele?.t !== "TOSS").length > 0 ? (
           <Panel
             header={
@@ -481,7 +481,7 @@ const TestPageLeftCollapse = () => {
                 </div>
               </div>
             }
-            key="2"
+            key="2bm"
             className="left-panel-header"
           >
             <div className="collpase-div">

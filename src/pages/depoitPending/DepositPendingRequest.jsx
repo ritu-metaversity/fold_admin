@@ -13,10 +13,12 @@ import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
+import { message as antdmessage } from "antd";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import {
+  Approve_Deposit_Request,
   Deposit_Pending_Request_Api,
   Reject_Deposit_Request,
 } from "../../routes/Routes";
@@ -70,11 +72,7 @@ const DepositPendingRequest = () => {
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Deposit_Pending_Request_Api}`,
-        {
-          id: "",
-          index: paginationData.index,
-          noOfRecords: paginationData.noOfRecords,
-        },
+        {},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -83,10 +81,6 @@ const DepositPendingRequest = () => {
       )
       .then((res) => {
         if (res?.data?.data) {
-          setPaginationData({
-            ...paginationData,
-            totalPages: res?.data?.data?.totalPages || 1,
-          });
           setDataList(res?.data?.data);
         } else {
           setDataList();
@@ -98,7 +92,6 @@ const DepositPendingRequest = () => {
           setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
           navigate("/");
           localStorage.removeItem("token");
-          message.error(error.response?.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
@@ -108,7 +101,7 @@ const DepositPendingRequest = () => {
 
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords]);
+  }, []);
 
   const columns = [
     {
@@ -141,13 +134,19 @@ const DepositPendingRequest = () => {
   ];
 
   const data = [];
-  DataList?.map((res) => {
+  DataList?.map((res, index) => {
     if (res) {
       data.push({
-        key: res?.username + res.id,
+        key: res?.username + res.id + index,
         userId: res.userId,
         amount: res?.amount,
-        image: <Image width={100} src={res.image} />,
+        image: (
+          <Image
+            width={100}
+            src={res.image}
+            style={{ borderRadius: "100px" }}
+          />
+        ),
         Action: (
           <div
             className="action"
@@ -177,36 +176,14 @@ const DepositPendingRequest = () => {
     }
   });
 
-  const Increment = () => {
-    if (paginationData.index < paginationData.totalPages) {
-      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
-    }
-
-    // setPageIndex(PageIndex + 1);
-  };
-  const Decrement = () => {
-    if (paginationData.index > 0) {
-      setPaginationData({ ...paginationData, index: paginationData.index - 1 });
-    }
-    // setPageIndex(PageIndex - 1);
-  };
-  const ResetCounter = () => {
-    setPaginationData({ ...paginationData, index: 0 });
-  };
-  const LastCounter = () => {
-    setPaginationData({
-      ...paginationData,
-      index: paginationData.totalPages - 1,
-    });
-  };
-
-  const reject = async (id) => {
-    setDataList(DataList.filter((row) => row.id !== id));
+  const reject = async (id, remark) => {
+    setLoading((prev) => ({ ...prev, depositPendingRequestReject: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Reject_Deposit_Request}`,
         {
-          id: id,
+          id,
+          remark,
         },
         {
           headers: {
@@ -215,21 +192,32 @@ const DepositPendingRequest = () => {
         }
       )
       .then((res) => {
-        message.success(res.data.message);
+        antdmessage.success(res.data.message);
+        handleCancel();
+        setDataList(DataList.filter((row) => row.id !== id));
       })
       .catch((error) => {
-        console.log(error);
-        message.error(error.response.data.message);
+        antdmessage.error(error.response?.data.message);
+        if (error.response.status === 401) {
+          setLoading((prev) => ({
+            ...prev,
+            depositPendingRequestReject: false,
+          }));
+          navigate("/");
+          localStorage.removeItem("token");
+        }
       });
+    setLoading((prev) => ({ ...prev, depositPendingRequestReject: false }));
   };
 
-  const approve = async (id) => {
-    setDataList(DataList.filter((row) => row.id !== id));
+  const approve = async (id, remark) => {
+    setLoading((prev) => ({ ...prev, depositPendingRequestApprove: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Reject_Deposit_Request}`,
+        `${process.env.REACT_APP_BASE_URL}/${Approve_Deposit_Request}`,
         {
-          id: id,
+          id,
+          remark,
         },
         {
           headers: {
@@ -238,20 +226,30 @@ const DepositPendingRequest = () => {
         }
       )
       .then((res) => {
-        message.success(res.data.message);
+        antdmessage.success(res.data.message);
+        handleCancel();
+        setDataList(DataList.filter((row) => row.id !== id));
       })
       .catch((error) => {
-        console.log(error);
-        message.error(error.response.data.message);
+        antdmessage.error(error.response?.data.message);
+        if (error.response.status === 401) {
+          setLoading((prev) => ({
+            ...prev,
+            depositPendingRequestApprove: false,
+          }));
+          navigate("/");
+          localStorage.removeItem("token");
+        }
       });
+    setLoading((prev) => ({ ...prev, depositPendingRequestApprove: false }));
   };
   const showModal = (id) => {
     setIsModalOpen(true);
     setdeleteRowId(id);
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
-    apiCall == 1 ? approve(deleteRowId) : reject(deleteRowId);
+  const handleOk = (remark) => {
+    // setIsModalOpen(false);
+    apiCall == 1 ? approve(deleteRowId, remark) : reject(deleteRowId, remark);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -264,6 +262,7 @@ const DepositPendingRequest = () => {
           handleOk={handleOk}
           handleCancel={handleCancel}
           headerColor={apiCall}
+          remarkRender={0}
         />
         <div className="hading-create-accounts">
           <h4>Deposit Pending Request</h4>
@@ -335,91 +334,6 @@ const DepositPendingRequest = () => {
             className="accountTable"
             pagination={{ pageSize: paginationData.noOfRecords }}
           />
-          <div className="pagination">
-            <ul className="pagination-rounded mb-0">
-              <ul
-                role="menubar"
-                aria-disabled="false"
-                aria-label="Pagination"
-                className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
-              >
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to first page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={ResetCounter}
-                  >
-                    «
-                  </span>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to previous page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={Decrement}
-                  >
-                    ‹
-                  </span>
-                </li>
-                <li role="presentation" className="page-item active">
-                  <button
-                    role="menuitemradio"
-                    type="button"
-                    aria-label="Go to page 1"
-                    aria-checked="true"
-                    aria-posinset="1"
-                    aria-setsize="1"
-                    tabIndex="0"
-                    className="page-link"
-                  >
-                    {paginationData.index + 1}
-                  </button>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to next page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={Increment}
-                  >
-                    ›
-                  </span>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to last page"
-                    aria-disabled="true"
-                    onClick={LastCounter}
-                    style={{ cursor: "pointer" }}
-                  >
-                    »
-                  </span>
-                </li>
-              </ul>
-            </ul>
-          </div>
         </div>
       </Mainlayout>
     </UserModalContext.Provider>

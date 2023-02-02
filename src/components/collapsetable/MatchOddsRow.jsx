@@ -7,7 +7,7 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
-    const myPnl = pnlData.find((item) => item?.marketId == data[0]?.marketId);
+    const myPnl = pnlData.find((item) => item?.marketId == data?.marketId);
 
     const plnOddsArray = myPnl
       ? [
@@ -18,7 +18,7 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
       : [];
     return (
       <div>
-        {data[0]?.runners?.map((item, runnerIndex) => {
+        {data?.runners?.map((item, runnerIndex) => {
           const pnlValue =
             plnOddsArray.find((pnl) => pnl.selectionId == item.selectionId)
               ?.pnl || 0;
@@ -35,7 +35,7 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
 
               <div
                 className={`right-col-table ${
-                  data[0]?.status == "SUSPENDED" ? "over" : ""
+                  data?.status == "SUSPENDED" ? "over" : ""
                 }`}
               >
                 {item?.ex?.availableToBack
@@ -49,11 +49,12 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
                           style={{
                             backgroundColor:
                               curElm?.price >
-                              prev[0]?.runners[runnerIndex]?.ex
-                                ?.availableToBack[index].price
+                              prev?.runners[runnerIndex]?.ex?.availableToBack[
+                                index
+                              ].price
                                 ? "#03B37F"
                                 : curElm?.price <
-                                  prev[0]?.runners[runnerIndex]?.ex
+                                  prev?.runners[runnerIndex]?.ex
                                     .availableToBack[index]?.price
                                 ? "#FC4242"
                                 : backColor[index],
@@ -77,12 +78,11 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
                         style={{
                           backgroundColor:
                             curElm.price >
-                            prev[0].runners[runnerIndex]?.ex.availableToLay[
-                              index
-                            ].price
+                            prev.runners[runnerIndex]?.ex.availableToLay[index]
+                              .price
                               ? "#03B37F"
                               : curElm.price <
-                                prev[0].runners[runnerIndex]?.ex.availableToLay[
+                                prev.runners[runnerIndex]?.ex.availableToLay[
                                   index
                                 ].price
                               ? "#FC4242"

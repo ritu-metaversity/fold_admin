@@ -129,7 +129,6 @@ const Activelist = () => {
         if (error.response.status === 401) {
           navigate("/");
           localStorage.removeItem("token");
-          message.error(error.response?.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, accountTableData: false }));
@@ -164,51 +163,27 @@ const Activelist = () => {
     {
       title: "CR",
       dataIndex: "CR",
-      sorter: {
-        compare: (a, b) => a.CR - b.CR,
-        multiple: 3,
-      },
     },
 
     {
       title: "B st",
       dataIndex: "bst",
-      sorter: {
-        compare: (a, b) => a.bst - b.bst,
-        multiple: 1,
-      },
     },
     {
       title: "U st",
       dataIndex: "ust",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
     },
     {
       title: "PName",
       dataIndex: "PName",
-      sorter: {
-        compare: (a, b) => a.PPhone - b.PPhone,
-        multiple: 1,
-      },
     },
     {
       title: "Account Type",
       dataIndex: "AccountType",
-      sorter: {
-        compare: (a, b) => a.AccountType - b.AccountType,
-        multiple: 1,
-      },
     },
     {
       title: "Action",
       dataIndex: "Action",
-      sorter: {
-        compare: (a, b) => a.Action - b.Action,
-        multiple: 1,
-      },
     },
   ];
 

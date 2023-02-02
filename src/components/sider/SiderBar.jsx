@@ -37,14 +37,18 @@ const SiderBar = ({ closeSidebar }) => {
         message.success(res.data.message);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        message.error(error.response?.data.message);
+        if (error.response.status === 401) {
+          setLoading((prev) => ({ ...prev, logout: false }));
+          navigate("/");
+          localStorage.removeItem("token");
+        }
       });
     setLoading((prev) => ({ ...prev, logout: false }));
     //
   };
 
   const CreatePowerUser = async () => {
-    console.log("user");
     setLoading((prev) => ({ ...prev, CreatePowerUser: true }));
     await axios
       .post(
@@ -60,7 +64,12 @@ const SiderBar = ({ closeSidebar }) => {
         message.success(res.data.message);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        message.error(error.response?.data.message);
+        if (error.response.status === 401) {
+          setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+          navigate("/");
+          localStorage.removeItem("token");
+        }
       });
     setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
@@ -80,11 +89,18 @@ const SiderBar = ({ closeSidebar }) => {
         setPaymentListData(res.data.data);
       })
       .catch((error) => {
-        // console.log(error);
+        message.error(error.response?.data.message);
+        if (error.response.status === 401) {
+          setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+          navigate("/");
+          localStorage.removeItem("token");
+        }
       });
   };
   useEffect(() => {
-    paymentMethod();
+    if (userType == 5) {
+      paymentMethod();
+    }
   }, []);
   const UrlArray = [
     "/Upi_Method_Screen",
@@ -194,7 +210,7 @@ const SiderBar = ({ closeSidebar }) => {
           ],
         }
       : "",
-    userType != "4"
+    userType == "5"
       ? {
           key: "9",
           icon: <RiBankFill />,
@@ -202,7 +218,7 @@ const SiderBar = ({ closeSidebar }) => {
           children: payment_list,
         }
       : "",
-    userType != "5"
+    userType == "4"
       ? {
           key: "10",
           icon: <FaImage />,
