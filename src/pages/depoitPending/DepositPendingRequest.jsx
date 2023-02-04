@@ -30,7 +30,6 @@ import DeleteModal from "../../components/deleteModal/DeleteModal";
 
 const DepositPendingRequest = () => {
   const [searchText, setSearchText] = useState("");
-  const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
   const { loading, setLoading } = useContext(LoaderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -48,23 +47,14 @@ const DepositPendingRequest = () => {
     noOfRecords: 25,
     totalPages: 1,
   });
-  const reset = () => {
-    setSearchText("");
-    setMessage("");
-  };
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-    // console.log(event);
-  };
-  const handleClick = () => {
-    // 👇 "message" stores input field value
-    setSearchText(message);
-  };
 
   const navigate = useNavigate();
 
-  //////deposit Modal
-
+  const handleChange2 = (event) => {
+    console.log(event, "event");
+    setSearchText(event.target.value);
+    // console.log(event);
+  };
   //////withdrawal Modal
 
   const tabledata = async () => {
@@ -87,7 +77,7 @@ const DepositPendingRequest = () => {
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
+        antdmessage.error(error.response.data.message);
         if (error.response.status === 401) {
           setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
           navigate("/");
@@ -142,7 +132,8 @@ const DepositPendingRequest = () => {
         amount: res?.amount,
         image: (
           <Image
-            width={100}
+            width={50}
+            height={50}
             src={res.image}
             style={{ borderRadius: "100px" }}
           />
@@ -152,24 +143,36 @@ const DepositPendingRequest = () => {
             className="action"
             style={{ display: "flex", alignItems: "center", gap: "10px" }}
           >
-            <Button
-              style={{ background: "#34c38f", color: "white", border: "none" }}
-              onClick={() => {
-                showModal(res.id);
-                setApiCall(1);
-              }}
-            >
-              Approve
-            </Button>
-            <Button
-              style={{ background: "#ed5c5c", color: "white", border: "none" }}
-              onClick={() => {
-                showModal(res.id);
-                setApiCall(0);
-              }}
-            >
-              Reject
-            </Button>
+            <Tooltip placement="top" title="Approve">
+              <Button
+                style={{
+                  background: "#34c38f",
+                  color: "white",
+                  border: "none",
+                }}
+                onClick={() => {
+                  showModal(res.id);
+                  setApiCall(1);
+                }}
+              >
+                A
+              </Button>
+            </Tooltip>
+            <Tooltip placement="top" title="Reject">
+              <Button
+                style={{
+                  background: "#ed5c5c",
+                  color: "white",
+                  border: "none",
+                }}
+                onClick={() => {
+                  showModal(res.id);
+                  setApiCall(0);
+                }}
+              >
+                R
+              </Button>
+            </Tooltip>
           </div>
         ),
       });
@@ -274,39 +277,14 @@ const DepositPendingRequest = () => {
           </p>
         </div>
         <div className="table">
-          <div className="search">
-            <div className="left-col">
-              <Input
-                placeholder="search here....."
-                name="message"
-                onChange={handleChange}
-                value={message}
-              />
-              <div className="serch-btn">
-                <Button
-                  onClick={handleClick}
-                  style={{ background: "#23292E", color: "white" }}
-                >
-                  Load
-                </Button>
-                <Button
-                  onClick={reset}
-                  style={{ background: "#eff2f7", color: "black" }}
-                >
-                  Reset
-                </Button>
-              </div>
-            </div>
-            <div className="right-col">
-              {/* <Link to="/creatAaccounts">
-                <Button style={{ color: "white", border: "none" }}>
-                  <AiOutlinePlus />
-                  Create Account
-                </Button>
-              </Link> */}
-            </div>
-          </div>
-          <div style={{ paddingLeft: "5px" }}>
+          <div
+            style={{
+              paddingLeft: "5px",
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "10px 0px 10px 0px",
+            }}
+          >
             <label className="d-inline-flex align-items-center">
               Show&nbsp;
               <select
@@ -327,6 +305,18 @@ const DepositPendingRequest = () => {
               </select>
               &nbsp;entries
             </label>
+            <div className="serch-input-account-statement">
+              <input
+                type="search"
+                placeholder="search..."
+                onChange={handleChange2}
+                style={{
+                  border: "1px solid #ced4da",
+                  padding: "0.4rem 0.5rem",
+                  borderRadius: "3px",
+                }}
+              />
+            </div>
           </div>
           <Table
             columns={columns}

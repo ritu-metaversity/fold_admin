@@ -1,6 +1,8 @@
 $breakpoint-specific: 1218px;
 $breakpoint-tablet: 870px;
 $breakpoint-mobile: 600px;
+$breakpoint-medium: 1370px;
+$breakpoint-common: 1280px;
 .view-more-header{
     margin-bottom: 10px;
     button{
@@ -181,6 +183,9 @@ $breakpoint-mobile: 600px;
         font-size: 12px;
         // font-weight: 600;
         padding: 2px 2px 2px 5px !important;
+        @media (max-width: $breakpoint-mobile) {
+            font-size: 14px;
+              }
     
     }
 tr{

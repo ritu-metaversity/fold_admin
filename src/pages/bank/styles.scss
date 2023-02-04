@@ -1,12 +1,22 @@
+$breakpoint-specific: 1218px;
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-medium: 1370px;
+$breakpoint-common: 1280px;
 .bank{
     .ant-table-tbody>tr>td{
         font-size: 12px;
         // font-weight: 600;
         padding: 1px 0px 1px 16px !important;
-    
+        @media (max-width: $breakpoint-mobile) {
+            font-size: 14px;
+              }
     }
     .ant-table-thead >tr>th{
         font-size: 12px;
         font-weight: bolder!important;
+        @media (max-width: $breakpoint-mobile) {
+            font-size: 14px;
+              }
     }
 }

@@ -21,8 +21,11 @@ $breakpoint-common: 1280px;
     
     height: 92.3vh;
     @media (max-width: $breakpoint-tablet) {
-            height: calc(91.5vh - 100px);
+            height: calc(91.5vh - 60px);
         }
+        @media (max-width: $breakpoint-mobile) {
+          height: calc(91.5vh - 140px);
+      }
     //    margin-top: 4.5%;
     //    @media (max-width: $breakpoint-specific) {
     //     margin-top: 8%;

@@ -63,19 +63,20 @@ const Bank = () => {
         }
       )
       .then((res) => {
-        if (res.data.data.dataList) {
+        if (res.data.data?.dataList) {
           setPaginationData({
             ...paginationData,
             totalPages: res.data.data?.totalPages || 1,
           });
-          setDataList(res.data.data.dataList);
+          setDataList(res.data.data?.dataList);
         } else {
           setDataList();
-          navigate("/");
         }
       })
       .catch((error) => {
+        console.log(error);
         if (error.response.status === 401) {
+          setLoading((prev) => ({ ...prev, BankTable: false }));
           navigate("/");
         }
       });
@@ -86,14 +87,19 @@ const Bank = () => {
     tabledata();
   }, [paginationData.index, paginationData.noOfRecords]);
 
+  useEffect(() => {
+    return () => {
+      console.log("Clean UP Bank");
+      setLoading((prev) => ({ ...prev, BankTable: false }));
+    };
+  }, []);
   const submit = async (obj) => {
-    setLoading((prev) => ({ ...prev, submitBankData: true }));
     if (value[obj]) {
       const currentVaue = value[obj];
 
       setError({ ...error, [obj]: false });
       setvalue({ ...value, [obj]: "" });
-
+      setLoading((prev) => ({ ...prev, submitBankData: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Bank_deposit_amount}`,
@@ -305,7 +311,7 @@ const Bank = () => {
                   </Button>
                 </div>
               </div>
-              <div className="right-col">
+              {/* <div className="right-col">
                 <input
                   type="password"
                   placeholder="Transaction Code"
@@ -319,7 +325,7 @@ const Bank = () => {
                 <Button style={{ background: "black", color: "white" }}>
                   <Link to="">Transfer All</Link>
                 </Button>
-              </div>
+              </div> */}
             </div>
 
             <div style={{ paddingLeft: "5px" }}>

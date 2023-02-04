@@ -220,7 +220,7 @@ const ActiveUser = () => {
       dataIndex: "ust",
     },
     {
-      title: "PPhone",
+      title: "PName",
       dataIndex: "PPhone",
     },
     {
@@ -267,7 +267,7 @@ const ActiveUser = () => {
       PPhone: res?.pname,
       AccountType: res?.accountType,
       Action: (
-        <>
+        <div style={{ paddingRight: "10px" }}>
           <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
             <Button
               style={{
@@ -305,7 +305,7 @@ const ActiveUser = () => {
           >
             more
           </Button>
-        </>
+        </div>
       ),
     });
   });
@@ -350,7 +350,7 @@ const ActiveUser = () => {
           onCancel={handleCancel}
           okText="Submit"
           className="deposite"
-          destroyOnClose="true"
+          destroyOnClose
         >
           <DepositForm
             handleCancel={handleCancel}
@@ -364,7 +364,7 @@ const ActiveUser = () => {
           onOk={handleOk}
           onCancel={handleCancel}
           className="widrwal"
-          destroyOnClose="true"
+          destroyOnClose
         >
           <Widrawal
             handleCancel={handleCancel}
@@ -374,11 +374,12 @@ const ActiveUser = () => {
         </Modal>
         <Modal
           // title={DataList.find((item) => item.id == userData)?.username}
+          title={userId.username}
           open={profileModal}
           onOk={handleOk}
           onCancel={handleCancel}
-          className="more"
-          destroyOnClose="true"
+          className="more card-header"
+          destroyOnClose
         >
           <MoreCard data={userId} handleCancelfunction={handleCancel} />
         </Modal>

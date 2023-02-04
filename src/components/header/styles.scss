@@ -152,9 +152,12 @@ align-items: center;
 
     }
 }
-.ant-dropdown {
-    top: 63px!important;
-    position: fixed!important;
+.select{
+
+    .ant-dropdown {
+        top: 63px!important;
+        position: fixed!important;
+    }
 }
 .container{
 background-color:white ;

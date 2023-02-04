@@ -212,11 +212,11 @@ const PoerList = () => {
         remarkRender={1}
       />
       <div className="hading-create-accounts">
-        <h4>Power List</h4>
+        <h4>Helper List</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
           <NavLink to="/Power_List_Screen" style={{ color: "#74788d" }}>
-            Power List
+            Helper List
           </NavLink>
         </p>
       </div>
