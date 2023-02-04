@@ -1,15 +1,25 @@
-
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-medium: 1370px;
+$breakpoint-common: 1280px;
 .acountTable{
     .ant-table-tbody>tr>td{
         font-size: 12px;
         // font-weight: 600;
         padding: 2px 2px 2px 5px !important;
+        @media (max-width: $breakpoint-mobile) {
+            font-size: 14px;
+              }
     
     }
     .ant-table-thead >tr>th{
         font-size: 12px;
         padding:2px 2px 2px 5px!important;
         font-weight: bolder!important;
+        @media (max-width: $breakpoint-mobile) {
+            font-size: 14px;
+              }
     }
     .ant-table-tbody{
         tr{

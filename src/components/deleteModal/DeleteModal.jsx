@@ -39,7 +39,11 @@ const DeleteModal = ({
           titleArray[headerColor] || remarkRender == 1 ? titleArray[2] : ""
         }
         open={showModal}
-        onOk={() => (textArea ? handleOk(textArea) : settextareaError(true))}
+        onOk={() =>
+          textArea || remarkRender == 1
+            ? handleOk(textArea)
+            : settextareaError(true)
+        }
         onCancel={handleCancel}
         destroyOnClose
         className={

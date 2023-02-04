@@ -4,6 +4,8 @@ $breakpoint-specific: 1218px;
 $breakpoint-custom-header :710px;
 
 
+
+  
 .Account-list-search{
     
     .left-col{
@@ -14,6 +16,33 @@ $breakpoint-custom-header :710px;
          }
         .search-input-account-statement{
          width: 250px;
+         height: 100%;
+         .search-input-account-div{
+            position: relative;
+          .dropdown-list{
+            width: 100%;
+            background-color: white;
+            position: absolute;
+            z-index: 10;
+            top: 90%;
+            display: block;
+            border: 1px solid rgb(233, 227, 227);
+            border-radius: 5px;
+            p{
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+            }
+          }
+          .dropdown-list2{
+            display: none;
+            p{
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+            }
+          }
+         }
          @media (max-width: $breakpoint-tablet) {
          width: 98%;
          }

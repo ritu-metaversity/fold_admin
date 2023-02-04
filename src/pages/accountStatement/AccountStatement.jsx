@@ -10,10 +10,10 @@ import {
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { message as antdmessage } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
 
 import axios from "axios";
-import { Account_Statement_Api } from "../../routes/Routes";
+import { Account_Statement_Api, Search_Api } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
@@ -32,36 +32,26 @@ const AccountStatement = () => {
   const [selectValue, setSelectValue] = useState(1);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs);
-
   ////edit profile State
   const [sortedInfo, setSortedInfo] = useState({});
+  const [searchData, setSearchData] = useState("");
+  const [searchDataList, setSearchDataList] = useState([]);
+  const [id, setId] = useState("");
   const handleChangeTable = (pagination, filters, sorter) => {
     // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 
-  const clearAll = () => {
-    setSortedInfo({});
-  };
-  const setAgeSort = () => {
-    setSortedInfo({
-      order: "descend",
-      columnKey: "age",
-    });
-  };
   const [paginationData, setPaginationData] = useState({
     index: 0,
     noOfRecords: 25,
     totalPages: 1,
   });
   const reset = () => {
-    setSearchText("");
+    setSearchData("");
     setMessage("");
   };
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-    // console.log(event);
-  };
+
   const handleChange2 = (event) => {
     setSearchText(event.target.value);
     // console.log(event);
@@ -89,6 +79,30 @@ const AccountStatement = () => {
 
   //////deposit Modal
 
+  const Search = async (e) => {
+    const value = e.target.value;
+    setSearchData(value);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setSearchDataList([]);
+
+        console.log(res.data.data);
+        setSearchDataList(res.data.data);
+      })
+      .catch((error) => {
+        setSearchDataList([]);
+        console.log(error);
+      });
+  };
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
     console.log(dateTo, dateTo.toISOString());
@@ -100,7 +114,7 @@ const AccountStatement = () => {
           noOfRecords: paginationData.noOfRecords,
           toDate: dateTo.toISOString().split("T")[0],
           fromDate: dateFrom.toISOString().split("T")[0],
-          userid: message,
+          userid: id,
           type: selectValue,
         },
 
@@ -285,6 +299,14 @@ const AccountStatement = () => {
       label: "three",
     },
   ];
+  const [listDisplay, setListDisplay] = useState(false);
+  const setIdText = (id, text) => {
+    console.log(id, text, "dtat");
+    setSearchData(text);
+    setId(id);
+    setListDisplay(false);
+    setSearchDataList([]);
+  };
   return (
     <UserModalContext.Provider value={{}}>
       <Mainlayout>
@@ -301,32 +323,41 @@ const AccountStatement = () => {
           <div className="search Account-list-search">
             <div className="left-col">
               <div className="search-input-account-statement">
-                <label
-                  style={{
-                    color: "#495057",
-                    fontWeight: "500",
-                    fontSize: "14px",
-                  }}
-                >
-                  Search By Client Name
-                </label>
-                {/* <div style={{ position: "relative", background: "red" }}>
-                  <Dropdown
-                    // open={Boolean(items.length)}
-                    style={{ position: "absolute", top: "0px" }}
-                    menu={{
-                      items,
+                <div className="search-input-account-div">
+                  <label
+                    style={{
+                      color: "#495057",
+                      fontWeight: "500",
+                      fontSize: "14px",
                     }}
-                  > */}
-                <Input
-                  placeholder="search here....."
-                  name="message"
-                  onChange={handleChange}
-                  value={message}
-                  style={{ margin: "7px 0px 7px 0px" }}
-                />
-                {/* </Dropdown> */}
-                {/* </div> */}
+                  >
+                    Search By Client Name
+                  </label>
+                  <Input
+                    placeholder="search here....."
+                    name="message"
+                    onChange={Search}
+                    value={searchData}
+                    autoComplete="off"
+                    onFocus={() => setListDisplay(true)}
+                    // onBlur={() => setListDisplay(false)}
+                    style={{ margin: "7px 0px 7px 0px" }}
+                    className="input-dropdown"
+                  />
+                  <div
+                    className={listDisplay ? "dropdown-list" : "dropdown-list2"}
+                  >
+                    {searchDataList?.map((res) => {
+                      return (
+                        <div style={{ borderBottom: "1px solid #e1dbdb" }}>
+                          <p onClick={() => setIdText(res.id, res.text)}>
+                            {res.text}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
               </div>
 
               <div className="date-search">
@@ -348,10 +379,7 @@ const AccountStatement = () => {
                     d.isBefore(dayjs().subtract(7, "day")) ||
                     d.isAfter(dayjs())
                   }
-                  defaultValue={[
-                    dayjs("2015-06-06", dateFormat),
-                    dayjs("2015-06-06", dateFormat),
-                  ]}
+                  defaultValue={[dayjs(), dayjs()]}
                 />
               </div>
               <div className="selct-account-statement">

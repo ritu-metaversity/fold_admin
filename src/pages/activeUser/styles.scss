@@ -10,7 +10,9 @@ $breakpoint-custom:700px;
         font-size: 12px;
         // font-weight: 600;
         padding: 2px 2px 2px 5px !important;
-    
+        @media (max-width: $breakpoint-mobile) {
+            font-size: 14px;
+              }
     }
     .ant-table-thead >tr>th{
         font-size: 12px;
@@ -270,5 +272,13 @@ background-color: #fff;
 }
 .deposite{
     top: 50px!important;
+}
+.card-header{
+    .anticon{
+color:white
+    }
+          .ant-modal-title{
+        background-color: #23292E;
+    }
 }
 

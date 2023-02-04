@@ -416,6 +416,9 @@ padding: 2px 0px;
         font-size: 12px;
         // font-weight: 600;
         padding: 2px 2px 2px 5px !important;
+        @media (max-width: $breakpoint-mobile) {
+            font-size: 14px;
+              }
     
     }
     .ant-table-thead >tr>th{

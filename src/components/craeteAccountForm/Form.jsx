@@ -14,7 +14,7 @@ const Accountform = () => {
   const [userId, setuserId] = useState("");
   const [userPass, setUserPass] = useState("");
   const [downline, setDownLine] = useState(100);
-
+  const [currentUserROle, setCurrentUserROle] = useState("");
   const { loading, setLoading } = useContext(LoaderContext);
   const userType = localStorage.getItem("userType");
   const partnership = localStorage.getItem("partnership");
@@ -40,7 +40,7 @@ const Accountform = () => {
     fancyLossCommission: false,
     // mobile: false,
     oddLossCommission: false,
-    sportPartnership: userType == "4" ? false : undefined,
+    sportPartnership: currentUserROle == 2 ? false : undefined,
     userRole: false,
   });
 
@@ -99,7 +99,9 @@ const Accountform = () => {
         };
       });
     }
-
+    if (Name == "userRole") {
+      setCurrentUserROle(value);
+    }
     setData((prev) => {
       return {
         ...prev,
@@ -110,10 +112,15 @@ const Accountform = () => {
 
   const onFinish = async () => {
     let isError = false;
-    console.log(errorData, "data");
-    Object.keys(errorData).forEach((key) => {
+    if (data)
+      if (userType !== 4) {
+        delete data.appId;
+      }
+    if (data.userRole === 2) {
+      delete data.sportPartnership;
+    }
+    Object.keys(data).forEach((key) => {
       if (!data[key]) {
-        console.log("ram1", key);
         isError = true;
 
         setErrorData((prev) => {
@@ -171,15 +178,14 @@ const Accountform = () => {
             setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
             navigate("/");
             localStorage.removeItem("token");
-            message.error(error.response.data.message);
           }
         });
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     }
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+  // const onFinishFailed = (errorInfo) => {
+  //   console.log("Failed:", errorInfo);
+  // };
 
   const usertypeArray = {
     0: [
@@ -300,7 +306,7 @@ const Accountform = () => {
         layout="vertical"
         autoComplete="off"
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        // onFinishFailed={onFinishFailed}
         className="create-form"
       >
         <div className="left-col-section">
@@ -311,12 +317,12 @@ const Accountform = () => {
             label="User Name:"
             // bordered={false}
             // style={{ border: "1px solid red" }}
-            rules={[
-              {
-                required: true,
-                message: "Please input your username!",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Please input your username!",
+            //   },
+            // ]}
           >
             <div className={errorData?.username ? "col-input2" : "col-input"}>
               <Input

@@ -6,6 +6,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
 const Mainlayout = ({ children }) => {
+  const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
 
   const ShowSideBar = () => {
@@ -14,10 +15,19 @@ const Mainlayout = ({ children }) => {
   const closeSidebar = () => {
     setSidebar(false);
   };
+  const clickfun = () => {
+    setDisplay(!display);
+  };
   return (
     <>
+      {display ? (
+        <div className="overlay-dropdown" onClick={clickfun}></div>
+      ) : (
+        ""
+      )}
+
       <div className="header">
-        <Header />
+        <Header overlayState={display} setDisplay={setDisplay} />
       </div>
       <div className="content-conatiner">
         <div className="container">

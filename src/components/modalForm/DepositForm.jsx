@@ -57,6 +57,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
       });
     }
   };
+
   const Submit = async () => {
     if (formData.amount && formData.lupassword && formData.remark) {
       setLoading((prev) => ({ ...prev, submitDeposit: true }));
@@ -129,143 +130,145 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
   }, []);
 
   return (
-    <div className="form">
+    <div className="form-container">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>
-        {data.username}
+        Deposit
       </p>
-      <div className="row-1">
-        <label>{deposit.parentName}</label>
-        <div className="input">
-          <input type="text" disabled={true} value={deposit.parentAmount} />
-          <input
-            type="text"
-            disabled={true}
-            value={
-              formData.amount
-                ? Number(deposit.parentAmount) - Number(formData.amount)
-                : 0
-            }
-          />
+      <div className="form">
+        <div className="row-1">
+          <label>{deposit.parentName}</label>
+          <div className="input">
+            <input type="text" disabled={true} value={deposit.parentAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={
+                formData.amount
+                  ? Number(deposit.parentAmount) - Number(formData.amount)
+                  : 0
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>{deposit.childName}</label>
-        <div className="input">
-          <input type="text" disabled={true} value={deposit.childAmount} />
-          <input
-            type="text"
-            disabled={true}
-            value={
-              formData.amount
-                ? Number(deposit.childAmount) + Number(formData.amount)
-                : 0
-            }
-          />
+        <div className="row-1">
+          <label>{deposit.childName}</label>
+          <div className="input">
+            <input type="text" disabled={true} value={deposit.childAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={
+                formData.amount
+                  ? Number(deposit.childAmount) + Number(formData.amount)
+                  : 0
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>Profit/loss</label>
-        <div className="input">
-          <input
-            type="text"
-            disabled={true}
-            value={deposit.childUplineAmount}
-          />
-          <input
-            type="text"
-            disabled={true}
-            value={
-              formData.amount
-                ? Number(deposit.childUplineAmount) + Number(formData.amount)
-                : 0
-            }
-          />
+        <div className="row-1">
+          <label>Profit/loss</label>
+          <div className="input">
+            <input
+              type="text"
+              disabled={true}
+              value={deposit.childUplineAmount}
+            />
+            <input
+              type="text"
+              disabled={true}
+              value={
+                formData.amount
+                  ? Number(deposit.childUplineAmount) + Number(formData.amount)
+                  : 0
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>Amount</label>
-        <div
-          className="input"
-          style={{
-            background: "white",
-            border: `${error.amount ? "1px solid red" : "1px solid #ced4da"}`,
-            borderRadius: " 0.25rem",
-          }}
-        >
-          <input
-            type="text"
-            name="amount"
-            ref={AmountRef}
-            value={formData.amount || ""}
+        <div className="row-1">
+          <label>Amount</label>
+          <div
+            className="input"
             style={{
-              width: "100%",
-              textAlign: "right",
-              border: "none",
-              outline: "none",
+              background: "white",
+              border: `${error.amount ? "1px solid red" : "1px solid #ced4da"}`,
+              borderRadius: " 0.25rem",
             }}
-            placeholder="Amount"
-            onChange={(event) => handleChange(event, "amount")}
-          />
-          {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          >
+            <input
+              type="text"
+              name="amount"
+              ref={AmountRef}
+              value={formData.amount || ""}
+              style={{
+                width: "100%",
+                textAlign: "right",
+                border: "none",
+                outline: "none",
+              }}
+              placeholder="Amount"
+              onChange={(event) => handleChange(event, "amount")}
+            />
+            {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>Remark</label>
-        <div
-          className="input"
-          style={{
-            background: "white",
-            border: `${error.remark ? "1px solid red" : "1px solid #ced4da"}`,
-            borderRadius: " 0.25rem",
-          }}
-        >
-          <textarea
-            id="w3review"
-            name="remark"
-            rows="4"
-            cols="50"
-            style={{ border: "none", outline: "none" }}
-            placeholder="Remark"
-            textAlign="left"
-            value={formData.remark}
-            onChange={handleChange}
-          ></textarea>
-          {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+        <div className="row-1">
+          <label>Remark</label>
+          <div
+            className="input"
+            style={{
+              background: "white",
+              border: `${error.remark ? "1px solid red" : "1px solid #ced4da"}`,
+              borderRadius: " 0.25rem",
+            }}
+          >
+            <textarea
+              id="w3review"
+              name="remark"
+              rows="4"
+              cols="50"
+              style={{ border: "none", outline: "none" }}
+              placeholder="Remark"
+              textAlign="left"
+              value={formData.remark}
+              onChange={handleChange}
+            ></textarea>
+            {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          </div>
         </div>
-      </div>
 
-      <div className="row-1">
-        <label>Transaction Code</label>
-        <div
-          className="input"
-          style={{
-            background: "white",
-            border: `${
-              error.lupassword ? "1px solid red" : "1px solid #ced4da"
-            }`,
-            borderRadius: " 0.25rem",
-          }}
-        >
-          <input
-            type="password"
-            id="pwd"
-            name="lupassword"
-            style={{ width: "100%", textAlign: "left", border: "none" }}
-            onChange={handleChange}
-            value={formData.lupassword}
-          ></input>
-          {error.lupassword ? (
-            <RxCross2 style={{ paddingRight: "10px" }} />
-          ) : (
-            ""
-          )}
+        <div className="row-1">
+          <label>Transaction Code</label>
+          <div
+            className="input"
+            style={{
+              background: "white",
+              border: `${
+                error.lupassword ? "1px solid red" : "1px solid #ced4da"
+              }`,
+              borderRadius: " 0.25rem",
+            }}
+          >
+            <input
+              type="password"
+              id="pwd"
+              name="lupassword"
+              style={{ width: "100%", textAlign: "left", border: "none" }}
+              onChange={handleChange}
+              value={formData.lupassword}
+            ></input>
+            {error.lupassword ? (
+              <RxCross2 style={{ paddingRight: "10px" }} />
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
-      <div className="row-button">
-        <Button onClick={Submit}>
-          Submit
-          <MdOutlineLogin />
-        </Button>
+        <div className="row-button">
+          <Button onClick={Submit}>
+            Submit
+            <MdOutlineLogin />
+          </Button>
+        </div>
       </div>
     </div>
   );
