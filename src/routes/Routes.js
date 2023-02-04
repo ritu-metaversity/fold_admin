@@ -54,6 +54,8 @@ export const Reject_Withdraw_Request = "pw/reject-withdraw-request";
 export const Approve_Deposit_Request = "pw/approve-deposit-request";
 export const Approve_Withdraw_Request = "pw/approve-withdraw-request";
 export const Change_Password_User = "user/change-password-self";
+export const Search_Api = "user/search-user-downline?";
+export const User_Balance = "user/user-balance";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";

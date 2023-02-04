@@ -132,139 +132,141 @@ const Widrawal = ({ data, gettableData }) => {
   }, []);
 
   return (
-    <div className="form">
+    <div className="form-container">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>
-        shiv 2
+        Withdraw
       </p>
-      <div className="row-1">
-        <label>{widrawal.parentName}</label>
-        <div className="input">
-          <input type="text" disabled={true} value={widrawal.parentAmount} />
-          <input
-            type="text"
-            disabled={true}
-            value={
-              formData.amount
-                ? Number(widrawal.parentAmount) + Number(formData.amount)
-                : 0
-            }
-          />
+      <div className="form">
+        <div className="row-1">
+          <label>{widrawal.parentName}</label>
+          <div className="input">
+            <input type="text" disabled={true} value={widrawal.parentAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={
+                formData.amount
+                  ? Number(widrawal.parentAmount) + Number(formData.amount)
+                  : 0
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>{widrawal.childName}</label>
-        <div className="input">
-          <input type="text" disabled={true} value={widrawal.childAmount} />
-          <input
-            type="text"
-            disabled={true}
-            value={
-              formData.amount
-                ? Number(widrawal.childAmount) - Number(formData.amount)
-                : 0
-            }
-          />
+        <div className="row-1">
+          <label>{widrawal.childName}</label>
+          <div className="input">
+            <input type="text" disabled={true} value={widrawal.childAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={
+                formData.amount
+                  ? Number(widrawal.childAmount) - Number(formData.amount)
+                  : 0
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>Profit/loss</label>
-        <div className="input">
-          <input
-            type="text"
-            disabled={true}
-            value={widrawal.childUplineAmount}
-          />
-          <input
-            type="text"
-            disabled={true}
-            value={
-              formData.amount
-                ? Number(widrawal.childUplineAmount) - Number(formData.amount)
-                : 0
-            }
-          />
+        <div className="row-1">
+          <label>Profit/loss</label>
+          <div className="input">
+            <input
+              type="text"
+              disabled={true}
+              value={widrawal.childUplineAmount}
+            />
+            <input
+              type="text"
+              disabled={true}
+              value={
+                formData.amount
+                  ? Number(widrawal.childUplineAmount) - Number(formData.amount)
+                  : 0
+              }
+            />
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>Amount</label>
-        <div
-          className="input"
-          style={{
-            background: "white",
-            border: `${error.amount ? "1px solid red" : "1px solid #ced4da"}`,
-            borderRadius: " 0.25rem",
-          }}
-        >
-          <input
-            type="text"
-            name="amount"
-            value={formData.amount || ""}
+        <div className="row-1">
+          <label>Amount</label>
+          <div
+            className="input"
             style={{
-              width: "100%",
-              textAlign: "right",
-              border: "none",
-              outline: "none",
+              background: "white",
+              border: `${error.amount ? "1px solid red" : "1px solid #ced4da"}`,
+              borderRadius: " 0.25rem",
             }}
-            placeholder="Amount"
-            onChange={handleChange}
-          />
-          {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          >
+            <input
+              type="text"
+              name="amount"
+              value={formData.amount || ""}
+              style={{
+                width: "100%",
+                textAlign: "right",
+                border: "none",
+                outline: "none",
+              }}
+              placeholder="Amount"
+              onChange={handleChange}
+            />
+            {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>Remark</label>
-        <div
-          className="input"
-          style={{
-            background: "white",
-            border: `${error.remark ? "1px solid red" : "1px solid #ced4da"}`,
-            borderRadius: " 0.25rem",
-          }}
-        >
-          <textarea
-            name="remark"
-            rows="4"
-            cols="50"
-            textAlign="left"
-            style={{ border: "none", outline: "none" }}
-            placeholder="Remark"
-            value={formData.remark}
-            onChange={handleChange}
-          ></textarea>
-          {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+        <div className="row-1">
+          <label>Remark</label>
+          <div
+            className="input"
+            style={{
+              background: "white",
+              border: `${error.remark ? "1px solid red" : "1px solid #ced4da"}`,
+              borderRadius: " 0.25rem",
+            }}
+          >
+            <textarea
+              name="remark"
+              rows="4"
+              cols="50"
+              textAlign="left"
+              style={{ border: "none", outline: "none" }}
+              placeholder="Remark"
+              value={formData.remark}
+              onChange={handleChange}
+            ></textarea>
+            {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
+          </div>
         </div>
-      </div>
-      <div className="row-1">
-        <label>Transaction Code</label>
-        <div
-          className="input"
-          style={{
-            background: "white",
-            border: `${
-              error.lupassword ? "1px solid red" : "1px solid #ced4da"
-            }`,
-            borderRadius: " 0.25rem",
-          }}
-        >
-          <input
-            type="password"
-            name="lupassword"
-            style={{ width: "100%", textAlign: "left", border: "none" }}
-            onChange={handleChange}
-            value={formData.lupassword}
-          ></input>
-          {error.lupassword ? (
-            <RxCross2 style={{ paddingRight: "10px" }} />
-          ) : (
-            ""
-          )}
+        <div className="row-1">
+          <label>Transaction Code</label>
+          <div
+            className="input"
+            style={{
+              background: "white",
+              border: `${
+                error.lupassword ? "1px solid red" : "1px solid #ced4da"
+              }`,
+              borderRadius: " 0.25rem",
+            }}
+          >
+            <input
+              type="password"
+              name="lupassword"
+              style={{ width: "100%", textAlign: "left", border: "none" }}
+              onChange={handleChange}
+              value={formData.lupassword}
+            ></input>
+            {error.lupassword ? (
+              <RxCross2 style={{ paddingRight: "10px" }} />
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-      </div>
-      <div className="row-button">
-        <Button onClick={Submit}>
-          Submit
-          <MdOutlineLogin />
-        </Button>
+        <div className="row-button">
+          <Button onClick={Submit}>
+            Submit
+            <MdOutlineLogin />
+          </Button>
+        </div>
       </div>
     </div>
   );

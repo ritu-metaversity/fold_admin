@@ -113,7 +113,7 @@ const SiderBar = ({ closeSidebar }) => {
       key: res?.id + 2 + res?.methodName,
       label: (
         <Link to={UrlArray[res?.id - 1]}>
-          <p className="acount-list">{res?.methodName}</p>
+          <span style={{ fontSize: "14px" }}>{res?.methodName}</span>
         </Link>
       ),
     });
@@ -130,17 +130,17 @@ const SiderBar = ({ closeSidebar }) => {
     //   ),
     // },
     {
-      key: "2",
+      key: 2,
       icon: <TbBrandGoogleAnalytics />,
       label: <Link to="/marketanalysis">Market Analysis</Link>,
     },
     {
-      key: "3",
+      key: 3,
       icon: <RiAccountCircleFill />,
       label: "Accounts",
       children: [
         {
-          key: "4",
+          key: 4,
           label: (
             <Link to="/activeUser">
               <p className="acount-list">Accounts List for Active Users</p>
@@ -149,46 +149,46 @@ const SiderBar = ({ closeSidebar }) => {
         },
         userType == "5"
           ? {
-              key: "5",
-              label: <Link to="/Power_List_Screen">Power List</Link>,
+              key: 5,
+              label: <Link to="/Power_List_Screen">Helper List</Link>,
             }
           : "",
         {
-          key: "67",
+          key: 67,
           label: <Link to="/accountList">Accounts List</Link>,
         },
 
         {
-          key: "6",
+          key: 6,
           label: <Link to="/creatAaccounts">Create Accounts</Link>,
         },
         userType == "5"
           ? {
-              key: "23",
-              label: <span onClick={CreatePowerUser}>Create Power User</span>,
+              key: 23,
+              label: <span onClick={CreatePowerUser}>Create Helper</span>,
             }
           : "",
         userType == "4"
           ? {
-              key: "7",
+              key: 7,
               label: <Link to="/createdomain">Create Domain</Link>,
             }
           : "",
       ],
     },
     {
-      key: "8",
+      key: 8,
       icon: <RiBankFill />,
       label: <Link to="/bank">Bank</Link>,
     },
     userType == 5 || userType == 7
       ? {
-          key: "76",
+          key: 76,
           icon: <RiAccountCircleFill />,
           label: "Payment",
           children: [
             {
-              key: "79",
+              key: 79,
               label: (
                 <Link to="/Deposit-Pending-Request">
                   <span style={{ fontSize: "14px" }}>
@@ -198,7 +198,7 @@ const SiderBar = ({ closeSidebar }) => {
               ),
             },
             {
-              key: "90",
+              key: 90,
               label: (
                 <Link to="/Widrwal-Pending-Request">
                   <span style={{ fontSize: "14px" }}>
@@ -212,7 +212,7 @@ const SiderBar = ({ closeSidebar }) => {
       : "",
     userType == "5"
       ? {
-          key: "9",
+          key: 9,
           icon: <RiBankFill />,
           label: "Add Payment Method",
           children: payment_list,
@@ -220,35 +220,35 @@ const SiderBar = ({ closeSidebar }) => {
       : "",
     userType == "4"
       ? {
-          key: "10",
+          key: 10,
           icon: <FaImage />,
           label: <Link to="/Update-Banner">Banner</Link>,
         }
       : "",
     {
-      key: "11",
+      key: 11,
       icon: <TbFileReport />,
       label: "Report",
       children: [
         {
-          key: "45",
+          key: 45,
 
           label: <Link to="/account-Statement">Account Statement</Link>,
         },
         {
-          key: "12",
+          key: 12,
 
           label: <Link to="/currentsBets">Current Bets</Link>,
         },
         {
-          key: "13",
+          key: 13,
 
           label: <Link to="/betHistory">Bets History</Link>,
         },
       ],
     },
     {
-      key: "17",
+      key: 17,
       icon: <CiLogout />,
       label: <span onClick={logout}>Log Out</span>,
     },

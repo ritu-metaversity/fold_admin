@@ -67,3 +67,9 @@ input::-webkit-inner-spin-button {
 .ant-table-wrapper{
   overflow-x: scroll;
 }
+.ant-modal-content .ant-modal-close{
+  color: black !important;
+}
+.ant-table-wrapper{
+padding-left: 10px;
+}

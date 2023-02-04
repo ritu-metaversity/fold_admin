@@ -157,7 +157,12 @@ const DomainCard = () => {
           console.log(res.data);
           message.success(res.data.message);
           setFileList([]);
-          setData({});
+          setData({
+            appName: "",
+            appUrl: "",
+            transactionCode: "",
+            isSelfAllowed: "",
+          });
         })
         .catch((error) => {
           message.error(error.response.data.message);

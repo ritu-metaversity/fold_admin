@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
 import { IoIosAlert } from "react-icons/io";
@@ -14,14 +14,21 @@ import { useState } from "react";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
 import Changpassword from "../moreCard/components/changepassword/Changpassword";
 import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
-const Header = () => {
+import { User_Balance } from "../../routes/Routes";
+import axios from "axios";
+import DropDownHeader from "../dropDownMobileView/DropDownHeader";
+import { useMediaQuery } from "../modalForm/UseMedia";
+const Header = ({ overlayState, setDisplay }) => {
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
   };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
+  const [userBalanceamount, setUserBalance] = useState("");
   const userType = localStorage.getItem("userType");
   const userName = localStorage.getItem("username");
+  const isMobile = useMediaQuery("(min-width: 768px)");
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -32,6 +39,29 @@ const Header = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
+  const userBalance = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${User_Balance}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setUserBalance(res.data?.data?.balance);
+        // console.log(res.data.data.balance);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  useEffect(() => {
+    userBalance();
+  }, []);
 
   const items = [
     userType === "4"
@@ -53,7 +83,7 @@ const Header = () => {
               Self Deposit
             </span>
           ),
-          key: "0",
+          key: 0,
         }
       : "",
     {
@@ -74,7 +104,7 @@ const Header = () => {
           Change Password
         </span>
       ),
-      key: "1",
+      key: 1,
     },
     {
       type: "divider",
@@ -89,8 +119,75 @@ const Header = () => {
       key: "3",
     },
   ];
+  const items2 = [
+    // ...(userType === "4"
+    //   ? [
+    //       {
+    //         label: (
+    //           <span
+    //             onClick={() => {
+    //               showModal();
+    //               setModalKey(0);
+    //             }}
+    //             style={{
+    //               display: "flex",
+    //               gap: "10px",
+    //               alignItems: "center",
+    //               fontSize: "12px",
+    //             }}
+    //           >
+    //             <BsWallet2 />
+    //             Self Deposit
+    //           </span>
+    //         ),
+    //         key: 0,
+    //       },
+    //     ]
+    //   : []),
+    {
+      label: (
+        <span
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            fontSize: "12px",
+          }}
+          onClick={() => {
+            showModal();
+            setModalKey(1);
+          }}
+        >
+          <HiOutlineKey />
+          Change Password3
+        </span>
+      ),
+      key: 1,
+    },
+    {
+      type: "divider",
+    },
+    {
+      label: (
+        <Link to="/" onClick={logout}>
+          <FiLogOut />
+          Log Out
+        </Link>
+      ),
+      key: "3",
+    },
+  ];
+  // const openDropdown = () => {
+  //   setDisplay(!display);
+  // };
   return (
     <>
+      <div
+        className="drop"
+        style={{ display: !overlayState ? "none" : "block" }}
+      >
+        <DropDownHeader pts={userBalanceamount} />
+      </div>
       <Modal
         title="Basic Modal"
         open={isModalOpen}
@@ -136,24 +233,40 @@ const Header = () => {
               <span style={{ color: "#FDCF13", fontWeight: "500" }}>
                 Rule
               </span>{" "}
-              PTS: 17,27,26,0000.00
+              PTS: {userBalanceamount}
             </p>
           </div>
         </div>
         <div className="select">
-          <Dropdown
-            menu={{
-              items,
-            }}
-            trigger={["click"]}
-          >
-            <a onClick={(e) => e.preventDefault()}>
-              <Space>
+          {/* <DropDownHeader /> */}
+          {!isMobile ? (
+            <div
+              style={{ fontSize: "22px" }}
+              onClick={() => setDisplay(!overlayState)}
+            >
+              <a onClick={(e) => e.preventDefault()} style={{ color: "white" }}>
                 {userName}
                 <RiArrowDropDownLine />
-              </Space>
-            </a>
-          </Dropdown>
+              </a>
+            </div>
+          ) : (
+            <Dropdown
+              menu={{
+                items: items2,
+              }}
+              trigger={["click"]}
+              children={
+                <div>
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                      {userName}
+                      <RiArrowDropDownLine />
+                    </Space>
+                  </a>
+                </div>
+              }
+            ></Dropdown>
+          )}
         </div>
       </div>
     </>

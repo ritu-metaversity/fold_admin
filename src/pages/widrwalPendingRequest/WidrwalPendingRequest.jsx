@@ -53,20 +53,11 @@ const WidrwalPendingRequest = () => {
     noOfRecords: 25,
     totalPages: 1,
   });
-  const reset = () => {
-    setSearchText("");
-    setMessage("");
-  };
-  const handleChange = (event) => {
-    setMessage(event.target.value);
+  const handleChange2 = (event) => {
+    setSearchText(event.target.value);
     // console.log(event);
   };
-  const handleClick = () => {
-    // 👇 "message" stores input field value
-    setSearchText(message);
-  };
-  const [credit, setcredit] = useState(false);
-  const [inputBlank, setInputBlank] = useState(false);
+
   const navigate = useNavigate();
 
   const tabledata = async () => {
@@ -352,39 +343,14 @@ const WidrwalPendingRequest = () => {
           </p>
         </div>
         <div className="table">
-          <div className="search">
-            <div className="left-col">
-              <Input
-                placeholder="search here....."
-                name="message"
-                onChange={handleChange}
-                value={message}
-              />
-              <div className="serch-btn">
-                <Button
-                  onClick={handleClick}
-                  style={{ background: "#23292E", color: "white" }}
-                >
-                  Load
-                </Button>
-                <Button
-                  onClick={reset}
-                  style={{ background: "#eff2f7", color: "black" }}
-                >
-                  Reset
-                </Button>
-              </div>
-            </div>
-            <div className="right-col">
-              {/* <Link to="/creatAaccounts">
-                  <Button style={{ color: "white", border: "none" }}>
-                    <AiOutlinePlus />
-                    Create Account
-                  </Button>
-                </Link> */}
-            </div>
-          </div>
-          <div style={{ paddingLeft: "5px" }}>
+          <div
+            style={{
+              paddingLeft: "5px",
+              display: "flex",
+              justifyContent: "space-between",
+              margin: "10px 0px 10px 0px",
+            }}
+          >
             <label className="d-inline-flex align-items-center">
               Show&nbsp;
               <select
@@ -405,6 +371,18 @@ const WidrwalPendingRequest = () => {
               </select>
               &nbsp;entries
             </label>
+            <div className="serch-input-account-statement">
+              <input
+                type="search"
+                placeholder="search..."
+                onChange={handleChange2}
+                style={{
+                  border: "1px solid #ced4da",
+                  padding: "0.4rem 0.5rem",
+                  borderRadius: "3px",
+                }}
+              />
+            </div>
           </div>
           <Table
             columns={columns}

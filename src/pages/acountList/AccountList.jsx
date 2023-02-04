@@ -215,7 +215,7 @@ const Activelist = () => {
         PName: res?.pname,
         AccountType: res?.accountType,
         Action: (
-          <>
+          <div style={{ paddingRight: "10px" }}>
             <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
               <Button
                 style={{
@@ -253,7 +253,7 @@ const Activelist = () => {
             >
               more
             </Button>
-          </>
+          </div>
         ),
       });
     }
