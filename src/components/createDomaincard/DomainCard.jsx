@@ -138,7 +138,7 @@ const DomainCard = () => {
     );
     console.log("formData", formData.get("file"));
 
-    if (error.appName || error.appUrl || error.transactionCode) {
+    if (error.appName && error.appUrl && Boolean(data.transactionCode)) {
     } else {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
@@ -240,17 +240,15 @@ const DomainCard = () => {
           options={options}
         />
         <div className="img-div">
-          <ImgCrop rotate>
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              onChange={onChange}
-              onPreview={onPreview}
-              className={error.image ? "image-upload" : ""}
-            >
-              {fileList.length < 1 && "+ Upload"}
-            </Upload>
-          </ImgCrop>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            className={error.image ? "image-upload" : ""}
+          >
+            {fileList.length < 1 && "+ Upload"}
+          </Upload>
         </div>
         <div className="btn" style={{ textAlign: "right" }}>
           <Button
