@@ -433,7 +433,7 @@ const ActiveUser = () => {
               </div>
             </div>
             <div className="right-col">
-              <Link to="/creatAaccounts">
+              <Link to="/createAccounts">
                 <Button style={{ color: "white", border: "none" }}>
                   <AiOutlinePlus />
                   Create Account
