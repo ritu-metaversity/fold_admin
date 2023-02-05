@@ -160,7 +160,7 @@ const SiderBar = ({ closeSidebar }) => {
 
         {
           key: 6,
-          label: <Link to="/creatAaccounts">Create Accounts</Link>,
+          label: <Link to="/createAccounts">Create Accounts</Link>,
         },
         userType == "5"
           ? {

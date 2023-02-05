@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Header from "../components/header/Header";
 import SiderBar from "../components/sider/SiderBar";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
+import axios from "axios";
+import { User_Balance } from "../routes/Routes";
 const Mainlayout = ({ children }) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
-
   const ShowSideBar = () => {
     setSidebar(!siderBar);
   };
@@ -18,6 +19,7 @@ const Mainlayout = ({ children }) => {
   const clickfun = () => {
     setDisplay(!display);
   };
+
   return (
     <>
       {display ? (
@@ -27,7 +29,11 @@ const Mainlayout = ({ children }) => {
       )}
 
       <div className="header">
-        <Header overlayState={display} setDisplay={setDisplay} />
+        <Header
+          overlayState={display}
+          setDisplay={setDisplay}
+          // balance={userBalanceamount}
+        />
       </div>
       <div className="content-conatiner">
         <div className="container">

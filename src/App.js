@@ -68,6 +68,7 @@ function App() {
   // const { pathname } = useLocation();
 
   const [loading, setLoading] = useState({});
+
   const nav = useNavigate();
   const loc = useLocation();
   useEffect(() => {
