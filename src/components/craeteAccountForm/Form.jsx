@@ -31,7 +31,7 @@ const Accountform = () => {
     sportPartnership: "",
     userRole: "",
   });
-
+  console.log(data.appId, "appId");
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
@@ -113,7 +113,7 @@ const Accountform = () => {
   const onFinish = async () => {
     let isError = false;
     if (data)
-      if (userType !== 4) {
+      if (userType === 4) {
         delete data.appId;
       }
     if (data.userRole === 2) {
