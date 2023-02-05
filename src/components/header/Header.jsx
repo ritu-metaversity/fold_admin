@@ -18,27 +18,17 @@ import { User_Balance } from "../../routes/Routes";
 import axios from "axios";
 import DropDownHeader from "../dropDownMobileView/DropDownHeader";
 import { useMediaQuery } from "../modalForm/UseMedia";
-const Header = ({ overlayState, setDisplay }) => {
+const Header = ({ overlayState, setDisplay, balance }) => {
   const logout = () => {
     localStorage.clear();
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
-  const [userBalanceamount, setUserBalance] = useState("");
   const userType = localStorage.getItem("userType");
   const userName = localStorage.getItem("username");
+  const [userBalanceamount, setUserBalance] = useState("");
   const isMobile = useMediaQuery("(min-width: 768px)");
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const userBalance = async () => {
     await axios
@@ -59,9 +49,23 @@ const Header = ({ overlayState, setDisplay }) => {
         console.log(error);
       });
   };
+
   useEffect(() => {
-    userBalance();
+    const timer = setInterval(() => {
+      userBalance();
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
   const items = [
     userType === "4"
@@ -119,67 +123,7 @@ const Header = ({ overlayState, setDisplay }) => {
       key: "3",
     },
   ];
-  const items2 = [
-    // ...(userType === "4"
-    //   ? [
-    //       {
-    //         label: (
-    //           <span
-    //             onClick={() => {
-    //               showModal();
-    //               setModalKey(0);
-    //             }}
-    //             style={{
-    //               display: "flex",
-    //               gap: "10px",
-    //               alignItems: "center",
-    //               fontSize: "12px",
-    //             }}
-    //           >
-    //             <BsWallet2 />
-    //             Self Deposit
-    //           </span>
-    //         ),
-    //         key: 0,
-    //       },
-    //     ]
-    //   : []),
-    {
-      label: (
-        <span
-          style={{
-            display: "flex",
-            gap: "10px",
-            alignItems: "center",
-            fontSize: "12px",
-          }}
-          onClick={() => {
-            showModal();
-            setModalKey(1);
-          }}
-        >
-          <HiOutlineKey />
-          Change Password3
-        </span>
-      ),
-      key: 1,
-    },
-    {
-      type: "divider",
-    },
-    {
-      label: (
-        <Link to="/" onClick={logout}>
-          <FiLogOut />
-          Log Out
-        </Link>
-      ),
-      key: "3",
-    },
-  ];
-  // const openDropdown = () => {
-  //   setDisplay(!display);
-  // };
+
   return (
     <>
       <div
@@ -229,10 +173,7 @@ const Header = ({ overlayState, setDisplay }) => {
           <div className="col-2">
             <IoIosAlert style={{ fontWeight: "500" }} />
             <p>
-              {" "}
-              <span style={{ color: "#FDCF13", fontWeight: "500" }}>
-                Rule
-              </span>{" "}
+              <span style={{ color: "#FDCF13", fontWeight: "500" }}>Rule</span>
               PTS: {userBalanceamount}
             </p>
           </div>
@@ -252,7 +193,7 @@ const Header = ({ overlayState, setDisplay }) => {
           ) : (
             <Dropdown
               menu={{
-                items: items2,
+                items,
               }}
               trigger={["click"]}
               children={

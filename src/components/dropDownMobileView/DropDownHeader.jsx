@@ -55,7 +55,16 @@ const DropDownHeader = ({ pts }) => {
             </span>
           </div>
         </div>
-        <a className="dropdown-item d-sm-none">Rules</a>
+        <a
+          className="dropdown-item"
+          onClick={() => {
+            showModal();
+            setModalKey(0);
+          }}
+        >
+          Self Deposit
+        </a>
+        <a className="dropdown-item">Rules</a>
         <a
           className="dropdown-item"
           onClick={() => {

@@ -22,20 +22,18 @@ const Accountform = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
     username: "",
-    appId: "",
     city: "",
     fancyLossCommission: "",
     lupassword: "",
     mobile: "",
     oddLossCommission: "",
-    sportPartnership: "",
     userRole: "",
   });
-  console.log(data.appId, "appId");
+  // console.log(currentUserROle, "appId");
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
-    // appId: false,
+    appId: currentUserROle == 2 ? false : undefined,
     // city: false,
     fancyLossCommission: false,
     // mobile: false,
@@ -116,7 +114,10 @@ const Accountform = () => {
       if (userType === 4) {
         delete data.appId;
       }
-    if (data.userRole === 2) {
+    if (data.currentUserROle == 2) {
+      delete data.sportPartnership;
+    }
+    if (data.currentUserROle == 2) {
       delete data.sportPartnership;
     }
     Object.keys(data).forEach((key) => {
