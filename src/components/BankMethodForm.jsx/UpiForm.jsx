@@ -67,6 +67,10 @@ const UpiForm = () => {
           setLoading(false);
           console.log(res.data);
           message.success(res.data.message);
+          setData({
+            upiId: "",
+            upiDisplayName: "",
+          });
         })
         .catch((error) => {
           message.error(error.response.data.message);
