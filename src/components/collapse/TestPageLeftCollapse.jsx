@@ -110,11 +110,10 @@ const TestPageLeftCollapse = () => {
         // setLoading(false);
       })
       .catch((error) => {
-        antdmessage.error(error.response.data.message);
+        antdmessage.error(error?.response?.data?.message);
         if (error.response.data.status === 401) {
           navigate("/");
           localStorage.clear();
-          message.error(error.response.data.message);
         }
       });
     // setLoading(false);
@@ -142,7 +141,7 @@ const TestPageLeftCollapse = () => {
       })
       .catch((error) => {
         // setLoading(false);
-        message.error(error.response.data.message);
+        antdmessage.error(error.response.data.message);
         if (error.response.data.status === 401) {
           setLoading((prev) => ({ ...prev, BetLockStatus: false }));
           console.log("navigate");
@@ -198,14 +197,11 @@ const TestPageLeftCollapse = () => {
         BetLockStatus();
       }
     } catch (err) {
-      message.error(err.response.data.message);
+      antdmessage.error(err.response.data.message);
 
       if (err.response.data.status === 401) {
         localStorage.removeItem("token");
         navigate("/");
-        message.error(err.response.data.message);
-      } else {
-        message.error(err.response.data.message);
       }
     }
     setLoading({ ...loading, [marketNameid]: false });
@@ -236,19 +232,21 @@ const TestPageLeftCollapse = () => {
       });
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
-
+  // console.log(odddata, "odddata");
   if (!odddata || !prevState) {
     return;
   }
   const endUIArray = [];
   const UIArray = Object.keys(odddata).map((keyName) => {
     if (
-      !["Fancy2", "Fancy3", "Odds", "Bookmaker", "OddEven"].includes(keyName) ||
+      !["Fancy2", "Fancy3", "OddEven"].includes(keyName) ||
       !odddata[keyName]?.length
     )
       return "";
 
-    if (odddata[keyName] && odddata[keyName]?.length <= 0)
+    if (odddata[keyName]) {
+      console.log(odddata[keyName], "keyname");
+
       endUIArray.push(
         <Collapse key={keyName}>
           <Panel
@@ -292,56 +290,54 @@ const TestPageLeftCollapse = () => {
           </Panel>
         </Collapse>
       );
-    else
-      return (
-        <Collapse key={keyName}>
-          <Panel
-            header={
-              <div
-                className="panel-header"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                {keyName}
-                <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        getBetLock(oddAbbrev[keyName]);
-                      }}
-                      type="primary"
-                      style={{
-                        background: "#F18521",
-                        color: "white",
-                      }}
-                    >
-                      {betStatus.find((res) => res === oddAbbrev[keyName])
-                        ? " Bet / Unlock"
-                        : "Bet Lock"}
-                    </Button>
-                  ) : (
-                    ""
-                  )}
-                </div>
-              </div>
-            }
-            key="3"
-            className="left-panel-header"
-          >
-            <div className="collpase-div">
-              <FancyTable
-                name={keyName}
-                data={odddata[keyName]}
-                prev={prevState[keyName]}
-              />
-            </div>
-          </Panel>
-        </Collapse>
-      );
+    } else return "";
+    // <Collapse key={keyName}>
+    //   <Panel
+    //     header={
+    //       <div
+    //         className="panel-header"
+    //         style={{
+    //           display: "flex",
+    //           justifyContent: "space-between",
+    //           alignItems: "center",
+    //         }}
+    //       >
+    //         {keyName}
+    //         <div className="btn" style={{ gap: "10px", display: "flex" }}>
+    //           {userType == 4 ? (
+    //             <Button
+    //               onClick={(e) => {
+    //                 e.stopPropagation();
+    //                 getBetLock(oddAbbrev[keyName]);
+    //               }}
+    //               type="primary"
+    //               style={{
+    //                 background: "#F18521",
+    //                 color: "white",
+    //               }}
+    //             >
+    //               {betStatus.find((res) => res === oddAbbrev[keyName])
+    //                 ? " Bet / Unlock"
+    //                 : "Bet Lock"}
+    //             </Button>
+    //           ) : (
+    //             ""
+    //           )}
+    //         </div>
+    //       </div>
+    //     }
+    //     key="3"
+    //     className="left-panel-header"
+    //   >
+    //     <div className="collpase-div">
+    //       <FancyTable
+    //         name={keyName}
+    //         data={odddata[keyName]}
+    //         prev={prevState[keyName]}
+    //       />
+    //     </div>
+    //   </Panel>
+    // </Collapse>
   });
 
   return (
@@ -364,6 +360,9 @@ const TestPageLeftCollapse = () => {
       </div>
       <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
         {odddata?.Odds?.map((item, index) => {
+          if (item.Name === "Tied Match") {
+            return "";
+          }
           return (
             <Panel
               key={index}
@@ -498,6 +497,10 @@ const TestPageLeftCollapse = () => {
         )}
       </Collapse>
       <Collapse bordered={false}>
+        {console.log(
+          odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0,
+          "consoloe"
+        )}
         {odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
           <Panel
             header={
