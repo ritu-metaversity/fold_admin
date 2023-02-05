@@ -330,17 +330,15 @@ const BannerFormComponent = () => {
               style={{ display: "flex", gap: "20px", alignItems: "center" }}
             >
               <label> Image</label>
-              <ImgCrop rotate>
-                <Upload
-                  listType="picture-card"
-                  fileList={fileList}
-                  onChange={onChange}
-                  onPreview={onPreview}
-                  className={error.image ? "image-upload" : ""}
-                >
-                  {fileList.length < 1 && "+ Upload"}
-                </Upload>
-              </ImgCrop>
+              <Upload
+                listType="picture-card"
+                fileList={fileList}
+                onChange={onChange}
+                onPreview={onPreview}
+                className={error.image ? "image-upload" : ""}
+              >
+                {fileList.length < 1 && "+ Upload"}
+              </Upload>
             </div>
             <div
               className="img-div"
