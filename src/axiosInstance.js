@@ -10,7 +10,10 @@ axios.interceptors.response.use(
   },
   function (err) {
     // console.log(err);
-    message.error(err.response?.data?.message);
+    if (err?.response?.data?.message) {
+      message.error(err?.response?.data?.message);
+    }
+    // message.error(err?.response?.data?.message);
     if (err.code === "ERR_NETWORK") {
       if (offlineRef) {
         offlineRef(true);
@@ -31,10 +34,10 @@ export const OfflineAlert = () => {
   offlineRef = setOpen;
   return open ? (
     <Alert
-      message="You Seem To Be Online"
+      message="You Seem To Be Offline"
       banner
       closable
-      style={{ zIndex: "10000000" }}
+      style={{ zIndex: "10000000", position: "absolute", width: "100%" }}
       onClose={() => setOpen(false)}
     />
   ) : (

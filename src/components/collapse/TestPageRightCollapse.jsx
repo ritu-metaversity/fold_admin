@@ -24,7 +24,6 @@ const TestPageRightCollapse = () => {
     setIsModalOpen(false);
   };
   const id = searchparam.get("event-id");
-  const navigate = useNavigate();
   const getViewMoreTabData = async () => {
     setLoading((prev) => ({ ...prev, getViewMoreTabData: true }));
     await axios
@@ -42,13 +41,12 @@ const TestPageRightCollapse = () => {
         setTabData(res?.data?.data);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-
-        if (error.response.data.status === 401) {
-          setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
-          localStorage.clear();
-          navigate("/");
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.data.status === 401) {
+        //   setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
+        //   localStorage.clear();
+        //   navigate("/");
+        // }
       });
     setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
   };

@@ -23,7 +23,7 @@ const Loginform = () => {
           localStorage.setItem("userid", res.data.userId);
           localStorage.setItem("userType", res.data.userType);
           localStorage.setItem("partnership", res.data.partnership);
-          console.log(res.data.userType);
+          // console.log(res.data.userType);
           if (res.data.passwordtype === "old") {
             localStorage.setItem("refresh-token", res.data.token);
             navigate("/change-password");

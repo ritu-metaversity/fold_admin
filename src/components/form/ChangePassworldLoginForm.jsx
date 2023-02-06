@@ -13,6 +13,7 @@ const ChangePasswordLoginForm = () => {
 
   const userId = localStorage.getItem("userid");
   const token = localStorage.getItem("refresh-token");
+
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUserChange: true }));
 
@@ -27,22 +28,22 @@ const ChangePasswordLoginForm = () => {
         }
       )
       .then((res) => {
-        // console.log(res.data, "login");
-        if (res.data.status === true) {
-          message.success(res.data.message);
+        if (res.data?.status === true) {
+          message.success(res.data?.message);
           setLoading((prev) => ({ ...prev, LoginUserChange: false }));
           navigate("/");
+        } else if (res.data?.message) {
+          message.error(res.data?.message);
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-
-        if (error.response.data.status === 401) {
-          setLoading((prev) => ({ ...prev, LoginUserChange: false }));
-          navigate("/");
-          localStorage.removeItem("refresh-token");
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.data.status === 401) {
+        //   setLoading((prev) => ({ ...prev, LoginUserChange: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("refresh-token");
+        //   message.error(error.response.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, LoginUserChange: false }));
   };

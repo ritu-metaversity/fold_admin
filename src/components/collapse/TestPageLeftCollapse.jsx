@@ -84,11 +84,11 @@ const TestPageLeftCollapse = () => {
       })
       .catch((error) => {
         // message.error(error.response?.data?.message);
-        if (error?.response?.data?.status === 401) {
-          navigate("/");
-          localStorage.clear();
-          // message.error(error.response?.data?.message);
-        }
+        // if (error?.response?.data?.status === 401) {
+        //   navigate("/");
+        //   localStorage.clear();
+        //   // message.error(error.response?.data?.message);
+        // }
       });
   };
 
@@ -110,13 +110,13 @@ const TestPageLeftCollapse = () => {
         // setLoading(false);
       })
       .catch((error) => {
-        if (error?.response?.data?.message) {
-          antdmessage.error(error?.response?.data?.message);
-        }
-        if (error.response.data.status === 401) {
-          navigate("/");
-          localStorage.clear();
-        }
+        // if (error?.response?.data?.message) {
+        //   antdmessage.error(error?.response?.data?.message);
+        // }
+        // if (error.response.data.status === 401) {
+        //   navigate("/");
+        //   localStorage.clear();
+        // }
       });
     // setLoading(false);
   };
@@ -143,15 +143,15 @@ const TestPageLeftCollapse = () => {
       })
       .catch((error) => {
         // setLoading(false);
-        if (error?.response?.data?.message) {
-          antdmessage.error(error.response?.data?.message);
-        }
-        if (error.response.data.status === 401) {
-          setLoading((prev) => ({ ...prev, BetLockStatus: false }));
-          navigate("/");
-          localStorage.clear();
-          message.error(error.response.data.message);
-        }
+        // if (error?.response?.data?.message) {
+        //   antdmessage.error(error.response?.data?.message);
+        // }
+        // if (error.response.data.status === 401) {
+        //   setLoading((prev) => ({ ...prev, BetLockStatus: false }));
+        //   navigate("/");
+        //   localStorage.clear();
+        //   message.error(error.response.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, BetLockStatus: false }));
   };
@@ -200,15 +200,14 @@ const TestPageLeftCollapse = () => {
         BetLockStatus();
       }
     } catch (err) {
-      if (err.response.data.message) {
-        antdmessage.error(err.response.data.message);
-      }
-
-      if (err.response.data.status === 401) {
-        setLoading((prev) => ({ ...prev, marketNameid: false }));
-        localStorage.clear();
-        navigate("/");
-      }
+      // if (err.response.data.message) {
+      //   antdmessage.error(err.response.data.message);
+      // }
+      // if (err.response.data.status === 401) {
+      //   setLoading((prev) => ({ ...prev, marketNameid: false }));
+      //   localStorage.clear();
+      //   navigate("/");
+      // }
     }
     setLoading((prev) => ({ ...prev, marketNameid: false }));
   };
@@ -226,14 +225,14 @@ const TestPageLeftCollapse = () => {
         setUserBook(res.data.data);
       })
       .catch((error) => {
-        if (error.response?.data?.message) {
-          message.error(error.response.data.message);
-        }
-        if (error.response?.data?.status === 401) {
-          setLoading((prev) => ({ ...prev, getUserBook: false }));
-          localStorage.clear();
-          navigate("/");
-        }
+        // if (error.response?.data?.message) {
+        //   message.error(error.response.data.message);
+        // }
+        // if (error.response?.data?.status === 401) {
+        //   setLoading((prev) => ({ ...prev, getUserBook: false }));
+        //   localStorage.clear();
+        //   navigate("/");
+        // }
       });
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
