@@ -102,12 +102,12 @@ const BetHistorytable = () => {
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.status === 401) {
-          localStorage.removeItem("token");
-          navigate("/");
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   localStorage.removeItem("token");
+        //   navigate("/");
+        //   message.error(error.response.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, bethistorytabledata: false }));
   };
@@ -120,7 +120,14 @@ const BetHistorytable = () => {
     paginationData?.index,
     paginationData?.noOfRecords,
   ]);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        bethistorytabledata: false,
+      }));
+    };
+  }, []);
   const columns = [
     {
       title: "Event Type",

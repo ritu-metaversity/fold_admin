@@ -83,11 +83,11 @@ const TestPageLeftCollapse = () => {
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.data.status === 401) {
+        // message.error(error.response?.data?.message);
+        if (error?.response?.data?.status === 401) {
           navigate("/");
           localStorage.clear();
-          message.error(error.response.data.message);
+          // message.error(error.response?.data?.message);
         }
       });
   };
@@ -110,7 +110,9 @@ const TestPageLeftCollapse = () => {
         // setLoading(false);
       })
       .catch((error) => {
-        antdmessage.error(error?.response?.data?.message);
+        if (error?.response?.data?.message) {
+          antdmessage.error(error?.response?.data?.message);
+        }
         if (error.response.data.status === 401) {
           navigate("/");
           localStorage.clear();
@@ -133,7 +135,7 @@ const TestPageLeftCollapse = () => {
       )
       .then((res) => {
         // setLoading(false);
-        if (res.data.data) {
+        if (res?.data?.data) {
           setBetlockStatus(res?.data?.data);
         } else {
           setBetlockStatus([]);
@@ -141,13 +143,14 @@ const TestPageLeftCollapse = () => {
       })
       .catch((error) => {
         // setLoading(false);
-        antdmessage.error(error.response.data.message);
+        if (error?.response?.data?.message) {
+          antdmessage.error(error.response?.data?.message);
+        }
         if (error.response.data.status === 401) {
           setLoading((prev) => ({ ...prev, BetLockStatus: false }));
-          console.log("navigate");
           navigate("/");
           localStorage.clear();
-          // message.error(error.response.data.message);
+          message.error(error.response.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, BetLockStatus: false }));
@@ -179,8 +182,8 @@ const TestPageLeftCollapse = () => {
   }, [odddata]);
 
   const getBetLock = async (marketNameid) => {
-    setLoading({ ...loading, [marketNameid]: true });
-
+    console.log(marketNameid, "marketNameid");
+    setLoading((prev) => ({ ...prev, marketNameid: true }));
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/${Bet_Lock}`,
@@ -197,14 +200,17 @@ const TestPageLeftCollapse = () => {
         BetLockStatus();
       }
     } catch (err) {
-      antdmessage.error(err.response.data.message);
+      if (err.response.data.message) {
+        antdmessage.error(err.response.data.message);
+      }
 
       if (err.response.data.status === 401) {
-        localStorage.removeItem("token");
+        setLoading((prev) => ({ ...prev, marketNameid: false }));
+        localStorage.clear();
         navigate("/");
       }
     }
-    setLoading({ ...loading, [marketNameid]: false });
+    setLoading((prev) => ({ ...prev, marketNameid: false }));
   };
 
   const getUserBook = async (marketId) => {
@@ -220,19 +226,29 @@ const TestPageLeftCollapse = () => {
         setUserBook(res.data.data);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-
-        if (error.response.data.status === 401) {
-          localStorage.removeItem("token");
+        if (error.response?.data?.message) {
+          message.error(error.response.data.message);
+        }
+        if (error.response?.data?.status === 401) {
+          setLoading((prev) => ({ ...prev, getUserBook: false }));
+          localStorage.clear();
           navigate("/");
-          message.error(error.response.data.message);
-        } else {
-          message.error(error.response.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
   // console.log(odddata, "odddata");
+
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        getUserBook: false,
+        marketNameid: false,
+        BetLockStatus: false,
+      }));
+    };
+  }, []);
   if (!odddata || !prevState) {
     return;
   }
@@ -245,7 +261,7 @@ const TestPageLeftCollapse = () => {
       return "";
 
     if (odddata[keyName]) {
-      console.log(odddata[keyName], "keyname");
+      // console.log(odddata[keyName], "keyname");
 
       endUIArray.push(
         <Collapse key={keyName}>
@@ -260,20 +276,24 @@ const TestPageLeftCollapse = () => {
                 }}
               >
                 {keyName}
+
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      showModal(odddata[keyName][0]?.mid);
-                    }}
-                    type="primary"
-                    style={{
-                      background: "#F18521",
-                      color: "white",
-                    }}
-                  >
-                    User Book
-                  </Button>
+                  {userType == 4 ? (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        getBetLock(oddAbbrev[keyName]);
+                      }}
+                      type="primary"
+                      style={{ background: "#F18521", color: "white" }}
+                    >
+                      {betStatus?.find((res) => res === oddAbbrev[keyName])
+                        ? "Bet / Unlock"
+                        : "Bet Lock"}
+                    </Button>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             }
@@ -497,10 +517,6 @@ const TestPageLeftCollapse = () => {
         )}
       </Collapse>
       <Collapse bordered={false}>
-        {console.log(
-          odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0,
-          "consoloe"
-        )}
         {odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
           <Panel
             header={

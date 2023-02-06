@@ -1,10 +1,10 @@
-import { Button, Input, Switch, Table, Modal, Tooltip, Form } from "antd";
+import { Button, Input, Switch, Table, Modal, Tooltip } from "antd";
 import React, { createContext, useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import DepositForm from "../../components/modalForm/DepositForm";
 import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
@@ -23,29 +23,18 @@ const ActiveUser = () => {
 
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
 
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
   const [DataList, setDataList] = useState([]);
 
   const [userId, setUserId] = useState("");
-  const [searchparam, setSearchParam] = useSearchParams();
 
   const [sortedInfo, setSortedInfo] = useState({});
   const handleChangeTable = (pagination, filters, sorter) => {
     // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
-  };
-
-  const clearAll = () => {
-    setSortedInfo({});
-  };
-  const setAgeSort = () => {
-    setSortedInfo({
-      order: "descend",
-      columnKey: "age",
-    });
   };
 
   //////// change password
@@ -70,8 +59,7 @@ const ActiveUser = () => {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
-  const [inputBlank, setInputBlank] = useState(false);
-  const navigate = useNavigate();
+  const [setInputBlank] = useState(false);
 
   //////deposit Modal
   const showModal = (obj) => {
@@ -140,13 +128,13 @@ const ActiveUser = () => {
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, activeUsertable: false }));
-          localStorage.removeItem("token");
-          navigate("/");
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, activeUsertable: false }));
+        //   localStorage.removeItem("token");
+        //   navigate("/");
+        //   message.error(error.response.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, activeUsertable: false }));
   };
@@ -154,7 +142,14 @@ const ActiveUser = () => {
   useEffect(() => {
     tabledata();
   }, [paginationData.index, paginationData.noOfRecords]);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        activeUsertable: false,
+      }));
+    };
+  }, []);
   const columns = [
     {
       title: "User Name",

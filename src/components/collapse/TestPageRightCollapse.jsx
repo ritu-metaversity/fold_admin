@@ -1,6 +1,6 @@
 import { Button, Collapse, Empty, message, Modal, Tabs } from "antd";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import { Market_Name_MatchId } from "../../routes/Routes";
@@ -46,16 +46,17 @@ const TestPageRightCollapse = () => {
 
         if (error.response.data.status === 401) {
           setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
-          localStorage.removeItem("token");
+          localStorage.clear();
           navigate("/");
-          message.error(error.response.data.message);
-        } else {
-          message.error(error.response.data.message);
         }
       });
     setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
+    };
+  }, []);
   return (
     <div>
       <Modal

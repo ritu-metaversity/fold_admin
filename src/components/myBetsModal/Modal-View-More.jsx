@@ -44,9 +44,7 @@ const ModalViewMore = ({ keyName }) => {
         setTotalSoda(res?.data?.data.totalBet);
         setViewMoreTable(res?.data?.data?.betList);
       })
-      .catch((error) => {
-        console.log(error, "eror");
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, viewMoreTabledata: false }));
   };
 
@@ -64,6 +62,15 @@ const ModalViewMore = ({ keyName }) => {
       };
     });
   };
+
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        viewMoreTabledata: false,
+      }));
+    };
+  }, []);
   return (
     <div>
       <div className="view-more-header">

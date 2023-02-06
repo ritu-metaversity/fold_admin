@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, message, Upload } from "antd";
 import axios from "axios";
 import { useContext } from "react";
@@ -32,16 +32,16 @@ const QrForm = () => {
       };
     });
   };
-  const options = [
-    {
-      value: "live",
-      label: "live",
-    },
-    {
-      value: "admin",
-      label: "admin",
-    },
-  ];
+  // const options = [
+  //   {
+  //     value: "live",
+  //     label: "live",
+  //   },
+  //   {
+  //     value: "admin",
+  //     label: "admin",
+  //   },
+  // ];
   const onPreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -110,17 +110,21 @@ const QrForm = () => {
           message.success(res.data.message);
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            setLoading((prev) => ({ ...prev, createDomain: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.data.status === 401) {
+          //   setLoading((prev) => ({ ...prev, createDomain: false }));
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({ ...prev, createDomain: false }));
+    };
+  }, []);
   return (
     <div className="form-domain-card">
       <form style={{ display: "flex", flexDirection: "column", gap: "10px" }}>

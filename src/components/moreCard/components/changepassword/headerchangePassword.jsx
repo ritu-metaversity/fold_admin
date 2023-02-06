@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, message, Spin } from "antd";
 import { message as antmessage } from "antd";
 ///styles
@@ -86,19 +86,26 @@ const Changpasswordheader = ({ handleCancelfunction }) => {
         })
         .catch((error) => {
           // antmessage.error(error.response?.data.message);
-          if (error.response?.status === 401) {
-            setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            antmessage.error(error.response?.data.message);
-          }
+          // if (error.response?.status === 401) {
+          //   setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          //   antmessage.error(error.response?.data.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
     } else {
       setError({ ...error, newPassword: true });
     }
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        changePasswordHeader: false,
+      }));
+    };
+  }, []);
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

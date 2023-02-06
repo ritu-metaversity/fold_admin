@@ -79,6 +79,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
     };
     ActivityDeposit();
   }, []);
+
   const Submit = async () => {
     if (formData.amount && formData.lupassword && formData.remark) {
       setLoading((prev) => ({ ...prev, submitActivityDeposit: true }));
@@ -99,13 +100,11 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
           gettableData();
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, submitActivityDeposit: false }));
     } else {
@@ -117,6 +116,16 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
       });
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        submitActivityDeposit: false,
+        ActivityDeposit: false,
+      }));
+    };
+  }, []);
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">

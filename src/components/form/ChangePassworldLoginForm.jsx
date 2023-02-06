@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Form, Input, message, Spin } from "antd";
 ////
 import "./styles.scss";
@@ -47,7 +47,14 @@ const ChangePasswordLoginForm = () => {
     setLoading((prev) => ({ ...prev, LoginUserChange: false }));
   };
   // let x = localStorage.getItem("token");
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        LoginUserChange: false,
+      }));
+    };
+  }, []);
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>

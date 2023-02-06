@@ -59,18 +59,43 @@ import AccountStatement from "./pages/accountStatement/AccountStatement";
 import DepositPendingRequest from "./pages/depoitPending/DepositPendingRequest";
 import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingRequest";
 import axios from "axios";
+import { OfflineAlert } from "./axiosInstance";
 
 export const LoaderContext = createContext({
   loading: {},
+  userBalance: () => {},
+  userBalanceamount: 0,
   setLoading: null,
 });
 function App() {
   // const { pathname } = useLocation();
 
+  const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
 
   const nav = useNavigate();
   const loc = useLocation();
+
+  const userBalance = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${User_Balance}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setUserBalance(res.data?.data?.balance);
+        // console.log(res.data.data.balance);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     const x = localStorage.getItem("token");
     if (x) {
@@ -83,12 +108,16 @@ function App() {
   }, []);
 
   return (
-    <LoaderContext.Provider value={{ loading, setLoading }}>
+    <LoaderContext.Provider
+      value={{ userBalance, userBalanceamount, loading, setLoading }}
+    >
       {!Object.keys(loading).every((key) => loading[key] === false) && (
         <div className="loader-container">
           <img src={loader} alt="" height={60} width={60} />
         </div>
       )}
+      <OfflineAlert />
+
       <Routes>
         <Route path={CreatAaccounts_Screen} element={<CreateAccount />}></Route>
         <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>

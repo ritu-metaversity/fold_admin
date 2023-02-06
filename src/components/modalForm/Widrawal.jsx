@@ -16,7 +16,7 @@ const Widrawal = ({ data, gettableData }) => {
   const [widrawal, setWidrawal] = useState([]);
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { loading, setLoading, userBalance } = useContext(LoaderContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -77,15 +77,14 @@ const Widrawal = ({ data, gettableData }) => {
           handleCancel();
           setformData({});
           gettableData();
+          userBalance();
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, submitWidrawal: false }));
     } else {
@@ -119,18 +118,25 @@ const Widrawal = ({ data, gettableData }) => {
           }
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, showwithdrawal: false }));
     };
     withdrawal();
   }, []);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        showwithdrawal: false,
+        submitWidrawal: false,
+      }));
+    };
+  }, []);
   return (
     <div className="form-container">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>
