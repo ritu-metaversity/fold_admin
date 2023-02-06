@@ -4,6 +4,7 @@ import Mainlayout from "../../common/Mainlayout";
 import { Button, message, Result, Spin, Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 import { useNavigate } from "react-router-dom";
+import interceptor from "../../axiosInstance";
 
 ///styles
 import "./styles.scss";
@@ -66,12 +67,12 @@ const Dashboard = () => {
           setSports(res?.data?.data);
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
-            navigate("/");
-            localStorage.clear();
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
     };
@@ -96,6 +97,16 @@ const Dashboard = () => {
       ),
     };
   });
+
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        marketAnalysisgetData: false,
+        marketAnalysisTable: false,
+      }));
+    };
+  }, []);
 
   return (
     <>

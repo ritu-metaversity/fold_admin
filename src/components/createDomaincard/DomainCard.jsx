@@ -1,5 +1,5 @@
 import { Button, message, Select, Spin, Upload } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImgCrop from "antd-img-crop";
 import "./styles.scss";
 import axios from "axios";
@@ -165,18 +165,22 @@ const DomainCard = () => {
           });
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            setLoading((prev) => ({ ...prev, createDomain: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.data.status === 401) {
+          //   setLoading((prev) => ({ ...prev, createDomain: false }));
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          //   message.error(error.response.data.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({ ...prev, createDomain: false }));
+    };
+  }, []);
   return (
     <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>
@@ -212,6 +216,16 @@ const DomainCard = () => {
           }}
           onChange={handleChange}
         />
+        <label>Type</label>
+        <Select
+          defaultValue="please select Type"
+          style={{
+            width: "100%",
+            border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
+          }}
+          onChange={handleChangeSelct}
+          options={options}
+        />
         <label>Transaction Code:</label>
         <input
           type="password"
@@ -229,16 +243,7 @@ const DomainCard = () => {
           }}
           onChange={handleChange}
         />
-        <label>Type</label>
-        <Select
-          defaultValue="please select Type"
-          style={{
-            width: "100%",
-            border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
-          }}
-          onChange={handleChangeSelct}
-          options={options}
-        />
+
         <div className="img-div">
           <Upload
             listType="picture-card"

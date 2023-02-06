@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, Checkbox, Form, Input, message, Spin } from "antd";
 ///styles
 import "./styles.scss";
@@ -52,13 +52,19 @@ const Changpassword = ({ data, handleCancelfunction }) => {
       lupassword: !formData.lupassword,
       newPassword: !formData.newPassword,
       password: !formData.password,
+      passwordNotMatch: false,
     };
     setError(newError);
 
-    if (formData.password === formData.newPassword) {
-      if (!Object.values(newError).every((item) => item === false)) {
-        return;
-      }
+    if (!formData.lupassword || !formData.newPassword || !formData.password) {
+      if (formData.password !== formData.newPassword)
+        setError({ ...error, passwordNotMatch: true });
+
+      return;
+    }
+    if (formData.password !== formData.newPassword) {
+      setError({ ...error, passwordNotMatch: true });
+    } else {
       setError({});
       setLoading((prev) => ({ ...prev, changePassword: true }));
       await axios
@@ -77,19 +83,24 @@ const Changpassword = ({ data, handleCancelfunction }) => {
           setformData({});
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          //   message.error(error.response.data.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, changePassword: false }));
-    } else {
-      setError({ ...error, newPassword: true });
     }
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        changePassword: false,
+      }));
+    };
+  }, []);
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>
@@ -150,7 +161,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
               placeholder="confirm Password"
               onChange={handleChange}
             />
-            {error.newPassword ? (
+            {error.passwordNotMatch ? (
               <span style={{ color: "red", whiteSpace: "nowrap" }}>
                 password does not match
               </span>

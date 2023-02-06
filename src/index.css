@@ -76,3 +76,6 @@ padding-left: 10px;
 .reactEasyCrop_CropArea{
   width: 100% !important;
 }
+.pagination ul{
+  gap: 30px !important;
+}

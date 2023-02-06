@@ -136,13 +136,13 @@ const AccountStatement = () => {
         }
       })
       .catch((erro) => {
-        antdmessage.error(erro.response.data.message);
-        if (erro.response.status === 401) {
-          setLoading((prev) => ({ ...prev, accountStatement: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-          antdmessage.error(erro.response?.data.message);
-        }
+        // antdmessage.error(erro.response.data.message);
+        // if (erro.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, accountStatement: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        //   antdmessage.error(erro.response?.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, accountStatement: false }));
   };
@@ -150,7 +150,14 @@ const AccountStatement = () => {
   useEffect(() => {
     tabledata();
   }, [paginationData.index, paginationData.noOfRecords]);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        accountStatement: false,
+      }));
+    };
+  }, []);
   const columns = [
     {
       title: "Date",

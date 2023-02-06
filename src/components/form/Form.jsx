@@ -23,28 +23,29 @@ const Loginform = () => {
           localStorage.setItem("userid", res.data.userId);
           localStorage.setItem("userType", res.data.userType);
           localStorage.setItem("partnership", res.data.partnership);
-          console.log(res.data.userType);
+          // console.log(res.data.userType);
           if (res.data.passwordtype === "old") {
             localStorage.setItem("refresh-token", res.data.token);
             navigate("/change-password");
-            message.success("Success");
+            // message.success("Success");
           } else {
             localStorage.setItem("token", res.data.token);
             navigate("/marketAnalysis");
-            message.success("Success");
+            // message.success("Success");
           }
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.data.status === 401) {
-          navigate("/");
-          localStorage.clear();
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.data.status === 401) {
+        //   navigate("/");
+        //   localStorage.clear();
+        //   message.error(error.response.data.message);
+        // }
         setLoading((prev) => ({ ...prev, LoginUser: false }));
       });
   };
+
   let x = localStorage.getItem("token");
 
   useEffect(() => {
@@ -53,6 +54,14 @@ const Loginform = () => {
     } else {
       navigate("/marketAnalysis");
     }
+  }, []);
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        LoginUser: false,
+      }));
+    };
   }, []);
   return (
     <div>

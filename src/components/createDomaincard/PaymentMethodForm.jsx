@@ -1,5 +1,5 @@
 import { Button, message, Select, Spin, Upload } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImgCrop from "antd-img-crop";
 import "./styles.scss";
 import axios from "axios";
@@ -81,7 +81,7 @@ const PaymentForm = () => {
 
     if (error.appName) {
     } else {
-      setLoading((prev) => ({ ...prev, createDomain: true }));
+      setLoading((prev) => ({ ...prev, paymentMethodForm: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Payment_method_api}`,
@@ -104,18 +104,21 @@ const PaymentForm = () => {
           message.success(res.data.message);
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            setLoading((prev) => ({ ...prev, createDomain: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.data.status === 401) {
+          //   setLoading((prev) => ({ ...prev, paymentMethodForm: false }));
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          // }
         });
-      setLoading((prev) => ({ ...prev, createDomain: false }));
+      setLoading((prev) => ({ ...prev, paymentMethodForm: false }));
     }
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({ ...prev, paymentMethodForm: false }));
+    };
+  }, []);
   return (
     <>
       <div className="form-domain-card">

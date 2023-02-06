@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { Button, Form, Input, message, Spin } from "antd";
+import React, { useContext, useEffect } from "react";
+import { Button, Form, Input, message } from "antd";
 ////
 import "./styles.scss";
 import axios from "axios";
@@ -13,6 +13,7 @@ const ChangePasswordLoginForm = () => {
 
   const userId = localStorage.getItem("userid");
   const token = localStorage.getItem("refresh-token");
+
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUserChange: true }));
 
@@ -27,27 +28,34 @@ const ChangePasswordLoginForm = () => {
         }
       )
       .then((res) => {
-        // console.log(res.data, "login");
-        if (res.data.status === true) {
-          message.success(res.data.message);
+        if (res.data?.status === true) {
+          message.success(res.data?.message);
           setLoading((prev) => ({ ...prev, LoginUserChange: false }));
           navigate("/");
+        } else if (res.data?.message) {
+          message.error(res.data?.message);
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-
-        if (error.response.data.status === 401) {
-          setLoading((prev) => ({ ...prev, LoginUserChange: false }));
-          navigate("/");
-          localStorage.removeItem("refresh-token");
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.data.status === 401) {
+        //   setLoading((prev) => ({ ...prev, LoginUserChange: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("refresh-token");
+        //   message.error(error.response.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, LoginUserChange: false }));
   };
   // let x = localStorage.getItem("token");
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        LoginUserChange: false,
+      }));
+    };
+  }, []);
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>

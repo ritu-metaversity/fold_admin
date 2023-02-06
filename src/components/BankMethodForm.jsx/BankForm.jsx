@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, message } from "antd";
 import axios from "axios";
 import { useContext } from "react";
@@ -106,18 +106,21 @@ const BankForm = () => {
           message.success(res.data.message);
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            setLoading((prev) => ({ ...prev, AddBank: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.data.status === 401) {
+          //   setLoading((prev) => ({ ...prev, AddBank: false }));
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, AddBank: false }));
     }
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({ ...prev, AddBank: false }));
+    };
+  }, []);
   return (
     <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>

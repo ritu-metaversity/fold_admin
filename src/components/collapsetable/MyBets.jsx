@@ -29,8 +29,7 @@ const MyBets = () => {
           message.error(error.response.data.message);
           if (error.response.data.status === 401) {
             navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
+            localStorage.clear();
           }
         });
     };

@@ -22,7 +22,7 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 
 const SelfDepositForm = ({ handleCancel }) => {
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { loading, setLoading, userBalance } = useContext(LoaderContext);
 
   const [data, setData] = useState({
     amount: "",
@@ -78,19 +78,19 @@ const SelfDepositForm = ({ handleCancel }) => {
           message.success(res.data.message);
           setData({});
           handleCancel();
+          userBalance();
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            setLoading((prev) => ({ ...prev, selfDeposit: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.data.status === 401) {
+          //   setLoading((prev) => ({ ...prev, selfDeposit: false }));
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          //   message.error(error.response.data.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, selfDeposit: false }));
     } else {
-      console.log(data.amount);
       setError({
         ...error,
         amount: !Boolean(data.amount),
@@ -98,7 +98,14 @@ const SelfDepositForm = ({ handleCancel }) => {
       });
     }
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        selfDeposit: false,
+      }));
+    };
+  }, []);
   return (
     <>
       <div className="banner-container">

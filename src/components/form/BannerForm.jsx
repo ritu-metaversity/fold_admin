@@ -1,28 +1,16 @@
-import {
-  Button,
-  Image,
-  Input,
-  message,
-  Modal,
-  Select,
-  Spin,
-  Table,
-  Tooltip,
-  Upload,
-} from "antd";
+import { Button, Image, message, Select, Table, Tooltip, Upload } from "antd";
 import React, { useEffect, useState } from "react";
-import ImgCrop from "antd-img-crop";
 import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { GoTrashcan } from "react-icons/go";
 import { Add_banner, Banner_List } from "../../routes/Routes";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import DeleteModal from "../deleteModal/DeleteModal";
 
 const BannerFormComponent = () => {
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [priority, setPriority] = useState("");
 
   const [fileList, setFileList] = useState([]);
@@ -31,8 +19,6 @@ const BannerFormComponent = () => {
   const [bannerList, setBannerList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
-
-  const navigate = useNavigate();
 
   const [error, setError] = useState({
     priority: false,
@@ -149,13 +135,13 @@ const BannerFormComponent = () => {
           message.success(res.data.message);
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            setLoading((prev) => ({ ...prev, createDomain: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.data.status === 401) {
+          //   setLoading((prev) => ({ ...prev, createDomain: false }));
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          //   message.error(error.response.data.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
@@ -227,8 +213,8 @@ const BannerFormComponent = () => {
         setBannerList(bannerList.filter((row) => row.id !== id));
       })
       .catch((error) => {
-        console.log(error);
-        message.error(error.response.data.message);
+        // console.log(error);
+        // message.error(error.response.data.message);
       });
   };
   const columns = [
@@ -271,17 +257,16 @@ const BannerFormComponent = () => {
         }
       )
       .then((res) => {
-        console.log(res.data, "login");
         setBannerList(res.data.data);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.data.status === 401) {
-          setLoading((prev) => ({ ...prev, BannerList: false }));
-          navigate("/");
-          localStorage.removeItem("refresh- token");
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.data.status === 401) {
+        //   setLoading((prev) => ({ ...prev, BannerList: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("refresh- token");
+        //   message.error(error.response.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, BannerList: false }));
   };
@@ -290,6 +275,14 @@ const BannerFormComponent = () => {
   }, [typeValue]);
   ////////list Pyment method
   /////bank/list-payment-method
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        BannerList: false,
+      }));
+    };
+  }, []);
 
   const showModal = (id) => {
     setIsModalOpen(true);
