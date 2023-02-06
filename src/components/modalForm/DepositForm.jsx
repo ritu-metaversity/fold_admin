@@ -1,17 +1,16 @@
-import { Button, message, Spin } from "antd";
+import { Button, message } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
-import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { Tab_Deposit, Tab_SubmitDepositForm } from "../../routes/Routes";
 
 import { LoaderContext } from "../../App";
 import "./styles.scss";
 const DepositForm = ({ data, gettableData, handleCancel }) => {
   const [deposit, setDeposit] = useState([]);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { loading, setLoading, userBalance } = useContext(LoaderContext);
 
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
@@ -72,18 +71,18 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
           }
         )
         .then((res) => {
-          message.success(res.data.message);
+          message.success(res.data?.message);
           handleCancel();
           setformData({});
           gettableData();
+          userBalance();
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response?.data?.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          // }
         });
       setLoading((prev) => ({ ...prev, submitDeposit: false }));
     } else {
@@ -117,18 +116,25 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
           }
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, showDeposit: false }));
     };
     showDeposit();
   }, []);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        showDeposit: false,
+        submitDeposit: false,
+      }));
+    };
+  }, []);
   return (
     <div className="form-container">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>

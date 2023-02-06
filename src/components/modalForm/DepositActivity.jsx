@@ -1,21 +1,18 @@
-import { Button, message, Spin } from "antd";
+import { Button, message } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { LoaderContext } from "../../App";
 import {
   Tab_DepositActivity,
   Tab_DepositActivityForm,
 } from "../../routes/Routes";
-import { useNavigate } from "react-router-dom";
 // import './styles.scss'
 const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
   // console.log(data, "data");
   const [depositActivity, setDepositActivity] = useState([]);
   const { loading, setLoading } = useContext(LoaderContext);
-  const navigate = useNavigate();
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
 
@@ -76,12 +73,12 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
         setDepositActivity(res.data.data);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.status === 401) {
-          navigate("/");
-          localStorage.removeItem("token");
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        //   message.error(error.response.data.message);
+        // }
       });
 
     setLoading((prev) => ({ ...prev, submitUserActivityDeposit: false }));
@@ -111,7 +108,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
           gettableData();
         })
         .catch((error) => {
-          message.error(error.response.data.message);
+          // message.error(error.response.data.message);
         });
       setLoading((prev) => ({ ...prev, submitDATAActivityDeposit: false }));
     } else {
@@ -123,6 +120,16 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
       });
     }
   };
+
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        submitDATAActivityDeposit: false,
+        submitUserActivityDeposit: false,
+      }));
+    };
+  }, []);
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">

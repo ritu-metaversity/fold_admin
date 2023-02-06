@@ -74,11 +74,11 @@ const Bank = () => {
         }
       })
       .catch((error) => {
-        console.log(error);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, BankTable: false }));
-          navigate("/");
-        }
+        // console.log(error);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, BankTable: false }));
+        //   navigate("/");
+        // }
       });
     setLoading((prev) => ({ ...prev, BankTable: false }));
   };
@@ -89,8 +89,11 @@ const Bank = () => {
 
   useEffect(() => {
     return () => {
-      console.log("Clean UP Bank");
-      setLoading((prev) => ({ ...prev, BankTable: false }));
+      setLoading((prev) => ({
+        ...prev,
+        BankTable: false,
+        submitBankData: false,
+      }));
     };
   }, []);
   const submit = async (obj) => {
@@ -119,14 +122,20 @@ const Bank = () => {
           // console.log(res.data);
           message.success(res.data.message);
         })
-        .catch((error) => {
-          message.error(error.response.data.message);
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, submitBankData: false }));
     } else {
       setError({ ...error, [obj]: true });
     }
   };
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        submitBankData: false,
+      }));
+    };
+  }, []);
   const columns = [
     {
       title: "User Name",

@@ -86,15 +86,23 @@ const Transaction = ({ data, dataTransaction }) => {
           setTransaction(res?.data?.data?.dataList);
         })
         .catch((error) => {
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          //   message.error(error.response.data.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, getTransaction: false }));
     };
     getTransaction();
+  }, []);
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        getTransaction: false,
+      }));
+    };
   }, []);
   return (
     <div style={{ paddingTop: "10px" }}>

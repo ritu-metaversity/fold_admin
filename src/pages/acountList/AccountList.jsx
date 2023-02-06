@@ -125,11 +125,11 @@ const Activelist = () => {
         }
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.status === 401) {
-          navigate("/");
-          localStorage.removeItem("token");
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        // }
       });
     setLoading((prev) => ({ ...prev, accountTableData: false }));
 
@@ -139,7 +139,14 @@ const Activelist = () => {
   useEffect(() => {
     tabledata();
   }, [paginationData.index, paginationData.noOfRecords]);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        accountTableData: false,
+      }));
+    };
+  }, []);
   const columns = [
     {
       title: "User Name",

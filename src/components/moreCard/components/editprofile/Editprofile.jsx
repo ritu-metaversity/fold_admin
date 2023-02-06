@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button, message, Spin, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 // import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import { Tab_EditProfileForm } from "../../../../routes/Routes";
 import { useNavigate } from "react-router-dom";
 import { LoaderContext } from "../../../../App";
+
 ///styles
 // import './styles.scss'
 const EditProfile = ({ data, handleCancelfunction }) => {
@@ -71,12 +72,11 @@ const EditProfile = ({ data, handleCancelfunction }) => {
           setformData({});
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, changePassword: false }));
     } else {
@@ -89,7 +89,14 @@ const EditProfile = ({ data, handleCancelfunction }) => {
       });
     }
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        changePassword: false,
+      }));
+    };
+  }, []);
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

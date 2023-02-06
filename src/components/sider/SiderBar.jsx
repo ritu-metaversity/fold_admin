@@ -89,18 +89,27 @@ const SiderBar = ({ closeSidebar }) => {
         setPaymentListData(res.data.data);
       })
       .catch((error) => {
-        message.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
+        // message.error(error.response?.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        // }
       });
+    setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
   useEffect(() => {
     if (userType == 5) {
       paymentMethod();
     }
+  }, []);
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        CreatePowerUser: false,
+      }));
+    };
   }, []);
   const UrlArray = [
     "/Upi_Method_Screen",

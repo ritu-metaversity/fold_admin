@@ -1,28 +1,18 @@
-import {
-  Button,
-  Input,
-  Switch,
-  Table,
-  Modal,
-  Tooltip,
-  Form,
-  Radio,
-  Checkbox,
-} from "antd";
+import { Input, Table, Tooltip, Radio } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Mainlayout from "../../../../common/Mainlayout";
-import { AiFillEye, AiOutlinePlus } from "react-icons/ai";
+import { AiFillEye } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, useNavigate } from "react-router-dom";
+
 // import DepositForm from "../../components/modalForm/DepositForm";
 // import MoreCard from "../../components/moreCard/MoreCard";
 // import Widrawal from "../../components/modalForm/Widrawal";
 // import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
-import { BASE_URL } from "../../../../_api/_api";
-import { Table_ActiveUser, Tab_CurrentBet } from "../../../../routes/Routes";
-import { useMediaQuery } from "../../../modalForm/UseMedia";
+
+import { Tab_CurrentBet } from "../../../../routes/Routes";
+
 import { LoaderContext } from "../../../../App";
 
 export const UserModalContext = createContext({
@@ -30,15 +20,12 @@ export const UserModalContext = createContext({
 });
 
 const CurrentBetsTable = () => {
-  const isMobile = useMediaQuery("(min-width: 768px)");
-
   const [searchText, setSearchText] = useState("");
-  const [message, setMessage] = useState("");
+
   const { loading, setLoading } = useContext(LoaderContext);
-  const [open, setOpen] = useState(false);
 
   const [DataList, setDataList] = useState([]);
-  const [userId, setUserId] = useState("");
+
   const [radioValue, setRadioValue] = useState("matched");
   const [radioValuefilte, setRadioValuefilter] = useState("1");
   const [totalAmount, setTotalAmount] = useState("");
@@ -52,8 +39,6 @@ const CurrentBetsTable = () => {
     noOfRecords: 25,
     totalPages: 1,
   });
-
-  const navigate = useNavigate();
 
   //////deposit Modal
 
@@ -94,12 +79,12 @@ const CurrentBetsTable = () => {
         }
       })
       .catch((error) => {
-        message.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          navigate("/");
-          localStorage.removeItem("token");
-          message.error(error.response?.data.message);
-        }
+        // message.error(error.response?.data.message);
+        // if (error.response.status === 401) {
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        //   message.error(error.response?.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, currentBettabledata: false }));
   };
@@ -107,7 +92,14 @@ const CurrentBetsTable = () => {
   useEffect(() => {
     tabledata();
   }, [radioValuefilte, paginationData.index, paginationData.noOfRecords]);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        currentBettabledata: false,
+      }));
+    };
+  }, []);
   const columns = [
     {
       title: "Event Type",

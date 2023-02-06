@@ -1,6 +1,6 @@
 import { Button, Collapse, Empty, message, Modal, Tabs } from "antd";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import { Market_Name_MatchId } from "../../routes/Routes";
@@ -24,7 +24,6 @@ const TestPageRightCollapse = () => {
     setIsModalOpen(false);
   };
   const id = searchparam.get("event-id");
-  const navigate = useNavigate();
   const getViewMoreTabData = async () => {
     setLoading((prev) => ({ ...prev, getViewMoreTabData: true }));
     await axios
@@ -42,20 +41,20 @@ const TestPageRightCollapse = () => {
         setTabData(res?.data?.data);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-
-        if (error.response.data.status === 401) {
-          setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
-          localStorage.removeItem("token");
-          navigate("/");
-          message.error(error.response.data.message);
-        } else {
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.data.status === 401) {
+        //   setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
+        //   localStorage.clear();
+        //   navigate("/");
+        // }
       });
     setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
   };
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
+    };
+  }, []);
   return (
     <div>
       <Modal

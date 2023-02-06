@@ -174,12 +174,9 @@ const Accountform = () => {
           }
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-          }
+          // if (error?.response?.data?.message) {
+          //   message.error(error?.response?.data?.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     }
@@ -240,12 +237,12 @@ const Accountform = () => {
         setSportsList(res.data.data);
       })
       .catch((error) => {
-        message.error(error.response.data.message);
-        if (error.response.data.status === 401) {
-          navigate("/");
-          localStorage.removeItem("token");
-          message.error(error.response.data.message);
-        }
+        // message.error(error.response.data.message);
+        // if (error.response.data.status === 401) {
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        //   message.error(error.response.data.message);
+        // }
       });
   };
 
@@ -275,6 +272,12 @@ const Accountform = () => {
     label: item?.appUrl,
     key: item?.appId + item?.appUrl + index,
   }));
+
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
+    };
+  }, []);
 
   return (
     <>

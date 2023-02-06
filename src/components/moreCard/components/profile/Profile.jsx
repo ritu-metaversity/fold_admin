@@ -1,13 +1,12 @@
-import { Avatar, message, Spin, Tooltip } from "antd";
+import { Avatar, Tooltip } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { BiPhoneCall } from "react-icons/bi";
 import { BsBuilding } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { LoaderContext } from "../../../../App";
-import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
+
 import { Tab_MoreData } from "../../../../routes/Routes";
-import { BASE_URL } from "../../../../_api/_api";
 
 ///styles
 import "./styles.scss";
@@ -42,18 +41,25 @@ const Profile = ({ data }) => {
           }
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            message.error(error.response.data.message);
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   navigate("/");
+          //   localStorage.removeItem("token");
+          //   message.error(error.response.data.message);
+          // }
         });
       setLoading((prev) => ({ ...prev, TabMoreData: false }));
     };
     TabMoreData();
   }, []);
-
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        TabMoreData: false,
+      }));
+    };
+  }, []);
   return (
     <div style={{ padding: "10px" }}>
       <div className="profile-container">

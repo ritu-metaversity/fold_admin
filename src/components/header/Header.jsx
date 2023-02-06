@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
 import { IoIosAlert } from "react-icons/io";
@@ -18,6 +18,7 @@ import { User_Balance } from "../../routes/Routes";
 import axios from "axios";
 import DropDownHeader from "../dropDownMobileView/DropDownHeader";
 import { useMediaQuery } from "../modalForm/UseMedia";
+import { LoaderContext } from "../../App";
 const Header = ({ overlayState, setDisplay, balance }) => {
   const logout = () => {
     localStorage.clear();
@@ -27,35 +28,36 @@ const Header = ({ overlayState, setDisplay, balance }) => {
   const [modalKey, setModalKey] = useState(0);
   const userType = localStorage.getItem("userType");
   const userName = localStorage.getItem("username");
-  const [userBalanceamount, setUserBalance] = useState("");
   const isMobile = useMediaQuery("(min-width: 768px)");
 
-  const userBalance = async () => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${User_Balance}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setUserBalance(res.data?.data?.balance);
-        // console.log(res.data.data.balance);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  const { userBalanceamount, userBalance } = useContext(LoaderContext);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      userBalance();
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
+  // const userBalance = async () => {
+  //   await axios
+  //     .post(
+  //       `${process.env.REACT_APP_BASE_URL}/${User_Balance}`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setUserBalance(res.data?.data?.balance);
+  //       // console.log(res.data.data.balance);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     userBalance();
+  //   }, 1000);
+  //   return () => clearInterval(timer);
+  // }, []);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -123,7 +125,9 @@ const Header = ({ overlayState, setDisplay, balance }) => {
       key: "3",
     },
   ];
-
+  useEffect(() => {
+    userBalance();
+  }, []);
   return (
     <>
       <div
