@@ -2,7 +2,6 @@ import { Button } from "antd";
 import React, { useState } from "react";
 import BookMarkRow from "./BookmarkRow";
 import FancyRow from "./FancyRow";
-import MatchOddsRow from "./MatchOddsRow";
 ////
 import "./styles.scss";
 

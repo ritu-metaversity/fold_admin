@@ -38,6 +38,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
         };
       });
     }
+
     setformData(() => {
       return {
         ...formData,
@@ -57,19 +58,18 @@ const Changpassword = ({ data, handleCancelfunction }) => {
     setError(newError);
 
     if (!formData.lupassword || !formData.newPassword || !formData.password) {
-      if (formData.password !== formData.newPassword)
-        setError({ ...error, passwordNotMatch: true });
-
-      return;
-    }
-    if (formData.password !== formData.newPassword) {
-      setError({ ...error, passwordNotMatch: true });
+      if (formData.password && formData.newPassword) {
+        console.log("click");
+        if (formData.password !== formData.newPassword) {
+          setError({ ...error, passwordNotMatch: true });
+        }
+      }
     } else {
       setError({});
       setLoading((prev) => ({ ...prev, changePassword: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Change_Password_User}`,
+          `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
           { ...formData, userId: data.userId },
           {
             headers: {
@@ -78,9 +78,13 @@ const Changpassword = ({ data, handleCancelfunction }) => {
           }
         )
         .then((res) => {
-          message.success(res.data.message);
-          handleCancelfunction();
-          setformData({});
+          if (res.data.status) {
+            message.success(res.data.message);
+            handleCancelfunction();
+            setformData({});
+          } else {
+            message.error(res.data.message);
+          }
         })
         .catch((error) => {
           // message.error(error.response.data.message);
@@ -92,6 +96,10 @@ const Changpassword = ({ data, handleCancelfunction }) => {
         });
       setLoading((prev) => ({ ...prev, changePassword: false }));
     }
+
+    // if (formData.password !== formData.newPassword) {
+    //   setError({ ...error, passwordNotMatch: true });
+    // }
   };
   useEffect(() => {
     return () => {

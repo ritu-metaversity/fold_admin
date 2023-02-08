@@ -2,10 +2,9 @@ import { Button, Input, Switch, Table, Modal, Tooltip, Form } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { message as antdMessage } from "antd";
-import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import axios from "axios";
 import { Delete_Power_List, Power_list } from "../../routes/Routes";
@@ -18,7 +17,7 @@ const PoerList = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
   const [DataList, setDataList] = useState([]);
@@ -44,8 +43,6 @@ const PoerList = () => {
     // 👇 "message" stores input field value
     setSearchText(message);
   };
-
-  const navigate = useNavigate();
 
   //////deposit Modal
 
@@ -77,13 +74,13 @@ const PoerList = () => {
         }
       })
       .catch((error) => {
-        antdMessage.error(error.response.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, accountTableData: false }));
-          navigate("/");
-          localStorage.clear();
-          // antdMessage.error(error.response?.data.message);
-        }
+        // antdMessage.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, accountTableData: false }));
+        //   navigate("/");
+        //   localStorage.clear();
+        //   // antdMessage.error(error.response?.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, accountTableData: false }));
 
@@ -160,12 +157,12 @@ const PoerList = () => {
         handleCancel();
       })
       .catch((error) => {
-        antdMessage.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, deletePoweList: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
+        // antdMessage.error(error.response?.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, deletePoweList: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        // }
       });
     setLoading((prev) => ({ ...prev, deletePoweList: false }));
   };

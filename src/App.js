@@ -16,7 +16,7 @@ import Bank from "./pages/bank/Bank";
 import Loginform from "./components/form/Form";
 import Login from "./pages/login/Login";
 import CurrentBets from "./pages/currentBets/CurrentBets";
-
+import "./components/font.css";
 import {
   AccountList_Screen,
   Account_Statement,
@@ -107,6 +107,19 @@ function App() {
     }
   }, []);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const refresh = searchParams.get("first-refresh");
+  useEffect(() => {
+    if (refresh) {
+      searchParams.set("first-refresh", false);
+      setSearchParams(searchParams);
+    } else if (refresh === undefined) {
+      searchParams.set("first-refresh", false);
+      setSearchParams(searchParams);
+    }
+  }, [refresh]);
+
   return (
     <LoaderContext.Provider
       value={{ userBalance, userBalanceamount, loading, setLoading }}
@@ -118,7 +131,7 @@ function App() {
       )}
       <OfflineAlert />
 
-      <Routes>
+      <Routes key={refresh}>
         <Route path={CreatAaccounts_Screen} element={<CreateAccount />}></Route>
         <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
         <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>

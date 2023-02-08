@@ -10,7 +10,7 @@ import { LoaderContext } from "../../App";
 import "./styles.scss";
 const DepositForm = ({ data, gettableData, handleCancel }) => {
   const [deposit, setDeposit] = useState([]);
-  const { loading, setLoading, userBalance } = useContext(LoaderContext);
+  const { setLoading, userBalance } = useContext(LoaderContext);
 
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});

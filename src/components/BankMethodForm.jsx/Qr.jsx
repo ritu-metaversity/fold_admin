@@ -150,16 +150,14 @@ const QrForm = () => {
           <p style={{ marginTop: "3px", marginBottom: "14px" }}>
             <label>Upload QR Code</label>
           </p>
-          <ImgCrop rotate>
-            <Upload
-              listType="picture-card"
-              fileList={fileList}
-              onChange={onChange}
-              onPreview={onPreview}
-            >
-              {fileList.length < 1 && "+ Upload"}
-            </Upload>
-          </ImgCrop>
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+          >
+            {fileList.length < 1 && "+ Upload"}
+          </Upload>
         </div>
         <div className="btn" style={{ textAlign: "right" }}>
           <Button

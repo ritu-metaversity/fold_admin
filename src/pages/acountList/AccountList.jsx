@@ -31,7 +31,6 @@ const Activelist = () => {
   const [userId, setUserId] = useState("");
   const queryParams = new URLSearchParams(window.location.search);
   const name = queryParams.get("evemt-id");
-  console.log(DataList, "DataList");
   //////// change password
 
   ////edit profile State
@@ -332,7 +331,7 @@ const Activelist = () => {
           className="more"
           destroyOnClose="true"
         >
-          <MoreCard data={userId} />
+          <MoreCard data={userId} handleCancelfunction={handleCancel} />
         </Modal>
         {/* /////credit Activity modal */}
         <Modal
@@ -380,7 +379,7 @@ const Activelist = () => {
               </div>
             </div>
             <div className="right-col">
-              <Link to="/creatAaccounts">
+              <Link to="/createAccounts">
                 <Button style={{ color: "white", border: "none" }}>
                   <AiOutlinePlus />
                   Create Account

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import Header from "../components/header/Header";
 import SiderBar from "../components/sider/SiderBar";
@@ -7,9 +7,11 @@ import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
 import axios from "axios";
 import { User_Balance } from "../routes/Routes";
+import { useSearchParams } from "react-router-dom";
 const Mainlayout = ({ children }) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
+  const counter = useRef(0);
   const ShowSideBar = () => {
     setSidebar(!siderBar);
   };

@@ -31,7 +31,7 @@ const AccountStatement = () => {
   const [DataList, setDataList] = useState([]);
   const [selectValue, setSelectValue] = useState(1);
   const [dateTo, setDateTo] = useState(dayjs());
-  const [dateFrom, setDateFrom] = useState(dayjs);
+  const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   ////edit profile State
   const [sortedInfo, setSortedInfo] = useState({});
   const [searchData, setSearchData] = useState("");
@@ -50,6 +50,9 @@ const AccountStatement = () => {
   const reset = () => {
     setSearchData("");
     setMessage("");
+    setDateFrom(dayjs());
+    setDateTo(dayjs());
+    tabledata();
   };
 
   const handleChange2 = (event) => {
@@ -65,17 +68,14 @@ const AccountStatement = () => {
     tabledata();
   };
   const onRangeChange = (dates, dateStrings) => {
-    if (dates) {
+    if (dates?.length) {
       //   console.log("From: ", dates[0], ", to: ", dates[1]);
-      setDateTo(dateStrings[0]);
-      setDateFrom(dateStrings[1]);
-
-      console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+      setDateTo(dates[1]);
+      setDateFrom(dates[0]);
     } else {
       console.log("Clear");
     }
   };
-  const navigate = useNavigate();
 
   //////deposit Modal
 
@@ -105,15 +105,15 @@ const AccountStatement = () => {
   };
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
-    console.log(dateTo, dateTo.toISOString());
+    // console.log(dateTo, dateTo.toISOString());
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Account_Statement_Api}`,
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
-          toDate: dateTo.toISOString().split("T")[0],
           fromDate: dateFrom.toISOString().split("T")[0],
+          toDate: dateTo.toISOString().split("T")[0],
           userid: id,
           type: selectValue,
         },
@@ -125,6 +125,8 @@ const AccountStatement = () => {
         }
       )
       .then((res) => {
+        // setDateFrom(dayjs());
+        // setDateTo(dayjs());
         if (res?.data?.data?.dataList) {
           setPaginationData({
             ...paginationData,
@@ -136,6 +138,7 @@ const AccountStatement = () => {
         }
       })
       .catch((erro) => {
+        console.log(erro, "eror");
         // antdmessage.error(erro.response.data.message);
         // if (erro.response.status === 401) {
         //   setLoading((prev) => ({ ...prev, accountStatement: false }));
@@ -280,32 +283,32 @@ const AccountStatement = () => {
     },
   ];
 
-  const items = [
-    {
-      key: "1",
-      label: "one",
-    },
-    {
-      key: "2",
-      label: "two",
-    },
-    {
-      key: "3",
-      label: "three",
-    },
-    {
-      key: "4",
-      label: "three",
-    },
-    {
-      key: "5",
-      label: "three",
-    },
-    {
-      key: "6",
-      label: "three",
-    },
-  ];
+  // const items = [
+  //   {
+  //     key: "1",
+  //     label: "one",
+  //   },
+  //   {
+  //     key: "2",
+  //     label: "two",
+  //   },
+  //   {
+  //     key: "3",
+  //     label: "three",
+  //   },
+  //   {
+  //     key: "4",
+  //     label: "three",
+  //   },
+  //   {
+  //     key: "5",
+  //     label: "three",
+  //   },
+  //   {
+  //     key: "6",
+  //     label: "three",
+  //   },
+  // ];
   const [listDisplay, setListDisplay] = useState(false);
   const setIdText = (id, text) => {
     console.log(id, text, "dtat");
@@ -380,10 +383,11 @@ const AccountStatement = () => {
                 <RangePicker
                   bordered={false}
                   className="rane-picker"
+                  value={[dateFrom, dateTo]}
                   onChange={onRangeChange}
                   disabledDate={(d) =>
                     !d ||
-                    d.isBefore(dayjs().subtract(7, "day")) ||
+                    d.isBefore(dayjs().subtract(2, "month")) ||
                     d.isAfter(dayjs())
                   }
                   defaultValue={[dayjs(), dayjs()]}

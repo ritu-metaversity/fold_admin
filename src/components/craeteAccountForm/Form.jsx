@@ -1,45 +1,44 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, Modal, Select, Spin } from "antd";
+import { Button, Form, Input, message, Modal, Select } from "antd";
 ///styles
 import "./styles.scss";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { Create_Admin, get_Sport_List } from "../../routes/Routes";
-import Item from "antd/es/list/Item";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { useNavigate } from "react-router-dom";
+const defaultData = {
+  username: "",
+  city: "",
+  fancyLossCommission: "",
+  lupassword: "",
+  mobile: "",
+  oddLossCommission: "",
+  userRole: "",
+  appId: 0,
+};
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
   const [userPass, setUserPass] = useState("");
-  const [downline, setDownLine] = useState(100);
   const [currentUserROle, setCurrentUserROle] = useState("");
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const userType = localStorage.getItem("userType");
   const partnership = localStorage.getItem("partnership");
-
-  const navigate = useNavigate();
-  const [data, setData] = useState({
-    username: "",
-    city: "",
-    fancyLossCommission: "",
-    lupassword: "",
-    mobile: "",
-    oddLossCommission: "",
-    userRole: "",
-  });
-  // console.log(currentUserROle, "appId");
+  // console.log(currentUserROle, "currentUserROle");
+  const [data, setData] = useState(defaultData);
+  console.log(currentUserROle, "sportPartnership");
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
-    appId: currentUserROle == 2 ? false : undefined,
+    appId: currentUserROle == 2 ? false : false,
     // city: false,
     fancyLossCommission: false,
     // mobile: false,
     oddLossCommission: false,
-    sportPartnership: currentUserROle == 2 ? false : undefined,
-    userRole: false,
+    sportPartnership: currentUserROle == 2 ? false : false,
+    // userRole: false,
   });
 
   const handleChange = (e) => {
@@ -81,7 +80,7 @@ const Accountform = () => {
 
   const handleSelectChange = (e, Name) => {
     let value = e;
-
+    // console.log(value, "value");
     if (!value) {
       setErrorData((prev) => {
         return {
@@ -99,6 +98,12 @@ const Accountform = () => {
     }
     if (Name == "userRole") {
       setCurrentUserROle(value);
+      setErrorData((prev) => {
+        return {
+          ...prev,
+          sportPartnership: false,
+        };
+      });
     }
     setData((prev) => {
       return {
@@ -114,16 +119,17 @@ const Accountform = () => {
       if (userType === 4) {
         delete data.appId;
       }
-    if (data.currentUserROle == 2) {
+    if (currentUserROle == 2) {
       delete data.sportPartnership;
     }
-    if (data.currentUserROle == 2) {
+    if (currentUserROle == 2) {
       delete data.sportPartnership;
     }
     Object.keys(data).forEach((key) => {
-      if (!data[key]) {
+      // console.log();
+      if (["", null, undefined, NaN].includes(data[key])) {
         isError = true;
-
+        console.log(data[key], key, "sdfghjkl");
         setErrorData((prev) => {
           return {
             ...prev,
@@ -139,7 +145,7 @@ const Accountform = () => {
         });
       }
     });
-
+    // console.log(isError, "hjk");
     if (isError) return false;
     else {
       Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
@@ -169,8 +175,19 @@ const Accountform = () => {
             message.success(res.data.message);
             setuserId(res?.data?.username);
             setUserPass(res?.data?.password);
-            setData({});
+            setData(defaultData);
             showModal();
+            setErrorData({
+              username: false,
+              lupassword: false,
+              appId: currentUserROle == 2 ? false : false,
+              // city: false,
+              fancyLossCommission: false,
+              // mobile: false,
+              oddLossCommission: false,
+              sportPartnership: currentUserROle == 2 ? false : undefined,
+              userRole: false,
+            });
           }
         })
         .catch((error) => {
@@ -187,6 +204,9 @@ const Accountform = () => {
 
   const usertypeArray = {
     0: [
+      <Select.Option value={""} key="empty">
+        Select
+      </Select.Option>,
       <Select.Option value={1} key="0">
         Master
       </Select.Option>,
@@ -195,6 +215,9 @@ const Accountform = () => {
       </Select.Option>,
     ],
     1: [
+      <Select.Option value={""} key="empty">
+        Select
+      </Select.Option>,
       <Select.Option value={1} key="2">
         Agent
       </Select.Option>,
@@ -203,16 +226,25 @@ const Accountform = () => {
       </Select.Option>,
     ],
     2: [
+      <Select.Option value={""} key="empty">
+        Select
+      </Select.Option>,
       <Select.Option value={2} key="4">
         Client
       </Select.Option>,
     ],
     4: [
+      <Select.Option value={""} key="empty">
+        Select
+      </Select.Option>,
       <Select.Option value={1} key="5">
         Sub Admin
       </Select.Option>,
     ],
     5: [
+      <Select.Option value={""} key="empty">
+        Select
+      </Select.Option>,
       <Select.Option value={1} key="6">
         Super Master
       </Select.Option>,
@@ -428,7 +460,8 @@ const Accountform = () => {
             <Form.Item label="App Url:">
               <div className={errorData?.appId ? "col-input2" : "col-input"}>
                 <Select
-                  defaultValue={"Select App Url"}
+                  // defaultValue={"Select App Url"}
+                  value={data.appId || "Select App Url"}
                   name="appId"
                   onChange={(e) => {
                     handleSelectChange(e, "appId");
@@ -448,9 +481,11 @@ const Accountform = () => {
           <Form.Item label="User Type" name="userRole">
             <div className={errorData.userRole ? "col-input2" : "col-input"}>
               <Select
-                defaultValue={"Select User Type"}
+                // defaultValue={"Select User Type"}
+                value={data.userRole || ""}
                 name="userRole"
                 onChange={(e) => {
+                  console.log(e, "ran");
                   handleSelectChange(e, "userRole");
                 }}
               >

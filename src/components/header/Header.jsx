@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
 import { IoIosAlert } from "react-icons/io";
@@ -12,10 +12,10 @@ import "./styles.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
-import Changpassword from "../moreCard/components/changepassword/Changpassword";
+// import Changpassword from "../moreCard/components/changepassword/Changpassword";
 import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
-import { User_Balance } from "../../routes/Routes";
-import axios from "axios";
+// import { User_Balance } from "../../routes/Routes";
+// import axios from "axios";
 import DropDownHeader from "../dropDownMobileView/DropDownHeader";
 import { useMediaQuery } from "../modalForm/UseMedia";
 import { LoaderContext } from "../../App";
@@ -172,7 +172,11 @@ const Header = ({ overlayState, setDisplay, balance }) => {
         </div>
         <div className="rule">
           <div className="col-1">
-            <BiFullscreen style={{ fontSize: "24px", color: "white" }} />
+            {/*  */}
+            <BiFullscreen
+              style={{ fontSize: "24px", color: "white" }}
+              // onClick={() => window.requestFullscreen()}
+            />
           </div>
           <div className="col-2">
             <IoIosAlert style={{ fontWeight: "500" }} />

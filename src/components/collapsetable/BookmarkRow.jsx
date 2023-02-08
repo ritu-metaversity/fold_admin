@@ -1,6 +1,5 @@
-import { Button, Spin } from "antd";
-import React, { useContext } from "react";
-import { LoaderContext } from "../../App";
+import { Button } from "antd";
+import React from "react";
 import "./styles.scss";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
