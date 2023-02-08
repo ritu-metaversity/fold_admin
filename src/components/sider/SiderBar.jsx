@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Menu, message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AiFillDashboard } from "react-icons/ai";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
@@ -15,6 +15,7 @@ const { SubMenu } = Menu;
 const SiderBar = ({ closeSidebar }) => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
+  const { pathname } = useLocation();
   const { loading, setLoading } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
 
@@ -141,7 +142,14 @@ const SiderBar = ({ closeSidebar }) => {
     {
       key: 2,
       icon: <TbBrandGoogleAnalytics />,
-      label: <Link to="/marketanalysis">Market Analysis</Link>,
+      label: (
+        <Link
+          to="/marketanalysis?first-refresh=true"
+          // reloadDocument={pathname === "/marketanalysis"}
+        >
+          Market Analysis
+        </Link>
+      ),
     },
     {
       key: 3,
@@ -151,7 +159,11 @@ const SiderBar = ({ closeSidebar }) => {
         {
           key: 4,
           label: (
-            <Link to="/activeUser">
+            <Link
+              to="/activeUser?first-refresh=true"
+              // reloadDocument={pathname === "/activeUser"}
+              // onChange={() => handleChangeLink(4)}
+            >
               <p className="acount-list">Accounts List for Active Users</p>
             </Link>
           ),
@@ -159,17 +171,38 @@ const SiderBar = ({ closeSidebar }) => {
         userType == "5"
           ? {
               key: 5,
-              label: <Link to="/Power_List_Screen">Helper List</Link>,
+              label: (
+                <Link
+                  to="/Power_List_Screen?first-refresh=true"
+                  // reloadDocument={pathname === "/Power_List_Screen"}
+                >
+                  Helper List
+                </Link>
+              ),
             }
           : "",
         {
           key: 67,
-          label: <Link to="/accountList">Accounts List</Link>,
+          label: (
+            <Link
+              to="/accountList?first-refresh=true"
+              // reloadDocument={pathname === "/accountList"}
+            >
+              Accounts List
+            </Link>
+          ),
         },
 
         {
           key: 6,
-          label: <Link to="/createAccounts">Create Accounts</Link>,
+          label: (
+            <Link
+              to="/createAccounts?first-refresh=true"
+              // reloadDocument={pathname === "/createAccounts"}
+            >
+              Create Account
+            </Link>
+          ),
         },
         userType == "5"
           ? {
@@ -180,7 +213,14 @@ const SiderBar = ({ closeSidebar }) => {
         userType == "4"
           ? {
               key: 7,
-              label: <Link to="/createdomain">Create Domain</Link>,
+              label: (
+                <Link
+                  to="/createdomain?first-refresh=true"
+                  // reloadDocument={pathname === "/createdomain"}
+                >
+                  Create Domain
+                </Link>
+              ),
             }
           : "",
       ],
@@ -188,7 +228,14 @@ const SiderBar = ({ closeSidebar }) => {
     {
       key: 8,
       icon: <RiBankFill />,
-      label: <Link to="/bank">Bank</Link>,
+      label: (
+        <Link
+          to="/bank?first-refresh=true"
+          // reloadDocument={pathname === "/bank"}
+        >
+          Bank
+        </Link>
+      ),
     },
     userType == 5 || userType == 7
       ? {
@@ -199,7 +246,10 @@ const SiderBar = ({ closeSidebar }) => {
             {
               key: 79,
               label: (
-                <Link to="/Deposit-Pending-Request">
+                <Link
+                  to="/Deposit-Pending-Request?first-refresh=true"
+                  // reloadDocument={pathname === "/Deposit-Pending-Request"}
+                >
                   <span style={{ fontSize: "14px" }}>
                     Pending deposit request
                   </span>
@@ -209,7 +259,10 @@ const SiderBar = ({ closeSidebar }) => {
             {
               key: 90,
               label: (
-                <Link to="/Widrwal-Pending-Request">
+                <Link
+                  to="/Widrwal-Pending-Request?first-refresh=true"
+                  // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                >
                   <span style={{ fontSize: "14px" }}>
                     Pending Withdraw request
                   </span>
@@ -231,7 +284,14 @@ const SiderBar = ({ closeSidebar }) => {
       ? {
           key: 10,
           icon: <FaImage />,
-          label: <Link to="/Update-Banner">Banner</Link>,
+          label: (
+            <Link
+              to="/Update-Banner?first-refresh=true"
+              // reloadDocument={pathname === "/Update-Banner"}
+            >
+              Banner
+            </Link>
+          ),
         }
       : "",
     {
@@ -242,17 +302,38 @@ const SiderBar = ({ closeSidebar }) => {
         {
           key: 45,
 
-          label: <Link to="/account-Statement">Account Statement</Link>,
+          label: (
+            <Link
+              to="/account-Statement?first-refresh=true"
+              // reloadDocument={pathname === "/account-Statement"}
+            >
+              Account Statement
+            </Link>
+          ),
         },
         {
           key: 12,
 
-          label: <Link to="/currentsBets">Current Bets</Link>,
+          label: (
+            <Link
+              to="/currentsBets?first-refresh=true"
+              // reloadDocument={pathname === "/currentsBets"}
+            >
+              Current Bets
+            </Link>
+          ),
         },
         {
           key: 13,
 
-          label: <Link to="/betHistory">Bets History</Link>,
+          label: (
+            <Link
+              to="/betHistory?first-refresh=true"
+              // eloadDocument={pathname === "/betHistory"}
+            >
+              Bets History
+            </Link>
+          ),
         },
       ],
     },

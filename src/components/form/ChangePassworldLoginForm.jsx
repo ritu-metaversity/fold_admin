@@ -4,12 +4,12 @@ import { Button, Form, Input, message } from "antd";
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Cahnge_pass, Login_Api } from "../../routes/Routes";
+import { Cahnge_pass } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 const ChangePasswordLoginForm = () => {
   // const [state, setstate] = useState([]);
   const navigate = useNavigate();
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
 
   const userId = localStorage.getItem("userid");
   const token = localStorage.getItem("refresh-token");
@@ -20,7 +20,12 @@ const ChangePasswordLoginForm = () => {
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Cahnge_pass}`,
-        { ...values, userid: userId, token: token },
+        {
+          ...values,
+          userid: userId,
+          token: token,
+          currentPassword: values.oldPassword,
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("refresh-token")}`,

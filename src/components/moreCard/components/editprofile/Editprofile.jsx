@@ -12,9 +12,8 @@ import { LoaderContext } from "../../../../App";
 // import './styles.scss'
 const EditProfile = ({ data, handleCancelfunction }) => {
   const [error, setError] = useState({});
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [formData, setformData] = useState({});
-  const navigate = useNavigate();
   const switchHandle = (value) => {
     setformData({ ...formData, favMaster: value || false });
   };
@@ -67,9 +66,11 @@ const EditProfile = ({ data, handleCancelfunction }) => {
           }
         )
         .then((res) => {
-          message.success(res.data.message);
-          handleCancelfunction();
-          setformData({});
+          if (res?.data?.status) {
+            handleCancelfunction();
+            message.success(res.data.message);
+            setformData({});
+          }
         })
         .catch((error) => {
           // message.error(error.response.data.message);

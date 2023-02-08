@@ -1,15 +1,12 @@
-import { Button, message, Select, Spin, Upload } from "antd";
+import { Button, message, Select, Upload } from "antd";
 import React, { useEffect, useState } from "react";
-import ImgCrop from "antd-img-crop";
 import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Create_app_detail } from "../../routes/Routes";
-import { useNavigate } from "react-router-dom";
 const DomainCard = () => {
-  const { loading, setLoading } = useContext(LoaderContext);
-  const navigate = useNavigate();
+  const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
     appName: "",
     appUrl: "",
@@ -26,7 +23,7 @@ const DomainCard = () => {
   });
   ////////image
   const [fileList, setFileList] = useState([]);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("please select Type");
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
     setError((prev) => {
@@ -153,7 +150,6 @@ const DomainCard = () => {
           }
         )
         .then((res) => {
-          setLoading(false);
           console.log(res.data);
           message.success(res.data.message);
           setFileList([]);
@@ -163,6 +159,7 @@ const DomainCard = () => {
             transactionCode: "",
             isSelfAllowed: "",
           });
+          setType("please select Type");
         })
         .catch((error) => {
           // message.error(error.response.data.message);
@@ -206,7 +203,7 @@ const DomainCard = () => {
         <input
           type="text"
           placeholder="App"
-          value={data.appurl}
+          value={data.appUrl}
           name="appUrl"
           style={{
             padding: "0.375rem 0.75rem",
@@ -218,11 +215,12 @@ const DomainCard = () => {
         />
         <label>Type</label>
         <Select
-          defaultValue="please select Type"
+          // defaultValue="please select Type"
           style={{
             width: "100%",
             border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
           }}
+          value={type}
           onChange={handleChangeSelct}
           options={options}
         />

@@ -39,17 +39,16 @@ textarea:focus, input:focus{
 .loader-modal .ant-modal-content {
   background: transparent !important;
 }
-/* ::-webkit-scrollbar {
+ /* ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
 
-}  */
-
+}  
 /* Track */
-/* ::-webkit-scrollbar-track {
-  background: #2E3438; 
-} */
- 
+::-webkit-scrollbar-track {
+  background: #a6a2a2; 
+} 
+  */
 /* Handle */
 
 input::-webkit-outer-spin-button,

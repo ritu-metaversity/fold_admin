@@ -1,7 +1,4 @@
-import { message } from "antd";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import React from "react";
 import Mainlayout from "../../common/Mainlayout";
 import TestPageLeftCollapse from "../../components/collapse/TestPageLeftCollapse";
 import TestPageRightCollapse from "../../components/collapse/TestPageRightCollapse";

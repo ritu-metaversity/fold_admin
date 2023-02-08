@@ -77,12 +77,12 @@ const DepositPendingRequest = () => {
         }
       })
       .catch((error) => {
-        antdmessage.error(error.response.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
+        // antdmessage.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        // }
       });
     setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
 
@@ -234,15 +234,15 @@ const DepositPendingRequest = () => {
         setDataList(DataList.filter((row) => row.id !== id));
       })
       .catch((error) => {
-        antdmessage.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({
-            ...prev,
-            depositPendingRequestApprove: false,
-          }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
+        // antdmessage.error(error.response?.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({
+        //     ...prev,
+        //     depositPendingRequestApprove: false,
+        //   }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        // }
       });
     setLoading((prev) => ({ ...prev, depositPendingRequestApprove: false }));
   };

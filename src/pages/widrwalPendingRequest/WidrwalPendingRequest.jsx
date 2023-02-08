@@ -88,13 +88,13 @@ const WidrwalPendingRequest = () => {
         }
       })
       .catch((error) => {
-        antdmessase.error(error.response.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-          antdmessase.error(error.response?.data.message);
-        }
+        // antdmessase.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        //   antdmessase.error(error.response?.data.message);
+        // }
       });
     setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
 

@@ -1,7 +1,6 @@
 import { Button, Spin } from "antd";
-import React, { useState } from "react";
+import React from "react";
 import BookMarkRow from "./BookmarkRow";
-import MatchOddsRow from "./MatchOddsRow";
 ////
 import "./styles.scss";
 

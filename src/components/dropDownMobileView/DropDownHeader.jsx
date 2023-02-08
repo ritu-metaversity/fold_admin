@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
 import "./styles.scss";

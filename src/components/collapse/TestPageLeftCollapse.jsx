@@ -157,7 +157,9 @@ const TestPageLeftCollapse = () => {
   };
 
   useEffect(() => {
-    BetLockStatus();
+    if (userType != 0) {
+      BetLockStatus();
+    }
   }, []);
   useEffect(() => {
     if (!odddata || !prevState) {
@@ -374,7 +376,7 @@ const TestPageLeftCollapse = () => {
         <UserBook data={userBook} />
       </Modal>
       <div className="heading">
-        <h4>TEST MATCHES PAKISTAN V NEW ZEALAND</h4>
+        <h4>{`TEST MATCHES > PAKISTAN V NEW ZEALAND`}</h4>
         <h4>{odddata?.Odds[0]?.eventTime}</h4>
       </div>
       <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
