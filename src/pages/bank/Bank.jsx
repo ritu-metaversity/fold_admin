@@ -307,16 +307,16 @@ const Bank = () => {
                 />
                 <div className="serch-btn">
                   <Button
-                    onClick={reset}
-                    style={{ background: "#23292E", color: "white" }}
-                  >
-                    Reset
-                  </Button>
-                  <Button
                     onClick={handleClick}
                     style={{ background: "#eff2f7", color: "black" }}
                   >
                     Search
+                  </Button>
+                  <Button
+                    onClick={reset}
+                    style={{ background: "#23292E", color: "white" }}
+                  >
+                    Reset
                   </Button>
                 </div>
               </div>

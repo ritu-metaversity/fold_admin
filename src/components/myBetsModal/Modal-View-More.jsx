@@ -148,6 +148,7 @@ const ModalViewMore = ({ keyName }) => {
               onClick={() => {
                 setSearch({});
                 setValue(1);
+                viewMoreTabledata();
               }}
             >
               Reset

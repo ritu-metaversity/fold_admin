@@ -14,7 +14,11 @@ const UserBook = ({ data }) => {
       selectionName2: (
         <p style={{ color: res?.pnl2 > 0 ? "green" : "red" }}>{res?.pnl2}</p>
       ),
-      selectionName3: data?.selectionName3 ? res?.pnl3 : "",
+      selectionName3: data?.selectionName3 ? (
+        <p style={{ color: res?.pnl2 < 0 ? "green" : "red" }}>{res?.pnl3}</p>
+      ) : (
+        ""
+      ),
     });
   });
   const columns = [

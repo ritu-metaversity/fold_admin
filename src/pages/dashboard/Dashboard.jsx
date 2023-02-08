@@ -12,6 +12,7 @@ import { Active_Sport_List, DASHBOARD } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 const Dashboard = () => {
   const [tab1, settab1] = useState(4);
+  const [tabValue, settabValue] = useState("cricket");
   const [cricket, setCricket] = useState([]);
   const [sports, setSports] = useState([]);
   const [loader, setloader] = useState(false);
@@ -35,12 +36,12 @@ const Dashboard = () => {
           setCricket(res?.data?.data);
         })
         .catch((error) => {
-          message.error(error.response.data.message);
-          if (error.response.status === 401) {
-            setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
-            navigate("/");
-            localStorage.clear();
-          }
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
         });
       setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
     };
@@ -48,10 +49,12 @@ const Dashboard = () => {
   }, [tab1]);
 
   const onChange = (activeKey) => {
+    console.log(activeKey);
     // this.setState({ activeKey });
     if (activeKey) {
       settab1(activeKey);
     }
+    settabValue();
   };
 
   useEffect(() => {
@@ -78,10 +81,28 @@ const Dashboard = () => {
     };
     getData();
   }, []);
+  const obj = {
+    4: 4,
+    1: 62,
+    2: 2,
+    3: 5,
+    1477: 54,
+    6: 3,
+    7: 10,
+    8: 16,
+    27454571: 11,
+  };
   const items = sports?.map((res) => {
     return {
-      label: res?.sportName,
+      label: (
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          <i className={`d-icon icon-${obj[res.sportId]}`}></i>
+          {res?.sportName}
+        </div>
+      ),
+
       key: res?.sportId,
+
       children: loader ? (
         <Spin
           style={{
@@ -93,7 +114,7 @@ const Dashboard = () => {
           }}
         />
       ) : (
-        <Datatable rowLength={4} data={cricket} />
+        <Datatable name={res.sportName} rowLength={4} data={cricket} />
       ),
     };
   });

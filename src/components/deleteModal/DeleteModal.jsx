@@ -10,7 +10,7 @@ const DeleteModal = ({
 }) => {
   const [textareaError, settextareaError] = useState(false);
   const [textArea, setTextArea] = useState("");
-
+  console.log(headerColor, "headerColor");
   const titleArray = ["Reject", "Approve", "Delete List"];
   const classArray = [
     "warning-header-reject",
@@ -36,7 +36,9 @@ const DeleteModal = ({
     <div>
       <Modal
         title={
-          titleArray[headerColor] || remarkRender == 1 ? titleArray[2] : ""
+          titleArray[headerColor] || remarkRender == 1
+            ? titleArray[headerColor]
+            : ""
         }
         open={showModal}
         onOk={() =>
@@ -47,7 +49,9 @@ const DeleteModal = ({
         onCancel={handleCancel}
         destroyOnClose
         className={
-          classArray[headerColor] || remarkRender == 1 ? classArray[2] : ""
+          classArray[headerColor] || remarkRender == 1
+            ? classArray[headerColor]
+            : ""
         }
       >
         <p>Are You Sure You Want To Continue</p>

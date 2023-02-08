@@ -1,7 +1,7 @@
 import { Button, Collapse, Empty, message, Modal, Tabs } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import { Market_Name_MatchId } from "../../routes/Routes";
 import ModalViewMore from "../myBetsModal/Modal-View-More";
@@ -11,7 +11,7 @@ import "./styles.scss";
 const TestPageRightCollapse = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabData, setTabData] = useState([]);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [searchparam] = useSearchParams();
   const showModal = () => {
     setIsModalOpen(true);

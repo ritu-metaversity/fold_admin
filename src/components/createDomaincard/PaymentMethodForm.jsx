@@ -1,4 +1,4 @@
-import { Button, message, Select, Spin, Upload } from "antd";
+import { Button, message, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import ImgCrop from "antd-img-crop";
 import "./styles.scss";
@@ -6,11 +6,9 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Payment_method_api } from "../../routes/Routes";
-import { useNavigate } from "react-router-dom";
 
 const PaymentForm = () => {
-  const { loading, setLoading } = useContext(LoaderContext);
-  const navigate = useNavigate();
+  const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
     transactionCode: "",
   });

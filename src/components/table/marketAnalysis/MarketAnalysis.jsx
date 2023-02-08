@@ -25,7 +25,7 @@ const Datatable = (props) => {
           <thead className="table-head">
             <tr className="winner-table">
               <th colSpan="6" scope="col">
-                <FaBasketballBall /> {res?.sportName}
+                <FaBasketballBall /> {props?.name}
               </th>
             </tr>
           </thead>
