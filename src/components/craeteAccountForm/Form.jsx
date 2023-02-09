@@ -402,10 +402,10 @@ const Accountform = () => {
           <Form.Item name="city" label="City:">
             <div className={errorData?.city ? "col-input3" : "col-input"}>
               <Input
-                placeholder="City"
                 name="city"
                 value={data.city}
                 onChange={handleChange}
+                placeholder="City"
               />
             </div>
           </Form.Item>
