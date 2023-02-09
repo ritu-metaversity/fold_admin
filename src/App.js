@@ -13,7 +13,6 @@ import ActiveUser from "./pages/activeUser/ActiveUser";
 import CreateAccount from "./pages/createAccounts/CreateAccount";
 import AccountsList from "./pages/acountList/AccountList";
 import Bank from "./pages/bank/Bank";
-import Loginform from "./components/form/Form";
 import Login from "./pages/login/Login";
 import CurrentBets from "./pages/currentBets/CurrentBets";
 import "./components/font.css";
@@ -58,9 +57,9 @@ import PoerList from "./pages/powerList/PowerList";
 import AccountStatement from "./pages/accountStatement/AccountStatement";
 import DepositPendingRequest from "./pages/depoitPending/DepositPendingRequest";
 import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingRequest";
-import axios from "axios";
 import { OfflineAlert } from "./axiosInstance";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import axios from "axios";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -68,6 +67,7 @@ export const LoaderContext = createContext({
   setLoading: null,
   handle: null,
 });
+
 function App() {
   // const { pathname } = useLocation();
 
@@ -124,7 +124,13 @@ function App() {
   const handle = useFullScreenHandle();
   return (
     <LoaderContext.Provider
-      value={{ userBalance, userBalanceamount, loading, setLoading, handle }}
+      value={{
+        userBalance,
+        userBalanceamount,
+        loading,
+        setLoading,
+        handle: null,
+      }}
     >
       {!Object.keys(loading).every((key) => loading[key] === false) && (
         <div className="loader-container">

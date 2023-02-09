@@ -127,8 +127,9 @@ const SelfDepositForm = ({ handleCancel }) => {
               <Input
                 type="number"
                 placeholder="Amount"
-                value={data.amount}
+                value={Math.abs(data.amount) || ""}
                 name="amount"
+                // min="0"
                 style={{
                   width: "60%",
                   border: `${error.amount ? "1px solid red" : ""}`,
