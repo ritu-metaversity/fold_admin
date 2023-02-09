@@ -1,22 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Menu, message } from "antd";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { AiFillDashboard } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
 import { Create_Power_user, Log_Out, Payment_List } from "../../routes/Routes";
 import axios from "axios";
-import { MdOutlinePayment } from "react-icons/md";
 import { FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
 const { SubMenu } = Menu;
-const SiderBar = ({ closeSidebar }) => {
+const SiderBar = () => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
-  const { pathname } = useLocation();
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
 
   const logout = async () => {
@@ -113,9 +110,9 @@ const SiderBar = ({ closeSidebar }) => {
     };
   }, []);
   const UrlArray = [
-    "/Upi_Method_Screen",
-    "/Bank_Method_Screen",
-    "/Qr_Method_Screen",
+    "/Upi_Method_Screen?first=true",
+    "/Bank_Method_Screen?first=true",
+    "/Qr_Method_Screen?first=true",
   ];
   const payment_list = [];
   paymentListData?.map((res) => {
@@ -144,7 +141,7 @@ const SiderBar = ({ closeSidebar }) => {
       icon: <TbBrandGoogleAnalytics />,
       label: (
         <Link
-          to="/marketanalysis?first-refresh=true"
+          to="/marketanalysis?first=true"
           // reloadDocument={pathname === "/marketanalysis"}
         >
           Market Analysis
@@ -154,17 +151,17 @@ const SiderBar = ({ closeSidebar }) => {
     {
       key: 3,
       icon: <RiAccountCircleFill />,
-      label: "Accounts",
+      label: "Account",
       children: [
         {
           key: 4,
           label: (
             <Link
-              to="/activeUser?first-refresh=true"
+              to="/activeUser?first=true"
               // reloadDocument={pathname === "/activeUser"}
               // onChange={() => handleChangeLink(4)}
             >
-              <p className="acount-list">Accounts List for Active Users</p>
+              <p className="acount-list">Account List for Active Users</p>
             </Link>
           ),
         },
@@ -173,7 +170,7 @@ const SiderBar = ({ closeSidebar }) => {
               key: 5,
               label: (
                 <Link
-                  to="/Power_List_Screen?first-refresh=true"
+                  to="/Power_List_Screen?first=true"
                   // reloadDocument={pathname === "/Power_List_Screen"}
                 >
                   Helper List
@@ -185,10 +182,10 @@ const SiderBar = ({ closeSidebar }) => {
           key: 67,
           label: (
             <Link
-              to="/accountList?first-refresh=true"
+              to="/accountList?first=true"
               // reloadDocument={pathname === "/accountList"}
             >
-              Accounts List
+              Account List
             </Link>
           ),
         },
@@ -197,7 +194,7 @@ const SiderBar = ({ closeSidebar }) => {
           key: 6,
           label: (
             <Link
-              to="/createAccounts?first-refresh=true"
+              to="/createAccounts?first=true"
               // reloadDocument={pathname === "/createAccounts"}
             >
               Create Account
@@ -215,7 +212,7 @@ const SiderBar = ({ closeSidebar }) => {
               key: 7,
               label: (
                 <Link
-                  to="/createdomain?first-refresh=true"
+                  to="/createdomain?first=true"
                   // reloadDocument={pathname === "/createdomain"}
                 >
                   Create Domain
@@ -230,7 +227,7 @@ const SiderBar = ({ closeSidebar }) => {
       icon: <RiBankFill />,
       label: (
         <Link
-          to="/bank?first-refresh=true"
+          to="/bank?first=true"
           // reloadDocument={pathname === "/bank"}
         >
           Bank
@@ -247,7 +244,7 @@ const SiderBar = ({ closeSidebar }) => {
               key: 79,
               label: (
                 <Link
-                  to="/Deposit-Pending-Request?first-refresh=true"
+                  to="/Deposit-Pending-Request?first=true"
                   // reloadDocument={pathname === "/Deposit-Pending-Request"}
                 >
                   <span style={{ fontSize: "14px" }}>
@@ -260,7 +257,7 @@ const SiderBar = ({ closeSidebar }) => {
               key: 90,
               label: (
                 <Link
-                  to="/Widrwal-Pending-Request?first-refresh=true"
+                  to="/Widrwal-Pending-Request?first=true"
                   // reloadDocument={pathname === "/Widrwal-Pending-Request"}
                 >
                   <span style={{ fontSize: "14px" }}>
@@ -286,7 +283,7 @@ const SiderBar = ({ closeSidebar }) => {
           icon: <FaImage />,
           label: (
             <Link
-              to="/Update-Banner?first-refresh=true"
+              to="/Update-Banner?first=true"
               // reloadDocument={pathname === "/Update-Banner"}
             >
               Banner
@@ -304,7 +301,7 @@ const SiderBar = ({ closeSidebar }) => {
 
           label: (
             <Link
-              to="/account-Statement?first-refresh=true"
+              to="/account-Statement?first=true"
               // reloadDocument={pathname === "/account-Statement"}
             >
               Account Statement
@@ -316,7 +313,7 @@ const SiderBar = ({ closeSidebar }) => {
 
           label: (
             <Link
-              to="/currentsBets?first-refresh=true"
+              to="/currentsBets?first=true"
               // reloadDocument={pathname === "/currentsBets"}
             >
               Current Bets
@@ -328,7 +325,7 @@ const SiderBar = ({ closeSidebar }) => {
 
           label: (
             <Link
-              to="/betHistory?first-refresh=true"
+              to="/betHistory?first=true"
               // eloadDocument={pathname === "/betHistory"}
             >
               Bets History

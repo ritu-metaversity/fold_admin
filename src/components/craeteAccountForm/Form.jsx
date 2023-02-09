@@ -16,7 +16,8 @@ const defaultData = {
   mobile: "",
   oddLossCommission: "",
   userRole: "",
-  appId: 0,
+  appId: "",
+  sportPartnership: "",
 };
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
@@ -32,13 +33,13 @@ const Accountform = () => {
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
-    appId: currentUserROle == 2 ? false : false,
-    // city: false,
+    appId: currentUserROle == 2 ? false : undefined,
+    city: false,
     fancyLossCommission: false,
-    // mobile: false,
+    mobile: false,
     oddLossCommission: false,
-    sportPartnership: currentUserROle == 2 ? false : false,
-    // userRole: false,
+    sportPartnership: currentUserROle == 2 ? false : undefined,
+    userRole: false,
   });
 
   const handleChange = (e) => {
@@ -116,26 +117,43 @@ const Accountform = () => {
   const onFinish = async () => {
     let isError = false;
     if (data)
-      if (userType === 4) {
-        delete data.appId;
+      if (userType !== 4) {
+        delete errorData.appId;
       }
-    if (currentUserROle == 2) {
-      delete data.sportPartnership;
-    }
-    if (currentUserROle == 2) {
-      delete data.sportPartnership;
-    }
+    // if (currentUserROle == 2) {
+    //   delete errorData.sportPartnership;
+    // }
+    // if (currentUserROle == 2) {
+    //   delete errorData.sportPartnership;
+    // }
     Object.keys(data).forEach((key) => {
       // console.log();
       if (["", null, undefined, NaN].includes(data[key])) {
-        isError = true;
-        console.log(data[key], key, "sdfghjkl");
-        setErrorData((prev) => {
-          return {
-            ...prev,
-            [key]: true,
-          };
-        });
+        // console.log(data[key], key, "sdfghjkl");
+
+        if (userType != 4 && key == "appId") {
+          setErrorData((prev) => {
+            return {
+              ...prev,
+              [key]: false,
+            };
+          });
+        } else if (data.userRole == 2 && key == "sportPartnership") {
+          setErrorData((prev) => {
+            return {
+              ...prev,
+              [key]: false,
+            };
+          });
+        } else {
+          isError = true;
+          setErrorData((prev) => {
+            return {
+              ...prev,
+              [key]: true,
+            };
+          });
+        }
       } else {
         setErrorData((prev) => {
           return {
@@ -145,7 +163,6 @@ const Accountform = () => {
         });
       }
     });
-    // console.log(isError, "hjk");
     if (isError) return false;
     else {
       Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
@@ -185,7 +202,7 @@ const Accountform = () => {
               fancyLossCommission: false,
               // mobile: false,
               oddLossCommission: false,
-              sportPartnership: currentUserROle == 2 ? false : undefined,
+              sportPartnership: currentUserROle == 2 ? false : "",
               userRole: false,
             });
           }

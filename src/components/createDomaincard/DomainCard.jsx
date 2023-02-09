@@ -7,6 +7,9 @@ import { LoaderContext } from "../../App";
 import { Create_app_detail } from "../../routes/Routes";
 const DomainCard = () => {
   const { setLoading } = useContext(LoaderContext);
+  const [fileList, setFileList] = useState([]);
+  const [type, setType] = useState("");
+
   const [data, setData] = useState({
     appName: "",
     appUrl: "",
@@ -22,8 +25,6 @@ const DomainCard = () => {
     image: false,
   });
   ////////image
-  const [fileList, setFileList] = useState([]);
-  const [type, setType] = useState("please select Type");
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
     setError((prev) => {
@@ -220,7 +221,7 @@ const DomainCard = () => {
             width: "100%",
             border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
           }}
-          value={type}
+          value={type || "please select Type"}
           onChange={handleChangeSelct}
           options={options}
         />
