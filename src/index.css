@@ -48,7 +48,7 @@ textarea:focus, input:focus{
 ::-webkit-scrollbar-track {
   background: #a6a2a2; 
 } 
-  */
+  
 /* Handle */
 
 input::-webkit-outer-spin-button,

@@ -1,7 +1,7 @@
 ////styles
 
-// import "./App.scss";
-// import Dashboard from "./pages/dashboard/Dashboard";
+import "./App.scss";
+import Dashboard from "./pages/dashboard/Dashboard";
 import {
   Route,
   Routes,
@@ -9,56 +9,56 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-// import ActiveUser from "./pages/activeUser/ActiveUser";
-// import CreateAccount from "./pages/createAccounts/CreateAccount";
-// import AccountsList from "./pages/acountList/AccountList";
-// import Bank from "./pages/bank/Bank";
-// import Login from "./pages/login/Login";
-// import CurrentBets from "./pages/currentBets/CurrentBets";
-// import "./components/font.css";
+import ActiveUser from "./pages/activeUser/ActiveUser";
+import CreateAccount from "./pages/createAccounts/CreateAccount";
+import AccountsList from "./pages/acountList/AccountList";
+import Bank from "./pages/bank/Bank";
+import Login from "./pages/login/Login";
+import CurrentBets from "./pages/currentBets/CurrentBets";
+import "./components/font.css";
 import {
-  // AccountList_Screen,
-  // Account_Statement,
-  // ActiveUser_Screen,
-  // Bank_Method,
-  // Bank_Screen,
-  // Banner_Update,
-  // BetHistory_Screen,
-  // Change_Password,
-  // CreatAaccounts_Screen,
-  // CreateDomain_Screen,
-  // currentsBets_Screen,
-  // Deposit_Pending_Request,
-  // Home_Screen,
-  // MarketAnalysis_Screen,
-  // Payment_Method,
-  // Power_List_Screen,
-  // Qr_Method,
-  // TestMatch_Screen,
-  // Upi_Method,
+  AccountList_Screen,
+  Account_Statement,
+  ActiveUser_Screen,
+  Bank_Method,
+  Bank_Screen,
+  Banner_Update,
+  BetHistory_Screen,
+  Change_Password,
+  CreatAaccounts_Screen,
+  CreateDomain_Screen,
+  currentsBets_Screen,
+  Deposit_Pending_Request,
+  Home_Screen,
+  MarketAnalysis_Screen,
+  Payment_Method,
+  Power_List_Screen,
+  Qr_Method,
+  TestMatch_Screen,
+  Upi_Method,
   User_Balance,
   Widrwal_Pending_Request,
 } from "./routes/Routes";
-// import BetHistory from "./pages/betHistory/BetHistory";
+import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
-// import CreateDomain from "./pages/createDomain/CreateDomain";
-// import Testmatch from "./pages/testMatch/Testmatch";
-// import NoteFound from "./pages/noteFound/NoteFound";
-// import { Card, Modal, Spin } from "antd";
-// import loader from "./assets/img/loder.svg";
-// import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogin";
-// import PaymentMethod from "./pages/paymentMethod/PaymentMethod";
-// import PaymentMethodPage from "./pages/paymentMethod/PaymentMethod";
-// import Banner from "./pages/banner/Banner";
-// import BankPage from "./pages/bankMethod/BankPage";
-// import Upi from "./pages/bankMethod/Upi";
-// import QR from "./pages/bankMethod/Qr";
-// import PoerList from "./pages/powerList/PowerList";
-// import AccountStatement from "./pages/accountStatement/AccountStatement";
-// import DepositPendingRequest from "./pages/depoitPending/DepositPendingRequest";
-// import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingRequest";
-// import { OfflineAlert } from "./axiosInstance";
-// import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import CreateDomain from "./pages/createDomain/CreateDomain";
+import Testmatch from "./pages/testMatch/Testmatch";
+import NoteFound from "./pages/noteFound/NoteFound";
+import { Card, Modal, Spin } from "antd";
+import loader from "./assets/img/loder.svg";
+import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogin";
+import PaymentMethod from "./pages/paymentMethod/PaymentMethod";
+import PaymentMethodPage from "./pages/paymentMethod/PaymentMethod";
+import Banner from "./pages/banner/Banner";
+import BankPage from "./pages/bankMethod/BankPage";
+import Upi from "./pages/bankMethod/Upi";
+import QR from "./pages/bankMethod/Qr";
+import PoerList from "./pages/powerList/PowerList";
+import AccountStatement from "./pages/accountStatement/AccountStatement";
+import DepositPendingRequest from "./pages/depoitPending/DepositPendingRequest";
+import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingRequest";
+import { OfflineAlert } from "./axiosInstance";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import axios from "axios";
 export const LoaderContext = createContext({
   loading: {},
@@ -121,7 +121,7 @@ function App() {
     }
   }, [refresh]);
 
-  // const handle = useFullScreenHandle();
+  const handle = useFullScreenHandle();
   return (
     <LoaderContext.Provider
       value={{
@@ -134,10 +134,10 @@ function App() {
     >
       {!Object.keys(loading).every((key) => loading[key] === false) && (
         <div className="loader-container">
-          {/* <img src={loader} alt="" height={60} width={60} /> */}
+          <img src={loader} alt="" height={60} width={60} />
         </div>
       )}
-      {/* <FullScreen handle={handle}>
+      <FullScreen handle={handle}>
         <OfflineAlert />
 
         <Routes key={refresh}>
@@ -180,7 +180,7 @@ function App() {
 
           <Route path="*" element={<NoteFound />} />
         </Routes>
-      </FullScreen> */}
+      </FullScreen>
     </LoaderContext.Provider>
   );
 }
