@@ -53,49 +53,89 @@ const Changpasswordheader = ({ handleCancelfunction }) => {
       currentPassword: !formData.currentPassword,
       newPassword: !formData.newPassword,
       password: !formData.password,
+      passwordNotMatch: false,
     };
     setError(newError);
 
-    if (formData.password === formData.newPassword) {
-      if (!Object.values(newError).every((item) => item === false)) {
-        return;
+    // if (formData.password === formData.newPassword) {
+    //   if (!Object.values(newError).every((item) => item === false)) {
+    //     return;
+    //   }
+    //   setError({});
+    //   setLoading((prev) => ({ ...prev, changePasswordHeader: true }));
+    //   await axios
+    //     .post(
+    //       `${process.env.REACT_APP_BASE_URL}/${Change_Password_User}`,
+    //       formData,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+    //         },
+    //       }
+    //     )
+    //     .then((res) => {
+    //       console.log(res.data);
+    //       if (res.data?.status) {
+    //         antmessage.success(res.data?.message);
+    //         handleCancelfunction();
+    //         setformData({});
+    //         setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
+    //       } else {
+    //         antmessage.error(res.data?.message);
+    //       }
+    //       setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
+    //     })
+    //     .catch((error) => {
+    //       // antmessage.error(error.response?.data.message);
+    //       // if (error.response?.status === 401) {
+    //       //   setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
+    //       //   navigate("/");
+    //       //   localStorage.removeItem("token");
+    //       //   antmessage.error(error.response?.data.message);
+    //       // }
+    //     });
+    //   setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
+    // } else {
+    //   setError({ ...error, newPassword: true });
+    // }
+
+    if (formData.password && formData.newPassword && formData.currentPassword) {
+      if (formData.password && formData.newPassword) {
+        if (formData.password === formData.newPassword) {
+          setError({});
+          setLoading((prev) => ({ ...prev, changePassword: true }));
+          await axios
+            .post(
+              `${process.env.REACT_APP_BASE_URL}/${Change_Password_User}`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.data.status) {
+                message.success(res.data.message);
+                handleCancelfunction();
+                setformData({});
+              } else {
+                message.error(res.data.message);
+              }
+            })
+            .catch((error) => {
+              // message.error(error.response.data.message);
+              // if (error.response.status === 401) {
+              //   navigate("/");
+              //   localStorage.removeItem("token");
+              //   message.error(error.response.data.message);
+              // }
+            });
+        } else {
+          setError({ ...error, passwordNotMatch: true });
+        }
+        setLoading((prev) => ({ ...prev, changePassword: false }));
       }
-      setError({});
-      setLoading((prev) => ({ ...prev, changePasswordHeader: true }));
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${Change_Password_User}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-          if (res.data?.status) {
-            antmessage.success(res.data?.message);
-            handleCancelfunction();
-            setformData({});
-            setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
-          } else {
-            antmessage.error(res.data?.message);
-          }
-          setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
-        })
-        .catch((error) => {
-          // antmessage.error(error.response?.data.message);
-          // if (error.response?.status === 401) {
-          //   setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   antmessage.error(error.response?.data.message);
-          // }
-        });
-      setLoading((prev) => ({ ...prev, changePasswordHeader: false }));
-    } else {
-      setError({ ...error, newPassword: true });
     }
   };
   useEffect(() => {
@@ -202,7 +242,7 @@ const Changpasswordheader = ({ handleCancelfunction }) => {
               placeholder="confirm Password"
               onChange={handleChange}
             />
-            {error.newPassword ? (
+            {error.passwordNotMatch ? (
               <span style={{ color: "red", whiteSpace: "nowrap" }}>
                 password does not match
               </span>

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { IoIosAlert } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Dropdown, Modal, Space } from "antd";
@@ -12,6 +13,7 @@ import "./styles.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
+import { CgMinimize } from "react-icons/cg";
 // import Changpassword from "../moreCard/components/changepassword/Changpassword";
 import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
 // import { User_Balance } from "../../routes/Routes";
@@ -30,7 +32,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
   const userName = localStorage.getItem("username");
   const isMobile = useMediaQuery("(min-width: 768px)");
 
-  const { userBalanceamount, userBalance } = useContext(LoaderContext);
+  const { userBalanceamount, userBalance, handle } = useContext(LoaderContext);
 
   // const userBalance = async () => {
   //   await axios
@@ -128,6 +130,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
   useEffect(() => {
     userBalance();
   }, []);
+
   return (
     <>
       <div
@@ -173,11 +176,21 @@ const Header = ({ overlayState, setDisplay, balance }) => {
         <div className="rule">
           <div className="col-1">
             {/*  */}
-            <BiFullscreen
-              style={{ fontSize: "24px", color: "white" }}
-              // onClick={() => window.requestFullscreen()}
-            />
+            {handle.active ? (
+              <CgMinimize
+                style={{ fontSize: "24px", color: "white" }}
+                // onClick={() => window.requestFullscreen()}
+                onClick={handle.exit}
+              />
+            ) : (
+              <BiFullscreen
+                style={{ fontSize: "24px", color: "white" }}
+                // onClick={() => window.requestFullscreen()}
+                onClick={handle.enter}
+              />
+            )}
           </div>
+
           <div className="col-2">
             <IoIosAlert style={{ fontWeight: "500" }} />
             <p>

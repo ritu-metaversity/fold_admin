@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, message, Spin, Switch } from "antd";
+import { Button, message, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 // import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { Tab_EditProfileForm } from "../../../../routes/Routes";
-import { useNavigate } from "react-router-dom";
 import { LoaderContext } from "../../../../App";
 
 ///styles
@@ -67,8 +66,9 @@ const EditProfile = ({ data, handleCancelfunction }) => {
         )
         .then((res) => {
           if (res?.data?.status) {
-            handleCancelfunction();
             message.success(res.data.message);
+            console.log(res.data.message);
+            handleCancelfunction();
             setformData({});
           }
         })
@@ -90,6 +90,7 @@ const EditProfile = ({ data, handleCancelfunction }) => {
       });
     }
   };
+
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
