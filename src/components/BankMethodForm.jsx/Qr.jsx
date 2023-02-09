@@ -15,23 +15,30 @@ const QrForm = () => {
 
   const [error, setError] = useState({
     displayName: false,
+    image: false,
   });
   ////////image
   const [fileList, setFileList] = useState([]);
-  const [type, setType] = useState("");
+  // const [type, setType] = useState("");
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-  };
-  // console.log(fileList[0].name, "outer");
-  const handleChangeSelct = (value) => {
-    setType(value);
     setError((prev) => {
       return {
         ...prev,
-        isSelfAllowed: !Boolean(value),
+        image: !Boolean(fileList),
       };
     });
   };
+  // console.log(fileList[0].name, "outer");
+  // const handleChangeSelct = (value) => {
+  //   setType(value);
+  //   setError((prev) => {
+  //     return {
+  //       ...prev,
+  //       isSelfAllowed: !Boolean(value),
+  //     };
+  //   });
+  // };
   // const options = [
   //   {
   //     value: "live",
@@ -82,12 +89,18 @@ const QrForm = () => {
       return {
         ...prev,
         displayName: !Boolean(data.displayName),
+        image: !Boolean(fileList),
       };
     });
 
     let formData = new FormData();
     if (!fileList.length) {
-      return;
+      setError((prev) => {
+        return {
+          ...prev,
+          image: Boolean(fileList),
+        };
+      });
     }
 
     formData.append("displayName", data.displayName);
@@ -155,6 +168,8 @@ const QrForm = () => {
             fileList={fileList}
             onChange={onChange}
             onPreview={onPreview}
+            style={{ border: "1px solid red" }}
+            className={error.image ? "image-upload" : ""}
           >
             {fileList.length < 1 && "+ Upload"}
           </Upload>

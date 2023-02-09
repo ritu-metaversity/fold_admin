@@ -57,44 +57,43 @@ const Changpassword = ({ data, handleCancelfunction }) => {
     };
     setError(newError);
 
-    if (!formData.lupassword || !formData.newPassword || !formData.password) {
+    if (formData.lupassword && formData.newPassword && formData.password) {
       if (formData.password && formData.newPassword) {
-        console.log("click");
-        if (formData.password !== formData.newPassword) {
+        if (formData.password === formData.newPassword) {
+          setError({});
+          setLoading((prev) => ({ ...prev, changePassword: true }));
+          await axios
+            .post(
+              `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
+              { ...formData, userId: data.userId },
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+              }
+            )
+            .then((res) => {
+              if (res.data.status) {
+                message.success(res.data.message);
+                handleCancelfunction();
+                setformData({});
+              } else {
+                message.error(res.data.message);
+              }
+            })
+            .catch((error) => {
+              // message.error(error.response.data.message);
+              // if (error.response.status === 401) {
+              //   navigate("/");
+              //   localStorage.removeItem("token");
+              //   message.error(error.response.data.message);
+              // }
+            });
+        } else {
           setError({ ...error, passwordNotMatch: true });
         }
+        setLoading((prev) => ({ ...prev, changePassword: false }));
       }
-    } else {
-      setError({});
-      setLoading((prev) => ({ ...prev, changePassword: true }));
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
-          { ...formData, userId: data.userId },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.status) {
-            message.success(res.data.message);
-            handleCancelfunction();
-            setformData({});
-          } else {
-            message.error(res.data.message);
-          }
-        })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.status === 401) {
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   message.error(error.response.data.message);
-          // }
-        });
-      setLoading((prev) => ({ ...prev, changePassword: false }));
     }
 
     // if (formData.password !== formData.newPassword) {
@@ -133,7 +132,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
                 border: "none",
                 outline: "none",
               }}
-              placeholder="password"
+              placeholder="Password"
               value={formData.password}
               onChange={handleChange}
             />
@@ -166,7 +165,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
                 border: "none",
                 outline: "none",
               }}
-              placeholder="confirm Password"
+              placeholder="Confirm Password"
               onChange={handleChange}
             />
             {error.passwordNotMatch ? (
