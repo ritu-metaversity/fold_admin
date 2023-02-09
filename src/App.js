@@ -44,7 +44,6 @@ import { createContext, useEffect, useState } from "react";
 import CreateDomain from "./pages/createDomain/CreateDomain";
 import Testmatch from "./pages/testMatch/Testmatch";
 import NoteFound from "./pages/noteFound/NoteFound";
-import { Card, Modal, Spin } from "antd";
 import loader from "./assets/img/loder.svg";
 import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogin";
 import PaymentMethod from "./pages/paymentMethod/PaymentMethod";
