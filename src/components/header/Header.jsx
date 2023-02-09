@@ -175,7 +175,6 @@ const Header = ({ overlayState, setDisplay, balance }) => {
         </div>
         <div className="rule">
           <div className="col-1">
-            {/*  */}
             {handle.active ? (
               <CgMinimize
                 style={{ fontSize: "24px", color: "white" }}
