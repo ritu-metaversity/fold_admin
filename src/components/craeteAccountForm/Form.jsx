@@ -10,10 +10,10 @@ import { LoaderContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 const defaultData = {
   username: "",
-  city: "",
+  city: " ",
   fancyLossCommission: "",
   lupassword: "",
-  mobile: "",
+  mobile: " ",
   oddLossCommission: "",
   userRole: "",
   appId: "",
@@ -34,9 +34,9 @@ const Accountform = () => {
     username: false,
     lupassword: false,
     appId: currentUserROle == 2 ? false : undefined,
-    city: false,
+    // city: false,
     fancyLossCommission: false,
-    mobile: false,
+    // mobile: false,
     oddLossCommission: false,
     sportPartnership: currentUserROle == 2 ? false : undefined,
     userRole: false,
@@ -400,11 +400,7 @@ const Accountform = () => {
           </Form.Item>
 
           <Form.Item name="city" label="City:">
-            <div
-              className={
-                errorData?.oddLossCommission ? "col-input3" : "col-input"
-              }
-            >
+            <div className={errorData?.city ? "col-input3" : "col-input"}>
               <Input
                 placeholder="City"
                 name="city"
@@ -415,11 +411,7 @@ const Accountform = () => {
           </Form.Item>
 
           <Form.Item label="Mobile Number:">
-            <div
-              className={
-                errorData?.oddLossCommission ? "col-input3" : "col-input"
-              }
-            >
+            <div className={errorData?.mobile ? "col-input3" : "col-input"}>
               <Input
                 placeholder="Mobile Number"
                 type="number"
@@ -440,7 +432,7 @@ const Accountform = () => {
                 placeholder="Match Commission:"
                 type="number"
                 name="oddLossCommission"
-                value={data?.oddLossCommission}
+                value={Math.abs(data?.oddLossCommission) || ""}
                 onChange={handleChange}
               />
               {errorData?.oddLossCommission ? (
@@ -461,7 +453,7 @@ const Accountform = () => {
                 placeholder="Session Commission:"
                 type="number"
                 name="fancyLossCommission"
-                value={data?.fancyLossCommission}
+                value={Math.abs(data?.fancyLossCommission) || ""}
                 onChange={handleChange}
               />
               {errorData?.fancyLossCommission ? (
@@ -531,7 +523,7 @@ const Accountform = () => {
                     placeholder="Partnership With No Return"
                     type="number"
                     name="sportPartnership"
-                    value={data.sportPartnership}
+                    value={Math.abs(data.sportPartnership)}
                     onChange={handleChange}
                   />
                   {errorData?.sportPartnership ? (
