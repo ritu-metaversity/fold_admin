@@ -19,6 +19,7 @@ export const Power_List_Screen = "/Power_List_Screen";
 export const Account_Statement = "account-Statement";
 export const Deposit_Pending_Request = "Deposit-Pending-Request";
 export const Widrwal_Pending_Request = "Widrwal-Pending-Request";
+export const User_History = "User-History";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
@@ -56,6 +57,8 @@ export const Approve_Withdraw_Request = "pw/approve-withdraw-request";
 export const Change_Password_User = "user/change-password-self";
 export const Search_Api = "user/search-user-downline?";
 export const User_Balance = "user/user-balance";
+export const User_Login_History = "util/login-history-report";
+export const Change_Password_History = "util/password-change-history-report";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";

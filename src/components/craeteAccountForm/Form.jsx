@@ -10,15 +10,16 @@ import { LoaderContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 const defaultData = {
   username: "",
-  city: " ",
+  city: "",
   fancyLossCommission: "",
   lupassword: "",
-  mobile: " ",
+  mobile: "",
   oddLossCommission: "",
   userRole: "",
   appId: "",
   sportPartnership: "",
 };
+const arr = ["city", "mobile"];
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
@@ -129,30 +130,34 @@ const Accountform = () => {
     Object.keys(data).forEach((key) => {
       // console.log();
       if (["", null, undefined, NaN].includes(data[key])) {
-        // console.log(data[key], key, "sdfghjkl");
-
-        if (userType != 4 && key == "appId") {
-          setErrorData((prev) => {
-            return {
-              ...prev,
-              [key]: false,
-            };
-          });
-        } else if (data.userRole == 2 && key == "sportPartnership") {
-          setErrorData((prev) => {
-            return {
-              ...prev,
-              [key]: false,
-            };
-          });
+        if (arr.includes(key)) {
         } else {
-          isError = true;
-          setErrorData((prev) => {
-            return {
-              ...prev,
-              [key]: true,
-            };
-          });
+          // console.log(data[key], key, "sdfghjkl");
+
+          if (userType != 4 && key == "appId") {
+            setErrorData((prev) => {
+              return {
+                ...prev,
+                [key]: false,
+              };
+            });
+          } else if (data.userRole == 2 && key == "sportPartnership") {
+            setErrorData((prev) => {
+              return {
+                ...prev,
+                [key]: false,
+              };
+            });
+          } else {
+            isError = true;
+            console.log(isError, "ke", key);
+            setErrorData((prev) => {
+              return {
+                ...prev,
+                [key]: true,
+              };
+            });
+          }
         }
       } else {
         setErrorData((prev) => {
@@ -163,6 +168,7 @@ const Accountform = () => {
         });
       }
     });
+    console.log(isError, "kesdf");
     if (isError) return false;
     else {
       Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
@@ -327,6 +333,10 @@ const Accountform = () => {
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     };
   }, []);
+  console.log(
+    Object.entries(errorData).filter(([_, v]) => v === true).length,
+    "sdf"
+  );
 
   return (
     <>
@@ -400,7 +410,16 @@ const Accountform = () => {
           </Form.Item>
 
           <Form.Item name="city" label="City:">
-            <div className={errorData?.city ? "col-input3" : "col-input"}>
+            <div
+              className={
+                Boolean(
+                  Object.entries(errorData).filter(([_, v]) => v === true)
+                    ?.length
+                ) && !data.city
+                  ? "col-input3"
+                  : "col-input"
+              }
+            >
               <Input
                 name="city"
                 value={data.city}
@@ -411,7 +430,16 @@ const Accountform = () => {
           </Form.Item>
 
           <Form.Item label="Mobile Number:">
-            <div className={errorData?.mobile ? "col-input3" : "col-input"}>
+            <div
+              className={
+                Boolean(
+                  Object.entries(errorData).filter(([_, v]) => v === true)
+                    ?.length
+                ) && !data.mobile
+                  ? "col-input3"
+                  : "col-input"
+              }
+            >
               <Input
                 placeholder="Mobile Number"
                 type="number"

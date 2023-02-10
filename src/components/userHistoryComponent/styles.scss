@@ -1,0 +1,196 @@
+
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-custom-header :710px;
+.Account-list-search{
+    
+    .left-col{
+        display: flex;
+        
+        @media (max-width: $breakpoint-tablet) {
+            display: flex;
+          flex-direction: column;
+         }
+        .search-input-account-statement{
+         width: 250px;
+         height: 100%;
+         .search-input-account-div{
+            position: relative;
+          .dropdown-list{
+            width: 100%;
+            background-color: white;
+            position: absolute;
+            z-index: 10;
+            top: 90%;
+            display: block;
+            border: 1px solid rgb(233, 227, 227);
+            border-radius: 5px;
+            p{
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+            }
+          }
+          .dropdown-list2{
+            display: none;
+            p{
+                margin-top: 5px;
+                margin-bottom: 5px;
+                margin-left: 10px;
+            }
+          }
+         }
+         @media (max-width: $breakpoint-tablet) {
+         width: 98%;
+         }
+        }
+       
+        .date-search{
+            // position: relative;
+            width: 254px;
+            height: 100%;
+            top: 0px;
+            // display: flex;
+            // flex-direction: column;
+            @media (max-width: $breakpoint-tablet) {
+                width: 100%;
+                }
+            .rane-picker{
+                border: 1px solid #ced4da !important;
+                // position:absolute;
+                margin: 7px 0px 7px 0px;
+                @media (max-width: $breakpoint-tablet) {
+                    width: 98%;
+                    }
+            }
+        }
+    }
+}
+.table-user-history{
+
+.search-input-user-history{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    // padding: 10px;
+    // padding: 0px 10px 0px 10px;
+    // margin:0px 10px 0px 10px ;
+    width: auto;
+    margin-bottom: 10px;
+    @media (max-width: $breakpoint-mobile) {
+        width: 100%;
+        flex-direction: column;
+        // padding: 10px;
+        // margin-top: 5px;
+        // margin-bottom: 5px;
+        gap: 10px;
+        display: contents;
+        }
+    .left-col{
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        @media (max-width: $breakpoint-mobile) {
+           
+            gap: 0px;
+
+             }
+        input{
+            @media (max-width: $breakpoint-mobile) {
+           
+               height: 35px;
+
+                }
+        }
+        @media (max-width: $breakpoint-mobile) {
+           
+            align-items: center;
+            width: 100%;
+            // height: 64px;
+            }
+        .serch-btn{
+            display: flex;
+            gap: 10px;
+
+            @media (max-width: $breakpoint-mobile) {
+             
+             justify-content: center;
+                width: 100%;
+                height: 35px;
+                }
+                .ant-btn{
+                    border: none;
+                    @media (max-width: $breakpoint-mobile) {
+             
+                      height: 100%;
+                           }
+                }
+        }
+        
+    }
+    .right-col{
+        display: flex;
+        // align-items: center;
+        justify-content: right;
+        gap: 5px;
+        @media (max-width: $breakpoint-mobile) {
+             
+           
+              text-align: right;
+               }
+        .ant-btn{
+            
+            background-color: #34c38f;
+           height: 38px;
+           margin-right: 10px;
+           text-transform: uppercase;
+           
+            a{
+                display: flex;
+                color: white;
+                font-size: 12px;
+                font-weight: 600;
+                align-items: center;
+                svg{
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+}
+.account-serch-btn-user-history{
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+
+.ant-picker-panels{
+    @media (max-width: $breakpoint-mobile) {
+        // top: 100px;
+        width: 300px;
+           flex-wrap: wrap !important;
+           display: flex;
+        //    flex-direction: column;
+         }
+        //  .ant-picker-panels{
+        //     @media (max-width: $breakpoint-mobile) {
+        //         // top: 100px;
+        //         width: 300px;
+        //            flex-wrap: wrap !important;
+        //            display: flex;
+        //         //    flex-direction: column;
+        //          }
+        //  }
+}
+.ant-picker-range-wrapper{
+    @media (max-width: $breakpoint-mobile) {
+        // top: 100px;
+        top: 0px;
+      position: absolute !important;
+        //    flex-direction: column;
+         }
+}
