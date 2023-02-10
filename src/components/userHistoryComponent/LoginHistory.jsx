@@ -61,7 +61,7 @@ const LoginHistory = ({ url }) => {
       noOfRecords: paginationData.noOfRecords,
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
-      userId: id,
+      userId: "",
       type: selectValue,
     });
   };
