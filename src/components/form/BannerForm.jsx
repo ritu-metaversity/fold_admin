@@ -19,7 +19,7 @@ const BannerFormComponent = () => {
   const [bannerList, setBannerList] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
-
+  const [apiCall, setApiCall] = useState(0);
   const [error, setError] = useState({
     priority: false,
     type: false,
@@ -185,7 +185,10 @@ const BannerFormComponent = () => {
         <>
           <Tooltip placement="top" title={"Delete"}>
             <Button
-              onClick={() => showModal(res.id)}
+              onClick={() => {
+                showModal(res.id);
+                setApiCall(2);
+              }}
               style={{ border: "none" }}
             >
               <GoTrashcan style={{ color: "red" }} />
@@ -302,6 +305,7 @@ const BannerFormComponent = () => {
         handleOk={handleOk}
         handleCancel={handleCancel}
         remarkRender={1}
+        headerColor={apiCall}
       />
       <div className="hading-create-accounts">
         <h4>ADD BANNER</h4>
@@ -329,6 +333,7 @@ const BannerFormComponent = () => {
                 onChange={onChange}
                 onPreview={onPreview}
                 className={error.image ? "image-upload" : ""}
+                accept="image/png, image/jpeg,image/jpg ,image/webp, image/svg"
               >
                 {fileList.length < 1 && "+ Upload"}
               </Upload>

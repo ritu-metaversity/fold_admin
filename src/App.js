@@ -37,6 +37,7 @@ import {
   TestMatch_Screen,
   Upi_Method,
   User_Balance,
+  User_History,
   Widrwal_Pending_Request,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
@@ -59,6 +60,7 @@ import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingR
 import { OfflineAlert } from "./axiosInstance";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import axios from "axios";
+import UserHistory from "./pages/userHistory/UserHistory";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -138,7 +140,6 @@ function App() {
       )}
       <FullScreen handle={handle}>
         <OfflineAlert />
-
         <Routes key={refresh}>
           <Route
             path={CreatAaccounts_Screen}
@@ -157,6 +158,8 @@ function App() {
             path={Change_Password}
             element={<ChangePasswordLogin />}
           ></Route>
+          <Route path={User_History} element={<UserHistory />}></Route>
+
           <Route path={Payment_Method} element={<PaymentMethodPage />}></Route>
           <Route path={Banner_Update} element={<Banner />}></Route>
           <Route path={Bank_Method} element={<BankPage />}></Route>

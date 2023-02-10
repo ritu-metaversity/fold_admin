@@ -12,7 +12,12 @@ import { LoaderContext } from "../../../../App";
 const EditProfile = ({ data, handleCancelfunction }) => {
   const [error, setError] = useState({});
   const { setLoading } = useContext(LoaderContext);
-  const [formData, setformData] = useState({});
+  const [formData, setformData] = useState({
+    username: "",
+    mobile: "",
+    city: "",
+    lupassword: "",
+  });
   const switchHandle = (value) => {
     setformData({ ...formData, favMaster: value || false });
   };
@@ -45,8 +50,8 @@ const EditProfile = ({ data, handleCancelfunction }) => {
   const updateProfile = async () => {
     if (
       formData?.username &&
-      formData?.mobile &&
-      formData?.city &&
+      // formData?.mobile &&
+      // formData?.city &&
       formData?.lupassword
     ) {
       setLoading((prev) => ({ ...prev, changePassword: true }));
@@ -140,7 +145,7 @@ const EditProfile = ({ data, handleCancelfunction }) => {
             className="input"
             style={{
               background: "white",
-              border: `${error.city ? "1px solid red" : "1px solid #ced4da"}`,
+              border: `${error.city ? "1px solid green" : "1px solid #ced4da"}`,
               borderRadius: " 0.25rem",
             }}
           >
@@ -166,7 +171,9 @@ const EditProfile = ({ data, handleCancelfunction }) => {
             className="input"
             style={{
               background: "white",
-              border: `${error.mobile ? "1px solid red" : "1px solid #ced4da"}`,
+              border: `${
+                error.mobile ? "1px solid green" : "1px solid #ced4da"
+              }`,
               borderRadius: " 0.25rem",
             }}
           >

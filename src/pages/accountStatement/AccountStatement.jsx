@@ -50,7 +50,7 @@ const AccountStatement = () => {
   const reset = () => {
     setSearchData("");
     setMessage("");
-    setDateFrom(dayjs());
+    setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
     tabledata();
   };

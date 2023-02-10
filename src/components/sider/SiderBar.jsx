@@ -332,6 +332,18 @@ const SiderBar = () => {
             </Link>
           ),
         },
+        {
+          key: 35,
+
+          label: (
+            <Link
+              to="/User-History?first=true"
+              // eloadDocument={pathname === "/betHistory"}
+            >
+              User History
+            </Link>
+          ),
+        },
       ],
     },
     {

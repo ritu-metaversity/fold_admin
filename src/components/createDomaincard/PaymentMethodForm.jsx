@@ -150,6 +150,7 @@ const PaymentForm = () => {
                 fileList={fileList}
                 onChange={onChange}
                 onPreview={onPreview}
+                accept="image/png, image/jpeg,image/jpg ,image/webp, image/svg"
               >
                 {fileList.length < 1 && "+ Upload"}
               </Upload>
