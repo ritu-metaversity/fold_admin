@@ -90,6 +90,7 @@ const DomainCard = () => {
   };
 
   const onSubmit = async () => {
+    console.log(error.isSelfAllowed);
     setError((prev) => {
       return {
         ...prev,
@@ -134,10 +135,17 @@ const DomainCard = () => {
       "isSelfAllowed",
       type == "live" ? true : type == "admin" ? false : false
     );
-    console.log("formData", formData.get("file"));
+    // console.log("formData", formData.get("file"));
 
-    if (error.appName && error.appUrl && Boolean(data.transactionCode)) {
+    if (
+      !!error?.appName ||
+      !!error?.appUrl ||
+      !!error?.isSelfAllowed ||
+      !!error?.transactionCode
+    ) {
+      return;
     } else {
+      // console.log("error");
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
@@ -151,7 +159,7 @@ const DomainCard = () => {
           }
         )
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
           message.success(res.data.message);
           setFileList([]);
           setData({
@@ -160,7 +168,8 @@ const DomainCard = () => {
             transactionCode: "",
             isSelfAllowed: "",
           });
-          setType("please select Type");
+          setError({});
+          setType("");
         })
         .catch((error) => {
           // message.error(error.response.data.message);
@@ -250,6 +259,7 @@ const DomainCard = () => {
             onChange={onChange}
             onPreview={onPreview}
             className={error.image ? "image-upload" : ""}
+            accept="image/png, image/jpeg,image/jpg ,image/webp,image/svg"
           >
             {fileList.length < 1 && "+ Upload"}
           </Upload>

@@ -3,14 +3,18 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-let offlineRef;
 axios.interceptors.response.use(
   function (config) {
+    offlineRef(false);
     return config;
   },
   function (err) {
-    // console.log(err);
-    if (err?.response?.data?.message) {
+    console.log(err, "sdfghjk");
+    if (err.response?.status === 401) {
+      localStorage.clear();
+
+      navRef("/");
+    } else if (err?.response?.data?.message) {
       message.error(err?.response?.data?.message);
     }
     // message.error(err?.response?.data?.message);
@@ -18,20 +22,21 @@ axios.interceptors.response.use(
       if (offlineRef) {
         offlineRef(true);
       }
-    }
-    if (err.response?.status === 401) {
-      localStorage.clear();
-
-      useNavigate("/");
+    } else {
+      offlineRef(false);
     }
     return err;
   }
 );
 
+let offlineRef;
+let navRef;
+
 export const OfflineAlert = () => {
   const [open, setOpen] = useState(false);
-
+  const nav = useNavigate();
   offlineRef = setOpen;
+  navRef = nav;
   return open ? (
     <Alert
       message="You Seem To Be Offline"

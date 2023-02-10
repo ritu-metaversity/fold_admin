@@ -170,6 +170,7 @@ const QrForm = () => {
             onPreview={onPreview}
             style={{ border: "1px solid red" }}
             className={error.image ? "image-upload" : ""}
+            accept="image/png, image/jpeg,image/jpg ,image/webp, image/svg"
           >
             {fileList.length < 1 && "+ Upload"}
           </Upload>
