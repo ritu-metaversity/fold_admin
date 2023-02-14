@@ -76,7 +76,15 @@ $breakpoint-common: 1280px;
   z-index: 11;
   transform: translatex(0px);
   transition: 0.4s;
+  // li{
+  //   padding-left: 24px !important;
+  // }
 }
+.left-sider-activ,.left-sider {
+ overflow: auto;
+  max-height: calc(100vh - 64px);
+}
+
 
 .sider-icon {
   display: none;

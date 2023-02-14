@@ -381,9 +381,9 @@ const TestPageLeftCollapse = () => {
       </div>
       <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
         {odddata?.Odds?.map((item, index) => {
-          if (item.Name === "Tied Match") {
-            return "";
-          }
+          // if (item.Name === "Tied Match") {
+          //   return "";
+          // }
           return (
             <Panel
               key={index}

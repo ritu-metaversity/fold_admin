@@ -47,8 +47,8 @@ const MyBets = () => {
         key: res.marketname + res.userid + index,
         UserName: res.marketname,
         // Nation: "Only 109 over run PAK / 100",
-        Rate: data.split(" ")[0],
-        Amount: data.split(" ")[1],
+        Rate: res.matchedtime?.split(" ")[0],
+        Amount: res.matchedtime?.split(" ")[1],
         isback: res.isback,
       },
       {

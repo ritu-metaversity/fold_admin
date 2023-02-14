@@ -5,7 +5,12 @@ import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
-import { Create_Power_user, Log_Out, Payment_List } from "../../routes/Routes";
+import {
+  Create_Power_user,
+  Left_Event_Menu,
+  Log_Out,
+  Payment_List,
+} from "../../routes/Routes";
 import axios from "axios";
 import { FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
@@ -15,6 +20,7 @@ const SiderBar = () => {
   const userType = localStorage.getItem("userType");
   const { setLoading } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
+  const [eventData, setEventData] = useState([]);
 
   const logout = async () => {
     setLoading((prev) => ({ ...prev, logout: true }));
@@ -109,6 +115,36 @@ const SiderBar = () => {
       }));
     };
   }, []);
+
+  const leftEventMenu = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Left_Event_Menu}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setEventData(res.data.data);
+        console.log(res.data.data);
+      })
+      .catch((error) => {
+        // message.error(error.response?.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        // }
+      });
+    setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+  };
+  useEffect(() => {
+    leftEventMenu();
+  }, []);
+
   const UrlArray = [
     "/Upi_Method_Screen?first=true",
     "/Bank_Method_Screen?first=true",
@@ -345,6 +381,36 @@ const SiderBar = () => {
           ),
         },
       ],
+    },
+    {
+      key: 17,
+      icon: <CiLogout />,
+      label: <span>Event </span>,
+      children: eventData?.map((res) => {
+        return {
+          key: res.sportName + res.sportId + res.totalMatch,
+
+          label: (
+            <Link
+              to=""
+              // reloadDocument={pathname === "/account-Statement"}
+              style={{ color: "white" }}
+            >
+              {res.sportName}
+            </Link>
+          ),
+          children: res.matchList?.map((list) => {
+            return {
+              key: list.date + list.matchId + list.matchName,
+              label: (
+                <Link to={`/test-match-screen/?event-id=${list?.matchId}`}>
+                  {list.matchName} ({list.date})
+                </Link>
+              ),
+            };
+          }),
+        };
+      }),
     },
     {
       key: 17,
