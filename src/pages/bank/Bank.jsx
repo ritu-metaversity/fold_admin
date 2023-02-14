@@ -19,6 +19,8 @@ const Bank = () => {
   const [error, setError] = useState({});
   const { loading, setLoading } = useContext(LoaderContext);
   const [DataList, setDataList] = useState([]);
+  const [transactionCode, setTransactionCode] = useState("");
+  const [errorTransaction, seterrorTransaction] = useState(false);
 
   ////edit profile State
 
@@ -97,36 +99,41 @@ const Bank = () => {
     };
   }, []);
   const submit = async (obj) => {
-    if (value[obj]) {
-      const currentVaue = value[obj];
-
-      setError({ ...error, [obj]: false });
-      setvalue({ ...value, [obj]: "" });
-      setLoading((prev) => ({ ...prev, submitBankData: true }));
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${Bank_deposit_amount}`,
-          {
-            userid: obj,
-            amount: currentVaue,
-            lupassword: "",
-          },
-
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          // console.log(res.data);
-          message.success(res.data.message);
-          setError({});
-        })
-        .catch((error) => {});
-      setLoading((prev) => ({ ...prev, submitBankData: false }));
+    if (errorTransaction) {
+      seterrorTransaction(true);
     } else {
-      setError({ ...error, [obj]: true });
+      if (value[obj]) {
+        const currentVaue = value[obj];
+
+        setError({ ...error, [obj]: false });
+        setvalue({ ...value, [obj]: "" });
+        setLoading((prev) => ({ ...prev, submitBankData: true }));
+        await axios
+          .post(
+            `${process.env.REACT_APP_BASE_URL}/${Bank_deposit_amount}`,
+            {
+              userid: obj,
+              amount: currentVaue,
+              lupassword: transactionCode,
+            },
+
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((res) => {
+            // console.log(res.data);
+            message.success(res.data.message);
+            setError({});
+            setTransactionCode("");
+          })
+          .catch((error) => {});
+        setLoading((prev) => ({ ...prev, submitBankData: false }));
+      } else {
+        setError({ ...error, [obj]: true });
+      }
     }
   };
   useEffect(() => {
@@ -226,6 +233,7 @@ const Bank = () => {
             <BsArrowRightShort />
           </p>
           <input
+            type="number"
             style={{
               height: "18px",
               width: "90px",
@@ -279,7 +287,17 @@ const Bank = () => {
       index: paginationData.totalPages - 1,
     });
   };
+  const onchangeTransactionCode = (e) => {
+    const value = e.target.value;
 
+    if (value) {
+      seterrorTransaction(false);
+    } else {
+      seterrorTransaction(true);
+    }
+    setTransactionCode(value);
+    console.log(value);
+  };
   return (
     <>
       <Mainlayout>
@@ -325,11 +343,15 @@ const Bank = () => {
                 <input
                   type="password"
                   placeholder="Transaction Code"
+                  value={transactionCode}
+                  onChange={onchangeTransactionCode}
                   style={{
                     height: "32px",
                     borderRadius: "5px",
                     outline: "none",
-                    border: "1px solid #ced4da",
+                    border: errorTransaction
+                      ? "1px solid red"
+                      : "1px solid #ced4da",
                   }}
                 />
                 {/* <Button style={{ background: "black", color: "white" }}>
