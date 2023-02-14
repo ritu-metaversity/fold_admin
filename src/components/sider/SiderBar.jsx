@@ -14,11 +14,11 @@ import {
 import axios from "axios";
 import { FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
-const { SubMenu } = Menu;
+
 const SiderBar = () => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
-  const { setLoading } = useContext(LoaderContext);
+  const { setLoading, refershNow } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
   const [eventData, setEventData] = useState([]);
 
@@ -146,16 +146,16 @@ const SiderBar = () => {
   }, []);
 
   const UrlArray = [
-    "/Upi_Method_Screen?first=true",
-    "/Bank_Method_Screen?first=true",
-    "/Qr_Method_Screen?first=true",
+    "/Upi_Method_Screen",
+    "/Bank_Method_Screen",
+    "/Qr_Method_Screen",
   ];
   const payment_list = [];
   paymentListData?.map((res) => {
     payment_list.push({
       key: res?.id + 2 + res?.methodName,
       label: (
-        <Link to={UrlArray[res?.id - 1]}>
+        <Link onClick={refershNow} to={UrlArray[res?.id - 1]}>
           <span style={{ fontSize: "14px" }}>{res?.methodName}</span>
         </Link>
       ),
@@ -167,7 +167,8 @@ const SiderBar = () => {
     //   key: "1",
     //   icon: <AiFillDashboard />,
     //   label: (
-    //     <Link to="" style={{ color: "white" }}>
+    //     <Link onClick={refershNow}
+    // to="" style={{ color: "white" }}>
     //       Dashboard
     //     </Link>
     //   ),
@@ -177,7 +178,8 @@ const SiderBar = () => {
       icon: <TbBrandGoogleAnalytics />,
       label: (
         <Link
-          to="/marketanalysis?first=true"
+          onClick={refershNow}
+          to="/marketanalysis"
           // reloadDocument={pathname === "/marketanalysis"}
         >
           Market Analysis
@@ -193,7 +195,8 @@ const SiderBar = () => {
           key: 4,
           label: (
             <Link
-              to="/activeUser?first=true"
+              onClick={refershNow}
+              to="/activeUser"
               // reloadDocument={pathname === "/activeUser"}
               // onChange={() => handleChangeLink(4)}
             >
@@ -206,7 +209,8 @@ const SiderBar = () => {
               key: 5,
               label: (
                 <Link
-                  to="/Power_List_Screen?first=true"
+                  onClick={refershNow}
+                  to="/Power_List_Screen"
                   // reloadDocument={pathname === "/Power_List_Screen"}
                 >
                   Helper List
@@ -218,7 +222,8 @@ const SiderBar = () => {
           key: 67,
           label: (
             <Link
-              to="/accountList?first=true"
+              onClick={refershNow}
+              to="/accountList"
               // reloadDocument={pathname === "/accountList"}
             >
               Account List
@@ -230,7 +235,8 @@ const SiderBar = () => {
           key: 6,
           label: (
             <Link
-              to="/createAccounts?first=true"
+              onClick={refershNow}
+              to="/createAccounts"
               // reloadDocument={pathname === "/createAccounts"}
             >
               Create Account
@@ -248,7 +254,8 @@ const SiderBar = () => {
               key: 7,
               label: (
                 <Link
-                  to="/createdomain?first=true"
+                  onClick={refershNow}
+                  to="/createdomain"
                   // reloadDocument={pathname === "/createdomain"}
                 >
                   Create Domain
@@ -263,7 +270,8 @@ const SiderBar = () => {
       icon: <RiBankFill />,
       label: (
         <Link
-          to="/bank?first=true"
+          onClick={refershNow}
+          to="/bank"
           // reloadDocument={pathname === "/bank"}
         >
           Bank
@@ -280,7 +288,8 @@ const SiderBar = () => {
               key: 79,
               label: (
                 <Link
-                  to="/Deposit-Pending-Request?first=true"
+                  onClick={refershNow}
+                  to="/Deposit-Pending-Request"
                   // reloadDocument={pathname === "/Deposit-Pending-Request"}
                 >
                   <span style={{ fontSize: "14px" }}>
@@ -293,7 +302,8 @@ const SiderBar = () => {
               key: 90,
               label: (
                 <Link
-                  to="/Widrwal-Pending-Request?first=true"
+                  onClick={refershNow}
+                  to="/Widrwal-Pending-Request"
                   // reloadDocument={pathname === "/Widrwal-Pending-Request"}
                 >
                   <span style={{ fontSize: "14px" }}>
@@ -319,7 +329,8 @@ const SiderBar = () => {
           icon: <FaImage />,
           label: (
             <Link
-              to="/Update-Banner?first=true"
+              onClick={refershNow}
+              to="/Update-Banner"
               // reloadDocument={pathname === "/Update-Banner"}
             >
               Banner
@@ -337,7 +348,8 @@ const SiderBar = () => {
 
           label: (
             <Link
-              to="/account-Statement?first=true"
+              onClick={refershNow}
+              to="/account-Statement"
               // reloadDocument={pathname === "/account-Statement"}
             >
               Account Statement
@@ -349,7 +361,8 @@ const SiderBar = () => {
 
           label: (
             <Link
-              to="/currentsBets?first=true"
+              onClick={refershNow}
+              to="/currentsBets"
               // reloadDocument={pathname === "/currentsBets"}
             >
               Current Bets
@@ -361,7 +374,8 @@ const SiderBar = () => {
 
           label: (
             <Link
-              to="/betHistory?first=true"
+              onClick={refershNow}
+              to="/betHistory"
               // eloadDocument={pathname === "/betHistory"}
             >
               Bets History
@@ -373,7 +387,8 @@ const SiderBar = () => {
 
           label: (
             <Link
-              to="/User-History?first=true"
+              onClick={refershNow}
+              to="/User-History"
               // eloadDocument={pathname === "/betHistory"}
             >
               User History
@@ -392,6 +407,7 @@ const SiderBar = () => {
 
           label: (
             <Link
+              onClick={refershNow}
               to=""
               // reloadDocument={pathname === "/account-Statement"}
               style={{ color: "white" }}
@@ -403,8 +419,15 @@ const SiderBar = () => {
             return {
               key: list.date + list.matchId + list.matchName,
               label: (
-                <Link to={`/test-match-screen/?event-id=${list?.matchId}`}>
-                  {list.matchName} ({list.date})
+                <Link
+                  onClick={refershNow}
+                  to={`/test-match-screen/?event-id=${list?.matchId}`}
+                >
+                  <p style={{ margin: "0px" }}>
+                    {list.matchName}
+
+                    <span style={{ fontSize: "12px" }}>({list.date})</span>
+                  </p>
                 </Link>
               ),
             };

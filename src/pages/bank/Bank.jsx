@@ -128,6 +128,7 @@ const Bank = () => {
             message.success(res.data.message);
             setError({});
             setTransactionCode("");
+            tabledata();
           })
           .catch((error) => {});
         setLoading((prev) => ({ ...prev, submitBankData: false }));
@@ -207,7 +208,7 @@ const Bank = () => {
       username: res?.username,
       CR: res?.chips,
       PTS: res?.pts,
-      Client: res?.clientPlPercentage,
+      Client: res?.clientPl,
       Exposer: res?.exposure,
       Available: res?.availabePts,
       AccountType: res?.accountType,
