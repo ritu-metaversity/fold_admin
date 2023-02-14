@@ -50,9 +50,17 @@ const AccountStatement = () => {
   const reset = () => {
     setSearchData("");
     setMessage("");
+    setSelectValue("1");
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
-    tabledata();
+    tabledata({
+      index: paginationData.index,
+      noOfRecords: paginationData.noOfRecords,
+      fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
+      toDate: dayjs().toISOString().split("T")[0],
+      userid: "",
+      type: "1",
+    });
   };
 
   const handleChange2 = (event) => {
@@ -69,7 +77,7 @@ const AccountStatement = () => {
   };
   const onRangeChange = (dates, dateStrings) => {
     if (dates?.length) {
-      //   console.log("From: ", dates[0], ", to: ", dates[1]);
+      console.log("From: ", dates[0], ", to: ", dates[1]);
       setDateTo(dates[1]);
       setDateFrom(dates[0]);
     } else {
@@ -103,7 +111,7 @@ const AccountStatement = () => {
         console.log(error);
       });
   };
-  const tabledata = async () => {
+  const tabledata = async (DateFrom) => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
     // console.log(dateTo, dateTo.toISOString());
     await axios
@@ -116,6 +124,7 @@ const AccountStatement = () => {
           toDate: dateTo.toISOString().split("T")[0],
           userid: id,
           type: selectValue,
+          ...DateFrom,
         },
 
         {
@@ -151,7 +160,7 @@ const AccountStatement = () => {
   };
 
   useEffect(() => {
-    tabledata();
+    tabledata({});
   }, [paginationData.index, paginationData.noOfRecords]);
   useEffect(() => {
     return () => {

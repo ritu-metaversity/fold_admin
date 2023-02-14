@@ -56,16 +56,23 @@ const LoginHistory = ({ url }) => {
     setMessage("");
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
-    tabledata();
+    tabledata({
+      index: paginationData.index,
+      noOfRecords: paginationData.noOfRecords,
+      fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
+      toDate: dayjs().toISOString().split("T")[0],
+      userId: "",
+      type: selectValue,
+    });
   };
 
   const handleChange2 = (event) => {
     setSearchText(event.target.value);
     // console.log(event);
   };
-  const handleChangeSelect = (value) => {
-    setSelectValue(value);
-  };
+  // const handleChangeSelect = (value) => {
+  //   setSelectValue(value);
+  // };
   const handleClick = () => {
     // 👇 "message" stores input field value
     setSearchText(message);
@@ -107,7 +114,7 @@ const LoginHistory = ({ url }) => {
         console.log(error);
       });
   };
-  const tabledata = async () => {
+  const tabledata = async (DateFrom) => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
     // console.log(dateTo, dateTo.toISOString());
     await axios
@@ -120,6 +127,7 @@ const LoginHistory = ({ url }) => {
           toDate: dateTo.toISOString().split("T")[0],
           userId: id,
           type: selectValue,
+          ...DateFrom,
         },
         {
           headers: {
@@ -155,7 +163,7 @@ const LoginHistory = ({ url }) => {
   };
 
   useEffect(() => {
-    tabledata();
+    tabledata({});
   }, [paginationData.index, paginationData.noOfRecords]);
   useEffect(() => {
     return () => {

@@ -59,6 +59,7 @@ export const Search_Api = "user/search-user-downline?";
 export const User_Balance = "user/user-balance";
 export const User_Login_History = "util/login-history-report";
 export const Change_Password_History = "util/password-change-history-report";
+export const Left_Event_Menu = "enduser/left-menu-data-open";
 
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
