@@ -123,6 +123,7 @@ function App() {
   }, [refresh]);
 
   const handle = useFullScreenHandle();
+
   return (
     <LoaderContext.Provider
       value={{
@@ -140,10 +141,13 @@ function App() {
       )}
       <FullScreen handle={handle}>
         <OfflineAlert />
-        <Routes key={refresh}>
+        <Routes
+        // key={refresh}
+        >
           <Route
             path={CreatAaccounts_Screen}
             element={<CreateAccount />}
+            render={(props) => <CreateAccount key={Date.now()} {...props} />}
           ></Route>
           <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
           <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>

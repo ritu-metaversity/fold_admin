@@ -37,7 +37,22 @@
 background-color: transparent !important;
 
 }
+.sider-bar li ul li ul li{
+    line-height: 32px !important;
+    padding-left: 45px !important;
+    // padding-inline: 0px !important;
+    span{ a{
+
+            text-align: left !important;
+        }
+
+    }
+}
+
 .sider-bar{
+    // li{
+    //     padding-left: 24px !important;
+    // }
     .ant-menu-item{
 &:active{
   background-color: transparent !important;
