@@ -404,7 +404,7 @@ const SiderBar = () => {
               key: list.date + list.matchId + list.matchName,
               label: (
                 <Link to={`/test-match-screen/?event-id=${list?.matchId}`}>
-                  {list.matchName}
+                  {list.matchName} ({list.date})
                 </Link>
               ),
             };

@@ -121,6 +121,7 @@ const Bank = () => {
         .then((res) => {
           // console.log(res.data);
           message.success(res.data.message);
+          setError({});
         })
         .catch((error) => {});
       setLoading((prev) => ({ ...prev, submitBankData: false }));
@@ -217,7 +218,7 @@ const Bank = () => {
             onClick={() =>
               setvalue({
                 ...value,
-                [res.userId]: -Number(res.clientPlPercentage),
+                [res.userId]: Number(res.clientPlPercentage),
               })
             }
           >
@@ -320,7 +321,7 @@ const Bank = () => {
                   </Button>
                 </div>
               </div>
-              {/* <div className="right-col">
+              <div className="right-col">
                 <input
                   type="password"
                   placeholder="Transaction Code"
@@ -331,10 +332,10 @@ const Bank = () => {
                     border: "1px solid #ced4da",
                   }}
                 />
-                <Button style={{ background: "black", color: "white" }}>
+                {/* <Button style={{ background: "black", color: "white" }}>
                   <Link to="">Transfer All</Link>
-                </Button>
-              </div> */}
+                </Button> */}
+              </div>
             </div>
 
             <div style={{ paddingLeft: "5px" }}>
