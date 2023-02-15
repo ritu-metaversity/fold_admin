@@ -18,9 +18,6 @@ const CreateAccount = () => {
           <NavLink to="/creatAaccounts" style={{ color: "#74788d" }}>
             Create Accounts
           </NavLink>
-          <button onClick={() => setKeyNew((prevState) => prevState + 1)}>
-            render
-          </button>
         </p>
       </div>
       <div className="section">

@@ -1,3 +1,9 @@
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-medium: 1370px;
+$breakpoint-common: 1280px;
+
 .ant-menu {
   // height: 100%!important;
   background-color: transparent;
@@ -46,7 +52,17 @@
     }
   }
 }
+.sider-bar li:nth-child(6) {
+  // padding-bottom: 64px;
+  // align-items: flex-start !important;
 
+  // background-color: aqua;
+  @media (max-width: $breakpoint-mobile) {
+    // padding-bottom: 64px;
+    align-items: flex-start;
+    // background-color: aqua;
+  }
+}
 .sider-bar {
   // li{
   //     padding-left: 24px !important;

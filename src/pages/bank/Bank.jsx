@@ -31,7 +31,6 @@ const Bank = () => {
     noOfRecords: 25,
     totalPages: 1,
   });
-
   const reset = () => {
     setSearchText("");
     setInputvalue("");
@@ -99,42 +98,41 @@ const Bank = () => {
     };
   }, []);
   const submit = async (obj) => {
-    if (errorTransaction) {
+    if (!transactionCode) {
+      setError({ ...error, [obj]: true });
       seterrorTransaction(true);
-    } else {
-      if (value[obj]) {
-        const currentVaue = value[obj];
+    } else if (value[obj]) {
+      const currentVaue = value[obj];
 
-        setError({ ...error, [obj]: false });
-        setvalue({ ...value, [obj]: "" });
-        setLoading((prev) => ({ ...prev, submitBankData: true }));
-        await axios
-          .post(
-            `${process.env.REACT_APP_BASE_URL}/${Bank_deposit_amount}`,
-            {
-              userid: obj,
-              amount: currentVaue,
-              lupassword: transactionCode,
+      setError({ ...error, [obj]: false });
+      setvalue({ ...value, [obj]: "" });
+      setLoading((prev) => ({ ...prev, submitBankData: true }));
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Bank_deposit_amount}`,
+          {
+            userid: obj,
+            amount: currentVaue,
+            lupassword: transactionCode,
+          },
+
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          )
-          .then((res) => {
-            // console.log(res.data);
-            message.success(res.data.message);
-            setError({});
-            setTransactionCode("");
-            tabledata();
-          })
-          .catch((error) => {});
-        setLoading((prev) => ({ ...prev, submitBankData: false }));
-      } else {
-        setError({ ...error, [obj]: true });
-      }
+          }
+        )
+        .then((res) => {
+          // console.log(res.data);
+          message.success(res.data.message);
+          setError({});
+          setTransactionCode("");
+          tabledata();
+        })
+        .catch((error) => {});
+      setLoading((prev) => ({ ...prev, submitBankData: false }));
+    } else {
+      setError({ ...error, [obj]: true });
     }
   };
   useEffect(() => {
@@ -226,7 +224,7 @@ const Bank = () => {
             onClick={() =>
               setvalue({
                 ...value,
-                [res.userId]: Number(res.clientPlPercentage),
+                [res.userId]: res.clientPl,
               })
             }
           >
@@ -246,7 +244,7 @@ const Bank = () => {
             onChange={(e) =>
               setvalue({ ...value, [res.userId]: e.target.value })
             }
-            value={value[res.userId]}
+            value={value[res.userId] || ""}
           />
           <Button
             style={{
@@ -297,7 +295,7 @@ const Bank = () => {
       seterrorTransaction(true);
     }
     setTransactionCode(value);
-    console.log(value);
+    // console.log(value);
   };
   return (
     <>
@@ -323,7 +321,7 @@ const Bank = () => {
                   placeholder="search here....."
                   name="message"
                   onChange={handleChange}
-                  value={Inputvalue.message}
+                  value={Inputvalue}
                 />
                 <div className="serch-btn">
                   <Button
