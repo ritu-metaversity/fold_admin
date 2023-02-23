@@ -1,10 +1,9 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { Button, message, Result, Spin, Tabs } from "antd";
+import { Spin, Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 import { useNavigate } from "react-router-dom";
-import interceptor from "../../axiosInstance";
 
 ///styles
 import "./styles.scss";
@@ -16,8 +15,7 @@ const Dashboard = () => {
   const [cricket, setCricket] = useState([]);
   const [sports, setSports] = useState([]);
   const [loader, setloader] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
-  const navigate = useNavigate();
+  const { setLoading } = useContext(LoaderContext);
 
   const data = {
     data: { id: tab1 },
@@ -49,7 +47,6 @@ const Dashboard = () => {
   }, [tab1]);
 
   const onChange = (activeKey) => {
-    console.log(activeKey);
     // this.setState({ activeKey });
     if (activeKey) {
       settab1(activeKey);

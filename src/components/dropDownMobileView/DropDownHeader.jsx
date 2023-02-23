@@ -1,8 +1,10 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
+import { BsFillInfoCircleFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
+import { RiWalletLine } from "react-icons/ri";
 import "./styles.scss";
 const DropDownHeader = ({ pts }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,15 +66,21 @@ const DropDownHeader = ({ pts }) => {
         >
           Self Deposit
         </a>
-        <a className="dropdown-item">Rules</a>
         <a
           className="dropdown-item"
+          style={{ display: "flex", alignItems: "center", gap: "10px" }}
+        >
+          <BsFillInfoCircleFill /> Rules
+        </a>
+        <a
+          className="dropdown-item"
+          style={{ display: "flex", alignItems: "center", gap: "10px" }}
           onClick={() => {
             showModal();
             setModalKey(1);
           }}
         >
-          Change Password
+          <RiWalletLine /> Change Password
         </a>
         <div className="dropdown-divider"></div>
         <a

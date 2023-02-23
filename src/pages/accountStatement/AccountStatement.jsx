@@ -1,20 +1,10 @@
-import {
-  Button,
-  Input,
-  Table,
-  DatePicker,
-  Select,
-  Dropdown,
-  Space,
-} from "antd";
+import { Button, Input, Table, DatePicker, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { message as antdmessage } from "antd";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import axios from "axios";
 import { Account_Statement_Api, Search_Api } from "../../routes/Routes";
-import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
@@ -26,7 +16,7 @@ const AccountStatement = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
   const [selectValue, setSelectValue] = useState(1);
@@ -37,7 +27,7 @@ const AccountStatement = () => {
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
-  const handleChangeTable = (pagination, filters, sorter) => {
+  const handleChangeTable = (sorter) => {
     // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
@@ -77,11 +67,11 @@ const AccountStatement = () => {
   };
   const onRangeChange = (dates, dateStrings) => {
     if (dates?.length) {
-      console.log("From: ", dates[0], ", to: ", dates[1]);
+      // console.log("From: ", dates[0], ", to: ", dates[1]);
       setDateTo(dates[1]);
       setDateFrom(dates[0]);
     } else {
-      console.log("Clear");
+      // console.log("Clear");
     }
   };
 
@@ -103,12 +93,12 @@ const AccountStatement = () => {
       .then((res) => {
         setSearchDataList([]);
 
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setSearchDataList(res.data.data);
       })
       .catch((error) => {
         setSearchDataList([]);
-        console.log(error);
+        // console.log(error);
       });
   };
   const tabledata = async (DateFrom) => {
@@ -147,7 +137,7 @@ const AccountStatement = () => {
         }
       })
       .catch((erro) => {
-        console.log(erro, "eror");
+        // console.log(erro, "eror");
         // antdmessage.error(erro.response.data.message);
         // if (erro.response.status === 401) {
         //   setLoading((prev) => ({ ...prev, accountStatement: false }));
@@ -366,9 +356,12 @@ const AccountStatement = () => {
                   <div
                     className={listDisplay ? "dropdown-list" : "dropdown-list2"}
                   >
-                    {searchDataList?.map((res) => {
+                    {searchDataList?.map((res, index) => {
                       return (
-                        <div style={{ borderBottom: "1px solid #e1dbdb" }}>
+                        <div
+                          style={{ borderBottom: "1px solid #e1dbdb" }}
+                          key={res.id + res.text + index}
+                        >
                           <p onClick={() => setIdText(res.id, res.text)}>
                             {res.text}
                           </p>

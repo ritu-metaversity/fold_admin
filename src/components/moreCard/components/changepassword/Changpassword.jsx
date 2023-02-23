@@ -1,24 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Checkbox, Form, Input, message, Spin } from "antd";
+import { Button, message } from "antd";
 ///styles
 import "./styles.scss";
 import { MdOutlineLogin } from "react-icons/md";
 import axios from "axios";
-import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import { RxCross2 } from "react-icons/rx";
-import { BASE_URL } from "../../../../_api/_api";
-import {
-  Change_Password_User,
-  Tab_ChangePasword,
-} from "../../../../routes/Routes";
-import { useNavigate } from "react-router-dom";
+import { Tab_ChangePasword } from "../../../../routes/Routes";
 import { LoaderContext } from "../../../../App";
 
 const Changpassword = ({ data, handleCancelfunction }) => {
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [formData, setformData] = useState({});
   const [error, setError] = useState({});
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     let name = e.target.name;
@@ -133,7 +126,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
                 outline: "none",
               }}
               placeholder="Password"
-              value={formData.password}
+              value={formData.password || ""}
               onChange={handleChange}
             />
             {error.password ? (
@@ -158,7 +151,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
             <input
               type="password"
               name="newPassword"
-              value={formData.newPassword}
+              value={formData.newPassword || ""}
               style={{
                 width: "100%",
                 textAlign: "left",
@@ -198,7 +191,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
             <input
               type="password"
               name="lupassword"
-              value={formData.lupassword}
+              value={formData.lupassword || ""}
               style={{
                 width: "100%",
                 textAlign: "left",

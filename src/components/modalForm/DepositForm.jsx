@@ -144,7 +144,11 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
         <div className="row-1">
           <label>{deposit.parentName}</label>
           <div className="input">
-            <input type="text" disabled={true} value={deposit.parentAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={deposit.parentAmount || 0}
+            />
             <input
               type="text"
               disabled={true}
@@ -159,7 +163,11 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
         <div className="row-1">
           <label>{deposit.childName}</label>
           <div className="input">
-            <input type="text" disabled={true} value={deposit.childAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={deposit.childAmount || ""}
+            />
             <input
               type="text"
               disabled={true}
@@ -177,7 +185,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
             <input
               type="text"
               disabled={true}
-              value={deposit.childUplineAmount}
+              value={deposit.childUplineAmount || ""}
             />
             <input
               type="text"
@@ -234,8 +242,8 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
               cols="50"
               style={{ border: "none", outline: "none" }}
               placeholder="Remark"
-              textAlign="left"
-              value={formData.remark}
+              textalign="left"
+              value={formData.remark || ""}
               onChange={handleChange}
             ></textarea>
             {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
@@ -260,7 +268,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
               name="lupassword"
               style={{ width: "100%", textAlign: "left", border: "none" }}
               onChange={handleChange}
-              value={formData.lupassword}
+              value={formData.lupassword || ""}
             ></input>
             {error.lupassword ? (
               <RxCross2 style={{ paddingRight: "10px" }} />

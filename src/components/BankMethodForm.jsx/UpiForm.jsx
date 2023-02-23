@@ -3,11 +3,9 @@ import { Button, message } from "antd";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import { Add_Bank, Add_Upi } from "../../routes/Routes";
-import { useNavigate } from "react-router-dom";
+import { Add_Upi } from "../../routes/Routes";
 const UpiForm = () => {
-  const { loading, setLoading } = useContext(LoaderContext);
-  const navigate = useNavigate();
+  const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
     upiId: "",
     upiDisplayName: "",

@@ -1,6 +1,5 @@
-import { Button, Collapse, Empty, message, Modal, Spin } from "antd";
+import { Button, Collapse, message, Modal, Spin } from "antd";
 import axios from "axios";
-import { message as antdmessage } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
@@ -14,7 +13,6 @@ import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
 import UserBook from "../userBook/UserBook";
-import loader from "../../assets/img/loder.svg";
 ///styles
 import "./styles.scss";
 
@@ -174,6 +172,7 @@ const TestPageLeftCollapse = () => {
 
     return () => setLoading((prev) => ({ ...prev, getOdds: false }));
   }, [odddata, prevState]);
+
   useEffect(() => {
     const timer = setInterval(() => {
       getOdds();
