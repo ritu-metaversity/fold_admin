@@ -236,8 +236,16 @@ const AccountStatement = () => {
         Date: res?.date,
         SrNo: res.sno,
 
-        Credit: res.credit,
-        Debit: res.debit,
+        Credit: (
+          <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
+            {res.credit}
+          </span>
+        ),
+        Debit: (
+          <span style={{ color: res.debit >= 0 ? "green" : "red" }}>
+            {res.debit}
+          </span>
+        ),
         pts: res?.pts,
         Remark: res?.remark,
         Fromto: res.fromto,
