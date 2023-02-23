@@ -3,12 +3,10 @@ import { Button, message, Upload } from "antd";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import { Add_Bank, Add_QR } from "../../routes/Routes";
-import ImgCrop from "antd-img-crop";
-import { useNavigate } from "react-router-dom";
+import { Add_QR } from "../../routes/Routes";
+
 const QrForm = () => {
-  const { loading, setLoading } = useContext(LoaderContext);
-  const navigate = useNavigate();
+  const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
     displayName: "",
   });
@@ -29,26 +27,7 @@ const QrForm = () => {
       };
     });
   };
-  // console.log(fileList[0].name, "outer");
-  // const handleChangeSelct = (value) => {
-  //   setType(value);
-  //   setError((prev) => {
-  //     return {
-  //       ...prev,
-  //       isSelfAllowed: !Boolean(value),
-  //     };
-  //   });
-  // };
-  // const options = [
-  //   {
-  //     value: "live",
-  //     label: "live",
-  //   },
-  //   {
-  //     value: "admin",
-  //     label: "admin",
-  //   },
-  // ];
+
   const onPreview = async (file) => {
     let src = file.url;
     if (!src) {
@@ -122,14 +101,7 @@ const QrForm = () => {
           console.log(res.data);
           message.success(res.data.message);
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, createDomain: false }));
-          //   navigate("/");
-          //   localStorage.clear();
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };

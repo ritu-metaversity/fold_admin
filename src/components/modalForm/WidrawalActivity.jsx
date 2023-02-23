@@ -1,25 +1,22 @@
-import { Button, message, Spin } from "antd";
+import { Button, message } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
-import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { LoaderContext } from "../../App";
 import {
   Tab_WidrawalActivity,
   Tab_WidrawalActivitySubmitForm,
 } from "../../routes/Routes";
-import { BASE_URL } from "../../_api/_api";
 // import './styles.scss'
 const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
 
   const [depositActivity, setDepositActivity] = useState([]);
 
-  const navigate = useNavigate();
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
@@ -134,7 +131,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
           <input
             type="text"
             disabled={true}
-            value={depositActivity.parentAmount}
+            value={depositActivity.parentAmount || ""}
           />
           <input
             type="text"
@@ -153,7 +150,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
           <input
             type="text"
             disabled={true}
-            value={depositActivity.childAmount}
+            value={depositActivity.childAmount || ""}
           />
           <input
             type="text"
@@ -209,8 +206,8 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
             rows="3"
             cols="100"
             placeholder="Remark"
-            textAlign="left"
-            value={formData.remark}
+            textalign="left"
+            value={formData.remark || ""}
             style={{
               width: "100%",
 
@@ -240,7 +237,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
             name="lupassword"
             style={{ width: "100%", textAlign: "left", border: "none" }}
             onChange={handleChange}
-            value={formData.lupassword}
+            value={formData.lupassword || ""}
           ></input>
           {error.lupassword ? (
             <RxCross2 style={{ paddingRight: "10px" }} />

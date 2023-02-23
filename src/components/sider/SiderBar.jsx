@@ -406,14 +406,14 @@ const SiderBar = () => {
             key: res.sportName + res.sportId + res.totalMatch,
 
             label: (
-              <Link
-                onClick={refershNow}
-                to=""
+              <span
+                // onClick={refershNow}
+                // to=""
                 // reloadDocument={pathname === "/account-Statement"}
                 style={{ color: "white" }}
               >
                 {res.sportName}
-              </Link>
+              </span>
             ),
             children: res.matchList?.map((list) => {
               return {

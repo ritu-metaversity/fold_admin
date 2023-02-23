@@ -97,7 +97,7 @@ const ActiveUser = () => {
     setOpen(false);
     setprofileModal(false);
     setcredit(false);
-    setInputBlank(!false);
+    // setInputBlank(!false);
   };
 
   const tabledata = async () => {

@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -11,13 +11,14 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-li{
+li {
   list-style: none;
 }
-textarea:focus, input:focus{
+textarea:focus,
+input:focus {
   outline: none;
 }
 .loader-container {
@@ -28,8 +29,8 @@ textarea:focus, input:focus{
   align-items: center;
   justify-self: center;
   z-index: 2147483645;
- display: flex;
- justify-content: center;
+  display: flex;
+  justify-content: center;
   background-color: rgba(256, 256, 256, 0.3) !important;
 }
 .loader-modal .ant-modal-body {
@@ -40,10 +41,8 @@ textarea:focus, input:focus{
 }
 
 ::-webkit-scrollbar-track {
-  background: #a6a2a2; 
-} 
-  
-
+  background: #a6a2a2;
+}
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -51,24 +50,24 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e6e6e8; 
+  background: #e6e6e8;
   border-radius: 50px;
 }
-.ant-menu-item{
+.ant-menu-item {
   margin-block: 0px;
 }
-.ant-table-wrapper{
+.ant-table-wrapper {
   overflow-x: scroll;
 }
-.ant-modal-content .ant-modal-close{
+.ant-modal-content .ant-modal-close {
   color: black !important;
 }
-.ant-table-wrapper{
-padding-left: 10px;
+.ant-table-wrapper {
+  /* padding-left: 10px; */
 }
-.reactEasyCrop_CropArea{
+.reactEasyCrop_CropArea {
   width: 100% !important;
 }
-.pagination ul{
+.pagination ul {
   gap: 30px !important;
 }

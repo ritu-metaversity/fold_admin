@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Input, message, Spin } from "antd";
+import { Button, Form, Input } from "antd";
 ////
 import "./styles.scss";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { LoaderContext } from "../../App";
 const Loginform = () => {
   // const [state, setstate] = useState([]);
   const navigate = useNavigate();
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
 
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));

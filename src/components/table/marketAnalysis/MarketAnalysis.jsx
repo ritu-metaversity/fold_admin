@@ -7,7 +7,17 @@ import { Link } from "react-router-dom";
 import "./styles.scss";
 const Datatable = (props) => {
   const data = props?.data;
-
+  const obj = {
+    4: 4,
+    1: 62,
+    2: 2,
+    3: 5,
+    1477: 54,
+    6: 3,
+    7: 10,
+    8: 16,
+    27454571: 11,
+  };
   if (!data) {
     return (
       <>
@@ -25,7 +35,9 @@ const Datatable = (props) => {
           <thead className="table-head">
             <tr className="winner-table">
               <th colSpan="6" scope="col">
-                <FaBasketballBall /> {props?.name}
+                {/* <FaBasketballBall /> */}
+                <i className={`d-icon icon-${obj[res.sportId]}`}></i>
+                <span style={{ paddingLeft: "10px" }}>{props?.name}</span>
               </th>
             </tr>
           </thead>
@@ -59,7 +71,13 @@ const Datatable = (props) => {
                 <React.Fragment key={market?.marketName + "marketName" + index}>
                   <tr className="winner-table">
                     <td>
-                      <span style={{ display: "flex", alignItems: "center" }}>
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          fontWeight: "700",
+                        }}
+                      >
                         {market?.marketName}
                         <HiCheckCircle
                           style={{ fontSize: "18px", color: "#a01919" }}
@@ -156,6 +174,7 @@ const Datatable = (props) => {
                       ""
                     )}
                   </tr>
+                  {/* <hr />  */}
                 </React.Fragment>
               );
             })}

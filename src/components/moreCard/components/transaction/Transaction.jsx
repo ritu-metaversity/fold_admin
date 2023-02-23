@@ -1,7 +1,6 @@
 import { message, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Tab_Transaction } from "../../../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../../../App";
@@ -9,8 +8,7 @@ import "./styles.scss";
 
 const Transaction = ({ data, dataTransaction }) => {
   const [transaction, setTransaction] = useState([]);
-  const navigate = useNavigate();
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const dataSource = [];
 
   transaction?.map((res) => {

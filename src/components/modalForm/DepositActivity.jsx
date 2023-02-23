@@ -138,7 +138,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
           <input
             type="text"
             disabled={true}
-            value={depositActivity.parentAmount}
+            value={depositActivity.parentAmount || ""}
           />
           <input
             type="text"
@@ -157,7 +157,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
           <input
             type="text"
             disabled={true}
-            value={depositActivity.childAmount}
+            value={depositActivity.childAmount || ""}
           />
           <input
             type="text"
@@ -241,7 +241,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
             name="lupassword"
             style={{ width: "100%", textAlign: "left", border: "none" }}
             onChange={handleChange}
-            value={formData.lupassword}
+            value={formData.lupassword || ""}
           ></input>
           {error.lupassword ? (
             <RxCross2 style={{ paddingRight: "10px" }} />

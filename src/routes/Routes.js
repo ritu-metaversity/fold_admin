@@ -60,7 +60,7 @@ export const User_Balance = "user/user-balance";
 export const User_Login_History = "util/login-history-report";
 export const Change_Password_History = "util/password-change-history-report";
 export const Left_Event_Menu = "enduser/left-menu-data-open";
-
+export const Fancy_Pnl = "bets/fancy-pnl";
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";

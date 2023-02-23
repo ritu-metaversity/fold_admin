@@ -1,16 +1,18 @@
 import { Button, Modal, Spin } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Fancy_Book } from "../../routes/Routes";
+import { Fancy_Book, Fancy_Pnl } from "../../routes/Routes";
 import "./styles.scss";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
-const FancyRow = ({ data, prev }) => {
+const FancyRow = ({ data, prev, bet }) => {
   const [searchparam] = useSearchParams();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pnl, setPnl] = useState([]);
+  const [fancyPnldata, setFancyPnldata] = useState([]);
   const id = searchparam.get("event-id");
 
   const fancyBook = async (sid) => {
@@ -28,6 +30,7 @@ const FancyRow = ({ data, prev }) => {
         console.log(error.response.data.message);
       });
   };
+
   const showModal = (sid) => {
     setIsModalOpen(true);
 
@@ -129,6 +132,15 @@ const FancyRow = ({ data, prev }) => {
               >
                 {data?.nation}
               </span>
+              <p
+                style={{
+                  marginBottom: "2px",
+                  marginTop: "0px",
+                  color: bet > 0 ? "green" : "red",
+                }}
+              >
+                {bet}
+              </p>
             </div>
             <div className="colwrapper">
               <div

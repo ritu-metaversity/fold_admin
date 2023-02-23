@@ -14,18 +14,17 @@ import { UserModalContext } from "../activeUser/ActiveUser";
 import "./styles.scss";
 
 const UserHistory = () => {
-  const items = [
-    {
-      key: "1",
-      label: "Login History",
-      children: <LoginHistory url={User_Login_History} />,
-    },
-    {
-      key: "2",
-      label: "Change Password History",
-      children: <LoginHistory url={Change_Password_History} />,
-    },
-  ];
+  const url = [User_Login_History, Change_Password_History];
+  const namearr = ["Login History", "Change Password History"];
+
+  const items = url.map((res, index) => {
+    return {
+      key: index + url[index],
+      label: namearr[index],
+      children: <LoginHistory url={url[index]} key={index + url[index]} />,
+    };
+  });
+
   return (
     <UserModalContext.Provider value={{}}>
       <Mainlayout>
@@ -40,7 +39,7 @@ const UserHistory = () => {
         </div>
         <div className="user-history-tab">
           <Tabs
-            defaultActiveKey="0"
+            defaultActiveKey="1"
             type="card"
             items={items}
             destroyInactiveTabPane
