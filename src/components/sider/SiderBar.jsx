@@ -412,7 +412,7 @@ const SiderBar = () => {
                 // reloadDocument={pathname === "/account-Statement"}
                 style={{ color: "white" }}
               >
-                {res.sportName}
+                {res?.sportName} ({res?.totalMatch})
               </span>
             ),
             children: res.matchList?.map((list) => {
