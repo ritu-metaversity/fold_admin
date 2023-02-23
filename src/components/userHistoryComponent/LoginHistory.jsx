@@ -84,7 +84,7 @@ const LoginHistory = ({ url }) => {
       setDateTo(dates[1]);
       setDateFrom(dates[0]);
     } else {
-      console.log("Clear");
+      // console.log("Clear");
     }
   };
 
@@ -106,12 +106,12 @@ const LoginHistory = ({ url }) => {
       .then((res) => {
         setSearchDataList([]);
 
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setSearchDataList(res.data.data);
       })
       .catch((error) => {
         setSearchDataList([]);
-        console.log(error);
+        // console.log(error);
       });
   };
   const tabledata = async (DateFrom) => {
@@ -138,7 +138,7 @@ const LoginHistory = ({ url }) => {
       .then((res) => {
         // setDateFrom(dayjs());
         // setDateTo(dayjs());
-        console.log(res.data.data, "data");
+        // console.log(res.data.data, "data");
         if (res?.data?.data) {
           setPaginationData({
             ...paginationData,
@@ -150,7 +150,7 @@ const LoginHistory = ({ url }) => {
         }
       })
       .catch((erro) => {
-        console.log(erro, "eror");
+        // console.log(erro, "eror");
         // antdmessage.error(erro.response.data.message);
         // if (erro.response.status === 401) {
         //   setLoading((prev) => ({ ...prev, accountStatement: false }));
@@ -284,7 +284,7 @@ const LoginHistory = ({ url }) => {
   // ];
   const [listDisplay, setListDisplay] = useState(false);
   const setIdText = (id, text) => {
-    console.log(id, text, "dtat");
+    // console.log(id, text, "dtat");
     setSearchData(text);
     setId(id);
     setListDisplay(false);
@@ -311,9 +311,12 @@ const LoginHistory = ({ url }) => {
                 <div
                   className={listDisplay ? "dropdown-list" : "dropdown-list2"}
                 >
-                  {searchDataList?.map((res) => {
+                  {searchDataList?.map((res, index) => {
                     return (
-                      <div style={{ borderBottom: "1px solid #e1dbdb" }}>
+                      <div
+                        style={{ borderBottom: "1px solid #e1dbdb" }}
+                        key={res.id + res.text + index}
+                      >
                         <p onClick={() => setIdText(res.id, res.text)}>
                           {res.text}
                         </p>

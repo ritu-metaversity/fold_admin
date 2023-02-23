@@ -1,4 +1,4 @@
-import { Button, message, Spin } from "antd";
+import { Button, message } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -6,7 +6,6 @@ import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
 import { UserModalContext } from "../../pages/activeUser/ActiveUser";
 import { Tab_Widrawal, Tab_WidrawalSubmitForm } from "../../routes/Routes";
-import { BASE_URL } from "../../_api/_api";
 import { LoaderContext } from "../../App";
 
 import "./styles.scss";
@@ -16,13 +15,12 @@ const Widrawal = ({ data, gettableData }) => {
   const [widrawal, setWidrawal] = useState([]);
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
-  const { loading, setLoading, userBalance } = useContext(LoaderContext);
+  const { setLoading, userBalance } = useContext(LoaderContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-    console.log(formData, "formdata");
     if (!value) {
       setError(() => {
         return {
@@ -40,7 +38,6 @@ const Widrawal = ({ data, gettableData }) => {
     }
     if (name === "amount") {
       if (!value.toString().match(/^[0-9]*$/)) {
-        console.log(value, "vak");
         return;
       }
       setformData(() => {
@@ -146,7 +143,11 @@ const Widrawal = ({ data, gettableData }) => {
         <div className="row-1">
           <label>{widrawal.parentName}</label>
           <div className="input">
-            <input type="text" disabled={true} value={widrawal.parentAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={widrawal.parentAmount || ""}
+            />
             <input
               type="text"
               disabled={true}
@@ -161,7 +162,11 @@ const Widrawal = ({ data, gettableData }) => {
         <div className="row-1">
           <label>{widrawal.childName}</label>
           <div className="input">
-            <input type="text" disabled={true} value={widrawal.childAmount} />
+            <input
+              type="text"
+              disabled={true}
+              value={widrawal.childAmount || ""}
+            />
             <input
               type="text"
               disabled={true}
@@ -179,7 +184,7 @@ const Widrawal = ({ data, gettableData }) => {
             <input
               type="text"
               disabled={true}
-              value={widrawal.childUplineAmount}
+              value={widrawal.childUplineAmount || ""}
             />
             <input
               type="text"
@@ -232,7 +237,7 @@ const Widrawal = ({ data, gettableData }) => {
               name="remark"
               rows="4"
               cols="50"
-              textAlign="left"
+              textalign="left"
               style={{ border: "none", outline: "none" }}
               placeholder="Remark"
               value={formData.remark}
@@ -258,7 +263,7 @@ const Widrawal = ({ data, gettableData }) => {
               name="lupassword"
               style={{ width: "100%", textAlign: "left", border: "none" }}
               onChange={handleChange}
-              value={formData.lupassword}
+              value={formData.lupassword || ""}
             ></input>
             {error.lupassword ? (
               <RxCross2 style={{ paddingRight: "10px" }} />

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import { IoIosAlert } from "react-icons/io";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { Dropdown, Modal, Space } from "antd";
@@ -21,6 +20,7 @@ import Changpasswordheader from "../moreCard/components/changepassword/headercha
 import DropDownHeader from "../dropDownMobileView/DropDownHeader";
 import { useMediaQuery } from "../modalForm/UseMedia";
 import { LoaderContext } from "../../App";
+import { MarketAnalysis_Screen } from "../../routes/Routes";
 const Header = ({ overlayState, setDisplay, balance }) => {
   const logout = () => {
     localStorage.clear();
@@ -156,8 +156,9 @@ const Header = ({ overlayState, setDisplay, balance }) => {
       </Modal>
       <div className="header-col">
         <div className="logo">
-          <img src={img} alt="" />
-          {/* <h2>{}</h2> */}
+          <Link to={MarketAnalysis_Screen}>
+            <img src={img} alt="" />
+          </Link>
         </div>
 
         <div className="up-coming">

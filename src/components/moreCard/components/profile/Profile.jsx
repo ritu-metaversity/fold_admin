@@ -14,7 +14,7 @@ import "./styles.scss";
 const Profile = ({ data }) => {
   const [showMore, setShowMore] = useState([]);
   const [loader, setloader] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
 
   const navigate = useNavigate();
   useEffect(() => {

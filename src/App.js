@@ -67,6 +67,7 @@ export const LoaderContext = createContext({
   userBalanceamount: 0,
   setLoading: null,
   handle: null,
+  refershNow: () => {},
 });
 
 function App() {
@@ -74,10 +75,12 @@ function App() {
 
   const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
-
+  const [keyNew, setKeyNew] = useState(0);
   const nav = useNavigate();
   const loc = useLocation();
-
+  const refershNow = () => {
+    setKeyNew((prev) => prev + 1);
+  };
   const userBalance = async () => {
     await axios
       .post(
@@ -109,18 +112,18 @@ function App() {
     }
   }, []);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  // const [searchParams, setSearchParams] = useSearchParams();
 
-  const refresh = searchParams.get("first");
-  useEffect(() => {
-    if (refresh) {
-      searchParams.set("first", false);
-      setSearchParams(searchParams);
-    } else if (refresh === undefined) {
-      searchParams.set("first", false);
-      setSearchParams(searchParams);
-    }
-  }, [refresh]);
+  // const refresh = searchParams.get("first");
+  // useEffect(() => {
+  //   if (refresh) {
+  //     searchParams.set("first", false);
+  //     setSearchParams(searchParams);
+  //   } else if (refresh === undefined) {
+  //     searchParams.set("first", false);
+  //     setSearchParams(searchParams);
+  //   }
+  // }, [refresh]);
 
   const handle = useFullScreenHandle();
 
@@ -132,6 +135,7 @@ function App() {
         loading,
         setLoading,
         handle,
+        refershNow,
       }}
     >
       {!Object.keys(loading).every((key) => loading[key] === false) && (
@@ -141,14 +145,13 @@ function App() {
       )}
       <FullScreen handle={handle}>
         <OfflineAlert />
-        <Routes
-        // key={refresh}
-        >
+        <Routes key={keyNew}>
           <Route
+            exact
             path={CreatAaccounts_Screen}
             element={<CreateAccount />}
-            render={(props) => <CreateAccount key={Date.now()} {...props} />}
-          ></Route>
+            // render={(props) => <CreateAccount key={Date.now()} {...props} />}
+          />
           <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
           <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
           <Route path={AccountList_Screen} element={<AccountsList />}></Route>

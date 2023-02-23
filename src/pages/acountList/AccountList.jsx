@@ -1,5 +1,5 @@
 import { Button, Input, Switch, Table, Modal, Tooltip, Form } from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
@@ -21,7 +21,7 @@ const Activelist = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
 
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
@@ -30,7 +30,6 @@ const Activelist = () => {
 
   const [userId, setUserId] = useState("");
   const queryParams = new URLSearchParams(window.location.search);
-  const name = queryParams.get("evemt-id");
   //////// change password
 
   ////edit profile State
@@ -55,7 +54,6 @@ const Activelist = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
   const [inputBlank, setInputBlank] = useState(false);
-  const navigate = useNavigate();
 
   //////deposit Modal
   const showModal = (obj) => {

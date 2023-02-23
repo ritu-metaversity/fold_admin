@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Menu, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
@@ -12,13 +12,13 @@ import {
   Payment_List,
 } from "../../routes/Routes";
 import axios from "axios";
-import { FaImage } from "react-icons/fa";
+import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
-const { SubMenu } = Menu;
+
 const SiderBar = () => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
-  const { setLoading } = useContext(LoaderContext);
+  const { setLoading, refershNow } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
   const [eventData, setEventData] = useState([]);
 
@@ -129,7 +129,6 @@ const SiderBar = () => {
       )
       .then((res) => {
         setEventData(res.data.data);
-        console.log(res.data.data);
       })
       .catch((error) => {
         // message.error(error.response?.data.message);
@@ -146,281 +145,319 @@ const SiderBar = () => {
   }, []);
 
   const UrlArray = [
-    "/Upi_Method_Screen?first=true",
-    "/Bank_Method_Screen?first=true",
-    "/Qr_Method_Screen?first=true",
+    "/Upi_Method_Screen",
+    "/Bank_Method_Screen",
+    "/Qr_Method_Screen",
   ];
   const payment_list = [];
   paymentListData?.map((res) => {
     payment_list.push({
       key: res?.id + 2 + res?.methodName,
       label: (
-        <Link to={UrlArray[res?.id - 1]}>
+        <Link onClick={refershNow} to={UrlArray[res?.id - 1]}>
           <span style={{ fontSize: "14px" }}>{res?.methodName}</span>
         </Link>
       ),
     });
   });
 
-  const item = [
-    // {
-    //   key: "1",
-    //   icon: <AiFillDashboard />,
-    //   label: (
-    //     <Link to="" style={{ color: "white" }}>
-    //       Dashboard
-    //     </Link>
-    //   ),
-    // },
-    {
-      key: 2,
-      icon: <TbBrandGoogleAnalytics />,
-      label: (
-        <Link
-          to="/marketanalysis?first=true"
-          // reloadDocument={pathname === "/marketanalysis"}
-        >
-          Market Analysis
-        </Link>
-      ),
-    },
-    {
-      key: 3,
-      icon: <RiAccountCircleFill />,
-      label: "Account",
-      children: [
-        {
-          key: 4,
-          label: (
-            <Link
-              to="/activeUser?first=true"
-              // reloadDocument={pathname === "/activeUser"}
-              // onChange={() => handleChangeLink(4)}
-            >
-              <p className="acount-list">Account List for Active Users</p>
-            </Link>
-          ),
-        },
-        userType == "5"
-          ? {
-              key: 5,
-              label: (
-                <Link
-                  to="/Power_List_Screen?first=true"
-                  // reloadDocument={pathname === "/Power_List_Screen"}
-                >
-                  Helper List
-                </Link>
-              ),
-            }
-          : "",
-        {
-          key: 67,
-          label: (
-            <Link
-              to="/accountList?first=true"
-              // reloadDocument={pathname === "/accountList"}
-            >
-              Account List
-            </Link>
-          ),
-        },
+  const item = useMemo(
+    () => [
+      // {
+      //   key: "1",
+      //   icon: <AiFillDashboard />,
+      //   label: (
+      //     <Link onClick={refershNow}
+      // to="" style={{ color: "white" }}>
+      //       Dashboard
+      //     </Link>
+      //   ),
+      // },
+      {
+        key: 2,
+        icon: <TbBrandGoogleAnalytics />,
+        label: (
+          <Link
+            onClick={refershNow}
+            to="/marketanalysis"
+            // reloadDocument={pathname === "/marketanalysis"}
+          >
+            Market Analysis
+          </Link>
+        ),
+      },
+      {
+        key: 3,
+        icon: <RiAccountCircleFill />,
+        label: "Account",
+        children: [
+          {
+            key: 4,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/activeUser"
+                // reloadDocument={pathname === "/activeUser"}
+                // onChange={() => handleChangeLink(4)}
+              >
+                <p className="acount-list">Account List for Active Users</p>
+              </Link>
+            ),
+          },
+          userType == "5"
+            ? {
+                key: 5,
+                label: (
+                  <Link
+                    onClick={refershNow}
+                    to="/Power_List_Screen"
+                    // reloadDocument={pathname === "/Power_List_Screen"}
+                  >
+                    Helper List
+                  </Link>
+                ),
+              }
+            : "",
+          {
+            key: 67,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/accountList"
+                // reloadDocument={pathname === "/accountList"}
+              >
+                Account List
+              </Link>
+            ),
+          },
 
-        {
-          key: 6,
-          label: (
-            <Link
-              to="/createAccounts?first=true"
-              // reloadDocument={pathname === "/createAccounts"}
-            >
-              Create Account
-            </Link>
-          ),
-        },
-        userType == "5"
-          ? {
-              key: 23,
-              label: <span onClick={CreatePowerUser}>Create Helper</span>,
-            }
-          : "",
-        userType == "4"
-          ? {
-              key: 7,
-              label: (
-                <Link
-                  to="/createdomain?first=true"
-                  // reloadDocument={pathname === "/createdomain"}
-                >
-                  Create Domain
-                </Link>
-              ),
-            }
-          : "",
-      ],
-    },
-    {
-      key: 8,
-      icon: <RiBankFill />,
-      label: (
-        <Link
-          to="/bank?first=true"
-          // reloadDocument={pathname === "/bank"}
-        >
-          Bank
-        </Link>
-      ),
-    },
-    userType == 5 || userType == 7
-      ? {
-          key: 76,
-          icon: <RiAccountCircleFill />,
-          label: "Payment",
-          children: [
-            {
-              key: 79,
-              label: (
-                <Link
-                  to="/Deposit-Pending-Request?first=true"
-                  // reloadDocument={pathname === "/Deposit-Pending-Request"}
-                >
-                  <span style={{ fontSize: "14px" }}>
-                    Pending deposit request
-                  </span>
-                </Link>
-              ),
-            },
-            {
-              key: 90,
-              label: (
-                <Link
-                  to="/Widrwal-Pending-Request?first=true"
-                  // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-                >
-                  <span style={{ fontSize: "14px" }}>
-                    Pending Withdraw request
-                  </span>
-                </Link>
-              ),
-            },
-          ],
-        }
-      : "",
-    userType == "5"
-      ? {
-          key: 9,
-          icon: <RiBankFill />,
-          label: "Add Payment Method",
-          children: payment_list,
-        }
-      : "",
-    userType == "4"
-      ? {
-          key: 10,
-          icon: <FaImage />,
-          label: (
-            <Link
-              to="/Update-Banner?first=true"
-              // reloadDocument={pathname === "/Update-Banner"}
-            >
-              Banner
-            </Link>
-          ),
-        }
-      : "",
-    {
-      key: 11,
-      icon: <TbFileReport />,
-      label: "Report",
-      children: [
-        {
-          key: 45,
+          {
+            key: 6,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/createAccounts"
+                // reloadDocument={pathname === "/createAccounts"}
+              >
+                Create Account
+              </Link>
+            ),
+          },
+          userType == "5"
+            ? {
+                key: 23,
+                label: <span onClick={CreatePowerUser}>Create Helper</span>,
+              }
+            : "",
+          userType == "4"
+            ? {
+                key: 7,
+                label: (
+                  <Link
+                    onClick={refershNow}
+                    to="/createdomain"
+                    // reloadDocument={pathname === "/createdomain"}
+                  >
+                    Create Domain
+                  </Link>
+                ),
+              }
+            : "",
+        ],
+      },
+      {
+        key: 8,
+        icon: <RiBankFill />,
+        label: (
+          <Link
+            onClick={refershNow}
+            to="/bank"
+            // reloadDocument={pathname === "/bank"}
+          >
+            Bank
+          </Link>
+        ),
+      },
+      userType == 5 || userType == 7
+        ? {
+            key: 76,
+            icon: <RiAccountCircleFill />,
+            label: "Payment",
+            children: [
+              {
+                key: 79,
+                label: (
+                  <Link
+                    onClick={refershNow}
+                    to="/Deposit-Pending-Request"
+                    // reloadDocument={pathname === "/Deposit-Pending-Request"}
+                  >
+                    <span style={{ fontSize: "14px" }}>
+                      Pending deposit request
+                    </span>
+                  </Link>
+                ),
+              },
+              {
+                key: 90,
+                label: (
+                  <Link
+                    onClick={refershNow}
+                    to="/Widrwal-Pending-Request"
+                    // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                  >
+                    <span style={{ fontSize: "14px" }}>
+                      Pending Withdraw request
+                    </span>
+                  </Link>
+                ),
+              },
+            ],
+          }
+        : "",
+      userType == "5"
+        ? {
+            key: 9,
+            icon: <RiBankFill />,
+            label: "Add Payment Method",
+            children: payment_list,
+          }
+        : "",
+      userType == "4"
+        ? {
+            key: 10,
+            icon: <FaImage />,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/Update-Banner"
+                // reloadDocument={pathname === "/Update-Banner"}
+              >
+                Banner
+              </Link>
+            ),
+          }
+        : "",
+      {
+        key: 11,
+        icon: <TbFileReport />,
+        label: "Report",
+        children: [
+          {
+            key: 45,
 
-          label: (
-            <Link
-              to="/account-Statement?first=true"
-              // reloadDocument={pathname === "/account-Statement"}
-            >
-              Account Statement
-            </Link>
-          ),
-        },
-        {
-          key: 12,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/account-Statement"
+                // reloadDocument={pathname === "/account-Statement"}
+              >
+                Account Statement
+              </Link>
+            ),
+          },
+          {
+            key: 12,
 
-          label: (
-            <Link
-              to="/currentsBets?first=true"
-              // reloadDocument={pathname === "/currentsBets"}
-            >
-              Current Bets
-            </Link>
-          ),
-        },
-        {
-          key: 13,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/currentsBets"
+                // reloadDocument={pathname === "/currentsBets"}
+              >
+                Current Bets
+              </Link>
+            ),
+          },
+          {
+            key: 13,
 
-          label: (
-            <Link
-              to="/betHistory?first=true"
-              // eloadDocument={pathname === "/betHistory"}
-            >
-              Bets History
-            </Link>
-          ),
-        },
-        {
-          key: 35,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/betHistory"
+                // eloadDocument={pathname === "/betHistory"}
+              >
+                Bets History
+              </Link>
+            ),
+          },
+          {
+            key: 35,
 
-          label: (
-            <Link
-              to="/User-History?first=true"
-              // eloadDocument={pathname === "/betHistory"}
-            >
-              User History
-            </Link>
-          ),
-        },
-      ],
-    },
-    {
-      key: 17,
-      icon: <CiLogout />,
-      label: <span>Event </span>,
-      children: eventData?.map((res) => {
-        return {
-          key: res.sportName + res.sportId + res.totalMatch,
+            label: (
+              <Link
+                onClick={refershNow}
+                to="/User-History"
+                // eloadDocument={pathname === "/betHistory"}
+              >
+                User History
+              </Link>
+            ),
+          },
+        ],
+      },
+      {
+        key: 174,
+        icon: <FaCalendarDay />,
+        label: <span>Event </span>,
+        children: eventData?.map((res) => {
+          return {
+            key: res.sportName + res.sportId + res.totalMatch,
 
-          label: (
-            <Link
-              to=""
-              // reloadDocument={pathname === "/account-Statement"}
-              style={{ color: "white" }}
-            >
-              {res.sportName}
-            </Link>
-          ),
-          children: res.matchList?.map((list) => {
-            return {
-              key: list.date + list.matchId + list.matchName,
-              label: (
-                <Link to={`/test-match-screen/?event-id=${list?.matchId}`}>
-                  {list.matchName} ({list.date})
-                </Link>
-              ),
-            };
-          }),
-        };
-      }),
-    },
-    {
-      key: 17,
-      icon: <CiLogout />,
-      label: <span onClick={logout}>Log Out</span>,
-    },
-  ];
+            label: (
+              <span
+                // onClick={refershNow}
+                // to=""
+                // reloadDocument={pathname === "/account-Statement"}
+                style={{ color: "white" }}
+              >
+                {res?.sportName} ({res?.totalMatch})
+              </span>
+            ),
+            children: res.matchList?.map((list) => {
+              return {
+                key: list.date + list.matchId + list.matchName,
+                label: (
+                  <Link
+                    onClick={refershNow}
+                    to={`/test-match-screen/?event-id=${list?.matchId}`}
+                  >
+                    <p style={{ margin: "0px" }}>
+                      {list.matchName}
+
+                      <span style={{ fontSize: "12px" }}>({list.date})</span>
+                    </p>
+                  </Link>
+                ),
+              };
+            }),
+          };
+        }),
+      },
+      {
+        style: { aligItems: "flex-start" },
+        key: 17,
+        icon: <CiLogout style={{ marginBottom: "200px" }} />,
+        label: (
+          <span
+            style={{
+              display: "block",
+              textAlign: "left",
+              marginBottom: "200px",
+            }}
+            onClick={logout}
+          >
+            Log Out
+          </span>
+        ),
+      },
+    ],
+    [eventData]
+  );
 
   return (
-    <div>
+    <>
       <Menu
         theme="dark"
         style={{ width: 256 }}
@@ -428,7 +465,7 @@ const SiderBar = () => {
         mode="inline"
         className="sider-bar"
       ></Menu>
-    </div>
+    </>
   );
 };
 

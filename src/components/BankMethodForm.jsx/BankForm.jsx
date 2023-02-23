@@ -4,10 +4,8 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Add_Bank } from "../../routes/Routes";
-import { useNavigate } from "react-router-dom";
 const BankForm = () => {
-  const { loading, setLoading } = useContext(LoaderContext);
-  const navigate = useNavigate();
+  const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
     bankName: "",
     ifsc: "",

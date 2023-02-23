@@ -7,7 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import { Create_Admin, get_Sport_List } from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import { useNavigate } from "react-router-dom";
+
 const defaultData = {
   username: "",
   city: "",
@@ -30,7 +30,6 @@ const Accountform = () => {
   const partnership = localStorage.getItem("partnership");
   // console.log(currentUserROle, "currentUserROle");
   const [data, setData] = useState(defaultData);
-  console.log(currentUserROle, "sportPartnership");
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
@@ -333,10 +332,6 @@ const Accountform = () => {
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     };
   }, []);
-  console.log(
-    Object.entries(errorData).filter(([_, v]) => v === true).length,
-    "sdf"
-  );
 
   return (
     <>
