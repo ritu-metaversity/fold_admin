@@ -136,7 +136,7 @@ const FancyRow = ({ data, prev, bet }) => {
                 style={{
                   marginBottom: "2px",
                   marginTop: "0px",
-                  color: bet > 0 ? "green" : "red",
+                  color: bet >= 0 ? "green" : "red",
                 }}
               >
                 {bet}
