@@ -20,7 +20,8 @@ import Changpasswordheader from "../moreCard/components/changepassword/headercha
 import DropDownHeader from "../dropDownMobileView/DropDownHeader";
 import { useMediaQuery } from "../modalForm/UseMedia";
 import { LoaderContext } from "../../App";
-import { MarketAnalysis_Screen } from "../../routes/Routes";
+import { get_msg, MarketAnalysis_Screen } from "../../routes/Routes";
+import axios from "axios";
 const Header = ({ overlayState, setDisplay, balance }) => {
   const logout = () => {
     localStorage.clear();
@@ -31,6 +32,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
   const userType = localStorage.getItem("userType");
   const userName = localStorage.getItem("username");
   const isMobile = useMediaQuery("(min-width: 768px)");
+  const [message, setmessage] = useState("");
 
   const { userBalanceamount, userBalance, handle } = useContext(LoaderContext);
 
@@ -130,7 +132,24 @@ const Header = ({ overlayState, setDisplay, balance }) => {
   useEffect(() => {
     userBalance();
   }, []);
-
+  const getMsg = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${get_msg}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setmessage(res?.data?.message);
+      });
+  };
+  useEffect(() => {
+    getMsg();
+  }, []);
   return (
     <>
       <div
@@ -163,7 +182,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
 
         <div className="up-coming">
           <marquee width="100%" height="100%">
-            This is a sample scrolling text that has scrolls texts to right.
+            {message}
           </marquee>
         </div>
         <div className="serch-input">
@@ -184,7 +203,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
               />
             ) : (
               <BiFullscreen
-                style={{ fontSize: "24px", color: "white" }}
+                style={{ fontSize: "24px", color: "white", cursor: "pointer" }}
                 // onClick={() => window.requestFullscreen()}
                 onClick={handle.enter}
               />

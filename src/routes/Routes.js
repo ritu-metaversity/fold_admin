@@ -64,6 +64,9 @@ export const Left_Event_Menu = "enduser/left-menu-data-open";
 export const Fancy_Pnl = "bets/fancy-pnl";
 export const Casiono = "casino/all-casino-types";
 export const Casino_Card_Data = "casino/casino-tables-by-types";
+export const get_msg = "enduser/get-user-message";
+export const Bet_Casino = "bets/casino-all-bet-count";
+export const Get_View_Bets = "bets/casino-bet-count-table-wise";
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";

@@ -4,10 +4,11 @@ import { useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import Mainlayout from "../../common/Mainlayout";
 import CasionCard from "../../components/casionCard/CasionCard";
-import { Casino_Card_Data } from "../../routes/Routes";
+import { Bet_Casino, Casino_Card_Data } from "../../routes/Routes";
 
 const Casion = () => {
   const [CasionCardData, setCasionCardData] = useState([]);
+  const [countData, setCountData] = useState([]);
   const [searchparam] = useSearchParams();
   const casinoId = searchparam.get("casino-id");
   // console.log(casinoId, "casinoid");
@@ -41,19 +42,37 @@ const Casion = () => {
 
     // setLoading(false);
   };
+
+  const CasinoBet = async () => {
+    setLoading((prev) => ({ ...prev, CasinoBet: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Bet_Casino}`,
+        {
+          id: casinoId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setCountData(res.data.data);
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, CasinoBet: false }));
+  };
+
   useEffect(() => {
+    CasinoBet();
     CasinoData();
   }, [casinoId]);
   return (
     <Mainlayout>
       <div className="casino-container">
-        {["1", "2", "3", "4", "5", "6", "7"].map((res) => {
-          return (
-            <>
-              <CasionCard data={CasionCardData} />
-            </>
-          );
-        })}
+        <CasionCard data={CasionCardData} count={countData} />
       </div>
     </Mainlayout>
   );
