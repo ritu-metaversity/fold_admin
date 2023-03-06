@@ -1,0 +1,26 @@
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-custom: 700px;
+
+.casino-container {
+  //   margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  .casino-card {
+    width: calc(50% - 5px);
+
+    @media (min-width: 800px) {
+      width: calc(25% - 10px);
+    }
+    @media (min-width: 1218px) {
+      width: calc(20% - 10px);
+    }
+    img {
+      object-fit: cover;
+      width: 100%;
+    }
+  }
+}

@@ -6,6 +6,8 @@ import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
 import {
+  Casino_Screen,
+  Casiono,
   Create_Power_user,
   Left_Event_Menu,
   Log_Out,
@@ -21,6 +23,7 @@ const SiderBar = () => {
   const { setLoading, refershNow } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
   const [eventData, setEventData] = useState([]);
+  const [casionData, setCasionData] = useState([]);
 
   const logout = async () => {
     setLoading((prev) => ({ ...prev, logout: true }));
@@ -138,9 +141,37 @@ const SiderBar = () => {
         //   localStorage.removeItem("token");
         // }
       });
-    setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+    // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
+
+  const CasionData = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Casiono}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log(res.data);
+        setCasionData(res.data.data);
+      })
+      .catch((error) => {
+        // message.error(error.response?.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        // }
+      });
+    // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+  };
+
   useEffect(() => {
+    CasionData();
     leftEventMenu();
   }, []);
 
@@ -435,6 +466,27 @@ const SiderBar = () => {
           };
         }),
       },
+
+      {
+        key: 687,
+        icon: <TbFileReport />,
+        label: "Casino",
+        children: casionData?.map((res, index) => {
+          // console.log(casionData);
+          return {
+            key: 458 + index,
+            label: (
+              <Link
+                onClick={refershNow}
+                to={`${Casino_Screen}/?casino-id=${res?.id}`}
+                // reloadDocument={pathname === "/account-Statement"}
+              >
+                {res.name}
+              </Link>
+            ),
+          };
+        }),
+      },
       {
         style: { aligItems: "flex-start" },
         key: 17,
@@ -453,8 +505,10 @@ const SiderBar = () => {
         ),
       },
     ],
-    [eventData]
+    [eventData, CasionData]
   );
+
+  // console.log(casionData);
 
   return (
     <>
