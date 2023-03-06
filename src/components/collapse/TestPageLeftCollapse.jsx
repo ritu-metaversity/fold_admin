@@ -237,7 +237,7 @@ const TestPageLeftCollapse = () => {
       });
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
-  // console.log(odddata, "odddata");
+  console.log(odddata, "odddata");
 
   useEffect(() => {
     return () => {

@@ -24,6 +24,7 @@ import {
   Bank_Screen,
   Banner_Update,
   BetHistory_Screen,
+  Casino_Screen,
   Change_Password,
   CreatAaccounts_Screen,
   CreateDomain_Screen,
@@ -61,6 +62,7 @@ import { OfflineAlert } from "./axiosInstance";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import axios from "axios";
 import UserHistory from "./pages/userHistory/UserHistory";
+import Casion from "./pages/Casino/Casion";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -186,6 +188,8 @@ function App() {
             path={Deposit_Pending_Request}
             element={<DepositPendingRequest />}
           ></Route>
+
+          <Route path={Casino_Screen} element={<Casion />}></Route>
 
           <Route path="*" element={<NoteFound />} />
         </Routes>
