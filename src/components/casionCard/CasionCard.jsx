@@ -13,7 +13,7 @@ const CasionCard = ({ data, count }) => {
   const showModal = (id) => {
     setIsModalOpen(true);
     viewmorebets(id);
-    console.log(id);
+    // console.log(id);
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -36,7 +36,7 @@ const CasionCard = ({ data, count }) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setViewMoreData(res.data.data);
       })
       .catch((error) => {});
@@ -55,21 +55,14 @@ const CasionCard = ({ data, count }) => {
         onCancel={handleCancel}
         width={800}
         footer={null}
+        destroyOnClose
       >
         <CasionBetTable data={viewMoreData} />
       </Modal>
       {data?.map((res) => {
-        console.log(res);
         return (
-          <>
-            <div
-              className={"casino-card"}
-              key={res.imageUrl + res.gameId}
-              // style={{
-              //   backgroundImage:
-              //     "url(https://d2.fawk.app/assets/images/Games/Live%20Teenpatti.png)",
-              // }}
-            >
+          <React.Fragment key={res.imageUrl + res.gameId}>
+            <div className={"casino-card"}>
               <img src={res.imageUrl} alt="" />
               <div className="card-overlay">
                 <h4 onClick={() => showModal(res.gameId)}>View more</h4>
@@ -83,7 +76,7 @@ const CasionCard = ({ data, count }) => {
                 }
               </span>
             </div>
-          </>
+          </React.Fragment>
         );
       })}
     </>

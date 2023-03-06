@@ -58,7 +58,6 @@ const Casion = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         setCountData(res.data.data);
       })
       .catch((error) => {});
