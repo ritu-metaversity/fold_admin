@@ -6,11 +6,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
 import axios from "axios";
-import { User_Balance } from "../routes/Routes";
+import { get_msg, User_Balance } from "../routes/Routes";
 import { useSearchParams } from "react-router-dom";
 const Mainlayout = ({ children }) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
+  const [message, setmessage] = useState("");
   const counter = useRef(0);
   const ShowSideBar = () => {
     setSidebar(!siderBar);
@@ -22,6 +23,24 @@ const Mainlayout = ({ children }) => {
     setDisplay(!display);
   };
 
+  const getMsg = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${get_msg}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setmessage(res?.data?.message);
+      });
+  };
+  useEffect(() => {
+    getMsg();
+  }, []);
   return (
     <>
       {display ? (
@@ -40,9 +59,7 @@ const Mainlayout = ({ children }) => {
       <div className="content-conatiner">
         <div className="container">
           <div className="upcomig-2">
-            <marquee>
-              This is a sample scrolling text that has scrolls texts to right.
-            </marquee>
+            <marquee>{message}</marquee>
           </div>
         </div>
         <div>

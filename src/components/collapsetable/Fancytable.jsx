@@ -30,7 +30,7 @@ const FancyTable = ({ data, prev }) => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      console.log("getfancy pnl");
+      // console.log("getfancy pnl");
       getfancyPnl();
     }, 500);
 
@@ -91,11 +91,11 @@ const FancyTable = ({ data, prev }) => {
         {data?.map((item, rowIndex, index) => {
           // console.log(item, "tem");
           let bet = 0;
-          if (Object.keys(fancyPnldata).includes(item.sid)) {
-            bet = fancyPnldata[item.sid];
+          if (Object?.keys(fancyPnldata).includes(item?.sid)) {
+            bet = fancyPnldata[item?.sid];
           }
           return (
-            <React.Fragment key={item?.sid + rowIndex.sid + index}>
+            <React.Fragment key={item?.sid + rowIndex?.sid + index}>
               <FancyRow data={item} prev={prev[rowIndex]} bet={bet} />
             </React.Fragment>
           );

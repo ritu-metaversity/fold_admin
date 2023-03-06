@@ -237,7 +237,6 @@ const TestPageLeftCollapse = () => {
       });
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
-  // console.log(odddata, "odddata");
 
   useEffect(() => {
     return () => {
@@ -261,8 +260,6 @@ const TestPageLeftCollapse = () => {
       return "";
 
     if (odddata[keyName]) {
-      // console.log(odddata[keyName], "keyname");
-
       endUIArray.push(
         <Collapse key={keyName}>
           <Panel
@@ -311,53 +308,6 @@ const TestPageLeftCollapse = () => {
         </Collapse>
       );
     } else return "";
-    // <Collapse key={keyName}>
-    //   <Panel
-    //     header={
-    //       <div
-    //         className="panel-header"
-    //         style={{
-    //           display: "flex",
-    //           justifyContent: "space-between",
-    //           alignItems: "center",
-    //         }}
-    //       >
-    //         {keyName}
-    //         <div className="btn" style={{ gap: "10px", display: "flex" }}>
-    //           {userType == 4 ? (
-    //             <Button
-    //               onClick={(e) => {
-    //                 e.stopPropagation();
-    //                 getBetLock(oddAbbrev[keyName]);
-    //               }}
-    //               type="primary"
-    //               style={{
-    //                 background: "#F18521",
-    //                 color: "white",
-    //               }}
-    //             >
-    //               {betStatus.find((res) => res === oddAbbrev[keyName])
-    //                 ? " Bet / Unlock"
-    //                 : "Bet Lock"}
-    //             </Button>
-    //           ) : (
-    //             ""
-    //           )}
-    //         </div>
-    //       </div>
-    //     }
-    //     key="3"
-    //     className="left-panel-header"
-    //   >
-    //     <div className="collpase-div">
-    //       <FancyTable
-    //         name={keyName}
-    //         data={odddata[keyName]}
-    //         prev={prevState[keyName]}
-    //       />
-    //     </div>
-    //   </Panel>
-    // </Collapse>
   });
 
   return (
@@ -374,10 +324,15 @@ const TestPageLeftCollapse = () => {
       >
         <UserBook data={userBook} />
       </Modal>
-      <div className="heading">
-        <h4>{`TEST MATCHES > PAKISTAN V NEW ZEALAND`}</h4>
-        <h4>{odddata?.Odds[0]?.eventTime}</h4>
-      </div>
+      {odddata?.Odds[0]?.runners[0]?.name ? (
+        <div className="heading">
+          <h4>{`${odddata?.Odds[0]?.runners[0]?.name} > ${odddata?.Odds[0]?.runners[1]?.name}`}</h4>
+          <h4>{odddata?.Odds[0]?.eventTime}</h4>
+        </div>
+      ) : (
+        ""
+      )}
+
       <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
         {odddata?.Odds?.map((item, index) => {
           // if (item.Name === "Tied Match") {
