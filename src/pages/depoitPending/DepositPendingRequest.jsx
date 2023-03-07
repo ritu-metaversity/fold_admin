@@ -1,20 +1,10 @@
-import {
-  Button,
-  Input,
-  Switch,
-  Table,
-  Modal,
-  Tooltip,
-  Form,
-  Image,
-} from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import { Button, Table, Tooltip, Image } from "antd";
+import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
 import { message as antdmessage } from "antd";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import {
@@ -22,7 +12,6 @@ import {
   Deposit_Pending_Request_Api,
   Reject_Deposit_Request,
 } from "../../routes/Routes";
-import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
@@ -31,13 +20,11 @@ import DeleteModal from "../../components/deleteModal/DeleteModal";
 const DepositPendingRequest = () => {
   const [searchText, setSearchText] = useState("");
   // const [loading, setLoading] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
   const [DataList, setDataList] = useState([]);
   const [apiCall, setApiCall] = useState(0);
-  const [userId, setUserId] = useState("");
-  const queryParams = new URLSearchParams(window.location.search);
   //////// change password
 
   ////edit profile State

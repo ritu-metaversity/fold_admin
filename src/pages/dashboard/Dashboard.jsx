@@ -1,9 +1,8 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { Spin, Tabs } from "antd";
+import { Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
-import { useNavigate } from "react-router-dom";
 
 ///styles
 import "./styles.scss";
@@ -11,10 +10,8 @@ import { Active_Sport_List, DASHBOARD } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 const Dashboard = () => {
   const [tab1, settab1] = useState(4);
-  const [tabValue, settabValue] = useState("cricket");
   const [cricket, setCricket] = useState([]);
   const [sports, setSports] = useState([]);
-  const [loader, setloader] = useState(false);
   const { setLoading } = useContext(LoaderContext);
 
   const data = {
@@ -33,14 +30,7 @@ const Dashboard = () => {
         .then((res) => {
           setCricket(res?.data?.data);
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.status === 401) {
-          //   setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
-          //   navigate("/");
-          //   localStorage.clear();
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
     };
     tabledata(data);
@@ -51,7 +41,6 @@ const Dashboard = () => {
     if (activeKey) {
       settab1(activeKey);
     }
-    settabValue();
   };
 
   useEffect(() => {
@@ -100,19 +89,7 @@ const Dashboard = () => {
 
       key: res?.sportId,
 
-      children: loader ? (
-        <Spin
-          style={{
-            position: "absolute",
-            left: "50%",
-            top: "35%",
-            height: "31px",
-            width: "31px",
-          }}
-        />
-      ) : (
-        <Datatable name={res.sportName} rowLength={4} data={cricket} />
-      ),
+      children: <Datatable name={res.sportName} rowLength={4} data={cricket} />,
     };
   });
 
