@@ -7,14 +7,17 @@ import { useNavigate } from "react-router-dom";
 import { Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 const Loginform = () => {
-  // const [state, setstate] = useState([]);
   const navigate = useNavigate();
   const { setLoading } = useContext(LoaderContext);
-
+  const host = window.location.hostname;
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
+    const value = {
+      ...values,
+      appUrl: host,
+    };
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, values)
+      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, value)
       .then((res) => {
         if (res.data.token && res.status === 200) {
           localStorage.setItem("username", res.data.username);
