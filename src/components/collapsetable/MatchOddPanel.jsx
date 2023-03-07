@@ -17,7 +17,8 @@ const MatchOddTable = ({ data, prev, pnlData }) => {
               <Button>Lay</Button>
             </div>
           </div>
-
+          {/* {console.log(data, "pnlData")}
+          {console.log(pnlData, "Data")} */}
           <MatchOddsRow
             name={"Pakistan"}
             data={data}
