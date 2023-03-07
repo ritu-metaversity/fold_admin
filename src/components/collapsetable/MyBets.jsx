@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Bet_List } from "../../routes/Routes";
-let data = "04/01/2023 15:46:48";
 const MyBets = () => {
   const [betData, setBetData] = useState([]);
   const [searchparam] = useSearchParams();

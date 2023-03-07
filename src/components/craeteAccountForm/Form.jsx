@@ -38,7 +38,7 @@ const Accountform = () => {
     fancyLossCommission: false,
     // mobile: false,
     oddLossCommission: false,
-    sportPartnership: currentUserROle == 2 ? false : undefined,
+    sportPartnership: currentUserROle === "2" ? false : undefined,
     userRole: false,
   });
 
@@ -81,7 +81,6 @@ const Accountform = () => {
 
   const handleSelectChange = (e, Name) => {
     let value = e;
-    // console.log(value, "value");
     if (!value) {
       setErrorData((prev) => {
         return {
@@ -97,7 +96,7 @@ const Accountform = () => {
         };
       });
     }
-    if (Name == "userRole") {
+    if (Name === "userRole") {
       setCurrentUserROle(value);
       setErrorData((prev) => {
         return {
@@ -127,20 +126,17 @@ const Accountform = () => {
     //   delete errorData.sportPartnership;
     // }
     Object.keys(data).forEach((key) => {
-      // console.log();
       if (["", null, undefined, NaN].includes(data[key])) {
         if (arr.includes(key)) {
         } else {
-          // console.log(data[key], key, "sdfghjkl");
-
-          if (userType != 4 && key == "appId") {
+          if (userType !== "4" && key === "appId") {
             setErrorData((prev) => {
               return {
                 ...prev,
                 [key]: false,
               };
             });
-          } else if (data.userRole == 2 && key == "sportPartnership") {
+          } else if (data.userRole === "2" && key == "sportPartnership") {
             setErrorData((prev) => {
               return {
                 ...prev,
@@ -149,7 +145,7 @@ const Accountform = () => {
             });
           } else {
             isError = true;
-            console.log(isError, "ke", key);
+            // console.log(isError, "ke", key);
             setErrorData((prev) => {
               return {
                 ...prev,
@@ -167,7 +163,7 @@ const Accountform = () => {
         });
       }
     });
-    console.log(isError, "kesdf");
+    // console.log(isError, "kesdf");
     if (isError) return false;
     else {
       Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
@@ -202,12 +198,12 @@ const Accountform = () => {
             setErrorData({
               username: false,
               lupassword: false,
-              appId: currentUserROle == 2 ? false : false,
+              appId: currentUserROle === "2" ? false : false,
               // city: false,
               fancyLossCommission: false,
               // mobile: false,
               oddLossCommission: false,
-              sportPartnership: currentUserROle == 2 ? false : "",
+              sportPartnership: currentUserROle === "2" ? false : "",
               userRole: false,
             });
           }

@@ -466,27 +466,28 @@ const SiderBar = () => {
           };
         }),
       },
-
-      {
-        key: 687,
-        icon: <TbFileReport />,
-        label: "Casino",
-        children: casionData?.map((res, index) => {
-          // console.log(casionData);
-          return {
-            key: 458 + index,
-            label: (
-              <Link
-                onClick={refershNow}
-                to={`${Casino_Screen}/?casino-id=${res?.id}`}
-                // reloadDocument={pathname === "/account-Statement"}
-              >
-                {res.name}
-              </Link>
-            ),
-          };
-        }),
-      },
+      casionData
+        ? {
+            key: 687,
+            icon: <TbFileReport />,
+            label: "Casino",
+            children: casionData?.map((res, index) => {
+              // console.log(casionData);
+              return {
+                key: 458 + index,
+                label: (
+                  <Link
+                    onClick={refershNow}
+                    to={`${Casino_Screen}/?casino-id=${res?.id}`}
+                    // reloadDocument={pathname === "/account-Statement"}
+                  >
+                    {res.name}
+                  </Link>
+                ),
+              };
+            }),
+          }
+        : {},
       {
         style: { aligItems: "flex-start" },
         key: 17,

@@ -27,7 +27,7 @@ export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
-const BetHistorytable = () => {
+const BetHistorytable = ({ id }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
 
   const [searchText, setSearchText] = useState("");
@@ -79,6 +79,7 @@ const BetHistorytable = () => {
           sportId: sendSportId,
           matchId: sendEventId,
           userId: "",
+          sportType: id,
         },
         {
           headers: {
