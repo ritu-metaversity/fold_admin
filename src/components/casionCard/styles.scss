@@ -9,9 +9,10 @@ $breakpoint-custom: 700px;
   flex-wrap: wrap;
   gap: 10px;
   width: 100%;
+
   .casino-card {
     width: calc(50% - 5px);
-
+    position: relative;
     @media (min-width: 800px) {
       width: calc(25% - 10px);
     }
@@ -22,5 +23,31 @@ $breakpoint-custom: 700px;
       object-fit: cover;
       width: 100%;
     }
+  }
+}
+.card-overlay {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  color: transparent;
+  // flex: 1;
+  // text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: 0.3s;
+  h4 {
+    transition: 0.3s;
+    cursor: pointer;
+    &:hover {
+      color: gray;
+    }
+  }
+  &:hover {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 }

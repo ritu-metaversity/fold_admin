@@ -1,16 +1,22 @@
-import { Button, Input, Table, DatePicker, Select } from "antd";
+import { Button, Input, Table, DatePicker, Select, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { NavLink } from "react-router-dom";
 
 import axios from "axios";
-import { Account_Statement_Api, Search_Api } from "../../routes/Routes";
+import {
+  Account_Statement_Api,
+  Get_Pts_Data,
+  Search_Api,
+} from "../../routes/Routes";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 ///styles
 import "./styles.scss";
+import PtsModaltable from "./PtsModalTable";
+import PtsModal from "./PtsModal";
 const AccountStatement = () => {
   const dateFormat = "YYYY-MM-DD";
   const [searchText, setSearchText] = useState("");
@@ -27,6 +33,8 @@ const AccountStatement = () => {
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [ptsId, setPtsId] = useState("");
   const handleChangeTable = (sorter) => {
     // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
@@ -136,16 +144,7 @@ const AccountStatement = () => {
           setDataList();
         }
       })
-      .catch((erro) => {
-        // console.log(erro, "eror");
-        // antdmessage.error(erro.response.data.message);
-        // if (erro.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, accountStatement: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        //   antdmessage.error(erro.response?.data.message);
-        // }
-      });
+      .catch((erro) => {});
     setLoading((prev) => ({ ...prev, accountStatement: false }));
   };
 
@@ -246,7 +245,14 @@ const AccountStatement = () => {
             {res.debit}
           </span>
         ),
-        pts: res?.pts,
+        pts: (
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => showModal(res.marketid)}
+          >
+            {res?.pts}
+          </span>
+        ),
         Remark: res?.remark,
         Fromto: res.fromto,
       });
@@ -290,43 +296,38 @@ const AccountStatement = () => {
     },
   ];
 
-  // const items = [
-  //   {
-  //     key: "1",
-  //     label: "one",
-  //   },
-  //   {
-  //     key: "2",
-  //     label: "two",
-  //   },
-  //   {
-  //     key: "3",
-  //     label: "three",
-  //   },
-  //   {
-  //     key: "4",
-  //     label: "three",
-  //   },
-  //   {
-  //     key: "5",
-  //     label: "three",
-  //   },
-  //   {
-  //     key: "6",
-  //     label: "three",
-  //   },
-  // ];
   const [listDisplay, setListDisplay] = useState(false);
   const setIdText = (id, text) => {
-    console.log(id, text, "dtat");
+    // console.log(id, text, "dtat");
     setSearchData(text);
     setId(id);
     setListDisplay(false);
     setSearchDataList([]);
   };
+  const showModal = (id) => {
+    setIsModalOpen(true);
+    setPtsId(id);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <UserModalContext.Provider value={{}}>
       <Mainlayout>
+        <Modal
+          title="Result"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          destroyOnClose
+          footer={null}
+        >
+          <PtsModal id={ptsId} />
+        </Modal>
         <div className="hading-create-accounts">
           <h4>Account Statement</h4>
           <p>

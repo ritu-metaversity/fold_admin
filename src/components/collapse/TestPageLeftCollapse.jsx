@@ -237,7 +237,6 @@ const TestPageLeftCollapse = () => {
       });
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
-  console.log(odddata, "odddata");
 
   useEffect(() => {
     return () => {
@@ -325,10 +324,15 @@ const TestPageLeftCollapse = () => {
       >
         <UserBook data={userBook} />
       </Modal>
-      <div className="heading">
-        <h4>{`${odddata?.Odds[0]?.runners[0]?.name} > ${odddata?.Odds[0]?.runners[1]?.name}`}</h4>
-        <h4>{odddata?.Odds[0]?.eventTime}</h4>
-      </div>
+      {odddata?.Odds[0]?.runners[0]?.name ? (
+        <div className="heading">
+          <h4>{`${odddata?.Odds[0]?.runners[0]?.name} > ${odddata?.Odds[0]?.runners[1]?.name}`}</h4>
+          <h4>{odddata?.Odds[0]?.eventTime}</h4>
+        </div>
+      ) : (
+        ""
+      )}
+
       <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
         {odddata?.Odds?.map((item, index) => {
           // if (item.Name === "Tied Match") {
