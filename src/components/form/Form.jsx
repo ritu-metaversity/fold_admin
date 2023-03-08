@@ -7,43 +7,39 @@ import { useNavigate } from "react-router-dom";
 import { Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 const Loginform = () => {
-  // const [state, setstate] = useState([]);
   const navigate = useNavigate();
   const { setLoading } = useContext(LoaderContext);
-
+  const host = window.location.hostname;
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
+    const value = {
+      ...values,
+      appUrl: host,
+    };
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, values)
+      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, value)
       .then((res) => {
         if (res.data.token && res.status === 200) {
           localStorage.setItem("username", res.data.username);
-
           setLoading((prev) => ({ ...prev, LoginUser: false }));
           localStorage.setItem("userid", res.data.userId);
           localStorage.setItem("userType", res.data.userType);
           localStorage.setItem("partnership", res.data.partnership);
-          // console.log(res.data.userType);
           if (res.data.passwordtype === "old") {
             localStorage.setItem("refresh-token", res.data.token);
+            setLoading((prev) => ({ ...prev, LoginUser: false }));
+
             navigate("/change-password");
-            // message.success("Success");
           } else {
             localStorage.setItem("token", res.data.token);
+            setLoading((prev) => ({ ...prev, LoginUser: false }));
             navigate("/marketAnalysis");
             // message.success("Success");
           }
         }
       })
-      .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.data.status === 401) {
-        //   navigate("/");
-        //   localStorage.clear();
-        //   message.error(error.response.data.message);
-        // }
-        setLoading((prev) => ({ ...prev, LoginUser: false }));
-      });
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, LoginUser: false }));
   };
 
   let x = localStorage.getItem("token");
