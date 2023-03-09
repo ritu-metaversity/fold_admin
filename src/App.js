@@ -69,6 +69,7 @@ function App() {
   const [keyNew, setKeyNew] = useState(0);
   const nav = useNavigate();
   const loc = useLocation();
+
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };

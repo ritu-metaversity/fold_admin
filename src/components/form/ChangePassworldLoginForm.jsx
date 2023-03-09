@@ -60,7 +60,7 @@ const ChangePasswordLoginForm = () => {
         LoginUserChange: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>

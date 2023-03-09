@@ -100,7 +100,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
         changePassword: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

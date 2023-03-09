@@ -1,6 +1,5 @@
 import { Input, Table, Tooltip, Radio } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import Mainlayout from "../../../../common/Mainlayout";
 import { AiFillEye } from "react-icons/ai";
 ///styles
 import "./styles.scss";
@@ -22,7 +21,7 @@ export const UserModalContext = createContext({
 const CurrentBetsTable = () => {
   const [searchText, setSearchText] = useState("");
 
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
 
   const [DataList, setDataList] = useState([]);
 
@@ -194,9 +193,8 @@ const CurrentBetsTable = () => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res, index) => {
-    data?.push({
+  const data = DataList?.map((res, index) => {
+    return {
       key: res?.rate + res.time + index,
       isBack: res?.isback,
       EventType: res?.eventType,
@@ -215,7 +213,7 @@ const CurrentBetsTable = () => {
           </Tooltip>
         </>
       ),
-    });
+    };
   });
 
   const Increment = () => {

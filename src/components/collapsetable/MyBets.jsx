@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Bet_List } from "../../routes/Routes";
-let data = "04/01/2023 15:46:48";
 const MyBets = () => {
   const [betData, setBetData] = useState([]);
   const [searchparam] = useSearchParams();
@@ -37,16 +36,13 @@ const MyBets = () => {
       getBetsData();
     }, 500);
     return () => clearInterval(timer);
-  }, [id]);
+  }, [id, navigate]);
 
-  const dataSource = [];
-
-  betData?.map((res, index) => {
-    dataSource?.push(
+  const dataSource = betData?.map((res, index) => {
+    return (
       {
         key: res.marketname + res.userid + index,
         UserName: res.marketname,
-        // Nation: "Only 109 over run PAK / 100",
         Rate: res.matchedtime?.split(" ")[0],
         Amount: res.matchedtime?.split(" ")[1],
         isback: res.isback,

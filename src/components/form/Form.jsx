@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Input } from "antd";
+import React, { useContext, useEffect } from "react";
+import { Button, Form, Input, message } from "antd";
 ////
 import "./styles.scss";
 import axios from "axios";
@@ -14,11 +14,12 @@ const Loginform = () => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
     const value = {
       ...values,
-      appUrl: host,
+      appUrl: host === "localhost" ? "admin.localhost" : host,
     };
     await axios
       .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, value)
       .then((res) => {
+        console.log("invalid gh ");
         if (res.data.token && res.status === 200) {
           localStorage.setItem("username", res.data.username);
           setLoading((prev) => ({ ...prev, LoginUser: false }));
@@ -31,14 +32,20 @@ const Loginform = () => {
 
             navigate("/change-password");
           } else {
+            message.success("Login success!!");
             localStorage.setItem("token", res.data.token);
             setLoading((prev) => ({ ...prev, LoginUser: false }));
             navigate("/marketAnalysis");
             // message.success("Success");
           }
+        } else {
+          console.log("invalid ");
+          message.error(res.data.message || "Error");
         }
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setLoading((prev) => ({ ...prev, LoginUser: false }));
+      });
     setLoading((prev) => ({ ...prev, LoginUser: false }));
   };
 
@@ -58,7 +65,7 @@ const Loginform = () => {
         LoginUser: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>

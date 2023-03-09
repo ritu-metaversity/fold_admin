@@ -1,4 +1,4 @@
-import { Table, Tooltip } from "antd";
+import { Table } from "antd";
 import React from "react";
 
 const CasionBetTable = ({ data }) => {

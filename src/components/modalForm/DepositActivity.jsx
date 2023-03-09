@@ -12,7 +12,7 @@ import {
 const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
   // console.log(data, "data");
   const [depositActivity, setDepositActivity] = useState([]);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
 
@@ -129,7 +129,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
         submitUserActivityDeposit: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">
