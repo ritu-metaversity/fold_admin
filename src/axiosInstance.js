@@ -9,10 +9,10 @@ axios.interceptors.response.use(
     return config;
   },
   function (err) {
-    console.log(err, "sdfghjk");
+    // console.log(err, "sdfghjk");
     if (err.response?.status === 401) {
       localStorage.clear();
-
+      // message.error(err.message);
       navRef("/");
     } else if (err?.response?.data?.message) {
       message.error(err?.response?.data?.message);

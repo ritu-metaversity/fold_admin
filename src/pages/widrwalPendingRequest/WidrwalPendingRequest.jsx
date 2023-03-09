@@ -1,47 +1,28 @@
-import {
-  Button,
-  Input,
-  Switch,
-  Table,
-  Modal,
-  Tooltip,
-  Form,
-  Image,
-} from "antd";
+import { Button, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import DepositForm from "../../components/modalForm/DepositForm";
-import MoreCard from "../../components/moreCard/MoreCard";
-import Widrawal from "../../components/modalForm/Widrawal";
-import CreditModal from "../../components/creditActivityModal/CreditModal";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import { message as antdmessase } from "antd";
 import {
-  Account_List,
   Approve_Withdraw_Request,
-  Deposit_Pending_Request_Api,
   Reject_Withdraw_Request,
   Widrwal_Pending_Request_Api,
 } from "../../routes/Routes";
-import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import DeleteModal from "../../components/deleteModal/DeleteModal";
 
 const WidrwalPendingRequest = () => {
-  const isMobile = useMediaQuery("(min-width: 768px)");
   const [searchText, setSearchText] = useState("");
-  const [message, setMessage] = useState("");
   const [apiCall, setApiCall] = useState(0);
   const [deleteRowId, setdeleteRowId] = useState("");
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [DataList, setDataList] = useState([]);
-  const [userData, setuserData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   //////// change password
@@ -165,45 +146,42 @@ const WidrwalPendingRequest = () => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res, index) => {
-    if (res) {
-      data.push({
-        key: res?.username + res.id + index,
-        userId: res.userId,
-        amount: res.amount,
-        accountNumber: res.accountNumber,
-        accountHolderName: res.accountHolderName,
-        accountType: res.accountType,
-        bankName: res.bankName,
-        ifsc: res.ifsc,
-        Action: (
-          <div
-            className="action"
-            style={{ display: "flex", alignItems: "center", gap: "10px" }}
+  const data = DataList?.map((res, index) => {
+    return {
+      key: res?.username + res.id + index,
+      userId: res.userId,
+      amount: res.amount,
+      accountNumber: res.accountNumber,
+      accountHolderName: res.accountHolderName,
+      accountType: res.accountType,
+      bankName: res.bankName,
+      ifsc: res.ifsc,
+      Action: (
+        <div
+          className="action"
+          style={{ display: "flex", alignItems: "center", gap: "10px" }}
+        >
+          <Button
+            style={{ background: "#34c38f", color: "white", border: "none" }}
+            onClick={() => {
+              showModal(res.id);
+              setApiCall(1);
+            }}
           >
-            <Button
-              style={{ background: "#34c38f", color: "white", border: "none" }}
-              onClick={() => {
-                showModal(res.id);
-                setApiCall(1);
-              }}
-            >
-              Approve
-            </Button>
-            <Button
-              style={{ background: "#ed5c5c", color: "white", border: "none" }}
-              onClick={() => {
-                showModal(res.id);
-                setApiCall(0);
-              }}
-            >
-              Reject
-            </Button>
-          </div>
-        ),
-      });
-    }
+            Approve
+          </Button>
+          <Button
+            style={{ background: "#ed5c5c", color: "white", border: "none" }}
+            onClick={() => {
+              showModal(res.id);
+              setApiCall(0);
+            }}
+          >
+            Reject
+          </Button>
+        </div>
+      ),
+    };
   });
 
   const Increment = () => {
@@ -316,7 +294,9 @@ const WidrwalPendingRequest = () => {
     // } else {
     //   setIsModalOpen(false);
     // }
-    apiCall == 1 ? approve(deleteRowId, remark) : reject(deleteRowId, remark);
+    apiCall === "1"
+      ? approve(deleteRowId, remark)
+      : reject(deleteRowId, remark);
   };
   const handleCancel = () => {
     // setTextArea("");

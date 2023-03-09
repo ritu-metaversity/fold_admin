@@ -22,6 +22,7 @@ import { useMediaQuery } from "../modalForm/UseMedia";
 import { LoaderContext } from "../../App";
 import { get_msg, MarketAnalysis_Screen } from "../../routes/Routes";
 import axios from "axios";
+import Marquee from "react-fast-marquee";
 const Header = ({ overlayState, setDisplay, balance }) => {
   const logout = () => {
     localStorage.clear();
@@ -167,7 +168,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
         className="modal-self-deposit"
         destroyOnClose
       >
-        {modalKey == 0 ? (
+        {modalKey === "0" ? (
           <SelfDepositForm handleCancel={handleCancel} />
         ) : (
           <Changpasswordheader handleCancelfunction={handleCancel} />
@@ -180,10 +181,13 @@ const Header = ({ overlayState, setDisplay, balance }) => {
           </Link>
         </div>
 
-        <div className="up-coming">
-          <marquee width="100%" height="100%">
+        <div
+          className="up-coming"
+          style={{ display: "flex", alignItems: "center" }}
+        >
+          <Marquee width="100%" height="100%">
             {message}
-          </marquee>
+          </Marquee>
         </div>
         <div className="serch-input">
           <input
@@ -225,10 +229,13 @@ const Header = ({ overlayState, setDisplay, balance }) => {
               style={{ fontSize: "22px" }}
               onClick={() => setDisplay(!overlayState)}
             >
-              <a onClick={(e) => e.preventDefault()} style={{ color: "white" }}>
+              <span
+                onClick={(e) => e.preventDefault()}
+                style={{ color: "white" }}
+              >
                 {userName}
                 <RiArrowDropDownLine />
-              </a>
+              </span>
             </div>
           ) : (
             <Dropdown
@@ -238,12 +245,12 @@ const Header = ({ overlayState, setDisplay, balance }) => {
               trigger={["click"]}
               children={
                 <div>
-                  <a onClick={(e) => e.preventDefault()}>
+                  <span onClick={(e) => e.preventDefault()}>
                     <Space>
                       {userName}
                       <RiArrowDropDownLine />
                     </Space>
-                  </a>
+                  </span>
                 </div>
               }
             ></Dropdown>

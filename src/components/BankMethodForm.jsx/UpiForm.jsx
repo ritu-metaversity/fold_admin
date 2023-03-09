@@ -85,7 +85,7 @@ const UpiForm = () => {
     return () => {
       setLoading((prev) => ({ ...prev, CreateQr: false }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>

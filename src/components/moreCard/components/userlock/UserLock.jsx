@@ -1,15 +1,9 @@
-import React, { useState } from "react";
-import { Button, Checkbox, Form, Input, Switch } from "antd";
+import React from "react";
+import { Button, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 ///styles
 // import './styles.scss'
 const UserLock = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

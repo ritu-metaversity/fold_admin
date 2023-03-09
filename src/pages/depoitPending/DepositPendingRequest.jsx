@@ -1,20 +1,10 @@
-import {
-  Button,
-  Input,
-  Switch,
-  Table,
-  Modal,
-  Tooltip,
-  Form,
-  Image,
-} from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import { Button, Table, Tooltip, Image } from "antd";
+import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
 import { message as antdmessage } from "antd";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 import {
@@ -22,7 +12,6 @@ import {
   Deposit_Pending_Request_Api,
   Reject_Deposit_Request,
 } from "../../routes/Routes";
-import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
@@ -31,13 +20,11 @@ import DeleteModal from "../../components/deleteModal/DeleteModal";
 const DepositPendingRequest = () => {
   const [searchText, setSearchText] = useState("");
   // const [loading, setLoading] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
   const [DataList, setDataList] = useState([]);
   const [apiCall, setApiCall] = useState(0);
-  const [userId, setUserId] = useState("");
-  const queryParams = new URLSearchParams(window.location.search);
   //////// change password
 
   ////edit profile State
@@ -123,60 +110,57 @@ const DepositPendingRequest = () => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res, index) => {
-    if (res) {
-      data.push({
-        key: res?.username + res.id + index,
-        userId: res.userId,
-        amount: res?.amount,
-        image: (
-          <Image
-            width={50}
-            height={50}
-            src={res.image}
-            style={{ borderRadius: "100px" }}
-          />
-        ),
-        Action: (
-          <div
-            className="action"
-            style={{ display: "flex", alignItems: "center", gap: "10px" }}
-          >
-            <Tooltip placement="top" title="Approve">
-              <Button
-                style={{
-                  background: "#34c38f",
-                  color: "white",
-                  border: "none",
-                }}
-                onClick={() => {
-                  showModal(res.id);
-                  setApiCall(1);
-                }}
-              >
-                A
-              </Button>
-            </Tooltip>
-            <Tooltip placement="top" title="Reject">
-              <Button
-                style={{
-                  background: "#ed5c5c",
-                  color: "white",
-                  border: "none",
-                }}
-                onClick={() => {
-                  showModal(res.id);
-                  setApiCall(0);
-                }}
-              >
-                R
-              </Button>
-            </Tooltip>
-          </div>
-        ),
-      });
-    }
+  const data = DataList?.map((res, index) => {
+    return {
+      key: res?.username + res.id + index,
+      userId: res.userId,
+      amount: res?.amount,
+      image: (
+        <Image
+          width={50}
+          height={50}
+          src={res.image}
+          style={{ borderRadius: "100px" }}
+        />
+      ),
+      Action: (
+        <div
+          className="action"
+          style={{ display: "flex", alignItems: "center", gap: "10px" }}
+        >
+          <Tooltip placement="top" title="Approve">
+            <Button
+              style={{
+                background: "#34c38f",
+                color: "white",
+                border: "none",
+              }}
+              onClick={() => {
+                showModal(res.id);
+                setApiCall(1);
+              }}
+            >
+              A
+            </Button>
+          </Tooltip>
+          <Tooltip placement="top" title="Reject">
+            <Button
+              style={{
+                background: "#ed5c5c",
+                color: "white",
+                border: "none",
+              }}
+              onClick={() => {
+                showModal(res.id);
+                setApiCall(0);
+              }}
+            >
+              R
+            </Button>
+          </Tooltip>
+        </div>
+      ),
+    };
   });
 
   const reject = async (id, remark) => {
@@ -252,7 +236,9 @@ const DepositPendingRequest = () => {
   };
   const handleOk = (remark) => {
     // setIsModalOpen(false);
-    apiCall == 1 ? approve(deleteRowId, remark) : reject(deleteRowId, remark);
+    apiCall === "1"
+      ? approve(deleteRowId, remark)
+      : reject(deleteRowId, remark);
   };
   const handleCancel = () => {
     setIsModalOpen(false);

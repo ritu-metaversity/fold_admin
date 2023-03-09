@@ -109,7 +109,7 @@ const QrForm = () => {
     return () => {
       setLoading((prev) => ({ ...prev, createDomain: false }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form-domain-card">
       <form style={{ display: "flex", flexDirection: "column", gap: "10px" }}>

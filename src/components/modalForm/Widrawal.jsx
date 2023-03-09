@@ -133,7 +133,7 @@ const Widrawal = ({ data, gettableData }) => {
         submitWidrawal: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form-container">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>

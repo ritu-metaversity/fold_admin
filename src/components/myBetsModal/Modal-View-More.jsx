@@ -14,7 +14,7 @@ const ModalViewMore = ({ keyName }) => {
   const [totalAmount, setTotalAmount] = useState("");
   const [totalSoda, setTotalSoda] = useState("");
   const id = searchparam.get("event-id");
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [value, setValue] = useState(1);
 
   const onChange = (e) => {
@@ -70,7 +70,7 @@ const ModalViewMore = ({ keyName }) => {
         viewMoreTabledata: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div>
       <div className="view-more-header">

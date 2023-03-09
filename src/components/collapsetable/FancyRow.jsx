@@ -1,8 +1,8 @@
 import { Button, Modal, Spin } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Fancy_Book, Fancy_Pnl } from "../../routes/Routes";
+import { Fancy_Book } from "../../routes/Routes";
 import "./styles.scss";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
@@ -12,7 +12,6 @@ const FancyRow = ({ data, prev, bet }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pnl, setPnl] = useState([]);
-  const [fancyPnldata, setFancyPnldata] = useState([]);
   const id = searchparam.get("event-id");
 
   const fancyBook = async (sid) => {
@@ -167,8 +166,8 @@ const FancyRow = ({ data, prev, bet }) => {
                         : layColor[0],
                   }}
                 >
-                  <p>{data?.l1 == 0 ? "" : data?.l1}</p>
-                  <p>{data?.ls1 == 0 ? "" : data?.ls1}</p>
+                  <p>{data?.l1 === "0" ? "" : data?.l1}</p>
+                  <p>{data?.ls1 === "0" ? "" : data?.ls1}</p>
                 </Button>
                 <Button
                   className="backButton"
@@ -181,8 +180,8 @@ const FancyRow = ({ data, prev, bet }) => {
                         : backColor[0],
                   }}
                 >
-                  <p>{data?.b1 == 0 ? "" : data?.b1}</p>
-                  <p>{data?.bs1 == 0 ? "" : data?.bs1}</p>
+                  <p>{data?.b1 === "0" ? "" : data?.b1}</p>
+                  <p>{data?.bs1 === "0" ? "" : data?.bs1}</p>
                 </Button>
                 <div className="overlay">
                   <p style={{ fontSize: "12px" }}>SUSPENDED</p>

@@ -1,4 +1,3 @@
-import Link from "antd/es/typography/Link";
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import Mainlayout from "../../common/Mainlayout";
@@ -6,10 +5,8 @@ import Accountform from "../../components/craeteAccountForm/Form";
 ///styles
 import "./styles.scss";
 const CreateAccount = () => {
-  const [KeyNew, setKeyNew] = useState(0);
-
   return (
-    <Mainlayout key={KeyNew}>
+    <Mainlayout>
       <div className="hading-create-accounts">
         <h4>Create Account</h4>
         <p>

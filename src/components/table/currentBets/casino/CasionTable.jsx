@@ -1,31 +1,15 @@
-import { Button, Input, Table, Radio, Checkbox } from "antd";
-import React, { createContext, useEffect, useState } from "react";
+import { Button, Input, Table, Radio } from "antd";
+import React, { createContext, useState } from "react";
 
 ///styles
-import { useNavigate } from "react-router-dom";
-// import DepositForm from "../../components/modalForm/DepositForm";
-// import MoreCard from "../../components/moreCard/MoreCard";
-// import Widrawal from "../../components/modalForm/Widrawal";
-// import CreditModal from "../../components/creditActivityModal/CreditModal";
-import axios from "axios";
-import { BASE_URL } from "../../../../_api/_api";
-import { Table_ActiveUser } from "../../../../routes/Routes";
-import { useMediaQuery } from "../../../modalForm/UseMedia";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
 const Casinotable = () => {
-  const isMobile = useMediaQuery("(min-width: 768px)");
-
   const [searchText, setSearchText] = useState("");
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
 
-  const [DataList, setDataList] = useState([]);
-  const [userId, setUserId] = useState("");
   const [radioValue, setRadioValue] = useState("matched");
   const [radioValuefilte, setRadioValuefilter] = useState("All");
   //////// change password
@@ -37,10 +21,6 @@ const Casinotable = () => {
     noOfRecords: 25,
     totalPages: 1,
   });
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const navigate = useNavigate();
 
   //////deposit Modal
 
@@ -330,12 +310,7 @@ const Casinotable = () => {
             />
           </div>
         </div>
-        <Table
-          columns={columns}
-          dataSource={data}
-          className="accountTable"
-          loading={loading}
-        />
+        <Table columns={columns} dataSource={data} className="accountTable" />
         <div className="pagination">
           <ul className="pagination-rounded mb-0">
             <ul

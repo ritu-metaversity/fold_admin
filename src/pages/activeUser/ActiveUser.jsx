@@ -59,31 +59,30 @@ const ActiveUser = () => {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
-  const [setInputBlank] = useState(false);
 
   //////deposit Modal
   const showModal = (obj) => {
     setIsModalOpen(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
   //////withdrawal Modal
   const showModals = (obj) => {
     setOpen(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
 
   ///show profile modal
   const showModalProfile = (obj) => {
     setprofileModal(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
   /////show credit Activity Modal
   const showCredit = (obj) => {
     setcredit(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
   const handleOk = () => {
@@ -149,7 +148,7 @@ const ActiveUser = () => {
         activeUsertable: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   const columns = [
     {
       title: "User Name",
@@ -228,10 +227,8 @@ const ActiveUser = () => {
     },
   ];
 
-  const data = [];
-
-  DataList?.map((res) => {
-    data?.push({
+  const data = DataList?.map((res) => {
+    return {
       key: res?.id,
 
       username: `${res?.username} (${res?.userId})`,
@@ -302,7 +299,7 @@ const ActiveUser = () => {
           </Button>
         </div>
       ),
-    });
+    };
   });
 
   const Increment = () => {

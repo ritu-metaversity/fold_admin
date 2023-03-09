@@ -125,7 +125,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
       setLoading((prev) => ({ ...prev, showDeposit: false }));
     };
     showDeposit();
-  }, []);
+  }, [setLoading, navigate]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -134,7 +134,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
         submitDeposit: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form-container">
       <p style={{ marginTop: "0px", color: "#495057", fontWeight: "600" }}>

@@ -116,7 +116,7 @@ const PaymentForm = () => {
     return () => {
       setLoading((prev) => ({ ...prev, paymentMethodForm: false }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <>
       <div className="form-domain-card">
