@@ -106,7 +106,7 @@ const SiderBar = () => {
     setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
   useEffect(() => {
-    if (userType == 5) {
+    if (userType === "5") {
       paymentMethod();
     }
   }, []);
@@ -117,7 +117,7 @@ const SiderBar = () => {
         CreatePowerUser: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
 
   const leftEventMenu = async () => {
     await axios
@@ -180,16 +180,15 @@ const SiderBar = () => {
     "/Bank_Method_Screen",
     "/Qr_Method_Screen",
   ];
-  const payment_list = [];
-  paymentListData?.map((res) => {
-    payment_list.push({
+  const payment_list = paymentListData?.map((res) => {
+    return {
       key: res?.id + 2 + res?.methodName,
       label: (
         <Link onClick={refershNow} to={UrlArray[res?.id - 1]}>
           <span style={{ fontSize: "14px" }}>{res?.methodName}</span>
         </Link>
       ),
-    });
+    };
   });
 
   const item = useMemo(
@@ -235,7 +234,7 @@ const SiderBar = () => {
               </Link>
             ),
           },
-          userType == "5"
+          userType === "5"
             ? {
                 key: 5,
                 label: (
@@ -274,13 +273,13 @@ const SiderBar = () => {
               </Link>
             ),
           },
-          userType == "5"
+          userType === "5"
             ? {
                 key: 23,
                 label: <span onClick={CreatePowerUser}>Create Helper</span>,
               }
             : "",
-          userType == "4"
+          userType === "4"
             ? {
                 key: 7,
                 label: (
@@ -309,7 +308,7 @@ const SiderBar = () => {
           </Link>
         ),
       },
-      userType == 5 || userType == 7
+      userType === "5" || userType === "7"
         ? {
             key: 76,
             icon: <RiAccountCircleFill />,
@@ -346,7 +345,7 @@ const SiderBar = () => {
             ],
           }
         : "",
-      userType == "5"
+      userType === "5"
         ? {
             key: 9,
             icon: <RiBankFill />,
@@ -354,7 +353,7 @@ const SiderBar = () => {
             children: payment_list,
           }
         : "",
-      userType == "4"
+      userType === "4"
         ? {
             key: 10,
             icon: <FaImage />,

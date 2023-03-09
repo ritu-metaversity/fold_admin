@@ -1,14 +1,6 @@
-////styles
-
 import "./App.scss";
 import Dashboard from "./pages/dashboard/Dashboard";
-import {
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ActiveUser from "./pages/activeUser/ActiveUser";
 import CreateAccount from "./pages/createAccounts/CreateAccount";
 import AccountsList from "./pages/acountList/AccountList";
@@ -48,7 +40,6 @@ import Testmatch from "./pages/testMatch/Testmatch";
 import NoteFound from "./pages/noteFound/NoteFound";
 import loader from "./assets/img/loder.svg";
 import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogin";
-import PaymentMethod from "./pages/paymentMethod/PaymentMethod";
 import PaymentMethodPage from "./pages/paymentMethod/PaymentMethod";
 import Banner from "./pages/banner/Banner";
 import BankPage from "./pages/bankMethod/BankPage";
@@ -73,13 +64,12 @@ export const LoaderContext = createContext({
 });
 
 function App() {
-  // const { pathname } = useLocation();
-
   const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
   const [keyNew, setKeyNew] = useState(0);
   const nav = useNavigate();
   const loc = useLocation();
+
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };
@@ -113,19 +103,6 @@ function App() {
       nav("/");
     }
   }, []);
-
-  // const [searchParams, setSearchParams] = useSearchParams();
-
-  // const refresh = searchParams.get("first");
-  // useEffect(() => {
-  //   if (refresh) {
-  //     searchParams.set("first", false);
-  //     setSearchParams(searchParams);
-  //   } else if (refresh === undefined) {
-  //     searchParams.set("first", false);
-  //     setSearchParams(searchParams);
-  //   }
-  // }, [refresh]);
 
   const handle = useFullScreenHandle();
 

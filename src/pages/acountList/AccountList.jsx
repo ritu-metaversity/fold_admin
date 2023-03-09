@@ -1,10 +1,10 @@
-import { Button, Input, Switch, Table, Modal, Tooltip, Form } from "antd";
+import { Button, Input, Switch, Table, Modal, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import DepositForm from "../../components/modalForm/DepositForm";
 import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
@@ -26,10 +26,9 @@ const Activelist = () => {
   const [open, setOpen] = useState(false);
   const [profileModal, setprofileModal] = useState(false);
   const [DataList, setDataList] = useState([]);
-  const [userData, setuserData] = useState([]);
+  const [userData] = useState([]);
 
   const [userId, setUserId] = useState("");
-  const queryParams = new URLSearchParams(window.location.search);
   //////// change password
 
   ////edit profile State
@@ -53,31 +52,31 @@ const Activelist = () => {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
-  const [inputBlank, setInputBlank] = useState(false);
+  const [setInputBlank] = useState(false);
 
   //////deposit Modal
   const showModal = (obj) => {
     setIsModalOpen(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
   //////withdrawal Modal
   const showModals = (obj) => {
     setOpen(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
 
   ///show profile modal
   const showModalProfile = (obj) => {
     setprofileModal(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
   /////show credit Activity Modal
   const showCredit = (obj) => {
     setcredit(true);
-    const data = DataList?.find((item) => item?.id == obj);
+    const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
   const handleOk = () => {
@@ -143,7 +142,7 @@ const Activelist = () => {
         accountTableData: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   const columns = [
     {
       title: "User Name",
@@ -191,76 +190,73 @@ const Activelist = () => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res) => {
-    if (res) {
-      data.push({
-        key: res?.username + res.id,
-        username: res?.username,
-        CR: (
-          <span
-            style={{ color: "#f1b44c", cursor: "pointer" }}
-            onClick={() => showCredit(res?.id)}
-          >
-            {res?.chips}
-          </span>
-        ),
+  const data = DataList?.map((res) => {
+    return {
+      key: res?.username + res.id,
+      username: res?.username,
+      CR: (
+        <span
+          style={{ color: "#f1b44c", cursor: "pointer" }}
+          onClick={() => showCredit(res?.id)}
+        >
+          {res?.chips}
+        </span>
+      ),
 
-        bst: res.betLock ? (
-          <Switch size="small" disabled={true} defaultChecked="true" />
-        ) : (
-          <Switch size="small" disabled={true} defaultunchecked="true" />
-        ),
-        ust: res.active ? (
-          <Switch size="small" disabled={true} defaultChecked="true" />
-        ) : (
-          <Switch size="small" disabled={true} defaultunchecked="true" />
-        ),
-        PName: res?.pname,
-        AccountType: res?.accountType,
-        Action: (
-          <div style={{ paddingRight: "10px" }}>
-            <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
-              <Button
-                style={{
-                  background: "#34c38f",
-                  color: "white",
-                  borderColor: "#34c38f",
-                  borderRadius: "5px 0px 0px 5px",
-                }}
-                onClick={() => showModal(res?.id)}
-              >
-                D
-              </Button>
-            </Tooltip>
-            <Tooltip placement="top" title={isMobile ? "Widrawal" : ""}>
-              <Button
-                style={{
-                  background: "#f46a6a",
-                  color: "white",
-                  borderColor: "#f46a6a",
-                  borderRadius: "0px 0px 0px 0px",
-                }}
-                onClick={() => showModals(res?.id)}
-              >
-                w
-              </Button>
-            </Tooltip>
+      bst: res.betLock ? (
+        <Switch size="small" disabled={true} defaultChecked="true" />
+      ) : (
+        <Switch size="small" disabled={true} defaultunchecked="true" />
+      ),
+      ust: res.active ? (
+        <Switch size="small" disabled={true} defaultChecked="true" />
+      ) : (
+        <Switch size="small" disabled={true} defaultunchecked="true" />
+      ),
+      PName: res?.pname,
+      AccountType: res?.accountType,
+      Action: (
+        <div style={{ paddingRight: "10px" }}>
+          <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
             <Button
               style={{
-                background: "#50a5f1",
+                background: "#34c38f",
                 color: "white",
-                borderColor: "#50a5f1",
-                borderRadius: "0px 5px 5px 0px",
+                borderColor: "#34c38f",
+                borderRadius: "5px 0px 0px 5px",
               }}
-              onClick={() => showModalProfile(res?.id)}
+              onClick={() => showModal(res?.id)}
             >
-              more
+              D
             </Button>
-          </div>
-        ),
-      });
-    }
+          </Tooltip>
+          <Tooltip placement="top" title={isMobile ? "Widrawal" : ""}>
+            <Button
+              style={{
+                background: "#f46a6a",
+                color: "white",
+                borderColor: "#f46a6a",
+                borderRadius: "0px 0px 0px 0px",
+              }}
+              onClick={() => showModals(res?.id)}
+            >
+              w
+            </Button>
+          </Tooltip>
+          <Button
+            style={{
+              background: "#50a5f1",
+              color: "white",
+              borderColor: "#50a5f1",
+              borderRadius: "0px 5px 5px 0px",
+            }}
+            onClick={() => showModalProfile(res?.id)}
+          >
+            more
+          </Button>
+        </div>
+      ),
+    };
   });
 
   const Increment = () => {
@@ -322,7 +318,7 @@ const Activelist = () => {
           <Widrawal data={userId} gettableData={tabledata} />
         </Modal>
         <Modal
-          title={DataList?.find((item) => item?.id == userData)?.username}
+          title={DataList?.find((item) => item?.id === userData)?.username}
           open={profileModal}
           onOk={handleOk}
           onCancel={handleCancel}

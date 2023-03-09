@@ -14,12 +14,11 @@ const Dashboard = () => {
   const [sports, setSports] = useState([]);
   const { setLoading } = useContext(LoaderContext);
 
-  const data = {
-    data: { id: tab1 },
-  };
-
   useEffect(() => {
-    const tabledata = async (data) => {
+    const tabledata = async () => {
+      const data = {
+        data: { id: tab1 },
+      };
       setLoading((prev) => ({ ...prev, marketAnalysisTable: true }));
       await axios
         .post(`${process.env.REACT_APP_BASE_URL}/${DASHBOARD}`, data.data, {
@@ -34,8 +33,8 @@ const Dashboard = () => {
         .catch((error) => {});
       setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
     };
-    tabledata(data);
-  }, [tab1]);
+    tabledata();
+  }, [tab1, setLoading]);
 
   const onChange = (activeKey) => {
     // this.setState({ activeKey });
@@ -61,7 +60,7 @@ const Dashboard = () => {
       setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
     };
     getData();
-  }, []);
+  }, [setLoading]);
   const obj = {
     4: 4,
     1: 62,
@@ -98,7 +97,7 @@ const Dashboard = () => {
         marketAnalysisTable: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
 
   return (
     <>

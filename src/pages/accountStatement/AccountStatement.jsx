@@ -4,21 +4,15 @@ import Mainlayout from "../../common/Mainlayout";
 import { NavLink } from "react-router-dom";
 
 import axios from "axios";
-import {
-  Account_Statement_Api,
-  Get_Pts_Data,
-  Search_Api,
-} from "../../routes/Routes";
+import { Account_Statement_Api, Search_Api } from "../../routes/Routes";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 ///styles
 import "./styles.scss";
-import PtsModaltable from "./PtsModalTable";
 import PtsModal from "./PtsModal";
 const AccountStatement = () => {
-  const dateFormat = "YYYY-MM-DD";
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
@@ -158,7 +152,7 @@ const AccountStatement = () => {
         accountStatement: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   const columns = [
     {
       title: "Date",
@@ -227,36 +221,33 @@ const AccountStatement = () => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res, index) => {
-    if (res) {
-      data.push({
-        key: res?.date + res.credit + res.pts + index,
-        Date: res?.date,
-        SrNo: res.sno,
+  const data = DataList?.map((res, index) => {
+    return {
+      key: res?.date + res.credit + res.pts + index,
+      Date: res?.date,
+      SrNo: res.sno,
 
-        Credit: (
-          <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
-            {res.credit}
-          </span>
-        ),
-        Debit: (
-          <span style={{ color: res.debit >= 0 ? "green" : "red" }}>
-            {res.debit}
-          </span>
-        ),
-        pts: (
-          <span
-            style={{ cursor: "pointer" }}
-            onClick={() => showModal(res.marketid)}
-          >
-            {res?.pts}
-          </span>
-        ),
-        Remark: res?.remark,
-        Fromto: res.fromto,
-      });
-    }
+      Credit: (
+        <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
+          {res.credit}
+        </span>
+      ),
+      Debit: (
+        <span style={{ color: res.debit >= 0 ? "green" : "red" }}>
+          {res.debit}
+        </span>
+      ),
+      pts: (
+        <span
+          style={{ cursor: "pointer" }}
+          onClick={() => showModal(res.marketid)}
+        >
+          {res?.pts}
+        </span>
+      ),
+      Remark: res?.remark,
+      Fromto: res.fromto,
+    };
   });
 
   const Increment = () => {

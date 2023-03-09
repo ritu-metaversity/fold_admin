@@ -36,16 +36,13 @@ const MyBets = () => {
       getBetsData();
     }, 500);
     return () => clearInterval(timer);
-  }, [id]);
+  }, [id, navigate]);
 
-  const dataSource = [];
-
-  betData?.map((res, index) => {
-    dataSource?.push(
+  const dataSource = betData?.map((res, index) => {
+    return (
       {
         key: res.marketname + res.userid + index,
         UserName: res.marketname,
-        // Nation: "Only 109 over run PAK / 100",
         Rate: res.matchedtime?.split(" ")[0],
         Amount: res.matchedtime?.split(" ")[1],
         isback: res.isback,

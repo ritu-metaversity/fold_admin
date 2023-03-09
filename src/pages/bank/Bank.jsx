@@ -1,15 +1,13 @@
-import { Button, Input, Table, message, Spin } from "antd";
+import { Button, Input, Table, message } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
-// import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import axios from "axios";
 import { Bank_deposit_amount, Table_ActiveUser } from "../../routes/Routes";
 import { BsArrowRightShort } from "react-icons/bs";
-import { UserModalContext } from "../activeUser/ActiveUser";
 import { LoaderContext } from "../../App";
 
 const Bank = () => {
@@ -17,7 +15,7 @@ const Bank = () => {
   const [Inputvalue, setInputvalue] = useState("");
 
   const [error, setError] = useState({});
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const [DataList, setDataList] = useState([]);
   const [transactionCode, setTransactionCode] = useState("");
   const [errorTransaction, seterrorTransaction] = useState(false);
@@ -42,8 +40,6 @@ const Bank = () => {
   const handleClick = () => {
     setSearchText(Inputvalue);
   };
-
-  const navigate = useNavigate();
 
   //////deposit Modal
 
@@ -96,7 +92,7 @@ const Bank = () => {
         submitBankData: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   const submit = async (obj) => {
     if (!transactionCode) {
       setError({ ...error, [obj]: true });
@@ -142,7 +138,7 @@ const Bank = () => {
         submitBankData: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   const columns = [
     {
       title: "User Name",
@@ -199,9 +195,8 @@ const Bank = () => {
     // },
   ];
 
-  const data = [];
-  DataList?.map((res, index) => {
-    data.push({
+  const data = DataList?.map((res, index) => {
+    return {
       key: res.chips + res.pts + res.availabePts + index,
       username: res?.username,
       CR: res?.chips,
@@ -237,7 +232,6 @@ const Bank = () => {
               height: "18px",
               width: "90px",
               padding: " 0.25rem 0.5rem",
-              border: "1px solid #ced4da",
               borderRadius: "5px",
               border: error[res.userId] ? "1px solid red" : "1px solid #ced4da",
             }}
@@ -261,7 +255,7 @@ const Bank = () => {
           </Button>
         </span>
       ),
-    });
+    };
   });
 
   const Increment = () => {

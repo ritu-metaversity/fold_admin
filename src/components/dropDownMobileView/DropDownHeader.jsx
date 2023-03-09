@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
 import { RiWalletLine } from "react-icons/ri";
@@ -36,7 +36,7 @@ const DropDownHeader = ({ pts }) => {
         className="modal-self-deposit"
         destroyOnClose
       >
-        {modalKey == 0 ? (
+        {modalKey === "0" ? (
           <SelfDepositForm handleCancel={handleCancel} />
         ) : (
           <Changpasswordheader handleCancelfunction={handleCancel} />
@@ -57,7 +57,7 @@ const DropDownHeader = ({ pts }) => {
             </span>
           </div>
         </div>
-        <a
+        <Link
           className="dropdown-item"
           onClick={() => {
             showModal();
@@ -65,14 +65,14 @@ const DropDownHeader = ({ pts }) => {
           }}
         >
           Self Deposit
-        </a>
-        <a
+        </Link>
+        <Link
           className="dropdown-item"
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
         >
           <BsFillInfoCircleFill /> Rules
-        </a>
-        <a
+        </Link>
+        <Link
           className="dropdown-item"
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
           onClick={() => {
@@ -81,15 +81,15 @@ const DropDownHeader = ({ pts }) => {
           }}
         >
           <RiWalletLine /> Change Password
-        </a>
+        </Link>
         <div className="dropdown-divider"></div>
-        <a
+        <Link
           className="dropdown-item text-danger"
           style={{ color: "red" }}
           onClick={logout}
         >
           Logout
-        </a>
+        </Link>
       </div>
     </div>
   );

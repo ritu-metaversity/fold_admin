@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Mainlayout from "../../common/Mainlayout";
-import BankForm from "../../components/BankMethodForm.jsx/BankForm";
 import QrForm from "../../components/BankMethodForm.jsx/Qr";
 
 const QR = () => {

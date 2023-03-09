@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Button, Form, Input } from "antd";
+import React, { useContext, useEffect } from "react";
+import { Button, Form, Input, message } from "antd";
 ////
 import "./styles.scss";
 import axios from "axios";
@@ -7,43 +7,46 @@ import { useNavigate } from "react-router-dom";
 import { Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 const Loginform = () => {
-  // const [state, setstate] = useState([]);
   const navigate = useNavigate();
   const { setLoading } = useContext(LoaderContext);
-
+  const host = window.location.hostname;
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
+    const value = {
+      ...values,
+      appUrl: host === "localhost" ? "admin.localhost" : host,
+    };
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, values)
+      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, value)
       .then((res) => {
+        console.log("invalid gh ");
         if (res.data.token && res.status === 200) {
           localStorage.setItem("username", res.data.username);
-
           setLoading((prev) => ({ ...prev, LoginUser: false }));
           localStorage.setItem("userid", res.data.userId);
           localStorage.setItem("userType", res.data.userType);
           localStorage.setItem("partnership", res.data.partnership);
-          // console.log(res.data.userType);
           if (res.data.passwordtype === "old") {
             localStorage.setItem("refresh-token", res.data.token);
+            setLoading((prev) => ({ ...prev, LoginUser: false }));
+
             navigate("/change-password");
-            // message.success("Success");
           } else {
+            message.success("Login success!!");
             localStorage.setItem("token", res.data.token);
+            setLoading((prev) => ({ ...prev, LoginUser: false }));
             navigate("/marketAnalysis");
             // message.success("Success");
           }
+        } else {
+          console.log("invalid ");
+          message.error(res.data.message || "Error");
         }
       })
       .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.data.status === 401) {
-        //   navigate("/");
-        //   localStorage.clear();
-        //   message.error(error.response.data.message);
-        // }
         setLoading((prev) => ({ ...prev, LoginUser: false }));
       });
+    setLoading((prev) => ({ ...prev, LoginUser: false }));
   };
 
   let x = localStorage.getItem("token");
@@ -62,7 +65,7 @@ const Loginform = () => {
         LoginUser: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>

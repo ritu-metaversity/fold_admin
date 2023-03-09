@@ -1,4 +1,4 @@
-import { Button, Input, Switch, Table, Modal, Tooltip, Form } from "antd";
+import { Button, Input, Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { message as antdMessage } from "antd";
@@ -115,28 +115,25 @@ const PoerList = () => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res) => {
-    if (res) {
-      data.push({
-        UserID: res.userId,
-        Password: res.password,
-        Active: res.active ? "True" : "False",
-        Action: (
-          <Tooltip placement="top" title={"Delete"}>
-            <Button
-              onClick={() => {
-                showModal(res.userId);
-                setApiCall(2);
-              }}
-              style={{ border: "none" }}
-            >
-              <GoTrashcan style={{ color: "red" }} />
-            </Button>
-          </Tooltip>
-        ),
-      });
-    }
+  const data = DataList?.map((res) => {
+    return {
+      UserID: res.userId,
+      Password: res.password,
+      Active: res.active ? "True" : "False",
+      Action: (
+        <Tooltip placement="top" title={"Delete"}>
+          <Button
+            onClick={() => {
+              showModal(res.userId);
+              setApiCall(2);
+            }}
+            style={{ border: "none" }}
+          >
+            <GoTrashcan style={{ color: "red" }} />
+          </Button>
+        </Tooltip>
+      ),
+    };
   });
   const deletePoweList = async (userId) => {
     setLoading((prev) => ({ ...prev, deletePoweList: true }));
