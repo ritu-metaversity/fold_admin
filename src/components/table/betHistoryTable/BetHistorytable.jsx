@@ -1,13 +1,4 @@
-import {
-  Button,
-  Input,
-  Table,
-  Tooltip,
-  Radio,
-  Checkbox,
-  Dropdown,
-  Select,
-} from "antd";
+import { Button, Input, Table, Tooltip, Radio, Select } from "antd";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -18,29 +9,21 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // import { Table_ActiveUser, Tab_CurrentBet } from "../../../../routes/Routes";
-import { useMediaQuery } from "../../modalForm/UseMedia";
 import { TabBet_History } from "../../../routes/Routes";
-import { click } from "@testing-library/user-event/dist/click";
 import { LoaderContext } from "../../../App";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
-const BetHistorytable = () => {
-  const isMobile = useMediaQuery("(min-width: 768px)");
-
+const BetHistorytable = ({ id }) => {
   const [searchText, setSearchText] = useState("");
-  const [message, setMessage] = useState("");
-  const { loading, setLoading } = useContext(LoaderContext);
-  const [open, setOpen] = useState(false);
+  const { setLoading } = useContext(LoaderContext);
 
   const [DataList, setDataList] = useState([]);
-  const [userId, setUserId] = useState("");
   const [radioValue, setRadioValue] = useState("matched");
   const [totalAmount, setTotalAmount] = useState("");
   const [sada, setsada] = useState("");
-  const [sportsKey, setSportsKey] = useState("");
   const [sportsId, setSportsId] = useState([]);
 
   ////get Sports Key
@@ -79,6 +62,7 @@ const BetHistorytable = () => {
           sportId: sendSportId,
           matchId: sendEventId,
           userId: "",
+          sportType: id,
         },
         {
           headers: {
@@ -215,9 +199,8 @@ const BetHistorytable = () => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res, index) => {
-    data.push({
+  const data = DataList?.map((res, index) => {
+    return {
       key: res?.rate + res?.time + res?.amount + index,
       isBack: res?.isback,
       EventType: res?.eventType,
@@ -236,7 +219,7 @@ const BetHistorytable = () => {
           </Tooltip>
         </>
       ),
-    });
+    };
   });
 
   const Increment = () => {
@@ -275,17 +258,10 @@ const BetHistorytable = () => {
         .then((res) => {
           setSportsList(res?.data?.data);
         })
-        .catch((error) => {
-          if (error.response.status === 401) {
-            navigate("/");
-            localStorage.removeItem("token");
-            navigate("/");
-            message.error(error.response.data.message);
-          }
-        });
+        .catch((error) => {});
     };
     getSpotsList();
-  }, []);
+  }, [navigate]);
 
   //////first drop down value
   const handleChange = (value) => {
@@ -318,14 +294,7 @@ const BetHistorytable = () => {
           setSportsId({});
         }
       })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          navigate("/");
-          localStorage.removeItem("token");
-          navigate("/");
-          message.error(error.response.data.message);
-        }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, bethistorygatSportsId: false }));
   };
 

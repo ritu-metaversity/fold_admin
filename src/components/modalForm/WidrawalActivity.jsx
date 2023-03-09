@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
-import { useNavigate } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import {
   Tab_WidrawalActivity,
@@ -122,7 +121,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
         ActivityDeposit: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">

@@ -137,7 +137,7 @@ const Changpasswordheader = ({ handleCancelfunction }) => {
         changePasswordHeader: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>

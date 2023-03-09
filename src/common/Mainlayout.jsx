@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Header from "../components/header/Header";
 import SiderBar from "../components/sider/SiderBar";
@@ -6,13 +6,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
 import axios from "axios";
-import { get_msg, User_Balance } from "../routes/Routes";
-import { useSearchParams } from "react-router-dom";
+import { get_msg } from "../routes/Routes";
+import Marquee from "react-fast-marquee";
 const Mainlayout = ({ children }) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
   const [message, setmessage] = useState("");
-  const counter = useRef(0);
   const ShowSideBar = () => {
     setSidebar(!siderBar);
   };
@@ -59,7 +58,7 @@ const Mainlayout = ({ children }) => {
       <div className="content-conatiner">
         <div className="container">
           <div className="upcomig-2">
-            <marquee>{message}</marquee>
+            <Marquee style={{ margin: "auto" }}>{message}</Marquee>
           </div>
         </div>
         <div>

@@ -1,35 +1,19 @@
-import {
-  Button,
-  Image,
-  Input,
-  message,
-  Select,
-  Spin,
-  Table,
-  Upload,
-} from "antd";
+import { Button, Input, message } from "antd";
 import React, { useEffect, useState } from "react";
-import ImgCrop from "antd-img-crop";
 // import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import {
-  Add_banner,
-  Admin_Self_Deposit,
-  Banner_List,
-} from "../../routes/Routes";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Admin_Self_Deposit } from "../../routes/Routes";
+import { useNavigate } from "react-router-dom";
 
 const SelfDepositForm = ({ handleCancel }) => {
-  const { loading, setLoading, userBalance } = useContext(LoaderContext);
+  const { setLoading, userBalance } = useContext(LoaderContext);
 
   const [data, setData] = useState({
     amount: "",
     lupassword: "",
   });
-
-  const navigate = useNavigate();
 
   const [error, setError] = useState({
     lupassword: false,
@@ -105,7 +89,7 @@ const SelfDepositForm = ({ handleCancel }) => {
         selfDeposit: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <>
       <div className="banner-container">

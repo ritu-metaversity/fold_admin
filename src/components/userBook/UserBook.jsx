@@ -3,9 +3,8 @@ import React from "react";
 import "./styles.scss";
 
 const UserBook = ({ data }) => {
-  const dataSource = [];
-  data?.dataList?.map((res) => {
-    dataSource.push({
+  const dataSource = data?.dataList?.map((res) => {
+    return {
       key: res.userId + res.pnl2 + 2,
       name: res?.userId,
       selectionName1: (
@@ -19,7 +18,7 @@ const UserBook = ({ data }) => {
       ) : (
         ""
       ),
-    });
+    };
   });
   const columns = [
     {

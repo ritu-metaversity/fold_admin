@@ -13,45 +13,46 @@ import "./styles.scss";
 
 const Profile = ({ data }) => {
   const [showMore, setShowMore] = useState([]);
-  const [loader, setloader] = useState(false);
   const { setLoading } = useContext(LoaderContext);
 
   const navigate = useNavigate();
+
+  const TabMoreData = async () => {
+    setLoading((prev) => ({ ...prev, TabMoreData: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Tab_MoreData}`,
+        { userId: data.userId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log("change", res.data);
+        if (res) {
+          setShowMore(res.data?.data);
+        } else {
+          setShowMore();
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        // message.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   navigate("/");
+        //   localStorage.removeItem("token");
+        //   message.error(error.response.data.message);
+        // }
+      });
+    setLoading((prev) => ({ ...prev, TabMoreData: false }));
+  };
+
   useEffect(() => {
-    const TabMoreData = async () => {
-      setLoading((prev) => ({ ...prev, TabMoreData: true }));
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_MoreData}`,
-          { userId: data.userId },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          // console.log("change", res.data);
-          setloader(false);
-          if (res) {
-            setShowMore(res.data.data);
-          } else {
-            setShowMore();
-            navigate("/");
-          }
-        })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.status === 401) {
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   message.error(error.response.data.message);
-          // }
-        });
-      setLoading((prev) => ({ ...prev, TabMoreData: false }));
-    };
     TabMoreData();
   }, []);
+
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -59,7 +60,7 @@ const Profile = ({ data }) => {
         TabMoreData: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div style={{ padding: "10px" }}>
       <div className="profile-container">

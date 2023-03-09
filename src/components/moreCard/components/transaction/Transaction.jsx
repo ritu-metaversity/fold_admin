@@ -1,4 +1,4 @@
-import { message, Table } from "antd";
+import { Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Tab_Transaction } from "../../../../routes/Routes";
@@ -9,10 +9,8 @@ import "./styles.scss";
 const Transaction = ({ data, dataTransaction }) => {
   const [transaction, setTransaction] = useState([]);
   const { setLoading } = useContext(LoaderContext);
-  const dataSource = [];
-
-  transaction?.map((res) => {
-    dataSource?.push({
+  const dataSource = transaction?.map((res) => {
+    return {
       key: res.sno + res?.remark + res?.pts,
       sno: res?.sno,
       remark: res?.remark,
@@ -21,7 +19,7 @@ const Transaction = ({ data, dataTransaction }) => {
       debit: res?.debit,
       date: res?.date,
       credit: res?.credit,
-    });
+    };
   });
   const columns = [
     {
@@ -93,7 +91,7 @@ const Transaction = ({ data, dataTransaction }) => {
       setLoading((prev) => ({ ...prev, getTransaction: false }));
     };
     getTransaction();
-  }, []);
+  }, [setLoading]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -101,7 +99,7 @@ const Transaction = ({ data, dataTransaction }) => {
         getTransaction: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div style={{ paddingTop: "10px" }}>
       <Table

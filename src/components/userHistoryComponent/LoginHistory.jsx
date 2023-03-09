@@ -1,24 +1,8 @@
-import {
-  Button,
-  Input,
-  Table,
-  DatePicker,
-  Select,
-  Dropdown,
-  Space,
-  Tooltip,
-} from "antd";
+import { Button, Input, Table, DatePicker, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
-import Mainlayout from "../../common/Mainlayout";
-import { message as antdmessage } from "antd";
-import { NavLink } from "react-router-dom";
 
 import axios from "axios";
-import {
-  Account_Statement_Api,
-  Search_Api,
-  User_Login_History,
-} from "../../routes/Routes";
+import { Search_Api } from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
@@ -26,23 +10,22 @@ import { AiFillEye } from "react-icons/ai";
 ///styles
 import "./styles.scss";
 const LoginHistory = ({ url }) => {
-  const dateFormat = "YYYY-MM-DD";
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
 
   // const [loading, setLoading] = useState(false);
-  const { loading, setLoading } = useContext(LoaderContext);
+  const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
   const [selectValue, setSelectValue] = useState(1);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   ////edit profile State
-  const [sortedInfo, setSortedInfo] = useState({});
+  const [setSortedInfo] = useState({});
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
-  const handleChangeTable = (pagination, filters, sorter) => {
+  const handleChangeTable = (sorter) => {
     // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
@@ -172,7 +155,7 @@ const LoginHistory = ({ url }) => {
         accountStatement: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
   const columns = [
     {
       title: "User Name",
@@ -202,21 +185,18 @@ const LoginHistory = ({ url }) => {
     },
   ];
 
-  const data = [];
-  DataList?.map((res, index) => {
-    if (res) {
-      data.push({
-        key: res?.date + res.userid + res.lastLogin + index,
-        Date: res?.lastLogin || res?.createdOn,
-        IP: res?.ip || res?.ipAddress,
-        username: res?.userid || res?.userId,
-        Detail: (
-          <Tooltip title={res?.deviceInfo} trigger={["hover"]}>
-            <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-          </Tooltip>
-        ),
-      });
-    }
+  const data = DataList?.map((res, index) => {
+    return {
+      key: res?.date + res.userid + res.lastLogin + index,
+      Date: res?.lastLogin || res?.createdOn,
+      IP: res?.ip || res?.ipAddress,
+      username: res?.userid || res?.userId,
+      Detail: (
+        <Tooltip title={res?.deviceInfo} trigger={["hover"]}>
+          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+        </Tooltip>
+      ),
+    };
   });
 
   const Increment = () => {
@@ -241,20 +221,20 @@ const LoginHistory = ({ url }) => {
       index: paginationData.totalPages - 1,
     });
   };
-  const option = [
-    {
-      value: 1,
-      label: "ALL",
-    },
-    {
-      value: 3,
-      label: "Deposit/Withdraw Report",
-    },
-    {
-      value: 2,
-      label: "Game Report",
-    },
-  ];
+  // const option = [
+  //   {
+  //     value: 1,
+  //     label: "ALL",
+  //   },
+  //   {
+  //     value: 3,
+  //     label: "Deposit/Withdraw Report",
+  //   },
+  //   {
+  //     value: 2,
+  //     label: "Game Report",
+  //   },
+  // ];
 
   // const items = [
   //   {

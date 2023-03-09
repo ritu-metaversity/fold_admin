@@ -133,7 +133,7 @@ const DomainCard = () => {
     formData.append("lupassword", data.transactionCode);
     formData.append(
       "isSelfAllowed",
-      type == "live" ? true : type == "admin" ? false : false
+      type === "live" ? true : type === "admin" ? false : false
     );
     // console.log("formData", formData.get("file"));
 
@@ -187,7 +187,7 @@ const DomainCard = () => {
     return () => {
       setLoading((prev) => ({ ...prev, createDomain: false }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>

@@ -1,4 +1,4 @@
-import { Modal, Table, Tooltip } from "antd";
+import { Modal } from "antd";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { LoaderContext } from "../../App";

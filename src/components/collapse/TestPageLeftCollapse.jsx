@@ -1,4 +1,4 @@
-import { Button, Collapse, message, Modal, Spin } from "antd";
+import { Button, Collapse, message, Modal } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -42,7 +42,7 @@ const TestPageLeftCollapse = () => {
     if (!id) {
       navigate("/404");
     }
-  }, [id]);
+  }, []);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (marketId) => {
@@ -71,7 +71,7 @@ const TestPageLeftCollapse = () => {
       .then((res) => {
         // console.log(res.data);
 
-        if (res?.status == 200) {
+        if (res?.status === 200) {
           if (!odddata) {
             setPrevState(res?.data);
           } else {
@@ -139,23 +139,12 @@ const TestPageLeftCollapse = () => {
           setBetlockStatus([]);
         }
       })
-      .catch((error) => {
-        // setLoading(false);
-        // if (error?.response?.data?.message) {
-        //   antdmessage.error(error.response?.data?.message);
-        // }
-        // if (error.response.data.status === 401) {
-        //   setLoading((prev) => ({ ...prev, BetLockStatus: false }));
-        //   navigate("/");
-        //   localStorage.clear();
-        //   message.error(error.response.data.message);
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, BetLockStatus: false }));
   };
 
   useEffect(() => {
-    if (userType != 0) {
+    if (userType !== "0") {
       BetLockStatus();
     }
   }, []);
@@ -171,7 +160,7 @@ const TestPageLeftCollapse = () => {
     }
 
     return () => setLoading((prev) => ({ ...prev, getOdds: false }));
-  }, [odddata, prevState]);
+  }, [odddata, prevState, setLoading]);
 
   useEffect(() => {
     const timer = setInterval(() => {

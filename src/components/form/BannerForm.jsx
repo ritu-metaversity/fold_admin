@@ -166,10 +166,8 @@ const BannerFormComponent = () => {
       label: 2,
     },
   ];
-  const dataSource = [];
-
-  bannerList?.map((res, index) => {
-    dataSource.push({
+  const dataSource = bannerList?.map((res, index) => {
+    return {
       key: res.type + index,
       name: res.type,
       age: (
@@ -196,7 +194,7 @@ const BannerFormComponent = () => {
           </Tooltip>
         </>
       ),
-    });
+    };
   });
   const deleteRow = async (id) => {
     await axios
@@ -230,7 +228,7 @@ const BannerFormComponent = () => {
       title: "Name",
       dataIndex: "age",
       key: "age",
-      width: "30px",
+      // width: "30px",
       width: "27%",
     },
     {
@@ -262,20 +260,12 @@ const BannerFormComponent = () => {
       .then((res) => {
         setBannerList(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.data.status === 401) {
-        //   setLoading((prev) => ({ ...prev, BannerList: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("refresh- token");
-        //   message.error(error.response.data.message);
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, BannerList: false }));
   };
   useEffect(() => {
     BannerListData();
-  }, [typeValue]);
+  }, []);
   ////////list Pyment method
   /////bank/list-payment-method
   useEffect(() => {
@@ -285,7 +275,7 @@ const BannerFormComponent = () => {
         BannerList: false,
       }));
     };
-  }, []);
+  }, [setLoading]);
 
   const showModal = (id) => {
     setIsModalOpen(true);
