@@ -28,6 +28,7 @@ const Dashboard = () => {
         })
         .then((res) => {
           setCricket(res?.data?.data);
+          // console.log(res.data.data);
         })
         .catch((error) => {});
       setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
@@ -53,15 +54,9 @@ const Dashboard = () => {
         })
         .then((res) => {
           setSports(res?.data?.data);
+          // console.log(res.data.data);
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.status === 401) {
-          //   setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
-          //   navigate("/");
-          //   localStorage.clear();
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
     };
     getData();
@@ -77,7 +72,9 @@ const Dashboard = () => {
     8: 16,
     27454571: 11,
   };
+  // console.log(sports);
   const items = sports?.map((res) => {
+    // console.log(sports, "sports");
     return {
       label: (
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>

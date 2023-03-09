@@ -3,19 +3,20 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Mainlayout from "../../common/Mainlayout";
 import BetHistorytable from "../../components/table/betHistoryTable/BetHistorytable";
+import Casinotable from "../../components/table/currentBets/casino/CasionTable";
 
 // import "./styles.scss";
 const BetHistory = () => {
   const items = [
     {
       label: "Sports",
-      key: "0",
+     key: 1,
       children: <BetHistorytable id={1} />,
     },
     {
       label: "Casino",
-      key: "1",
-      children: <BetHistorytable id={2} />,
+     key: 2,
+      children: <Casinotable id={2} />,
     },
   ];
 
