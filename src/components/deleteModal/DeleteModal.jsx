@@ -32,11 +32,12 @@ const DeleteModal = ({
       settextareaError(false);
     };
   }, [showModal]);
+  console.log(remarkRender, "remarkRender");
   return (
     <div>
       <Modal
         title={
-          titleArray[headerColor] || remarkRender == 1
+          titleArray[headerColor] || remarkRender === 1
             ? titleArray[headerColor]
             : ""
         }

@@ -1,4 +1,4 @@
-import { Button, Empty, message, Modal, Tabs } from "antd";
+import { Button, Empty, Modal, Tabs } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -54,7 +54,7 @@ const TestPageRightCollapse = () => {
     return () => {
       setLoading((prev) => ({ ...prev, getViewMoreTabData: false }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div>
       <Modal

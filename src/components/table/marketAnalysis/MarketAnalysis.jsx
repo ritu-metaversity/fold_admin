@@ -1,6 +1,5 @@
-import { Empty, Spin } from "antd";
+import { Empty } from "antd";
 import React from "react";
-import { FaBasketballBall } from "react-icons/fa";
 import { HiCheckCircle } from "react-icons/hi";
 import { Link } from "react-router-dom";
 ///styles
@@ -35,7 +34,7 @@ const Datatable = (props) => {
         <table className="table table-bordered">
           <thead className="table-head">
             <tr className="winner-table">
-              <th colSpan="6" scope="col">
+              <th colSpan="6">
                 {/* <FaBasketballBall /> */}
                 <i className={`d-icon icon-${obj[res.sportId]}`}></i>
                 <span style={{ paddingLeft: "10px" }}>{props?.name}</span>
@@ -44,12 +43,12 @@ const Datatable = (props) => {
           </thead>
           <tbody>
             <tr className="winner-table">
-              <td scope="col" colSpan="0" className="teams-name">
+              <td colSpan="0" className="teams-name">
                 <Link to={`/test-match-screen/?event-id=${res?.matchId}`}>
                   {res?.matchName}
                 </Link>
               </td>
-              <td scope="col">
+              <td>
                 <span
                   className="me-2"
                   style={{
@@ -64,8 +63,8 @@ const Datatable = (props) => {
                   />
                 </span>
               </td>
-              <td scope="col"></td>
-              <td scope="col"></td>
+              <td></td>
+              <td></td>
             </tr>
             {res?.marketData?.map((market, index) => {
               return (

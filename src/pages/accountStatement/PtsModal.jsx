@@ -12,30 +12,30 @@ const PtsModal = ({ id }) => {
   const [soda, setSoda] = useState("");
   const [bets, setBets] = useState("");
 
-  const getPtsData = async (id) => {
-    setLoading((prev) => ({ ...prev, getPtsData: true }));
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Get_Pts_Data}`,
-        { marketId: id, userId: "", betType: value },
-
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setPtsdata(res?.data?.data?.betList);
-        setSoda(res?.data?.data?.totalStake);
-        setBets(res?.data?.data?.totalBets);
-      })
-      .catch((erro) => {});
-    setLoading((prev) => ({ ...prev, getPtsData: false }));
-  };
   useEffect(() => {
+    const getPtsData = async (id) => {
+      setLoading((prev) => ({ ...prev, getPtsData: true }));
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Get_Pts_Data}`,
+          { marketId: id, userId: "", betType: value },
+
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          setPtsdata(res?.data?.data?.betList);
+          setSoda(res?.data?.data?.totalStake);
+          setBets(res?.data?.data?.totalBets);
+        })
+        .catch((erro) => {});
+      setLoading((prev) => ({ ...prev, getPtsData: false }));
+    };
     getPtsData(id);
-  }, [id, value]);
+  }, []);
 
   const onChange = (e) => {
     setValue(e.target.value);

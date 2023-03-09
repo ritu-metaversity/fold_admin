@@ -1,8 +1,7 @@
 import { Table, Tooltip } from "antd";
-import React, { useState } from "react";
+import React from "react";
 
 const TableComponent = ({ data }) => {
-  console.log(data, "data");
   const dataSource = [];
   data?.map((res, index) =>
     dataSource?.push({

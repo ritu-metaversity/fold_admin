@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Layout } from "antd";
 import ChangePasswordLoginForm from "../../components/form/ChangePassworldLoginForm";
 const { Header, Content } = Layout;

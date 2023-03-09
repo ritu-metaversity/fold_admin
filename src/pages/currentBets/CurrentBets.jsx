@@ -13,7 +13,7 @@ const CurrentBets = () => {
       children: <CurrentBetsTable />,
     },
     {
-      label: "Casion",
+      label: "Casino",
       key: "1",
       children: <Casinotable />,
     },

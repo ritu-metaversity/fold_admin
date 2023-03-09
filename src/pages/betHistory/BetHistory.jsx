@@ -10,7 +10,12 @@ const BetHistory = () => {
     {
       label: "Sports",
       key: "0",
-      children: <BetHistorytable />,
+      children: <BetHistorytable id={1} />,
+    },
+    {
+      label: "Casino",
+      key: "1",
+      children: <BetHistorytable id={2} />,
     },
   ];
 

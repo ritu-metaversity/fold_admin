@@ -30,7 +30,7 @@ const BankForm = () => {
   const handleChange = (event) => {
     let name = event.target.name;
     let value = event.target.value;
-    if (name == "ifsc") {
+    if (name === "ifsc") {
       setData((prev) => {
         return {
           ...prev,
@@ -45,7 +45,7 @@ const BankForm = () => {
         };
       });
     }
-    if (name == "ifsc") {
+    if (name === "ifsc") {
       setError((prev) => {
         return {
           ...prev,
@@ -118,7 +118,7 @@ const BankForm = () => {
     return () => {
       setLoading((prev) => ({ ...prev, AddBank: false }));
     };
-  }, []);
+  }, [setLoading]);
   return (
     <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>
