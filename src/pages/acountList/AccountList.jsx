@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, Switch, Table, Modal, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";

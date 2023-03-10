@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
 import { message as antdMessage } from "antd";
 ///styles
+// import "./styles.scss";
 import { NavLink } from "react-router-dom";
 
 import axios from "axios";

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Table, Tooltip, Image } from "antd";
 import React, { useEffect, useState } from "react";
 import Mainlayout from "../../common/Mainlayout";
@@ -19,7 +20,7 @@ import DeleteModal from "../../components/deleteModal/DeleteModal";
 
 const DepositPendingRequest = () => {
   const [searchText, setSearchText] = useState("");
-
+  // const [loading, setLoading] = useState(false);
   const { setLoading } = useContext(LoaderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
@@ -234,7 +235,6 @@ const DepositPendingRequest = () => {
     setIsModalOpen(true);
     setdeleteRowId(id);
   };
-  console.log(typeof apiCall);
   const handleOk = (remark) => {
     // setIsModalOpen(false);
     apiCall === "1"

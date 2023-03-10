@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BiFullscreen } from "react-icons/bi";
@@ -181,10 +182,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
           </Link>
         </div>
 
-        <div
-          className="up-coming"
-          style={{ display: "flex", alignItems: "center" }}
-        >
+        <div className="up-coming">
           <Marquee width="100%" height="100%">
             {message}
           </Marquee>

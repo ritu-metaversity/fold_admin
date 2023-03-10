@@ -8,9 +8,8 @@ import {
   Tab_DepositActivity,
   Tab_DepositActivityForm,
 } from "../../routes/Routes";
-// import './styles.scss'
+
 const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
-  // console.log(data, "data");
   const [depositActivity, setDepositActivity] = useState([]);
   const { setLoading } = useContext(LoaderContext);
   const [error, setError] = useState({});
@@ -86,6 +85,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
 
   useEffect(() => {
     ActivityDeposit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const Submit = async () => {
