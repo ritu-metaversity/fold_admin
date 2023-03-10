@@ -125,7 +125,8 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
       setLoading((prev) => ({ ...prev, showDeposit: false }));
     };
     showDeposit();
-  }, [setLoading, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({

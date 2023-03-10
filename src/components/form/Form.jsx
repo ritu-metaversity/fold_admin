@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { Button, Form, Input, message } from "antd";
-////
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -57,6 +56,7 @@ const Loginform = () => {
     } else {
       navigate("/marketAnalysis");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     return () => {
