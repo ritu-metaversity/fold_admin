@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
@@ -32,12 +33,11 @@ const DeleteModal = ({
       settextareaError(false);
     };
   }, [showModal]);
-  console.log(remarkRender, "remarkRender");
   return (
     <div>
       <Modal
         title={
-          titleArray[headerColor] || remarkRender === 1
+          titleArray[headerColor] || remarkRender == 1
             ? titleArray[headerColor]
             : ""
         }

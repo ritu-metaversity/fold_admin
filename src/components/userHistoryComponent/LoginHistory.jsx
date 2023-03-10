@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, Table, DatePicker, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 
@@ -17,7 +18,7 @@ const LoginHistory = ({ url }) => {
   const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
-  const [selectValue, setSelectValue] = useState(1);
+  const [selectValue] = useState(1);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   ////edit profile State

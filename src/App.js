@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./App.scss";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";

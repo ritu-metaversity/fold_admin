@@ -8,7 +8,7 @@ import {
   Tab_WidrawalActivity,
   Tab_WidrawalActivitySubmitForm,
 } from "../../routes/Routes";
-// import './styles.scss'
+
 const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
@@ -74,6 +74,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
       setLoading((prev) => ({ ...prev, ActivityDeposit: false }));
     };
     ActivityDeposit();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const Submit = async () => {

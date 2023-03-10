@@ -76,11 +76,13 @@ $breakpoint-custom-header: 710px;
     background-color: black;
     color: white;
     width: 350px;
-    height: 50px;
+    height: 44px;
     border-radius: 20px;
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
     @media (max-width: $breakpoint-tablet) {
-      display: none;
+      display: none !important;
     }
     marquee {
       height: 100%;

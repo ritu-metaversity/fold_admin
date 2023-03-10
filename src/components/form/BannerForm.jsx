@@ -265,6 +265,7 @@ const BannerFormComponent = () => {
   };
   useEffect(() => {
     BannerListData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   ////////list Pyment method
   /////bank/list-payment-method

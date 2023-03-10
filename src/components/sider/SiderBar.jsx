@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Menu, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -95,14 +96,7 @@ const SiderBar = () => {
       .then((res) => {
         setPaymentListData(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
   useEffect(() => {
@@ -133,14 +127,7 @@ const SiderBar = () => {
       .then((res) => {
         setEventData(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
@@ -159,14 +146,7 @@ const SiderBar = () => {
         // console.log(res.data);
         setCasionData(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
