@@ -70,7 +70,7 @@ const CasionCard = ({ data, count }) => {
               <span>
                 Count:
                 {
-                  count.find((i) => i.matchId === res.gameId)?.betCount || 0
+                  count?.find((i) => i.matchId === res.gameId)?.betCount || 0
                   // ? count[index]?.matchId
                   // : 0
                 }
