@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Collapse, message, Modal } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
@@ -264,7 +266,7 @@ const TestPageLeftCollapse = () => {
                 {keyName}
 
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
+                  {userType === "4" ? (
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -341,7 +343,7 @@ const TestPageLeftCollapse = () => {
                 >
                   {item.Name}
                   <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                    {userType == 4 ? (
+                    {userType === "4" ? (
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -400,7 +402,7 @@ const TestPageLeftCollapse = () => {
               >
                 Bookmaker
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
+                  {userType === "4" ? (
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -474,7 +476,7 @@ const TestPageLeftCollapse = () => {
               >
                 Bookmaker TOSS
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
+                  {userType === "4" ? (
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();

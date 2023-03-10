@@ -124,6 +124,7 @@ const Widrawal = ({ data, gettableData }) => {
       setLoading((prev) => ({ ...prev, showwithdrawal: false }));
     };
     withdrawal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     return () => {

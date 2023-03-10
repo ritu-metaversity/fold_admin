@@ -5,7 +5,6 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Admin_Self_Deposit } from "../../routes/Routes";
-import { useNavigate } from "react-router-dom";
 
 const SelfDepositForm = ({ handleCancel }) => {
   const { setLoading, userBalance } = useContext(LoaderContext);
