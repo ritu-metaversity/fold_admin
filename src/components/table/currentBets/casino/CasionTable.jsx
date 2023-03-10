@@ -1,17 +1,27 @@
-import { Button, Input, Table, Radio } from "antd";
-import React, { createContext, useState } from "react";
-
-///styles
-
+import { Button, Input, message, Radio, Select } from "antd";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import axios from "axios";
+import CasionBetTable from "../../../casionCard/CasionBetTable";
+import { LoaderContext } from "../../../../App";
+import {
+  Casino_Card_Data,
+  Casiono,
+  Get_View_Bets,
+} from "../../../../routes/Routes";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
-
 const Casinotable = () => {
   const [searchText, setSearchText] = useState("");
+  const { setLoading } = useContext(LoaderContext);
 
   const [radioValue, setRadioValue] = useState("matched");
-  const [radioValuefilte, setRadioValuefilter] = useState("All");
+  const [totalAmount, setTotalAmount] = useState("");
+  const [sada, setsada] = useState("");
+  const [sportsId, setSportsId] = useState([]);
+  const [viewMoreData, setViewMoreData] = useState([]);
+  const [sportChangeId, setSportChangeId] = useState("");
+  const [sportsList, setSportsList] = useState([]);
   //////// change password
 
   ////edit profile State
@@ -22,196 +32,54 @@ const Casinotable = () => {
     totalPages: 1,
   });
 
-  //////deposit Modal
+  const CasionData = async () => {
+    setLoading((prev) => ({ ...prev, bethistorytabledata: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Casiono}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setsada(res?.data?.data?.totalBets);
+        setTotalAmount(res?.data?.data?.totalStake);
+        setSportsList(res?.data?.data);
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, bethistorytabledata: false }));
+  };
 
-  //////withdrawal Modal
-
-  ///show profile modal
-
-  // const tabledata = async () => {
-  //   setLoading(true);
-  //   await axios
-  //     .post(
-  //       `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
-  //       {
-  //         id: "",
-  //         index: paginationData.index,
-  //         noOfRecords: paginationData.noOfRecords,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       console.log("api", res.data.data.dataList);
-  //       if (res.data.data.dataList) {
-  //         setLoading(false);
-  //         setPaginationData({
-  //           ...paginationData,
-  //           totalPages: res.data.data?.totalPages || 1,
-  //         });
-  //         setDataList(res.data.data.dataList);
-  //       } else {
-  //         setDataList();
-  //         navigate("/");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       if (error.message == "Request failed with status code 401") {
-  //         navigate("/");
-  //       }
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   tabledata();
-  // }, [paginationData.index, paginationData.noOfRecords]);
-
-  const columns = [
-    {
-      title: "Event Type",
-      dataIndex: "EventType",
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return (
-          String(record.EventType)
-            .toLowerCase()
-            .includes(value.toLowerCase()) ||
-          String(record.EventName)
-            .toLowerCase()
-            .includes(value.toLowerCase()) ||
-          String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.URate)
-            .toLowerCase()
-            .includes(String(value).toLowerCase()) ||
-          String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.PlaceDate)
-            .toLowerCase()
-            .includes(value.toLowerCase()) ||
-          String(record.IP).toLowerCase().includes(value.toLowerCase())
-        );
-      },
-    },
-    {
-      title: "Event Name",
-      dataIndex: "EventName",
-      sorter: {
-        compare: (a, b) => a.CR - b.CR,
-        multiple: 3,
-      },
-    },
-    {
-      title: "User Name",
-      dataIndex: "UserName",
-      sorter: {
-        compare: (a, b) => a.PTS - b.PTS,
-        multiple: 2,
-      },
-    },
-
-    {
-      title: "Nation",
-      dataIndex: "Nation",
-      sorter: {
-        compare: (a, b) => a.Clientp - b.Clientp,
-        multiple: 1,
-      },
-    },
-    {
-      title: "U Rate",
-      dataIndex: "URate",
-      sorter: {
-        compare: (a, b) => a.Exposer - b.Exposer,
-        multiple: 1,
-      },
-    },
-    {
-      title: "Amount",
-      dataIndex: "Amount",
-      sorter: {
-        compare: (a, b) => a.Available - b.Available,
-        multiple: 1,
-      },
-    },
-    {
-      title: "Place Date",
-      dataIndex: "PlaceDate",
-      sorter: {
-        compare: (a, b) => a.bst - b.bst,
-        multiple: 1,
-      },
-    },
-    {
-      title: "IP",
-      dataIndex: "IP",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
-    },
-    {
-      title: "Browser",
-      dataIndex: "Browser",
-      sorter: {
-        compare: (a, b) => a.PPhone - b.PPhone,
-        multiple: 1,
-      },
-    },
-
-    {
-      title: "Action",
-      dataIndex: "Action",
-    },
-  ];
-
-  const data = [];
-  // DataList.map((res,index) => {
-  //   if (res) {
-  //     data.push({
-  //       key: res.URate+res.IP+index,
-  //       EventType: res.username,
-  //       EventName: "Event Name",
-  //       UserName: "User Name",
-
-  //       Nation: "Nation",
-  //       URate: "URate",
-  //       Amount: "Amount",
-  //       PlaceDate: "Place Date",
-  //       IP: "IP",
-  //       Browser: "Browser",
-  //       Action: <Checkbox />,
-  //     });
-  //   } else {
-  //     data.push({
-  //       key: "",
-  //       EventType: "",
-  //       EventName: "",
-  //       UserName: "",
-
-  //       Nation: "",
-  //       URate: "",
-  //       Amount: "",
-  //       PlaceDate: "",
-  //       IP: "",
-  //       Browser: "",
-  //       Action: <Checkbox />,
-  //     });
-  //   }
-  // });
-
+  useEffect(() => {
+    CasionData();
+  }, []);
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        bethistorytabledata: false,
+      }));
+    };
+  }, [setLoading]);
   const Increment = () => {
-    if (paginationData.index < paginationData.totalPages) {
-      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
+    if (paginationData?.index < paginationData?.totalPages) {
+      setPaginationData({
+        ...paginationData,
+        index: paginationData?.index + 1,
+      });
     }
 
     // setPageIndex(PageIndex + 1);
   };
   const Decrement = () => {
-    if (paginationData.index > 0) {
-      setPaginationData({ ...paginationData, index: paginationData.index - 1 });
+    if (paginationData?.index > 0) {
+      setPaginationData({
+        ...paginationData,
+        index: paginationData?.index - 1,
+      });
     }
     // setPageIndex(PageIndex - 1);
   };
@@ -221,15 +89,80 @@ const Casinotable = () => {
   const LastCounter = () => {
     setPaginationData({
       ...paginationData,
-      index: paginationData.totalPages - 1,
+      index: paginationData?.totalPages - 1,
     });
   };
 
+  //////first drop down value
+  const handleChange = (value) => {
+    //  console.log(value.key); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+    gatSportsId(value.value);
+  };
+
+  // second dropdown value
+  const sportChange = (value) => {
+    setSportChangeId(value.value);
+  };
+
+  const gatSportsId = async (id) => {
+    setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
+        { id: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setSportsId(res?.data?.data);
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, bethistorygatSportsId: false }));
+  };
+
+  /////call api on load button
+
+  const option1 = sportsList?.map((item, index) => ({
+    key: item.id + item?.logo + index.name + index,
+    value: item?.id,
+    label: item?.name,
+  }));
+
+  const option2 = sportsId?.map((item, index) => ({
+    key: item.gameId + item?.gameCode + item.gameName + index.imageUrl,
+    value: item?.gameId,
+    label: item?.gameName,
+  }));
+  const getSportsid = async (id) => {
+    setLoading((prev) => ({ ...prev, viewmorebets: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Get_View_Bets}`,
+        {
+          id: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log(res.data);
+        message.success(res.data.message);
+        setViewMoreData(res.data.data);
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, viewmorebets: false }));
+  };
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
         <div className="current-bets-filter">
-          <div className="filter-left-col" style={{ opacity: "0" }}>
+          <div className="filter-left-col">
             <Radio
               checked={radioValue === "matched"}
               onChange={() => setRadioValue("matched")}
@@ -244,30 +177,41 @@ const Casinotable = () => {
             </Radio>
           </div>
           <div className="filter-Middle-col">
-            <Radio
-              checked={radioValuefilte === "All"}
-              onChange={() => setRadioValuefilter("All")}
-            >
-              All
-            </Radio>
-            <Radio
-              checked={radioValuefilte === "Back"}
-              onChange={() => setRadioValuefilter("Back")}
-            >
-              Back
-            </Radio>
-            <Radio
-              checked={radioValuefilte === "Lay"}
-              onChange={() => setRadioValuefilter("Lay")}
-            >
-              Lay
-            </Radio>
+            <Select
+              labelInValue
+              defaultValue={{
+                value: "",
+                label: "Select match",
+              }}
+              style={{
+                width: 120,
+              }}
+              onChange={handleChange}
+              options={option1}
+            ></Select>
+
+            <Select
+              labelInValue
+              defaultValue={{
+                value: "",
+                label: "Matchlist",
+              }}
+              style={{
+                width: 120,
+              }}
+              onChange={sportChange}
+              options={option2}
+            ></Select>
+
             <div className="load-btn">
-              <Button> load</Button>
+              <Button onClick={() => getSportsid(sportChangeId)}> load</Button>
             </div>
           </div>
           <div className="filter-Right-col">
-            <h5>Total Soda: 0 Total Amount: 0.00</h5>
+            <h5>
+              Total Soda: <span style={{ color: "green" }}>{sada}</span> Total
+              Amount:<span style={{ color: "green" }}>{totalAmount}</span>
+            </h5>
           </div>
         </div>
         <div
@@ -282,7 +226,7 @@ const Casinotable = () => {
             Show&nbsp;
             <select
               className="custom-select-sm"
-              value={paginationData.noOfRecords}
+              value={paginationData?.noOfRecords}
               onChange={(e) =>
                 setPaginationData({
                   ...paginationData,
@@ -290,7 +234,6 @@ const Casinotable = () => {
                 })
               }
             >
-              <option value="2">2</option>
               <option value="25">25</option>
               <option value="50">50</option>
               <option value="100">100</option>
@@ -310,7 +253,7 @@ const Casinotable = () => {
             />
           </div>
         </div>
-        <Table columns={columns} dataSource={data} className="accountTable" />
+        <CasionBetTable data={viewMoreData} />
         <div className="pagination">
           <ul className="pagination-rounded mb-0">
             <ul

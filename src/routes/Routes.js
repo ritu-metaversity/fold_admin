@@ -68,6 +68,8 @@ export const get_msg = "enduser/get-user-message";
 export const Bet_Casino = "bets/casino-all-bet-count";
 export const Get_View_Bets = "bets/casino-bet-count-table-wise";
 export const Get_Pts_Data = "bets/search-bet-market-and-user";
+export const Detail_Sport_Wise = "sport/event-detail-sport-wise";
+export const Active_Sport_list = "sport/active-sport-list";
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";
