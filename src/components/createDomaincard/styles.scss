@@ -1,0 +1,19 @@
+$breakpoint-tablet: 870px;
+.form-domain-card{
+    background-color: #fff;
+    border: 1px solid #c6bdbd;
+    border-radius: 5px;
+    width: 400px;
+    padding: 20px;
+    @media (max-width: $breakpoint-tablet) {
+       width: 98%;
+       padding: 5px;
+         }
+}
+
+.img-div{
+
+    .ant-modal-wrap .ant-modal-footer {
+        display: block!important;
+    }
+}
