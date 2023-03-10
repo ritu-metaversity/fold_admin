@@ -24,7 +24,7 @@ const Datatable = (props) => {
       </>
     );
   }
-  console.log(data);
+
   return data?.map((res) => {
     return (
       <div
