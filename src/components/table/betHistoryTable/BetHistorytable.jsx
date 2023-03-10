@@ -17,7 +17,6 @@ export const UserModalContext = createContext({
 });
 
 const BetHistorytable = ({ id }) => {
-
   const [searchText, setSearchText] = useState("");
   const { setLoading } = useContext(LoaderContext);
 
