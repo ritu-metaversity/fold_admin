@@ -4,6 +4,7 @@ const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
 const MatchOddsRow = ({ data, prev, pnlData }) => {
+  console.log(pnlData, "pnlData");
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
@@ -20,8 +21,9 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
       <div>
         {data?.runners?.map((item, runnerIndex) => {
           const pnlValue =
-            plnOddsArray.find((pnl) => pnl.selectionId === item.selectionId)
+            plnOddsArray.find((pnl) => pnl.selectionId == item.selectionId)
               ?.pnl || 0;
+
           return (
             <div className="table-row-col" key={item.selectionId}>
               <div className="left-col-table">
