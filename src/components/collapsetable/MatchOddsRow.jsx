@@ -8,7 +8,7 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
-    const myPnl = pnlData.find((item) => item?.marketId === data?.marketId);
+    const myPnl = pnlData.find((item) => item?.marketId == data?.marketId);
 
     const plnOddsArray = myPnl
       ? [
