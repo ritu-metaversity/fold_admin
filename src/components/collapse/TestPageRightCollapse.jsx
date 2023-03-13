@@ -37,7 +37,6 @@ const TestPageRightCollapse = () => {
         }
       )
       .then((res) => {
-        console.log(res.data);
         setTabData(res?.data?.data);
       })
       .catch((error) => {

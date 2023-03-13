@@ -11,7 +11,6 @@ const DeleteModal = ({
 }) => {
   const [textareaError, settextareaError] = useState(false);
   const [textArea, setTextArea] = useState("");
-  console.log(headerColor, "headerColor");
   const titleArray = ["Reject", "Approve", "Delete List"];
   const classArray = [
     "warning-header-reject",
@@ -21,7 +20,6 @@ const DeleteModal = ({
 
   const handleChangetextArea = (e) => {
     const value = e.target.value;
-    console.log(value);
 
     settextareaError(!value);
 

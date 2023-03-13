@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Table } from "antd";
 import React, { useEffect, useState } from "react";
-import Mainlayout from "../../common/Mainlayout";
 ///styles
 // import "./styles.scss";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -290,14 +289,7 @@ const WidrwalPendingRequest = () => {
     setdeleteRowId(id);
   };
   const handleOk = (remark) => {
-    // if (textareaError) {
-    //   return "";
-    // } else {
-    //   setIsModalOpen(false);
-    // }
-    apiCall === "1"
-      ? approve(deleteRowId, remark)
-      : reject(deleteRowId, remark);
+    apiCall === 1 ? approve(deleteRowId, remark) : reject(deleteRowId, remark);
   };
   const handleCancel = () => {
     // setTextArea("");
@@ -306,7 +298,7 @@ const WidrwalPendingRequest = () => {
 
   return (
     <UserModalContext.Provider>
-      <Mainlayout>
+      <>
         <DeleteModal
           showModal={isModalOpen}
           handleOk={handleOk}
@@ -457,7 +449,7 @@ const WidrwalPendingRequest = () => {
             </ul>
           </div>
         </div>
-      </Mainlayout>
+      </>
     </UserModalContext.Provider>
   );
 };

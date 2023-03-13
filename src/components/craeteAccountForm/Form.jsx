@@ -203,11 +203,7 @@ const Accountform = () => {
             });
           }
         })
-        .catch((error) => {
-          // if (error?.response?.data?.message) {
-          //   message.error(error?.response?.data?.message);
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     }
   };
@@ -281,14 +277,7 @@ const Accountform = () => {
       .then((res) => {
         setSportsList(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.data.status === 401) {
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        //   message.error(error.response.data.message);
-        // }
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -508,7 +497,6 @@ const Accountform = () => {
                 value={data.userRole || ""}
                 name="userRole"
                 onChange={(e) => {
-                  console.log(e, "ran");
                   handleSelectChange(e, "userRole");
                 }}
               >

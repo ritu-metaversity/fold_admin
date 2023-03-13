@@ -4,7 +4,6 @@ const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
 const MatchOddsRow = ({ data, prev, pnlData }) => {
-  console.log(pnlData, "pnlData");
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {

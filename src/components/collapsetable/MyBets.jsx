@@ -66,7 +66,6 @@ const MyBets = () => {
       }
     );
   });
-  console.log(dataSource, "dataSource");
   const columns = [
     {
       title: "UserName",

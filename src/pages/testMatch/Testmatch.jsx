@@ -1,5 +1,4 @@
 import React from "react";
-import Mainlayout from "../../common/Mainlayout";
 import TestPageLeftCollapse from "../../components/collapse/TestPageLeftCollapse";
 import TestPageRightCollapse from "../../components/collapse/TestPageRightCollapse";
 import MyBets from "../../components/collapsetable/MyBets";
@@ -8,7 +7,7 @@ import MyBets from "../../components/collapsetable/MyBets";
 import "./styles.scss";
 const Testmatch = () => {
   return (
-    <Mainlayout>
+    <>
       <div className="container-test-match">
         <div className="left-body-container">
           <div className="Collapse">
@@ -22,7 +21,7 @@ const Testmatch = () => {
           </div>
         </div>
       </div>
-    </Mainlayout>
+    </>
   );
 };
 

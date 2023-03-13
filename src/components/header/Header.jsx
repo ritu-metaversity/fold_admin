@@ -8,7 +8,6 @@ import { Dropdown, Modal, Space } from "antd";
 import { BsWallet2 } from "react-icons/bs";
 import { HiOutlineKey } from "react-icons/hi";
 import { FiLogOut } from "react-icons/fi";
-import img from "../../assets/img/logo.png";
 import "./styles.scss";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -24,7 +23,7 @@ import { LoaderContext } from "../../App";
 import { get_msg, MarketAnalysis_Screen } from "../../routes/Routes";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
-const Header = ({ overlayState, setDisplay, balance }) => {
+const Header = ({ overlayState, setDisplay, logo }) => {
   const logout = () => {
     localStorage.clear();
   };
@@ -169,7 +168,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
         className="modal-self-deposit"
         destroyOnClose
       >
-        {modalKey === "0" ? (
+        {modalKey === 0 ? (
           <SelfDepositForm handleCancel={handleCancel} />
         ) : (
           <Changpasswordheader handleCancelfunction={handleCancel} />
@@ -178,7 +177,7 @@ const Header = ({ overlayState, setDisplay, balance }) => {
       <div className="header-col">
         <div className="logo">
           <Link to={MarketAnalysis_Screen}>
-            <img src={img} alt="" />
+            <img src={logo} alt="" style={{ paddingTop: "5px" }} />
           </Link>
         </div>
 

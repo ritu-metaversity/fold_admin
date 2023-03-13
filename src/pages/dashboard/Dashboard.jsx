@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import Mainlayout from "../../common/Mainlayout";
 import { Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 
@@ -104,18 +103,16 @@ const Dashboard = () => {
 
   return (
     <>
-      <Mainlayout>
-        <div className="markettable">
-          <Tabs
-            defaultActiveKey={tab1}
-            type="card"
-            tabIndex={tab1}
-            // size={size}
-            onChange={onChange}
-            items={items}
-          ></Tabs>
-        </div>
-      </Mainlayout>
+      <div className="markettable">
+        <Tabs
+          defaultActiveKey={tab1}
+          type="card"
+          tabIndex={tab1}
+          // size={size}
+          onChange={onChange}
+          items={items}
+        ></Tabs>
+      </div>
     </>
   );
 };

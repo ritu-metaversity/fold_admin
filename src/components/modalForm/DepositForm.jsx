@@ -38,7 +38,6 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
     }
     if (name === "amount") {
       if (!value.toString().match(/^[0-9]*$/)) {
-        console.log(value, "vak");
         return;
       }
       setformData(() => {

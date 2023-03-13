@@ -1,11 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Mainlayout from "../../common/Mainlayout";
 import BankForm from "../../components/BankMethodForm.jsx/BankForm";
 
 const BankPage = () => {
   return (
-    <Mainlayout>
+    <>
       <div className="hading-create-accounts">
         <h4 style={{ fontSize: "15px!important" }}>ADD Bank</h4>
         <p>
@@ -17,7 +16,7 @@ const BankPage = () => {
         </p>
       </div>
       <BankForm />
-    </Mainlayout>
+    </>
   );
 };
 

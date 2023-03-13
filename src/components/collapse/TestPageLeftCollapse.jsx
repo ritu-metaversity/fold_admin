@@ -167,8 +167,15 @@ const TestPageLeftCollapse = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       getOdds();
-      getOddPnl();
     }, 500);
+
+    return () => clearInterval(timer);
+  }, [odddata]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      getOddPnl();
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [odddata]);
