@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import { Button, Form, Input, message } from "antd";
-////
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +18,6 @@ const Loginform = () => {
     await axios
       .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, value)
       .then((res) => {
-        console.log("invalid gh ");
         if (res.data.token && res.status === 200) {
           localStorage.setItem("username", res.data.username);
           setLoading((prev) => ({ ...prev, LoginUser: false }));
@@ -57,6 +55,7 @@ const Loginform = () => {
     } else {
       navigate("/marketAnalysis");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     return () => {

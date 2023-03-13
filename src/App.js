@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import "./App.scss";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
@@ -54,6 +55,7 @@ import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import axios from "axios";
 import UserHistory from "./pages/userHistory/UserHistory";
 import Casion from "./pages/Casino/Casion";
+import Mainlayout from "./common/Mainlayout";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -125,48 +127,57 @@ function App() {
       <FullScreen handle={handle}>
         <OfflineAlert />
         <Routes key={keyNew}>
-          <Route
-            exact
-            path={CreatAaccounts_Screen}
-            element={<CreateAccount />}
-            // render={(props) => <CreateAccount key={Date.now()} {...props} />}
-          />
-          <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
-          <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
-          <Route path={AccountList_Screen} element={<AccountsList />}></Route>
-          <Route path={Bank_Screen} element={<Bank />}></Route>
           <Route path={Home_Screen} element={<Login />}></Route>
-          <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
-          <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
-          <Route path={CreateDomain_Screen} element={<CreateDomain />}></Route>
-          <Route path={TestMatch_Screen} element={<Testmatch />}></Route>
+
           <Route
             path={Change_Password}
             element={<ChangePasswordLogin />}
           ></Route>
-          <Route path={User_History} element={<UserHistory />}></Route>
+          <Route path="/" element={<Mainlayout />}>
+            <Route
+              exact
+              path={CreatAaccounts_Screen}
+              element={<CreateAccount />}
+              // render={(props) => <CreateAccount key={Date.now()} {...props} />}
+            />
+            <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
+            <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
+            <Route path={AccountList_Screen} element={<AccountsList />}></Route>
+            <Route path={Bank_Screen} element={<Bank />}></Route>
+            <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
+            <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
+            <Route
+              path={CreateDomain_Screen}
+              element={<CreateDomain />}
+            ></Route>
+            <Route path={TestMatch_Screen} element={<Testmatch />}></Route>
+            <Route path={User_History} element={<UserHistory />}></Route>
 
-          <Route path={Payment_Method} element={<PaymentMethodPage />}></Route>
-          <Route path={Banner_Update} element={<Banner />}></Route>
-          <Route path={Bank_Method} element={<BankPage />}></Route>
-          <Route path={Upi_Method} element={<Upi />}></Route>
-          <Route path={Qr_Method} element={<QR />}></Route>
-          <Route path={Power_List_Screen} element={<PoerList />}></Route>
-          <Route
-            path={Account_Statement}
-            element={<AccountStatement />}
-          ></Route>
-          <Route
-            path={Widrwal_Pending_Request}
-            element={<WidrwalPendingRequest />}
-          ></Route>
+            <Route
+              path={Payment_Method}
+              element={<PaymentMethodPage />}
+            ></Route>
+            <Route path={Banner_Update} element={<Banner />}></Route>
+            <Route path={Bank_Method} element={<BankPage />}></Route>
+            <Route path={Upi_Method} element={<Upi />}></Route>
+            <Route path={Qr_Method} element={<QR />}></Route>
+            <Route path={Power_List_Screen} element={<PoerList />}></Route>
+            <Route
+              path={Account_Statement}
+              element={<AccountStatement />}
+            ></Route>
+            <Route
+              path={Widrwal_Pending_Request}
+              element={<WidrwalPendingRequest />}
+            ></Route>
 
-          <Route
-            path={Deposit_Pending_Request}
-            element={<DepositPendingRequest />}
-          ></Route>
+            <Route
+              path={Deposit_Pending_Request}
+              element={<DepositPendingRequest />}
+            ></Route>
 
-          <Route path={Casino_Screen} element={<Casion />}></Route>
+            <Route path={Casino_Screen} element={<Casion />}></Route>
+          </Route>
 
           <Route path="*" element={<NoteFound />} />
         </Routes>

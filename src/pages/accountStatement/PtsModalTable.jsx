@@ -2,7 +2,6 @@ import { Table, Tooltip } from "antd";
 import React from "react";
 
 const PtsModaltable = ({ data }) => {
-  // console.log(data, "data");
   const dataSource = [];
   data?.map((res, index) =>
     dataSource?.push({

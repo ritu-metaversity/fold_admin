@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Radio } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";

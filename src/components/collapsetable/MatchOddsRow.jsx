@@ -7,7 +7,7 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
-    const myPnl = pnlData.find((item) => item?.marketId === data?.marketId);
+    const myPnl = pnlData.find((item) => item?.marketId == data?.marketId);
 
     const plnOddsArray = myPnl
       ? [
@@ -20,8 +20,9 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
       <div>
         {data?.runners?.map((item, runnerIndex) => {
           const pnlValue =
-            plnOddsArray.find((pnl) => pnl.selectionId === item.selectionId)
+            plnOddsArray.find((pnl) => pnl.selectionId == item.selectionId)
               ?.pnl || 0;
+
           return (
             <div className="table-row-col" key={item.selectionId}>
               <div className="left-col-table">

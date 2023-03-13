@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Table, Tooltip, Image } from "antd";
 import React, { useEffect, useState } from "react";
-import Mainlayout from "../../common/Mainlayout";
 ///styles
 // import "./styles.scss";
 import { message as antdmessage } from "antd";
@@ -19,7 +19,7 @@ import DeleteModal from "../../components/deleteModal/DeleteModal";
 
 const DepositPendingRequest = () => {
   const [searchText, setSearchText] = useState("");
-
+  // const [loading, setLoading] = useState(false);
   const { setLoading } = useContext(LoaderContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
@@ -112,7 +112,7 @@ const DepositPendingRequest = () => {
 
   const data = DataList?.map((res, index) => {
     return {
-      key: res?.username + res.id + index,
+      key: res?.username + res.id + index + res.amount + res.image,
       userId: res.userId,
       amount: res?.amount,
       image: (
@@ -217,103 +217,88 @@ const DepositPendingRequest = () => {
         handleCancel();
         setDataList(DataList.filter((row) => row.id !== id));
       })
-      .catch((error) => {
-        // antdmessage.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({
-        //     ...prev,
-        //     depositPendingRequestApprove: false,
-        //   }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, depositPendingRequestApprove: false }));
   };
   const showModal = (id) => {
     setIsModalOpen(true);
     setdeleteRowId(id);
   };
-  console.log(typeof apiCall);
   const handleOk = (remark) => {
     // setIsModalOpen(false);
-    apiCall === "1"
-      ? approve(deleteRowId, remark)
-      : reject(deleteRowId, remark);
+    apiCall === 1 ? approve(deleteRowId, remark) : reject(deleteRowId, remark);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
   };
   return (
-    <UserModalContext.Provider>
-      <Mainlayout>
-        <DeleteModal
-          showModal={isModalOpen}
-          handleOk={handleOk}
-          handleCancel={handleCancel}
-          headerColor={apiCall}
-          remarkRender={0}
-        />
-        <div className="hading-create-accounts">
-          <h4>Deposit Pending Request</h4>
-          <p>
-            <NavLink to="/marketAnalysis">Home / </NavLink>
-            <NavLink to="" style={{ color: "#74788d" }}>
-              Deposit Pending Request
-            </NavLink>
-          </p>
-        </div>
-        <div className="table">
-          <div
-            style={{
-              paddingLeft: "5px",
-              display: "flex",
-              justifyContent: "space-between",
-              margin: "10px 0px 10px 0px",
-            }}
-          >
-            <label className="d-inline-flex align-items-center">
-              Show&nbsp;
-              <select
-                className="custom-select-sm"
-                value={paginationData.noOfRecords}
-                onChange={(e) =>
-                  setPaginationData({
-                    ...paginationData,
-                    noOfRecords: Number(e.target.value),
-                  })
-                }
-              >
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="250">250</option>
-                <option value="500">500</option>
-              </select>
-              &nbsp;entries
-            </label>
-            <div className="serch-input-account-statement">
-              <input
-                type="search"
-                placeholder="search..."
-                onChange={handleChange2}
-                style={{
-                  border: "1px solid #ced4da",
-                  padding: "0.4rem 0.5rem",
-                  borderRadius: "3px",
-                }}
-              />
-            </div>
+    <>
+      <DeleteModal
+        showModal={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        headerColor={apiCall}
+        remarkRender={0}
+      />
+      <div className="hading-create-accounts">
+        <h4>Deposit Pending Request</h4>
+        <p>
+          <NavLink to="/marketAnalysis">Home / </NavLink>
+          <NavLink to="" style={{ color: "#74788d" }}>
+            Deposit Pending Request
+          </NavLink>
+        </p>
+      </div>
+      <div className="table">
+        <div
+          style={{
+            paddingLeft: "5px",
+            display: "flex",
+            justifyContent: "space-between",
+            margin: "10px 0px 10px 0px",
+          }}
+        >
+          <label className="d-inline-flex align-items-center">
+            Show&nbsp;
+            <select
+              className="custom-select-sm"
+              value={paginationData.noOfRecords}
+              onChange={(e) =>
+                setPaginationData({
+                  ...paginationData,
+                  noOfRecords: Number(e.target.value),
+                })
+              }
+            >
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="250">250</option>
+              <option value="500">500</option>
+            </select>
+            &nbsp;entries
+          </label>
+          <div className="serch-input-account-statement">
+            <input
+              type="search"
+              placeholder="search..."
+              onChange={handleChange2}
+              style={{
+                border: "1px solid #ced4da",
+                padding: "0.4rem 0.5rem",
+                borderRadius: "3px",
+              }}
+            />
           </div>
-          <Table
-            columns={columns}
-            dataSource={data}
-            className="accountTable"
-            pagination={{ pageSize: paginationData.noOfRecords }}
-          />
         </div>
-      </Mainlayout>
-    </UserModalContext.Provider>
+        <Table
+          columns={columns}
+          dataSource={data}
+          className="accountTable"
+          pagination={{ pageSize: paginationData.noOfRecords }}
+        />
+      </div>
+    </>
   );
 };
 

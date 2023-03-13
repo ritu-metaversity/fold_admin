@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { Menu, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,7 +18,7 @@ import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
 
-const SiderBar = () => {
+const SiderBar = ({ IsSelfState }) => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
   const { setLoading, refershNow } = useContext(LoaderContext);
@@ -95,14 +96,7 @@ const SiderBar = () => {
       .then((res) => {
         setPaymentListData(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
   useEffect(() => {
@@ -133,14 +127,7 @@ const SiderBar = () => {
       .then((res) => {
         setEventData(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
@@ -159,14 +146,7 @@ const SiderBar = () => {
         // console.log(res.data);
         setCasionData(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
@@ -234,7 +214,7 @@ const SiderBar = () => {
               </Link>
             ),
           },
-          userType === "5"
+          userType === "5" && IsSelfState
             ? {
                 key: 5,
                 label: (
@@ -273,7 +253,7 @@ const SiderBar = () => {
               </Link>
             ),
           },
-          userType === "5"
+          userType === "5" && IsSelfState
             ? {
                 key: 23,
                 label: <span onClick={CreatePowerUser}>Create Helper</span>,
@@ -308,7 +288,8 @@ const SiderBar = () => {
           </Link>
         ),
       },
-      userType === "5" || userType === "7"
+
+      IsSelfState && (userType === "5" || userType === "7")
         ? {
             key: 76,
             icon: <RiAccountCircleFill />,
@@ -345,7 +326,7 @@ const SiderBar = () => {
             ],
           }
         : "",
-      userType === "5"
+      userType === "5" && IsSelfState
         ? {
             key: 9,
             icon: <RiBankFill />,
@@ -465,28 +446,27 @@ const SiderBar = () => {
           };
         }),
       },
-      casionData
-        ? {
-            key: 687,
-            icon: <TbFileReport />,
-            label: "Casino",
-            children: casionData?.map((res, index) => {
-              // console.log(casionData);
-              return {
-                key: 458 + index,
-                label: (
-                  <Link
-                    onClick={refershNow}
-                    to={`${Casino_Screen}/?casino-id=${res?.id}`}
-                    // reloadDocument={pathname === "/account-Statement"}
-                  >
-                    {res.name}
-                  </Link>
-                ),
-              };
-            }),
-          }
-        : {},
+
+      {
+        key: 687,
+        icon: <TbFileReport />,
+        label: "Casino",
+        children: casionData?.map((res, index) => {
+          // console.log(casionData);
+          return {
+            key: 458 + index,
+            label: (
+              <Link
+                onClick={refershNow}
+                to={`${Casino_Screen}/?casino-id=${res?.id}`}
+                // reloadDocument={pathname === "/account-Statement"}
+              >
+                {res.name}
+              </Link>
+            ),
+          };
+        }),
+      },
       {
         style: { aligItems: "flex-start" },
         key: 17,

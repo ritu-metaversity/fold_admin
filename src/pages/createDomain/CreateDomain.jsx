@@ -1,11 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Mainlayout from "../../common/Mainlayout";
 import DomainCard from "../../components/createDomaincard/DomainCard";
 
 const CreateDomain = () => {
   return (
-    <Mainlayout>
+    <>
       <div className="hading-create-accounts">
         <h4>Create Domain</h4>
         <p>
@@ -17,7 +16,7 @@ const CreateDomain = () => {
       </div>
 
       <DomainCard />
-    </Mainlayout>
+    </>
   );
 };
 

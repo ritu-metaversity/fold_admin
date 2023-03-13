@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import { message, Table, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -38,8 +39,9 @@ const MyBets = () => {
     return () => clearInterval(timer);
   }, [id, navigate]);
 
-  const dataSource = betData?.map((res, index) => {
-    return (
+  const dataSource = [];
+  betData?.map((res, index) => {
+    dataSource.push(
       {
         key: res.marketname + res.userid + index,
         UserName: res.marketname,
@@ -64,7 +66,6 @@ const MyBets = () => {
       }
     );
   });
-
   const columns = [
     {
       title: "UserName",

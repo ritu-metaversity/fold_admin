@@ -38,7 +38,7 @@ const Accountform = () => {
     fancyLossCommission: false,
     // mobile: false,
     oddLossCommission: false,
-    sportPartnership: currentUserROle === "2" ? false : undefined,
+    sportPartnership: currentUserROle === 2 ? false : undefined,
     userRole: false,
   });
 
@@ -81,6 +81,7 @@ const Accountform = () => {
 
   const handleSelectChange = (e, Name) => {
     let value = e;
+    // console.log(value, "value");
     if (!value) {
       setErrorData((prev) => {
         return {
@@ -121,17 +122,18 @@ const Accountform = () => {
       }
 
     Object.keys(data).forEach((key) => {
+      // console.log();
       if (["", null, undefined, NaN].includes(data[key])) {
         if (arr.includes(key)) {
         } else {
- if (userType !== "4" && key === "appId") {
+          if (userType !== 4 && key === "appId") {
             setErrorData((prev) => {
               return {
                 ...prev,
                 [key]: false,
               };
             });
- } else if (data.userRole === "2" && key == "sportPartnership") {
+          } else if (data.userRole === 2 && key === "sportPartnership") {
             setErrorData((prev) => {
               return {
                 ...prev,
@@ -140,7 +142,6 @@ const Accountform = () => {
             });
           } else {
             isError = true;
-
             setErrorData((prev) => {
               return {
                 ...prev,
@@ -158,7 +159,6 @@ const Accountform = () => {
         });
       }
     });
-
     if (isError) return false;
     else {
       Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
@@ -203,11 +203,7 @@ const Accountform = () => {
             });
           }
         })
-        .catch((error) => {
-          // if (error?.response?.data?.message) {
-          //   message.error(error?.response?.data?.message);
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     }
   };
@@ -281,14 +277,7 @@ const Accountform = () => {
       .then((res) => {
         setSportsList(res.data.data);
       })
-      .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.data.status === 401) {
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        //   message.error(error.response.data.message);
-        // }
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -508,7 +497,6 @@ const Accountform = () => {
                 value={data.userRole || ""}
                 name="userRole"
                 onChange={(e) => {
-                  console.log(e, "ran");
                   handleSelectChange(e, "userRole");
                 }}
               >

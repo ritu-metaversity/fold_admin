@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Radio } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
@@ -50,7 +51,7 @@ const ModalViewMore = ({ keyName }) => {
 
   useEffect(() => {
     viewMoreTabledata();
-  }, [value]);
+  }, []);
 
   const handleChange = (e) => {
     const name = e.target.name;

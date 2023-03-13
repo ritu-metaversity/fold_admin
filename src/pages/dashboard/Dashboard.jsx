@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import Mainlayout from "../../common/Mainlayout";
 import { Tabs } from "antd";
 import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 
@@ -28,7 +27,6 @@ const Dashboard = () => {
         })
         .then((res) => {
           setCricket(res?.data?.data);
-          // console.log(res.data.data);
         })
         .catch((error) => {});
       setLoading((prev) => ({ ...prev, marketAnalysisTable: false }));
@@ -54,9 +52,15 @@ const Dashboard = () => {
         })
         .then((res) => {
           setSports(res?.data?.data);
-          // console.log(res.data.data);
         })
-        .catch((error) => {});
+        .catch((error) => {
+          // message.error(error.response.data.message);
+          // if (error.response.status === 401) {
+          //   setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
+          //   navigate("/");
+          //   localStorage.clear();
+          // }
+        });
       setLoading((prev) => ({ ...prev, marketAnalysisgetData: false }));
     };
     getData();
@@ -72,9 +76,7 @@ const Dashboard = () => {
     8: 16,
     27454571: 11,
   };
-  // console.log(sports);
   const items = sports?.map((res) => {
-    // console.log(sports, "sports");
     return {
       label: (
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
@@ -101,18 +103,16 @@ const Dashboard = () => {
 
   return (
     <>
-      <Mainlayout>
-        <div className="markettable">
-          <Tabs
-            defaultActiveKey={tab1}
-            type="card"
-            tabIndex={tab1}
-            // size={size}
-            onChange={onChange}
-            items={items}
-          ></Tabs>
-        </div>
-      </Mainlayout>
+      <div className="markettable">
+        <Tabs
+          defaultActiveKey={tab1}
+          type="card"
+          tabIndex={tab1}
+          // size={size}
+          onChange={onChange}
+          items={items}
+        ></Tabs>
+      </div>
     </>
   );
 };

@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Collapse, message, Modal } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
@@ -165,8 +167,15 @@ const TestPageLeftCollapse = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       getOdds();
-      getOddPnl();
     }, 500);
+
+    return () => clearInterval(timer);
+  }, [odddata]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      getOddPnl();
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [odddata]);
@@ -264,7 +273,7 @@ const TestPageLeftCollapse = () => {
                 {keyName}
 
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
+                  {userType === "4" ? (
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -341,7 +350,7 @@ const TestPageLeftCollapse = () => {
                 >
                   {item.Name}
                   <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                    {userType == 4 ? (
+                    {userType === "4" ? (
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -350,7 +359,7 @@ const TestPageLeftCollapse = () => {
                         type="primary"
                         style={{ background: "#F18521", color: "white" }}
                       >
-                        {betStatus?.find((res) => res === item.marketId)
+                        {betStatus?.find((res) => res == item.marketId)
                           ? " Bet / Unlock"
                           : "Bet Lock"}
                       </Button>
@@ -400,7 +409,7 @@ const TestPageLeftCollapse = () => {
               >
                 Bookmaker
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
+                  {userType === "4" ? (
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -474,7 +483,7 @@ const TestPageLeftCollapse = () => {
               >
                 Bookmaker TOSS
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                  {userType == 4 ? (
+                  {userType === "4" ? (
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();

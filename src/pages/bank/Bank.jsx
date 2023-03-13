@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, Table, message } from "antd";
 import React, { useContext, useEffect, useState } from "react";
-import Mainlayout from "../../common/Mainlayout";
 ///styles
 import "./styles.scss";
 import { NavLink } from "react-router-dom";
@@ -293,182 +293,180 @@ const Bank = () => {
   };
   return (
     <>
-      <Mainlayout>
-        <>
-          {/* <div className="heading">
+      <>
+        {/* <div className="heading">
             <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
           </div> */}
-          <div className="hading-create-accounts">
-            <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
-            <p>
-              <NavLink to="/marketAnalysis">Home / </NavLink>
-              {/* <NavLink to="/activeUser">User / </NavLink> */}
-              <NavLink to="/bank" style={{ color: "#74788d" }}>
-                Bank
-              </NavLink>
-            </p>
-          </div>
-          <div className="table">
-            <div className="search">
-              <div className="left-col">
-                <Input
-                  placeholder="search here....."
-                  name="message"
-                  onChange={handleChange}
-                  value={Inputvalue}
-                />
-                <div className="serch-btn">
-                  <Button
-                    onClick={handleClick}
-                    style={{ background: "#eff2f7", color: "black" }}
-                  >
-                    Search
-                  </Button>
-                  <Button
-                    onClick={reset}
-                    style={{ background: "#23292E", color: "white" }}
-                  >
-                    Reset
-                  </Button>
-                </div>
+        <div className="hading-create-accounts">
+          <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
+          <p>
+            <NavLink to="/marketAnalysis">Home / </NavLink>
+            {/* <NavLink to="/activeUser">User / </NavLink> */}
+            <NavLink to="/bank" style={{ color: "#74788d" }}>
+              Bank
+            </NavLink>
+          </p>
+        </div>
+        <div className="table">
+          <div className="search">
+            <div className="left-col">
+              <Input
+                placeholder="search here....."
+                name="message"
+                onChange={handleChange}
+                value={Inputvalue}
+              />
+              <div className="serch-btn">
+                <Button
+                  onClick={handleClick}
+                  style={{ background: "#eff2f7", color: "black" }}
+                >
+                  Search
+                </Button>
+                <Button
+                  onClick={reset}
+                  style={{ background: "#23292E", color: "white" }}
+                >
+                  Reset
+                </Button>
               </div>
-              <div className="right-col">
-                <input
-                  type="password"
-                  placeholder="Transaction Code"
-                  value={transactionCode}
-                  onChange={onchangeTransactionCode}
-                  style={{
-                    height: "32px",
-                    borderRadius: "5px",
-                    outline: "none",
-                    border: errorTransaction
-                      ? "1px solid red"
-                      : "1px solid #ced4da",
-                  }}
-                />
-                {/* <Button style={{ background: "black", color: "white" }}>
+            </div>
+            <div className="right-col">
+              <input
+                type="password"
+                placeholder="Transaction Code"
+                value={transactionCode}
+                onChange={onchangeTransactionCode}
+                style={{
+                  height: "32px",
+                  borderRadius: "5px",
+                  outline: "none",
+                  border: errorTransaction
+                    ? "1px solid red"
+                    : "1px solid #ced4da",
+                }}
+              />
+              {/* <Button style={{ background: "black", color: "white" }}>
                   <Link to="">Transfer All</Link>
                 </Button> */}
-              </div>
-            </div>
-
-            <div style={{ paddingLeft: "5px" }}>
-              <label className="d-inline-flex align-items-center">
-                Show&nbsp;
-                <select
-                  className="custom-select-sm"
-                  value={paginationData.noOfRecords}
-                  onChange={(e) =>
-                    setPaginationData({
-                      ...paginationData,
-                      noOfRecords: Number(e.target.value),
-                    })
-                  }
-                >
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
-                  <option value="250">250</option>
-                  <option value="500">500</option>
-                </select>
-                &nbsp;entries
-              </label>
-            </div>
-            <Table
-              columns={columns}
-              dataSource={data}
-              className="accountTable"
-              pagination={{ pageSize: paginationData.noOfRecords }}
-            />
-            <div className="pagination">
-              <ul className="pagination-rounded mb-0">
-                <ul
-                  role="menubar"
-                  aria-disabled="false"
-                  aria-label="Pagination"
-                  className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
-                >
-                  <li
-                    role="presentation"
-                    aria-hidden="true"
-                    className="page-item disabled"
-                  >
-                    <span
-                      role="menuitem"
-                      aria-label="Go to first page"
-                      aria-disabled="true"
-                      style={{ cursor: "pointer" }}
-                      onClick={ResetCounter}
-                    >
-                      «
-                    </span>
-                  </li>
-                  <li
-                    role="presentation"
-                    aria-hidden="true"
-                    className="page-item disabled"
-                  >
-                    <span
-                      role="menuitem"
-                      aria-label="Go to previous page"
-                      aria-disabled="true"
-                      style={{ cursor: "pointer" }}
-                      onClick={Decrement}
-                    >
-                      ‹
-                    </span>
-                  </li>
-                  <li role="presentation" className="page-item active">
-                    <button
-                      role="menuitemradio"
-                      type="button"
-                      aria-label="Go to page 1"
-                      aria-checked="true"
-                      aria-posinset="1"
-                      aria-setsize="1"
-                      tabIndex="0"
-                      className="page-link"
-                    >
-                      {paginationData.index + 1}
-                    </button>
-                  </li>
-                  <li
-                    role="presentation"
-                    aria-hidden="true"
-                    className="page-item disabled"
-                  >
-                    <span
-                      role="menuitem"
-                      aria-label="Go to next page"
-                      aria-disabled="true"
-                      style={{ cursor: "pointer" }}
-                      onClick={Increment}
-                    >
-                      ›
-                    </span>
-                  </li>
-                  <li
-                    role="presentation"
-                    aria-hidden="true"
-                    className="page-item disabled"
-                  >
-                    <span
-                      role="menuitem"
-                      aria-label="Go to last page"
-                      aria-disabled="true"
-                      onClick={LastCounter}
-                      style={{ cursor: "pointer" }}
-                    >
-                      »
-                    </span>
-                  </li>
-                </ul>
-              </ul>
             </div>
           </div>
-        </>
-      </Mainlayout>
+
+          <div style={{ paddingLeft: "5px" }}>
+            <label className="d-inline-flex align-items-center">
+              Show&nbsp;
+              <select
+                className="custom-select-sm"
+                value={paginationData.noOfRecords}
+                onChange={(e) =>
+                  setPaginationData({
+                    ...paginationData,
+                    noOfRecords: Number(e.target.value),
+                  })
+                }
+              >
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="250">250</option>
+                <option value="500">500</option>
+              </select>
+              &nbsp;entries
+            </label>
+          </div>
+          <Table
+            columns={columns}
+            dataSource={data}
+            className="accountTable"
+            pagination={{ pageSize: paginationData.noOfRecords }}
+          />
+          <div className="pagination">
+            <ul className="pagination-rounded mb-0">
+              <ul
+                role="menubar"
+                aria-disabled="false"
+                aria-label="Pagination"
+                className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
+              >
+                <li
+                  role="presentation"
+                  aria-hidden="true"
+                  className="page-item disabled"
+                >
+                  <span
+                    role="menuitem"
+                    aria-label="Go to first page"
+                    aria-disabled="true"
+                    style={{ cursor: "pointer" }}
+                    onClick={ResetCounter}
+                  >
+                    «
+                  </span>
+                </li>
+                <li
+                  role="presentation"
+                  aria-hidden="true"
+                  className="page-item disabled"
+                >
+                  <span
+                    role="menuitem"
+                    aria-label="Go to previous page"
+                    aria-disabled="true"
+                    style={{ cursor: "pointer" }}
+                    onClick={Decrement}
+                  >
+                    ‹
+                  </span>
+                </li>
+                <li role="presentation" className="page-item active">
+                  <button
+                    role="menuitemradio"
+                    type="button"
+                    aria-label="Go to page 1"
+                    aria-checked="true"
+                    aria-posinset="1"
+                    aria-setsize="1"
+                    tabIndex="0"
+                    className="page-link"
+                  >
+                    {paginationData.index + 1}
+                  </button>
+                </li>
+                <li
+                  role="presentation"
+                  aria-hidden="true"
+                  className="page-item disabled"
+                >
+                  <span
+                    role="menuitem"
+                    aria-label="Go to next page"
+                    aria-disabled="true"
+                    style={{ cursor: "pointer" }}
+                    onClick={Increment}
+                  >
+                    ›
+                  </span>
+                </li>
+                <li
+                  role="presentation"
+                  aria-hidden="true"
+                  className="page-item disabled"
+                >
+                  <span
+                    role="menuitem"
+                    aria-label="Go to last page"
+                    aria-disabled="true"
+                    onClick={LastCounter}
+                    style={{ cursor: "pointer" }}
+                  >
+                    »
+                  </span>
+                </li>
+              </ul>
+            </ul>
+          </div>
+        </div>
+      </>
     </>
   );
 };
