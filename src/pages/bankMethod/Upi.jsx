@@ -1,11 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Mainlayout from "../../common/Mainlayout";
 import UpiForm from "../../components/BankMethodForm.jsx/UpiForm";
 
 const Upi = () => {
   return (
-    <Mainlayout>
+    <>
       <div className="hading-create-accounts">
         <h4 style={{ fontSize: "15px!important" }}>ADD UPI</h4>
         <p>
@@ -17,7 +16,7 @@ const Upi = () => {
         </p>
       </div>
       <UpiForm />
-    </Mainlayout>
+    </>
   );
 };
 

@@ -22,7 +22,6 @@ const FancyTable = ({ data, prev }) => {
       })
       .then((res) => {
         setFancyPnldata(res?.data?.data);
-        console.log(res?.data?.data, "pnl");
       })
       .catch((error) => {
         console.log(error.response.data.message);

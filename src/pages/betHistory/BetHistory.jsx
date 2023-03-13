@@ -1,7 +1,6 @@
 import { Tabs } from "antd";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import Mainlayout from "../../common/Mainlayout";
 import BetHistorytable from "../../components/table/betHistoryTable/BetHistorytable";
 import Casinotable from "../../components/table/currentBets/casino/CasionTable";
 
@@ -21,7 +20,7 @@ const BetHistory = () => {
   ];
 
   return (
-    <Mainlayout>
+    <>
       <div className="more-modal currentBets-Tab">
         <div className="hading-create-accounts">
           <h4>Bet History</h4>
@@ -33,7 +32,7 @@ const BetHistory = () => {
         </div>
         <Tabs defaultActiveKey="0" type="card" items={items}></Tabs>
       </div>
-    </Mainlayout>
+    </>
   );
 };
 

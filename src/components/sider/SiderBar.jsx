@@ -18,7 +18,7 @@ import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
 
-const SiderBar = () => {
+const SiderBar = ({ IsSelfState }) => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
   const { setLoading, refershNow } = useContext(LoaderContext);
@@ -214,7 +214,7 @@ const SiderBar = () => {
               </Link>
             ),
           },
-          userType === "5"
+          userType === "5" && IsSelfState
             ? {
                 key: 5,
                 label: (
@@ -253,7 +253,7 @@ const SiderBar = () => {
               </Link>
             ),
           },
-          userType === "5"
+          userType === "5" && IsSelfState
             ? {
                 key: 23,
                 label: <span onClick={CreatePowerUser}>Create Helper</span>,
@@ -288,7 +288,8 @@ const SiderBar = () => {
           </Link>
         ),
       },
-      userType === "5" || userType === "7"
+
+      IsSelfState && (userType === "5" || userType === "7")
         ? {
             key: 76,
             icon: <RiAccountCircleFill />,
@@ -325,7 +326,7 @@ const SiderBar = () => {
             ],
           }
         : "",
-      userType === "5"
+      userType === "5" && IsSelfState
         ? {
             key: 9,
             icon: <RiBankFill />,

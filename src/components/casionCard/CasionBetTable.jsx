@@ -53,10 +53,10 @@ const CasionBetTable = ({ data }) => {
             <Radio value={2}>Back</Radio>
             <Radio value={3}>Lay</Radio>
           </Radio.Group> */}
-        <p>
+        {/* <p>
           Total Soda: <span style={{ color: "green" }}>{78}</span> Total Amount:
           <span style={{ color: "green" }}>{88}</span>
-        </p>
+        </p> */}
       </div>
       <Table
         dataSource={dataSource}

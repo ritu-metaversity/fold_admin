@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
-import Mainlayout from "../../common/Mainlayout";
 import CasionCard from "../../components/casionCard/CasionCard";
 import { Bet_Casino, Casino_Card_Data } from "../../routes/Routes";
 
@@ -70,11 +69,11 @@ const Casion = () => {
     CasinoData();
   }, [casinoId]);
   return (
-    <Mainlayout>
+    <>
       <div className="casino-container">
         <CasionCard data={CasionCardData} count={countData} />
       </div>
-    </Mainlayout>
+    </>
   );
 };
 

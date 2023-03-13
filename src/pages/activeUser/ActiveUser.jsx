@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, Switch, Table, Modal, Tooltip } from "antd";
 import React, { createContext, useEffect, useState } from "react";
-import Mainlayout from "../../common/Mainlayout";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
@@ -335,221 +334,219 @@ const ActiveUser = () => {
         handleCancel: handleCancel,
       }}
     >
-      <Mainlayout>
-        <Modal
-          title="Deposit"
-          open={isModalOpen}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          okText="Submit"
-          className="deposite"
-          destroyOnClose
-        >
-          <DepositForm
-            handleCancel={handleCancel}
-            data={userId}
-            gettableData={tabledata}
-          />
-        </Modal>
-        <Modal
-          title="WITHDRAW"
-          open={open}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          className="widrwal"
-          destroyOnClose
-        >
-          <Widrawal
-            handleCancel={handleCancel}
-            data={userId}
-            gettableData={tabledata}
-          />
-        </Modal>
-        <Modal
-          // title={DataList.find((item) => item.id == userData)?.username}
-          title={userId.username}
-          open={profileModal}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          className="more card-header"
-          destroyOnClose
-        >
-          <MoreCard data={userId} handleCancelfunction={handleCancel} />
-        </Modal>
-        {/* /////credit Activity modal */}
-        <Modal
-          title="CREDIT ACTIVITY"
-          open={credit}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          className="CREDI-ACTIVITY"
-          destroyOnClose="true"
-        >
-          <CreditModal
-            data={userId}
-            gettableData={tabledata}
-            handleCancelfunction={handleCancel}
-          />
-        </Modal>
-        <div className="hading-create-accounts">
-          <h4>ACCOUNT LIST FOR ACTIVE USERS</h4>
-          <p>
-            <NavLink to="/marketAnalysis">Home / </NavLink>
-            <NavLink to="/activeUser" style={{ color: "#74788d" }}>
-              Active Users
-            </NavLink>
-          </p>
-        </div>
+      <Modal
+        title="Deposit"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="Submit"
+        className="deposite"
+        destroyOnClose
+      >
+        <DepositForm
+          handleCancel={handleCancel}
+          data={userId}
+          gettableData={tabledata}
+        />
+      </Modal>
+      <Modal
+        title="WITHDRAW"
+        open={open}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        className="widrwal"
+        destroyOnClose
+      >
+        <Widrawal
+          handleCancel={handleCancel}
+          data={userId}
+          gettableData={tabledata}
+        />
+      </Modal>
+      <Modal
+        // title={DataList.find((item) => item.id == userData)?.username}
+        title={userId.username}
+        open={profileModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        className="more card-header"
+        destroyOnClose
+      >
+        <MoreCard data={userId} handleCancelfunction={handleCancel} />
+      </Modal>
+      {/* /////credit Activity modal */}
+      <Modal
+        title="CREDIT ACTIVITY"
+        open={credit}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        className="CREDI-ACTIVITY"
+        destroyOnClose="true"
+      >
+        <CreditModal
+          data={userId}
+          gettableData={tabledata}
+          handleCancelfunction={handleCancel}
+        />
+      </Modal>
+      <div className="hading-create-accounts">
+        <h4>ACCOUNT LIST FOR ACTIVE USERS</h4>
+        <p>
+          <NavLink to="/marketAnalysis">Home / </NavLink>
+          <NavLink to="/activeUser" style={{ color: "#74788d" }}>
+            Active Users
+          </NavLink>
+        </p>
+      </div>
 
-        <div className="table">
-          <div className="search">
-            <div className="left-col">
-              <Input
-                placeholder="search here....."
-                name="message"
-                onChange={handleChange}
-                value={message}
-              />
-              <div className="serch-btn">
-                <Button
-                  onClick={handleClick}
-                  style={{ background: "#23292E", color: "white" }}
-                >
-                  Load
-                </Button>
-                <Button
-                  onClick={reset}
-                  style={{ background: "#eff2f7", color: "black" }}
-                >
-                  Reset
-                </Button>
-              </div>
-            </div>
-            <div className="right-col">
-              <Link to="/createAccounts">
-                <Button style={{ color: "white", border: "none" }}>
-                  <AiOutlinePlus />
-                  Create Account
-                </Button>
-              </Link>
+      <div className="table">
+        <div className="search">
+          <div className="left-col">
+            <Input
+              placeholder="search here....."
+              name="message"
+              onChange={handleChange}
+              value={message}
+            />
+            <div className="serch-btn">
+              <Button
+                onClick={handleClick}
+                style={{ background: "#23292E", color: "white" }}
+              >
+                Load
+              </Button>
+              <Button
+                onClick={reset}
+                style={{ background: "#eff2f7", color: "black" }}
+              >
+                Reset
+              </Button>
             </div>
           </div>
-          <div style={{ paddingLeft: "5px" }}>
-            <label className="d-inline-flex align-items-center">
-              Show&nbsp;
-              <select
-                className="custom-select-sm"
-                value={paginationData.noOfRecords}
-                onChange={(e) =>
-                  setPaginationData({
-                    ...paginationData,
-                    noOfRecords: Number(e.target.value),
-                  })
-                }
-              >
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-                <option value="250">250</option>
-                <option value="500">500</option>
-              </select>
-              &nbsp;entries
-            </label>
-          </div>
-          <Table
-            columns={columns}
-            dataSource={data}
-            onChange={handleChangeTable}
-            className="accountTable"
-            pagination={{ pageSize: paginationData.noOfRecords }}
-          />
-          <div className="pagination">
-            <ul className="pagination-rounded mb-0">
-              <ul
-                role="menubar"
-                aria-disabled="false"
-                aria-label="Pagination"
-                className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
-              >
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to first page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={ResetCounter}
-                  >
-                    «
-                  </span>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to previous page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={Decrement}
-                  >
-                    ‹
-                  </span>
-                </li>
-                <li role="presentation" className="page-item active">
-                  <button
-                    role="menuitemradio"
-                    type="button"
-                    aria-label="Go to page 1"
-                    aria-checked="true"
-                    aria-posinset="1"
-                    aria-setsize="1"
-                    tabIndex="0"
-                    className="page-link"
-                  >
-                    {paginationData.index + 1}
-                  </button>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to next page"
-                    aria-disabled="true"
-                    style={{ cursor: "pointer" }}
-                    onClick={Increment}
-                  >
-                    ›
-                  </span>
-                </li>
-                <li
-                  role="presentation"
-                  aria-hidden="true"
-                  className="page-item disabled"
-                >
-                  <span
-                    role="menuitem"
-                    aria-label="Go to last page"
-                    aria-disabled="true"
-                    onClick={LastCounter}
-                    style={{ cursor: "pointer" }}
-                  >
-                    »
-                  </span>
-                </li>
-              </ul>
-            </ul>
+          <div className="right-col">
+            <Link to="/createAccounts">
+              <Button style={{ color: "white", border: "none" }}>
+                <AiOutlinePlus />
+                Create Account
+              </Button>
+            </Link>
           </div>
         </div>
-      </Mainlayout>
+        <div style={{ paddingLeft: "5px" }}>
+          <label className="d-inline-flex align-items-center">
+            Show&nbsp;
+            <select
+              className="custom-select-sm"
+              value={paginationData.noOfRecords}
+              onChange={(e) =>
+                setPaginationData({
+                  ...paginationData,
+                  noOfRecords: Number(e.target.value),
+                })
+              }
+            >
+              <option value="25">25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+              <option value="250">250</option>
+              <option value="500">500</option>
+            </select>
+            &nbsp;entries
+          </label>
+        </div>
+        <Table
+          columns={columns}
+          dataSource={data}
+          onChange={handleChangeTable}
+          className="accountTable"
+          pagination={{ pageSize: paginationData.noOfRecords }}
+        />
+        <div className="pagination">
+          <ul className="pagination-rounded mb-0">
+            <ul
+              role="menubar"
+              aria-disabled="false"
+              aria-label="Pagination"
+              className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
+            >
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to first page"
+                  aria-disabled="true"
+                  style={{ cursor: "pointer" }}
+                  onClick={ResetCounter}
+                >
+                  «
+                </span>
+              </li>
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to previous page"
+                  aria-disabled="true"
+                  style={{ cursor: "pointer" }}
+                  onClick={Decrement}
+                >
+                  ‹
+                </span>
+              </li>
+              <li role="presentation" className="page-item active">
+                <button
+                  role="menuitemradio"
+                  type="button"
+                  aria-label="Go to page 1"
+                  aria-checked="true"
+                  aria-posinset="1"
+                  aria-setsize="1"
+                  tabIndex="0"
+                  className="page-link"
+                >
+                  {paginationData.index + 1}
+                </button>
+              </li>
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to next page"
+                  aria-disabled="true"
+                  style={{ cursor: "pointer" }}
+                  onClick={Increment}
+                >
+                  ›
+                </span>
+              </li>
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to last page"
+                  aria-disabled="true"
+                  onClick={LastCounter}
+                  style={{ cursor: "pointer" }}
+                >
+                  »
+                </span>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </div>
     </UserModalContext.Provider>
   );
 };

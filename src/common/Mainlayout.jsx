@@ -6,12 +6,17 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
 import axios from "axios";
-import { get_msg } from "../routes/Routes";
+import { get_msg, isSelf } from "../routes/Routes";
 import Marquee from "react-fast-marquee";
+import { Outlet } from "react-router-dom";
 const Mainlayout = ({ children }) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
   const [message, setmessage] = useState("");
+  const [IsSelfState, setIsSelf] = useState("");
+  const [logo, setlogo] = useState("");
+  const host = window.location.hostname;
+
   const ShowSideBar = () => {
     setSidebar(!siderBar);
   };
@@ -37,9 +42,31 @@ const Mainlayout = ({ children }) => {
         setmessage(res?.data?.message);
       });
   };
+
+  const isSelfData = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${isSelf}`,
+        { appUrl: host === "localhost" ? "admin.localhost" : host },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setIsSelf(res.data?.data?.selfAllowed);
+        setlogo(res.data?.data?.logo);
+      })
+      .catch((error) => {});
+    // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+  };
+
   useEffect(() => {
     getMsg();
+    isSelfData();
   }, []);
+
   return (
     <>
       {display ? (
@@ -52,6 +79,7 @@ const Mainlayout = ({ children }) => {
         <Header
           overlayState={display}
           setDisplay={setDisplay}
+          logo={logo}
           // balance={userBalanceamount}
         />
       </div>
@@ -64,10 +92,14 @@ const Mainlayout = ({ children }) => {
         <div>
           <div className="d-flex">
             <div className={siderBar ? "left-sider-active" : "left-sider"}>
-              <SiderBar closeSidebar={closeSidebar} siderBar={siderBar} />
+              <SiderBar
+                closeSidebar={closeSidebar}
+                siderBar={siderBar}
+                IsSelfState={IsSelfState}
+              />
             </div>
             <div className="content" onClick={closeSidebar}>
-              {children}
+              <Outlet />
             </div>
           </div>
         </div>

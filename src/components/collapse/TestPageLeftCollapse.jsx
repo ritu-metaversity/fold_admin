@@ -167,8 +167,15 @@ const TestPageLeftCollapse = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       getOdds();
-      getOddPnl();
     }, 500);
+
+    return () => clearInterval(timer);
+  }, [odddata]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      getOddPnl();
+    }, 5000);
 
     return () => clearInterval(timer);
   }, [odddata]);
@@ -352,7 +359,7 @@ const TestPageLeftCollapse = () => {
                         type="primary"
                         style={{ background: "#F18521", color: "white" }}
                       >
-                        {betStatus?.find((res) => res === item.marketId)
+                        {betStatus?.find((res) => res == item.marketId)
                           ? " Bet / Unlock"
                           : "Bet Lock"}
                       </Button>
