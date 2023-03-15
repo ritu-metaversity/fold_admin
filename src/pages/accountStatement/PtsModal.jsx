@@ -44,7 +44,7 @@ const PtsModal = ({ id }) => {
   return (
     <div>
       <div className="radio-filter">
-        <Radio.Group onChange={onChange} value={value}>
+        {/* <Radio.Group onChange={onChange} value={value}>
           <Radio value={1}>All</Radio>
           <Radio value={2}>Back</Radio>
           <Radio value={3}>Lay</Radio>
@@ -53,7 +53,7 @@ const PtsModal = ({ id }) => {
           Total Soda: <span style={{ color: "green" }}>{soda}</span> Total
           Amount:
           <span style={{ color: "green" }}>{bets}</span>
-        </p>
+        </p> */}
       </div>
       <div className="table-col">
         <PtsModaltable data={ptsdata} />

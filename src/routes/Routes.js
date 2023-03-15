@@ -16,11 +16,12 @@ export const Bank_Method = "Bank_Method_Screen";
 export const Upi_Method = "Upi_Method_Screen";
 export const Qr_Method = "Qr_Method_Screen";
 export const Power_List_Screen = "Power_List_Screen";
-export const Account_Statement = "account-Statement";
+export const Account_Statement = "/account-Statement";
 export const Deposit_Pending_Request = "Deposit-Pending-Request";
 export const Widrwal_Pending_Request = "Widrwal-Pending-Request";
 export const User_History = "User-History";
 export const Casino_Screen = "/Casino";
+export const Profite_Loss = "Profite-loss";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
@@ -71,6 +72,7 @@ export const Get_Pts_Data = "bets/search-bet-market-and-user";
 export const Detail_Sport_Wise = "sport/event-detail-sport-wise";
 export const Active_Sport_list = "sport/active-sport-list";
 export const isSelf = "login/is-self-by-app-url";
+export const Sport_Profite = "report/profit-loss-match-wise";
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";

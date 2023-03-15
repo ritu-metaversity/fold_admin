@@ -13,6 +13,7 @@ import {
   Left_Event_Menu,
   Log_Out,
   Payment_List,
+  Profite_Loss,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
@@ -24,7 +25,7 @@ const SiderBar = ({ IsSelfState }) => {
   const { setLoading, refershNow } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
   const [eventData, setEventData] = useState([]);
-  const [casionData, setCasionData] = useState([]);
+  const [casionDataState, setCasionData] = useState([]);
 
   const logout = async () => {
     setLoading((prev) => ({ ...prev, logout: true }));
@@ -406,6 +407,19 @@ const SiderBar = ({ IsSelfState }) => {
               </Link>
             ),
           },
+          {
+            key: 52,
+
+            label: (
+              <Link
+                onClick={refershNow}
+                to={Profite_Loss}
+                // eloadDocument={pathname === "/betHistory"}
+              >
+                Profite & Loss
+              </Link>
+            ),
+          },
         ],
       },
       {
@@ -451,7 +465,7 @@ const SiderBar = ({ IsSelfState }) => {
         key: 687,
         icon: <TbFileReport />,
         label: "Casino",
-        children: casionData?.map((res, index) => {
+        children: casionDataState?.map((res, index) => {
           // console.log(casionData);
           return {
             key: 458 + index,

@@ -17,6 +17,7 @@ const QrForm = () => {
   });
   ////////image
   const [fileList, setFileList] = useState([]);
+  const fileSize = fileList[0]?.size / 1024;
   // const [type, setType] = useState("");
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -73,13 +74,14 @@ const QrForm = () => {
     });
 
     let formData = new FormData();
-    if (!fileList.length) {
+    if (!fileList.length || fileSize > 512) {
       setError((prev) => {
         return {
           ...prev,
           image: Boolean(fileList),
         };
       });
+      return message.error("image size should be less then 512kb");
     }
 
     formData.append("displayName", data.displayName);

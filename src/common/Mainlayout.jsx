@@ -9,7 +9,7 @@ import axios from "axios";
 import { get_msg, isSelf } from "../routes/Routes";
 import Marquee from "react-fast-marquee";
 import { Outlet } from "react-router-dom";
-const Mainlayout = ({ children }) => {
+const Mainlayout = () => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
   const [message, setmessage] = useState("");
@@ -59,7 +59,6 @@ const Mainlayout = ({ children }) => {
         setlogo(res.data?.data?.logo);
       })
       .catch((error) => {});
-    // setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
   useEffect(() => {
@@ -76,12 +75,7 @@ const Mainlayout = ({ children }) => {
       )}
 
       <div className="header">
-        <Header
-          overlayState={display}
-          setDisplay={setDisplay}
-          logo={logo}
-          // balance={userBalanceamount}
-        />
+        <Header overlayState={display} setDisplay={setDisplay} logo={logo} />
       </div>
       <div className="content-conatiner">
         <div className="container">

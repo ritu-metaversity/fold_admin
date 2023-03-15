@@ -24,6 +24,7 @@ const DomainCard = () => {
     isSelfAllowed: false,
     image: false,
   });
+  const fileSize = fileList[0]?.size / 1024;
   ////////image
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -118,13 +119,14 @@ const DomainCard = () => {
     });
 
     let formData = new FormData();
-    if (!fileList.length) {
+    if (!fileList.length || fileSize > 512) {
       setError((prev) => {
         return {
           ...prev,
           image: Boolean(fileList),
         };
       });
+      return message.error("image size should be less then 512kb");
     }
 
     formData.append("appname", data.appName);

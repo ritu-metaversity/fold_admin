@@ -26,6 +26,7 @@ const BannerFormComponent = () => {
     image: false,
   });
   ////////image
+  const fileSize = fileList[0]?.size / 1024;
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
     setError((prev) => {
@@ -98,13 +99,14 @@ const BannerFormComponent = () => {
       };
     });
     let formData = new FormData();
-    if (!fileList.length) {
+    if (!fileList.length || fileSize > 512) {
       setError((prev) => {
         return {
           ...prev,
           image: Boolean(fileList),
         };
       });
+      return message.error("image size should be less then 512kb");
     }
 
     formData.append("type", type);

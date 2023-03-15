@@ -1,22 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table, DatePicker, Select, Modal } from "antd";
+import { Button, Input, Table, DatePicker, Select } from "antd";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
 
 import axios from "axios";
 import {
-  Account_Statement,
   Account_Statement_Api,
+  Casino_Card_Data,
+  Casiono,
   Search_Api,
+  Sport_Profite,
 } from "../../routes/Routes";
-import { UserModalContext } from "../activeUser/ActiveUser";
+// import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 ///styles
-import "./styles.scss";
-import PtsModal from "./PtsModal";
-const AccountStatement = () => {
+// import "./styles.scss";
+// import PtsModal from "./PtsModal";
+const CasinoProfiteLossTable = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   // const [loading, setLoading] = useState(false);
@@ -31,8 +32,11 @@ const AccountStatement = () => {
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [ptsId, setPtsId] = useState("");
+  const [sportsList, setSportsList] = useState([]);
+  const [sportsId, setSportsId] = useState([]);
+  const [sportChangeId, setSportChangeId] = useState(56768);
+  const [valueDropDown, setvalueDropDown] = useState("");
+
   const handleChangeTable = (sorter) => {
     // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
@@ -50,12 +54,11 @@ const AccountStatement = () => {
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
     tabledata({
-      index: paginationData.index,
-      noOfRecords: paginationData.noOfRecords,
+      sportId: "",
+      matchId: "4",
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
-      userid: "",
-      type: "1",
+      userId: "",
     });
   };
 
@@ -63,9 +66,7 @@ const AccountStatement = () => {
     setSearchText(event.target.value);
     // console.log(event);
   };
-  const handleChangeSelect = (value) => {
-    setSelectValue(value);
-  };
+
   const handleClick = () => {
     // 👇 "message" stores input field value
     setSearchText(message);
@@ -112,14 +113,13 @@ const AccountStatement = () => {
     // console.log(dateTo, dateTo.toISOString());
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Account_Statement_Api}`,
+        `${process.env.REACT_APP_BASE_URL}/${Sport_Profite}`,
         {
-          index: paginationData.index,
-          noOfRecords: paginationData.noOfRecords,
+          sportId: valueDropDown,
+          matchId: sportChangeId,
           fromDate: dateFrom.toISOString().split("T")[0],
           toDate: dateTo.toISOString().split("T")[0],
-          userid: id,
-          type: selectValue,
+          userId: id,
           ...DateFrom,
         },
 
@@ -132,12 +132,12 @@ const AccountStatement = () => {
       .then((res) => {
         // setDateFrom(dayjs());
         // setDateTo(dayjs());
-        if (res?.data?.data?.dataList) {
+        if (res?.data?.data) {
           setPaginationData({
             ...paginationData,
             totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res?.data?.data?.dataList);
+          setDataList(res?.data?.data);
         } else {
           setDataList();
         }
@@ -159,101 +159,69 @@ const AccountStatement = () => {
   }, [setLoading]);
   const columns = [
     {
-      title: "Date",
-      dataIndex: "Date",
+      title: "Match Name",
+      dataIndex: "matchName",
       filteredValue: [searchText],
       onFilter: (value, record) => {
         return (
-          String(record.Date).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.SrNo).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Credit).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Debit).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.pts)
+          String(record.pnl).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.matchName)
             .toLowerCase()
-            .includes(String(value).toLowerCase()) ||
-          String(record.Remark).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Fromto).toLowerCase().includes(value.toLowerCase())
+            .includes(value.toLowerCase()) ||
+          String(record.uplineAmount)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.commssionMila)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.commssionDiya)
+            .toLowerCase()
+            .includes(String(value).toLowerCase())
         );
       },
     },
     {
-      title: "Sr.No",
-      dataIndex: "SrNo",
-      sorter: (a, b) => a.SrNo - b.SrNo,
-      sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
+      title: "pnl",
+      dataIndex: "pnl",
     },
 
     {
-      title: "Credit",
-      dataIndex: "Credit",
-      sorter: {
-        compare: (a, b) => a.Credit - b.Credit,
-        sortOrder: sortedInfo.field === "Credit" ? sortedInfo.order : null,
-      },
+      title: "uplineAmount",
+      dataIndex: "uplineAmount",
     },
     {
-      title: "Debit",
-      dataIndex: "Debit",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
+      title: "commssionMila",
+      dataIndex: "commssionMila",
     },
     {
-      title: "Pts",
-      dataIndex: "pts",
-      sorter: {
-        compare: (a, b) => a.PPhone - b.PPhone,
-        multiple: 1,
-      },
-    },
-    {
-      title: "Remark",
-      dataIndex: "Remark",
-      sorter: {
-        compare: (a, b) => a.AccountType - b.AccountType,
-        multiple: 1,
-      },
-    },
-    {
-      title: "From To",
-      dataIndex: "Fromto",
-      sorter: {
-        compare: (a, b) => a.Action - b.Action,
-        multiple: 1,
-      },
+      title: "commssionDiya",
+      dataIndex: "commssionDiya",
     },
   ];
 
   const data = DataList?.map((res, index) => {
     return {
-      key: res?.date + res.credit + res.pts + index,
-      Date: res?.date,
-      SrNo: res.sno,
+      key: res?.pnl + res.credit + res.commssionMila + index,
+      matchName: res?.matchName,
+      pnl: (
+        <span style={{ color: res.pnl >= 0 ? "green" : "red" }}>{res.pnl}</span>
+      ),
 
-      Credit: (
+      uplineAmount: (
         <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
-          {res.credit}
+          {res.uplineAmount}
         </span>
       ),
-      Debit: (
-        <span style={{ color: res.debit >= 0 ? "green" : "red" }}>
-          {res.debit}
+      commssionMila: (
+        <span style={{ color: res.commssionMila >= 0 ? "green" : "red" }}>
+          {res.commssionMila}
         </span>
       ),
-      pts: (
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => showModal(res.marketid)}
-        >
-          {res?.pts}
-        </span>
+      commssionDiya: (
+        <span style={{ cursor: "pointer" }}>{res?.commssionDiya}</span>
       ),
-      Remark: res?.remark,
-      Fromto: res.fromto,
     };
   });
-
   const Increment = () => {
     if (paginationData.index < paginationData.totalPages) {
       setPaginationData({ ...paginationData, index: paginationData.index + 1 });
@@ -276,20 +244,6 @@ const AccountStatement = () => {
       index: paginationData.totalPages - 1,
     });
   };
-  const option = [
-    {
-      value: 1,
-      label: "ALL",
-    },
-    {
-      value: 3,
-      label: "Deposit/Withdraw Report",
-    },
-    {
-      value: 2,
-      label: "Game Report",
-    },
-  ];
 
   const [listDisplay, setListDisplay] = useState(false);
   const setIdText = (id, text) => {
@@ -299,38 +253,70 @@ const AccountStatement = () => {
     setListDisplay(false);
     setSearchDataList([]);
   };
-  const showModal = (id) => {
-    setIsModalOpen(true);
-    setPtsId(id);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  useEffect(() => {
+    const getSpotsList = async () => {
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Casiono}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          setSportsList(res?.data?.data);
+        })
+        .catch((error) => {});
+    };
+    getSpotsList();
+  }, []);
+
+  const gatSportsId = async (id) => {
+    setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
+        { id: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res?.data) {
+          setSportsId(res?.data?.data);
+        } else {
+          setSportsId({});
+        }
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, bethistorygatSportsId: false }));
   };
 
+  const sportChange = (value) => {
+    setSportChangeId(value.value);
+  };
+  const handleChange = (value) => {
+    console.log(value.value);
+    setvalueDropDown(value.value);
+    //  console.log(value.key); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
+    gatSportsId(value.value);
+  };
+  const option1 = sportsList?.map((item, index) => ({
+    key: item.id + item?.name + index,
+    value: item?.id,
+    label: item?.name,
+  }));
+  const option2 = sportsId?.map((item, index) => ({
+    key: item.gameId + item?.gameName + index,
+    value: item?.gameId,
+    label: item?.gameName,
+  }));
   return (
-    <UserModalContext.Provider value={{}}>
-      <Modal
-        title="Result"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        destroyOnClose
-        footer={null}
-      >
-        <PtsModal id={ptsId} />
-      </Modal>
-      <div className="hading-create-accounts">
-        <h4>Account Statement</h4>
-        <p>
-          <NavLink to="/marketAnalysis">Home / </NavLink>
-          <NavLink to={Account_Statement} style={{ color: "#74788d" }}>
-            Account Statement
-          </NavLink>
-        </p>
-      </div>
+    <>
       <div className="table" style={{ width: "98%", padding: "10px" }}>
         <div className="search Account-list-search">
           <div className="left-col">
@@ -398,25 +384,33 @@ const AccountStatement = () => {
                 defaultValue={[dayjs(), dayjs()]}
               />
             </div>
-            <div className="selct-account-statement">
-              <label
-                style={{
-                  color: "#495057",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                }}
-              >
-                Type
-              </label>
+            <div className="filter-Middle-col" style={{ height: "13px" }}>
               <Select
-                defaultValue="All"
+                labelInValue
+                defaultValue={{
+                  value: "",
+                  label: "Select Casino",
+                }}
                 style={{
                   width: 120,
-                  margin: "7px 0px 7px 0px",
+                  paddingRight: "5px",
                 }}
-                onChange={handleChangeSelect}
-                options={option}
-              />
+                onChange={handleChange}
+                options={option1}
+              ></Select>
+
+              <Select
+                labelInValue
+                defaultValue={{
+                  value: "",
+                  label: "Casino List",
+                }}
+                style={{
+                  width: 120,
+                }}
+                onChange={sportChange}
+                options={option2}
+              ></Select>
             </div>
           </div>
         </div>
@@ -485,83 +479,27 @@ const AccountStatement = () => {
         />
         <div className="pagination">
           <ul className="pagination-rounded mb-0">
-            <ul
-              role="menubar"
-              aria-disabled="false"
-              aria-label="Pagination"
-              className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
-            >
-              <li
-                role="presentation"
-                aria-hidden="true"
-                className="page-item disabled"
-              >
-                <span
-                  role="menuitem"
-                  aria-label="Go to first page"
-                  aria-disabled="true"
-                  style={{ cursor: "pointer" }}
-                  onClick={ResetCounter}
-                >
+            <ul>
+              <li>
+                <span style={{ cursor: "pointer" }} onClick={ResetCounter}>
                   «
                 </span>
               </li>
-              <li
-                role="presentation"
-                aria-hidden="true"
-                className="page-item disabled"
-              >
-                <span
-                  role="menuitem"
-                  aria-label="Go to previous page"
-                  aria-disabled="true"
-                  style={{ cursor: "pointer" }}
-                  onClick={Decrement}
-                >
+              <li>
+                <span style={{ cursor: "pointer" }} onClick={Decrement}>
                   ‹
                 </span>
               </li>
               <li role="presentation" className="page-item active">
-                <button
-                  role="menuitemradio"
-                  type="button"
-                  aria-label="Go to page 1"
-                  aria-checked="true"
-                  aria-posinset="1"
-                  aria-setsize="1"
-                  tabIndex="0"
-                  className="page-link"
-                >
-                  {paginationData.index + 1}
-                </button>
+                <button>{paginationData.index + 1}</button>
               </li>
-              <li
-                role="presentation"
-                aria-hidden="true"
-                className="page-item disabled"
-              >
-                <span
-                  role="menuitem"
-                  aria-label="Go to next page"
-                  aria-disabled="true"
-                  style={{ cursor: "pointer" }}
-                  onClick={Increment}
-                >
+              <li>
+                <span style={{ cursor: "pointer" }} onClick={Increment}>
                   ›
                 </span>
               </li>
-              <li
-                role="presentation"
-                aria-hidden="true"
-                className="page-item disabled"
-              >
-                <span
-                  role="menuitem"
-                  aria-label="Go to last page"
-                  aria-disabled="true"
-                  onClick={LastCounter}
-                  style={{ cursor: "pointer" }}
-                >
+              <li>
+                <span onClick={LastCounter} style={{ cursor: "pointer" }}>
                   »
                 </span>
               </li>
@@ -569,8 +507,8 @@ const AccountStatement = () => {
           </ul>
         </div>
       </div>
-    </UserModalContext.Provider>
+    </>
   );
 };
 
-export default AccountStatement;
+export default CasinoProfiteLossTable;

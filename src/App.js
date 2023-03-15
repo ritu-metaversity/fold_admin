@@ -27,6 +27,7 @@ import {
   MarketAnalysis_Screen,
   Payment_Method,
   Power_List_Screen,
+  Profite_Loss,
   Qr_Method,
   TestMatch_Screen,
   Upi_Method,
@@ -56,6 +57,7 @@ import axios from "axios";
 import UserHistory from "./pages/userHistory/UserHistory";
 import Casion from "./pages/Casino/Casion";
 import Mainlayout from "./common/Mainlayout";
+import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -88,11 +90,8 @@ function App() {
       )
       .then((res) => {
         setUserBalance(res.data?.data?.balance);
-        // console.log(res.data.data.balance);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -138,9 +137,11 @@ function App() {
               exact
               path={CreatAaccounts_Screen}
               element={<CreateAccount />}
-              // render={(props) => <CreateAccount key={Date.now()} {...props} />}
             />
+
             <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
+            <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
+
             <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
             <Route path={AccountList_Screen} element={<AccountsList />}></Route>
             <Route path={Bank_Screen} element={<Bank />}></Route>
