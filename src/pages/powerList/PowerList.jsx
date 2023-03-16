@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Input, Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
-import { message as antdMessage } from "antd";
 ///styles
 // import "./styles.scss";
 import { NavLink } from "react-router-dom";
@@ -12,6 +11,7 @@ import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import DeleteModal from "../../components/deleteModal/DeleteModal";
 import { GoTrashcan } from "react-icons/go";
+import { notifyToast } from "../../components/toast/Tost";
 
 const PoerList = () => {
   const [searchText, setSearchText] = useState("");
@@ -73,15 +73,7 @@ const PoerList = () => {
           setDataList();
         }
       })
-      .catch((error) => {
-        // antdMessage.error(error.response.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, accountTableData: false }));
-        //   navigate("/");
-        //   localStorage.clear();
-        //   // antdMessage.error(error.response?.data.message);
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, accountTableData: false }));
 
     // setLoading(false);
@@ -149,18 +141,11 @@ const PoerList = () => {
         }
       )
       .then((res) => {
-        antdMessage.success(res.data.message);
+        notifyToast().succes(res.data.message);
         setDataList(DataList?.filter((row) => row.userId !== userId));
         handleCancel();
       })
-      .catch((error) => {
-        // antdMessage.error(error.response?.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, deletePoweList: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, deletePoweList: false }));
   };
   const Increment = () => {

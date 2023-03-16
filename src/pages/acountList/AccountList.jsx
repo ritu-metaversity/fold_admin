@@ -314,7 +314,11 @@ const Activelist = () => {
         data={userId}
         destroyOnClose="true"
       >
-        <Widrawal data={userId} gettableData={tabledata} />
+        <Widrawal
+          data={userId}
+          gettableData={tabledata}
+          handleCancelfunction={handleCancel}
+        />
       </Modal>
       <Modal
         title={DataList?.find((item) => item?.id === userData)?.username}
@@ -335,7 +339,11 @@ const Activelist = () => {
         className="CREDI-ACTIVITY"
         destroyOnClose="true"
       >
-        <CreditModal data={userId} gettableData={tabledata} />
+        <CreditModal
+          data={userId}
+          gettableData={tabledata}
+          handleCancelfunction={handleCancel}
+        />
       </Modal>
 
       <div className="hading-create-accounts">

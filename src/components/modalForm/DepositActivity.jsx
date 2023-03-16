@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -8,6 +8,7 @@ import {
   Tab_DepositActivity,
   Tab_DepositActivityForm,
 } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 
 const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [depositActivity, setDepositActivity] = useState([]);
@@ -36,7 +37,6 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
     }
     if (name === "amount") {
       if (!value.toString().match(/^[0-9]*$/)) {
-        console.log(value, "vak");
         return;
       }
       setformData(() => {
@@ -102,7 +102,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
           }
         )
         .then((res) => {
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
           handleCancelfunction();
           setformData({});
           gettableData();

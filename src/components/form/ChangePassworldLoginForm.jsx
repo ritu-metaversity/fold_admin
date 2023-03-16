@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input } from "antd";
 ////
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Cahnge_pass } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
+import { notifyToast } from "../toast/Tost";
 const ChangePasswordLoginForm = () => {
   // const [state, setstate] = useState([]);
   const navigate = useNavigate();
@@ -34,22 +35,14 @@ const ChangePasswordLoginForm = () => {
       )
       .then((res) => {
         if (res.data?.status === true) {
-          message.success(res.data?.message);
+          notifyToast().succes(res.data?.message);
           setLoading((prev) => ({ ...prev, LoginUserChange: false }));
           navigate("/");
         } else if (res.data?.message) {
-          message.error(res.data?.message);
+          notifyToast().error(res.data?.message);
         }
       })
-      .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.data.status === 401) {
-        //   setLoading((prev) => ({ ...prev, LoginUserChange: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("refresh-token");
-        //   message.error(error.response.data.message);
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, LoginUserChange: false }));
   };
   // let x = localStorage.getItem("token");

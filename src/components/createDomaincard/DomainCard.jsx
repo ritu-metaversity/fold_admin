@@ -1,10 +1,11 @@
-import { Button, message, Select, Upload } from "antd";
+import { Button, Select, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Create_app_detail } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 const DomainCard = () => {
   const { setLoading } = useContext(LoaderContext);
   const [fileList, setFileList] = useState([]);
@@ -126,7 +127,7 @@ const DomainCard = () => {
           image: Boolean(fileList),
         };
       });
-      return message.error("image size should be less then 512kb");
+      return notifyToast().error("image size should be less then 512kb");
     }
 
     formData.append("appname", data.appName);
@@ -162,7 +163,7 @@ const DomainCard = () => {
         )
         .then((res) => {
           // console.log(res.data);
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
           setFileList([]);
           setData({
             appName: "",
@@ -173,15 +174,7 @@ const DomainCard = () => {
           setError({});
           setType("");
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, createDomain: false }));
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   message.error(error.response.data.message);
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };

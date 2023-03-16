@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Collapse, message, Modal } from "antd";
+import { Button, Collapse, Modal } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -14,6 +14,7 @@ import {
 import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
+import { notifyToast } from "../toast/Tost";
 import UserBook from "../userBook/UserBook";
 ///styles
 import "./styles.scss";
@@ -82,14 +83,7 @@ const TestPageLeftCollapse = () => {
           setOdddata(res?.data);
         }
       })
-      .catch((error) => {
-        // message.error(error.response?.data?.message);
-        // if (error?.response?.data?.status === 401) {
-        //   navigate("/");
-        //   localStorage.clear();
-        //   // message.error(error.response?.data?.message);
-        // }
-      });
+      .catch((error) => {});
   };
 
   const getOddPnl = async () => {
@@ -109,15 +103,7 @@ const TestPageLeftCollapse = () => {
 
         // setLoading(false);
       })
-      .catch((error) => {
-        // if (error?.response?.data?.message) {
-        //   antdmessage.error(error?.response?.data?.message);
-        // }
-        // if (error.response.data.status === 401) {
-        //   navigate("/");
-        //   localStorage.clear();
-        // }
-      });
+      .catch((error) => {});
     // setLoading(false);
   };
 
@@ -181,7 +167,6 @@ const TestPageLeftCollapse = () => {
   }, [odddata]);
 
   const getBetLock = async (marketNameid) => {
-    console.log(marketNameid, "marketNameid");
     setLoading((prev) => ({ ...prev, marketNameid: true }));
     try {
       const response = await axios.post(
@@ -195,19 +180,10 @@ const TestPageLeftCollapse = () => {
       );
 
       if (response) {
-        message.success(response.data.message);
+        notifyToast().succes(response.data.message);
         BetLockStatus();
       }
-    } catch (err) {
-      // if (err.response.data.message) {
-      //   antdmessage.error(err.response.data.message);
-      // }
-      // if (err.response.data.status === 401) {
-      //   setLoading((prev) => ({ ...prev, marketNameid: false }));
-      //   localStorage.clear();
-      //   navigate("/");
-      // }
-    }
+    } catch (err) {}
     setLoading((prev) => ({ ...prev, marketNameid: false }));
   };
 
@@ -223,16 +199,7 @@ const TestPageLeftCollapse = () => {
       .then((res) => {
         setUserBook(res.data.data);
       })
-      .catch((error) => {
-        // if (error.response?.data?.message) {
-        //   message.error(error.response.data.message);
-        // }
-        // if (error.response?.data?.status === 401) {
-        //   setLoading((prev) => ({ ...prev, getUserBook: false }));
-        //   localStorage.clear();
-        //   navigate("/");
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, getUserBook: false }));
   };
 

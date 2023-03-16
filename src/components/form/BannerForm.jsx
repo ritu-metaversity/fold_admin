@@ -1,4 +1,4 @@
-import { Button, Image, message, Select, Table, Tooltip, Upload } from "antd";
+import { Button, Image, Select, Table, Tooltip, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { GoTrashcan } from "react-icons/go";
 import { Add_banner, Banner_List } from "../../routes/Routes";
 import { NavLink } from "react-router-dom";
 import DeleteModal from "../deleteModal/DeleteModal";
+import { notifyToast } from "../toast/Tost";
 
 const BannerFormComponent = () => {
   const { setLoading } = useContext(LoaderContext);
@@ -106,7 +107,7 @@ const BannerFormComponent = () => {
           image: Boolean(fileList),
         };
       });
-      return message.error("image size should be less then 512kb");
+      return notifyToast().error("image size should be less then 512kb");
     }
 
     formData.append("type", type);
@@ -134,17 +135,9 @@ const BannerFormComponent = () => {
           setFileList([]);
           setType();
           setPriority();
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, createDomain: false }));
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   message.error(error.response.data.message);
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };
@@ -212,7 +205,7 @@ const BannerFormComponent = () => {
         }
       )
       .then((res) => {
-        message.success(res.data.message);
+        notifyToast().succes(res.data.message);
         setBannerList(bannerList.filter((row) => row.id !== id));
       })
       .catch((error) => {

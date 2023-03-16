@@ -119,6 +119,8 @@ const SportProfiteLossTable = () => {
           fromDate: dateFrom.toISOString().split("T")[0],
           toDate: dateTo.toISOString().split("T")[0],
           userId: id,
+          index: paginationData.index,
+          noOfRecords: paginationData.noOfRecords,
           ...DateFrom,
         },
 
@@ -376,7 +378,7 @@ const SportProfiteLossTable = () => {
                 defaultValue={[dayjs(), dayjs()]}
               />
             </div>
-            <div className="filter-Middle-col" style={{ height: "13px" }}>
+            <div className="filter-Middle-col">
               <Select
                 labelInValue
                 defaultValue={{

@@ -9,6 +9,7 @@ import Bank from "./pages/bank/Bank";
 import Login from "./pages/login/Login";
 import CurrentBets from "./pages/currentBets/CurrentBets";
 import "./components/font.css";
+import "react-toastify/dist/ReactToastify.css";
 import {
   AccountList_Screen,
   Account_Statement,
@@ -25,6 +26,7 @@ import {
   Deposit_Pending_Request,
   Home_Screen,
   MarketAnalysis_Screen,
+  Party_Win_Lose,
   Payment_Method,
   Power_List_Screen,
   Profite_Loss,
@@ -58,6 +60,8 @@ import UserHistory from "./pages/userHistory/UserHistory";
 import Casion from "./pages/Casino/Casion";
 import Mainlayout from "./common/Mainlayout";
 import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
+import PartyWinLose from "./pages/partyWinLose/PartyWinLose";
+import { ToastContainer } from "react-toastify";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -65,6 +69,7 @@ export const LoaderContext = createContext({
   setLoading: null,
   handle: null,
   refershNow: () => {},
+  keyNew: 0,
 });
 
 function App() {
@@ -116,8 +121,10 @@ function App() {
         setLoading,
         handle,
         refershNow,
+        keyNew,
       }}
     >
+      <ToastContainer />
       {!Object.keys(loading).every((key) => loading[key] === false) && (
         <div className="loader-container">
           <img src={loader} alt="" height={60} width={60} />
@@ -125,7 +132,7 @@ function App() {
       )}
       <FullScreen handle={handle}>
         <OfflineAlert />
-        <Routes key={keyNew}>
+        <Routes>
           <Route path={Home_Screen} element={<Login />}></Route>
 
           <Route
@@ -178,6 +185,7 @@ function App() {
             ></Route>
 
             <Route path={Casino_Screen} element={<Casion />}></Route>
+            <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route>
           </Route>
 
           <Route path="*" element={<NoteFound />} />

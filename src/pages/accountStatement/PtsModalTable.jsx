@@ -6,10 +6,10 @@ const PtsModaltable = ({ data }) => {
   data?.map((res, index) =>
     dataSource?.push({
       key: res?.userid + index + res?.pricevalue,
-      //   Nation: res?.selectionname,
-      Nation: res?.selectionname,
+      Nation: res?.marketname,
       Rate: res?.pricevalue,
       Amount: res?.stack,
+      win: res.netpnl,
       Date: res?.matchedtime,
       IP: res?.ipAddress,
       BDetails: (
@@ -36,6 +36,11 @@ const PtsModaltable = ({ data }) => {
       title: "Amount",
       dataIndex: "Amount",
       key: "Amount",
+    },
+    {
+      title: "win",
+      dataIndex: "win",
+      key: "win",
     },
     {
       title: "Date",

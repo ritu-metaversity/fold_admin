@@ -3,7 +3,6 @@ import { Button, Table, Tooltip, Image } from "antd";
 import React, { useEffect, useState } from "react";
 ///styles
 // import "./styles.scss";
-import { message as antdmessage } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -12,10 +11,11 @@ import {
   Deposit_Pending_Request_Api,
   Reject_Deposit_Request,
 } from "../../routes/Routes";
-import { UserModalContext } from "../activeUser/ActiveUser";
+
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import DeleteModal from "../../components/deleteModal/DeleteModal";
+import { notifyToast } from "../../components/toast/Tost";
 
 const DepositPendingRequest = () => {
   const [searchText, setSearchText] = useState("");
@@ -38,7 +38,6 @@ const DepositPendingRequest = () => {
   const navigate = useNavigate();
 
   const handleChange2 = (event) => {
-    console.log(event, "event");
     setSearchText(event.target.value);
     // console.log(event);
   };
@@ -63,14 +62,7 @@ const DepositPendingRequest = () => {
           setDataList();
         }
       })
-      .catch((error) => {
-        // antdmessage.error(error.response.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
 
     // setLoading(false);
@@ -179,21 +171,11 @@ const DepositPendingRequest = () => {
         }
       )
       .then((res) => {
-        antdmessage.success(res.data.message);
+        notifyToast().succes(res.data.message);
         handleCancel();
         setDataList(DataList.filter((row) => row.id !== id));
       })
-      .catch((error) => {
-        antdmessage.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({
-            ...prev,
-            depositPendingRequestReject: false,
-          }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, depositPendingRequestReject: false }));
   };
 
@@ -213,7 +195,7 @@ const DepositPendingRequest = () => {
         }
       )
       .then((res) => {
-        antdmessage.success(res.data.message);
+        notifyToast().succes(res.data.message);
         handleCancel();
         setDataList(DataList.filter((row) => row.id !== id));
       })

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from "react";
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input } from "antd";
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
+import { notifyToast } from "../toast/Tost";
 const Loginform = () => {
   const navigate = useNavigate();
   const { setLoading } = useContext(LoaderContext);
@@ -30,15 +31,14 @@ const Loginform = () => {
 
             navigate("/change-password");
           } else {
-            message.success("Login success!!");
+            notifyToast().succes("Login success!!");
             localStorage.setItem("token", res.data.token);
             setLoading((prev) => ({ ...prev, LoginUser: false }));
             navigate("/marketAnalysis");
             // message.success("Success");
           }
         } else {
-          console.log("invalid ");
-          message.error(res.data.message || "Error");
+          notifyToast().error(res.data.message || "Error");
         }
       })
       .catch((error) => {

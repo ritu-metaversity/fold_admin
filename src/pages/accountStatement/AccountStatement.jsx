@@ -33,8 +33,8 @@ const AccountStatement = () => {
   const [id, setId] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ptsId, setPtsId] = useState("");
+  const [remark, setRemark] = useState("");
   const handleChangeTable = (sorter) => {
-    // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 
@@ -73,15 +73,11 @@ const AccountStatement = () => {
   };
   const onRangeChange = (dates, dateStrings) => {
     if (dates?.length) {
-      // console.log("From: ", dates[0], ", to: ", dates[1]);
       setDateTo(dates[1]);
       setDateFrom(dates[0]);
     } else {
-      // console.log("Clear");
     }
   };
-
-  //////deposit Modal
 
   const Search = async (e) => {
     const value = e.target.value;
@@ -130,8 +126,6 @@ const AccountStatement = () => {
         }
       )
       .then((res) => {
-        // setDateFrom(dayjs());
-        // setDateTo(dayjs());
         if (res?.data?.data?.dataList) {
           setPaginationData({
             ...paginationData,
@@ -158,6 +152,12 @@ const AccountStatement = () => {
     };
   }, [setLoading]);
   const columns = [
+    {
+      title: "Sr.No",
+      dataIndex: "SrNo",
+      sorter: (a, b) => a.SrNo - b.SrNo,
+      sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
+    },
     {
       title: "Date",
       dataIndex: "Date",
@@ -241,16 +241,10 @@ const AccountStatement = () => {
           {res.debit}
         </span>
       ),
-      pts: (
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => showModal(res.marketid)}
-        >
-          {res?.pts}
-        </span>
-      ),
+      pts: <span style={{ cursor: "pointer" }}>{res?.pts}</span>,
       Remark: res?.remark,
       Fromto: res.fromto,
+      marketid: res?.marketid,
     };
   });
 
@@ -319,8 +313,9 @@ const AccountStatement = () => {
         onCancel={handleCancel}
         destroyOnClose
         footer={null}
+        width={700}
       >
-        <PtsModal id={ptsId} />
+        <PtsModal id={ptsId} remark={remark} />
       </Modal>
       <div className="hading-create-accounts">
         <h4>Account Statement</h4>
@@ -478,6 +473,17 @@ const AccountStatement = () => {
         </div>
         <Table
           columns={columns}
+          onRow={(record) => {
+            return {
+              onClick: (event) => {
+                if (record.marketid) {
+                  setRemark(record?.Remark);
+                  showModal(record.marketid);
+                }
+                return;
+              }, // click row
+            };
+          }}
           dataSource={data}
           className="accountTable"
           onChange={handleChangeTable}

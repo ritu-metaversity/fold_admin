@@ -1,9 +1,10 @@
 /* eslint-disable array-callback-return */
-import { message, Table, Tabs } from "antd";
+import { Table, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Bet_List } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 const MyBets = () => {
   const [betData, setBetData] = useState([]);
   const [searchparam] = useSearchParams();
@@ -26,7 +27,7 @@ const MyBets = () => {
           setBetData(res?.data?.data);
         })
         .catch((error) => {
-          message.error(error.response.data.message);
+          notifyToast().error(error.response.data.message);
           if (error.response.data.status === 401) {
             navigate("/");
             localStorage.clear();

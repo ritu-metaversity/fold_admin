@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import Header from "../components/header/Header";
 import SiderBar from "../components/sider/SiderBar";
@@ -9,6 +9,8 @@ import axios from "axios";
 import { get_msg, isSelf } from "../routes/Routes";
 import Marquee from "react-fast-marquee";
 import { Outlet } from "react-router-dom";
+import { LoaderContext } from "../App";
+
 const Mainlayout = () => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
@@ -16,6 +18,8 @@ const Mainlayout = () => {
   const [IsSelfState, setIsSelf] = useState("");
   const [logo, setlogo] = useState("");
   const host = window.location.hostname;
+
+  const { keyNew } = useContext(LoaderContext);
 
   const ShowSideBar = () => {
     setSidebar(!siderBar);
@@ -93,7 +97,7 @@ const Mainlayout = () => {
               />
             </div>
             <div className="content" onClick={closeSidebar}>
-              <Outlet />
+              <Outlet key={keyNew} />
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -8,6 +8,7 @@ import { Tab_Deposit, Tab_SubmitDepositForm } from "../../routes/Routes";
 
 import { LoaderContext } from "../../App";
 import "./styles.scss";
+import { notifyToast } from "../toast/Tost";
 const DepositForm = ({ data, gettableData, handleCancel }) => {
   const [deposit, setDeposit] = useState([]);
   const { setLoading, userBalance } = useContext(LoaderContext);
@@ -70,19 +71,13 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
           }
         )
         .then((res) => {
-          message.success(res.data?.message);
+          notifyToast().succes(res.data?.message);
           handleCancel();
           setformData({});
           gettableData();
           userBalance();
         })
-        .catch((error) => {
-          // message.error(error.response?.data?.message);
-          // if (error.response.status === 401) {
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, submitDeposit: false }));
     } else {
       setError({
@@ -114,13 +109,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
             navigate("/");
           }
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.status === 401) {
-          //   navigate("/");
-          //   localStorage.clear();
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, showDeposit: false }));
     };
     showDeposit();

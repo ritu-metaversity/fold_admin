@@ -22,6 +22,7 @@ export const Widrwal_Pending_Request = "Widrwal-Pending-Request";
 export const User_History = "User-History";
 export const Casino_Screen = "/Casino";
 export const Profite_Loss = "Profite-loss";
+export const Party_Win_Lose = "Party-win-lose";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";

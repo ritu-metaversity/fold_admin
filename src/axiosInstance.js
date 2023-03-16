@@ -1,7 +1,8 @@
-import { Alert, message } from "antd";
+import { Alert } from "antd";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifyToast } from "./components/toast/Tost";
 
 axios.interceptors.response.use(
   function (config) {
@@ -15,7 +16,7 @@ axios.interceptors.response.use(
       // message.error(err.message);
       navRef("/");
     } else if (err?.response?.data?.message) {
-      message.error(err?.response?.data?.message);
+      notifyToast().error(err?.response?.data?.message);
     }
     // message.error(err?.response?.data?.message);
     if (err.code === "ERR_NETWORK") {

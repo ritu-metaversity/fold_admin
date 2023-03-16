@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -9,6 +9,7 @@ import { Tab_Widrawal, Tab_WidrawalSubmitForm } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 
 import "./styles.scss";
+import { notifyToast } from "../toast/Tost";
 const Widrawal = ({ data, gettableData }) => {
   const { handleCancel } = useContext(UserModalContext);
 
@@ -70,7 +71,7 @@ const Widrawal = ({ data, gettableData }) => {
           }
         )
         .then((res) => {
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
           handleCancel();
           setformData({});
           gettableData();

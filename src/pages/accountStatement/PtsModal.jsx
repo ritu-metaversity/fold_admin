@@ -6,7 +6,7 @@ import { LoaderContext } from "../../App";
 import { Get_Pts_Data } from "../../routes/Routes";
 import PtsModaltable from "./PtsModalTable";
 
-const PtsModal = ({ id }) => {
+const PtsModal = ({ id, remark }) => {
   const [value, setValue] = useState(1);
   const { setLoading } = useContext(LoaderContext);
   const [ptsdata, setPtsdata] = useState([]);
@@ -36,15 +36,16 @@ const PtsModal = ({ id }) => {
       setLoading((prev) => ({ ...prev, getPtsData: false }));
     };
     getPtsData(id);
-  }, []);
+  }, [value]);
 
   const onChange = (e) => {
     setValue(e.target.value);
   };
   return (
     <div>
-      <div className="radio-filter">
-        {/* <Radio.Group onChange={onChange} value={value}>
+      <p className="radio-filter-remark">{remark}</p>
+      <div className="radio-filter-col">
+        <Radio.Group onChange={onChange} value={value}>
           <Radio value={1}>All</Radio>
           <Radio value={2}>Back</Radio>
           <Radio value={3}>Lay</Radio>
@@ -53,7 +54,7 @@ const PtsModal = ({ id }) => {
           Total Soda: <span style={{ color: "green" }}>{soda}</span> Total
           Amount:
           <span style={{ color: "green" }}>{bets}</span>
-        </p> */}
+        </p>
       </div>
       <div className="table-col">
         <PtsModaltable data={ptsdata} />

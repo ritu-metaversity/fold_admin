@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, message, Modal, Select } from "antd";
+import { Button, Form, Input, Modal, Select } from "antd";
 ///styles
 import "./styles.scss";
 import axios from "axios";
@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import { Create_Admin, get_Sport_List } from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
+import { notifyToast } from "../toast/Tost";
 
 const defaultData = {
   username: "",
@@ -185,7 +186,7 @@ const Accountform = () => {
         )
         .then((res) => {
           if (res.data.message) {
-            message.success(res.data.message);
+            notifyToast().succes(res.data.message);
             setuserId(res?.data?.username);
             setUserPass(res?.data?.password);
             setData(defaultData);

@@ -39,14 +39,7 @@ const Profile = ({ data }) => {
           navigate("/");
         }
       })
-      .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.status === 401) {
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        //   message.error(error.response.data.message);
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, TabMoreData: false }));
   };
 

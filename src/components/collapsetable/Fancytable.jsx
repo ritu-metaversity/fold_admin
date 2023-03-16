@@ -23,9 +23,7 @@ const FancyTable = ({ data, prev }) => {
       .then((res) => {
         setFancyPnldata(res?.data?.data);
       })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {

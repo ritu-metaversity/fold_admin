@@ -4,13 +4,11 @@ import React, { useEffect, useState } from "react";
 
 import axios from "axios";
 import {
-  Account_Statement_Api,
   Casino_Card_Data,
   Casiono,
   Search_Api,
   Sport_Profite,
 } from "../../routes/Routes";
-// import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
@@ -38,7 +36,6 @@ const CasinoProfiteLossTable = () => {
   const [valueDropDown, setvalueDropDown] = useState("");
 
   const handleChangeTable = (sorter) => {
-    // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
 
@@ -64,21 +61,17 @@ const CasinoProfiteLossTable = () => {
 
   const handleChange2 = (event) => {
     setSearchText(event.target.value);
-    // console.log(event);
   };
 
   const handleClick = () => {
-    // 👇 "message" stores input field value
     setSearchText(message);
     tabledata();
   };
   const onRangeChange = (dates, dateStrings) => {
     if (dates?.length) {
-      // console.log("From: ", dates[0], ", to: ", dates[1]);
       setDateTo(dates[1]);
       setDateFrom(dates[0]);
     } else {
-      // console.log("Clear");
     }
   };
 
@@ -100,12 +93,10 @@ const CasinoProfiteLossTable = () => {
       .then((res) => {
         setSearchDataList([]);
 
-        // console.log(res.data.data);
         setSearchDataList(res.data.data);
       })
       .catch((error) => {
         setSearchDataList([]);
-        // console.log(error);
       });
   };
   const tabledata = async (DateFrom) => {
@@ -130,8 +121,6 @@ const CasinoProfiteLossTable = () => {
         }
       )
       .then((res) => {
-        // setDateFrom(dayjs());
-        // setDateTo(dayjs());
         if (res?.data?.data) {
           setPaginationData({
             ...paginationData,
@@ -384,7 +373,7 @@ const CasinoProfiteLossTable = () => {
                 defaultValue={[dayjs(), dayjs()]}
               />
             </div>
-            <div className="filter-Middle-col" style={{ height: "13px" }}>
+            <div className="filter-Middle-col">
               <Select
                 labelInValue
                 defaultValue={{

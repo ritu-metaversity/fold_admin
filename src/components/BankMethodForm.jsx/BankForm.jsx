@@ -4,6 +4,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Add_Bank } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 const BankForm = () => {
   const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
@@ -93,7 +94,6 @@ const BankForm = () => {
           },
         })
         .then((res) => {
-          console.log(res.data);
           setData({
             bankName: "",
             ifsc: "",
@@ -101,7 +101,7 @@ const BankForm = () => {
             accountNumber: "",
             accountType: "",
           });
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
         })
         .catch((error) => {
           // message.error(error.response.data.message);

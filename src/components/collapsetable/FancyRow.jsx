@@ -25,9 +25,7 @@ const FancyRow = ({ data, prev, bet }) => {
       .then((res) => {
         setPnl(res?.data?.data);
       })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+      .catch((error) => {});
   };
 
   const showModal = (sid) => {

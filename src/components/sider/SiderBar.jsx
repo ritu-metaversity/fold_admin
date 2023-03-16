@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Menu, message } from "antd";
+import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
@@ -12,12 +12,14 @@ import {
   Create_Power_user,
   Left_Event_Menu,
   Log_Out,
+  Party_Win_Lose,
   Payment_List,
   Profite_Loss,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
+import { notifyToast } from "../toast/Tost";
 
 const SiderBar = ({ IsSelfState }) => {
   const navigate = useNavigate();
@@ -43,16 +45,10 @@ const SiderBar = ({ IsSelfState }) => {
         setLoading((prev) => ({ ...prev, logout: false }));
         navigate("/");
         localStorage.clear();
-        message.success(res.data.message);
+        notifyToast().succes(res.data.message);
       })
-      .catch((error) => {
-        message.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, logout: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
-      });
+      .catch((error) => {});
+
     setLoading((prev) => ({ ...prev, logout: false }));
     //
   };
@@ -70,16 +66,9 @@ const SiderBar = ({ IsSelfState }) => {
         }
       )
       .then((res) => {
-        message.success(res.data.message);
+        notifyToast().succes(res.data.message);
       })
-      .catch((error) => {
-        message.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
@@ -417,6 +406,19 @@ const SiderBar = ({ IsSelfState }) => {
                 // eloadDocument={pathname === "/betHistory"}
               >
                 Profite & Loss
+              </Link>
+            ),
+          },
+          {
+            key: 523,
+
+            label: (
+              <Link
+                onClick={refershNow}
+                to={Party_Win_Lose}
+                // eloadDocument={pathname === "/betHistory"}
+              >
+                Party Win Lose
               </Link>
             ),
           },
