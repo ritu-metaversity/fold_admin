@@ -22,22 +22,16 @@ const CasinoProfiteLossTable = () => {
   const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
-  const [selectValue, setSelectValue] = useState(1);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   ////edit profile State
-  const [sortedInfo, setSortedInfo] = useState({});
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
   const [sportsList, setSportsList] = useState([]);
   const [sportsId, setSportsId] = useState([]);
-  const [sportChangeId, setSportChangeId] = useState(56768);
+  const [sportChangeId, setSportChangeId] = useState(323334);
   const [valueDropDown, setvalueDropDown] = useState("");
-
-  const handleChangeTable = (sorter) => {
-    setSortedInfo(sorter);
-  };
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
@@ -47,15 +41,16 @@ const CasinoProfiteLossTable = () => {
   const reset = () => {
     setSearchData("");
     setMessage("");
-    setSelectValue("1");
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
     tabledata({
-      sportId: "",
-      matchId: "4",
+      sportId: "4",
+      matchId: "",
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
       userId: "",
+      index: 0,
+      noOfRecords: 25,
     });
   };
 
@@ -106,8 +101,8 @@ const CasinoProfiteLossTable = () => {
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Sport_Profite}`,
         {
-          sportId: valueDropDown,
-          matchId: sportChangeId,
+          sportId: sportChangeId,
+          matchId: valueDropDown,
           fromDate: dateFrom.toISOString().split("T")[0],
           toDate: dateTo.toISOString().split("T")[0],
           userId: id,
@@ -463,7 +458,6 @@ const CasinoProfiteLossTable = () => {
           columns={columns}
           dataSource={data}
           className="accountTable"
-          onChange={handleChangeTable}
           pagination={{ pageSize: paginationData.noOfRecords }}
         />
         <div className="pagination">

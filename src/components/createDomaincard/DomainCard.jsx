@@ -92,7 +92,6 @@ const DomainCard = () => {
   };
 
   const onSubmit = async () => {
-    console.log(error.isSelfAllowed);
     setError((prev) => {
       return {
         ...prev,
@@ -124,9 +123,10 @@ const DomainCard = () => {
       setError((prev) => {
         return {
           ...prev,
-          image: Boolean(fileList),
+          image: true,
         };
       });
+      console.log("not hit");
       return notifyToast().error("image size should be less then 512kb");
     }
 
@@ -138,7 +138,6 @@ const DomainCard = () => {
       "isSelfAllowed",
       type === "live" ? true : type === "admin" ? false : false
     );
-    // console.log("formData", formData.get("file"));
 
     if (
       !!error?.appName ||
@@ -148,7 +147,7 @@ const DomainCard = () => {
     ) {
       return;
     } else {
-      // console.log("error");
+      console.log("hit");
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
@@ -162,7 +161,6 @@ const DomainCard = () => {
           }
         )
         .then((res) => {
-          // console.log(res.data);
           notifyToast().succes(res.data.message);
           setFileList([]);
           setData({

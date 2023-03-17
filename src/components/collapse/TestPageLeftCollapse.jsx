@@ -9,6 +9,7 @@ import {
   bets_Lock_Status,
   Bets_Odds_Pnl,
   Bet_Lock,
+  Max_Bet_Min_Bet,
   Odds_List,
 } from "../../routes/Routes";
 import Bookmarktable from "../collapsetable/BookmarkTable";
@@ -35,7 +36,7 @@ const TestPageLeftCollapse = () => {
   const [prevState, setPrevState] = useState();
   const [oddPnl, setOddPnl] = useState([]);
   const [betStatus, setBetlockStatus] = useState([]);
-
+  const [maxBetData, setMaxBetData] = useState([]);
   const [userBook, setUserBook] = useState([]);
   const navigate = useNavigate();
 
@@ -62,18 +63,8 @@ const TestPageLeftCollapse = () => {
 
   const getOdds = async () => {
     await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Odds_List}`,
-        { eventId: id },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
+      .get(`${Odds_List}${id}`)
       .then((res) => {
-        // console.log(res.data);
-
         if (res?.status === 200) {
           if (!odddata) {
             setPrevState(res?.data);
@@ -106,6 +97,21 @@ const TestPageLeftCollapse = () => {
       .catch((error) => {});
     // setLoading(false);
   };
+
+  const maxBetMinBetData = async () => {
+    setLoading((prev) => ({ ...prev, maxBetMinBetData: true }));
+    await axios
+      .get(`${Max_Bet_Min_Bet}/${id}`)
+      .then((res) => {
+        // setLoading(false);
+        setMaxBetData(res.data);
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, maxBetMinBetData: false }));
+  };
+  useEffect(() => {
+    maxBetMinBetData();
+  }, []);
 
   const BetLockStatus = async () => {
     setLoading((prev) => ({ ...prev, BetLockStatus: true }));
@@ -267,6 +273,7 @@ const TestPageLeftCollapse = () => {
                 name={keyName}
                 data={odddata[keyName]}
                 prev={prevState[keyName]}
+                maxbet={maxBetData[keyName]}
               />
             </div>
           </Panel>
@@ -291,7 +298,9 @@ const TestPageLeftCollapse = () => {
       </Modal>
       {odddata?.Odds[0]?.runners[0]?.name ? (
         <div className="heading">
-          <h4>{`${odddata?.Odds[0]?.runners[0]?.name} > ${odddata?.Odds[0]?.runners[1]?.name}`}</h4>
+          <h4>
+            {`${odddata?.Odds[0]?.Series} > ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
+          </h4>
           <h4>{odddata?.Odds[0]?.eventTime}</h4>
         </div>
       ) : (
@@ -300,9 +309,6 @@ const TestPageLeftCollapse = () => {
 
       <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
         {odddata?.Odds?.map((item, index) => {
-          // if (item.Name === "Tied Match") {
-          //   return "";
-          // }
           return (
             <Panel
               key={index}
@@ -353,10 +359,10 @@ const TestPageLeftCollapse = () => {
             >
               <div className="collpase-div">
                 <MatchOddTable
-                  name={"10k"}
                   data={item}
                   prev={prevState?.Odds[index]}
                   pnlData={oddPnl}
+                  maxbet={maxBetData.Odds[index]}
                 />
               </div>
             </Panel>
@@ -425,10 +431,10 @@ const TestPageLeftCollapse = () => {
           >
             <div className="collpase-div">
               <Bookmarktable
-                name={"10k"}
                 data={odddata?.Bookmaker?.filter((ele) => ele?.t !== "TOSS")}
                 prev={prevState?.Bookmaker?.filter((ele) => ele?.t !== "TOSS")}
                 pnlData={oddPnl}
+                maxbet={maxBetData}
               />
             </div>
           </Panel>
@@ -499,10 +505,10 @@ const TestPageLeftCollapse = () => {
           >
             <div className="collpase-div">
               <Bookmarktable
-                name={"10k"}
                 data={odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS")}
                 prev={prevState?.Bookmaker?.filter((ele) => ele?.t === "TOSS")}
                 pnlData={oddPnl}
+                maxbet={maxBetData}
               />
             </div>
           </Panel>

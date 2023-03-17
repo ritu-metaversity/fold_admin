@@ -16,6 +16,7 @@ const ProfiteLoss = () => {
       label: "Casino",
       key: 2,
       children: <CasinoProfiteLossTable id={2} />,
+      // ,
     },
   ];
 
@@ -30,7 +31,12 @@ const ProfiteLoss = () => {
             <NavLink style={{ color: "#74788d" }}>Bet History</NavLink>
           </p>
         </div>
-        <Tabs defaultActiveKey="0" type="card" items={items}></Tabs>
+        <Tabs
+          defaultActiveKey="0"
+          type="card"
+          items={items}
+          destroyInactiveTabPane
+        ></Tabs>
       </div>
     </>
   );

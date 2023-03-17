@@ -23,23 +23,23 @@ const SportProfiteLossTable = () => {
   const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
-  const [selectValue, setSelectValue] = useState(1);
+  // const [selectValue, setSelectValue] = useState(1);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   const [valueDropDown, setvalueDropDown] = useState("");
   ////edit profile State
-  const [sortedInfo, setSortedInfo] = useState({});
+  // const [sortedInfo, setSortedInfo] = useState({});
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
-  const [sportChangeId, setSportChangeId] = useState(4);
+  const [sportChangeId, setSportChangeId] = useState("4");
   const [sportsList, setSportsList] = useState([]);
   const [sportsId, setSportsId] = useState([]);
 
-  const handleChangeTable = (sorter) => {
-    // console.log("Various parameters", pagination, filters, sorter);
-    setSortedInfo(sorter);
-  };
+  // const handleChangeTable = (sorter) => {
+  //   // console.log("Various parameters", pagination, filters, sorter);
+  //   setSortedInfo(sorter);
+  // };
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
@@ -49,15 +49,17 @@ const SportProfiteLossTable = () => {
   const reset = () => {
     setSearchData("");
     setMessage("");
-    setSelectValue("1");
+    // setSelectValue("1");
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
     tabledata({
-      sportId: "",
-      matchId: "4",
+      sportId: "4",
+      matchId: "",
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
       userId: "",
+      index: 0,
+      noOfRecords: 25,
     });
   };
 
@@ -114,8 +116,8 @@ const SportProfiteLossTable = () => {
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Sport_Profite}`,
         {
-          sportId: valueDropDown,
-          matchId: sportChangeId,
+          sportId: sportChangeId,
+          matchId: valueDropDown,
           fromDate: dateFrom.toISOString().split("T")[0],
           toDate: dateTo.toISOString().split("T")[0],
           userId: id,
@@ -468,7 +470,7 @@ const SportProfiteLossTable = () => {
           columns={columns}
           dataSource={data}
           className="accountTable"
-          onChange={handleChangeTable}
+          // onChange={handleChangeTable}
           pagination={{ pageSize: paginationData.noOfRecords }}
         />
         <div className="pagination">

@@ -51,7 +51,7 @@ const ModalViewMore = ({ keyName }) => {
 
   useEffect(() => {
     viewMoreTabledata();
-  }, []);
+  }, [value]);
 
   const handleChange = (e) => {
     const name = e.target.name;

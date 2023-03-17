@@ -11,7 +11,7 @@ import Marquee from "react-fast-marquee";
 import { Outlet } from "react-router-dom";
 import { LoaderContext } from "../App";
 
-const Mainlayout = () => {
+const Mainlayout = ({ view }) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
   const [message, setmessage] = useState("");
@@ -97,7 +97,7 @@ const Mainlayout = () => {
               />
             </div>
             <div className="content" onClick={closeSidebar}>
-              <Outlet key={keyNew} />
+              {view && <Outlet key={keyNew} />}
             </div>
           </div>
         </div>

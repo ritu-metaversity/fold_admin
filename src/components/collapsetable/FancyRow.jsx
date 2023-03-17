@@ -7,7 +7,7 @@ import "./styles.scss";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
-const FancyRow = ({ data, prev, bet }) => {
+const FancyRow = ({ data, prev, bet, maxbet }) => {
   const [searchparam] = useSearchParams();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,6 +78,7 @@ const FancyRow = ({ data, prev, bet }) => {
               </h4>
             </div>
             {pnl?.map((res, index) => {
+              console.log(res, "res");
               return (
                 <React.Fragment key={res?.pnl + index + 1}>
                   <div
@@ -189,7 +190,8 @@ const FancyRow = ({ data, prev, bet }) => {
                 className="right-col-fancy"
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
-                min:100 max:1l
+                min:{maxbet?.minBet} max:
+                {maxbet?.maxBet}
               </div>
             </div>
           </div>

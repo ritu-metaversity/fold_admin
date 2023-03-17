@@ -74,6 +74,8 @@ export const Detail_Sport_Wise = "sport/event-detail-sport-wise";
 export const Active_Sport_list = "sport/active-sport-list";
 export const isSelf = "login/is-self-by-app-url";
 export const Sport_Profite = "report/profit-loss-match-wise";
+export const Token_Checker = "util/validate-jwt-token";
+export const Max_Bet_Min_Bet = "http://43.205.50.127:9000/fancy";
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";
@@ -102,7 +104,9 @@ export const Tab_EditProfileForm = "user/update-user-info";
 export const Bet_List = "bets/bet-list-by-matchid";
 
 ///Odds
-export const Odds_List = "enduser/get-fancy-odds";
+export const Odds_List = "http://89.39.105.69:9001/fancy/";
+
+// export const Odds_List = "enduser/get-fancy-odds";
 
 ///login Form
 export const Create_Admin = "user/create-user-vg";

@@ -32,6 +32,7 @@ import {
   Profite_Loss,
   Qr_Method,
   TestMatch_Screen,
+  Token_Checker,
   Upi_Method,
   User_Balance,
   User_History,
@@ -76,12 +77,41 @@ function App() {
   const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
   const [keyNew, setKeyNew] = useState(0);
+  const [tokenState, setTokenState] = useState(false);
   const nav = useNavigate();
   const loc = useLocation();
 
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };
+  useEffect(() => {
+    tokenChecker();
+  }, [loc.pathname]);
+
+  const tokenChecker = async () => {
+    setTokenState(false);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Token_Checker}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status) {
+          // nav("/marketAnalysis")
+        } else {
+          nav("/");
+        }
+        // setUserBalance(res.data?.data?.balance);
+      })
+      .catch((error) => {});
+    setTokenState(true);
+  };
+
   const userBalance = async () => {
     await axios
       .post(
@@ -139,7 +169,7 @@ function App() {
             path={Change_Password}
             element={<ChangePasswordLogin />}
           ></Route>
-          <Route path="/" element={<Mainlayout />}>
+          <Route path="/" element={<Mainlayout view={tokenState} />}>
             <Route
               exact
               path={CreatAaccounts_Screen}
