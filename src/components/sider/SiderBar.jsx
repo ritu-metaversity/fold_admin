@@ -15,6 +15,7 @@ import {
   Party_Win_Lose,
   Payment_List,
   Profite_Loss,
+  Setting_Screen,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
@@ -279,66 +280,86 @@ const SiderBar = ({ IsSelfState }) => {
         ),
       },
 
-      IsSelfState && (userType === "5" || userType === "7")
-        ? {
-            key: 76,
-            icon: <RiAccountCircleFill />,
-            label: "Payment",
-            children: [
-              {
-                key: 79,
-                label: (
-                  <Link
-                    onClick={refershNow}
-                    to="/Deposit-Pending-Request"
-                    // reloadDocument={pathname === "/Deposit-Pending-Request"}
-                  >
-                    <span style={{ fontSize: "14px" }}>
-                      Pending deposit request
-                    </span>
-                  </Link>
-                ),
-              },
-              {
-                key: 90,
-                label: (
-                  <Link
-                    onClick={refershNow}
-                    to="/Widrwal-Pending-Request"
-                    // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-                  >
-                    <span style={{ fontSize: "14px" }}>
-                      Pending Withdraw request
-                    </span>
-                  </Link>
-                ),
-              },
-            ],
-          }
-        : "",
-      userType === "5" && IsSelfState
-        ? {
-            key: 9,
-            icon: <RiBankFill />,
-            label: "Add Payment Method",
-            children: payment_list,
-          }
-        : "",
-      userType === "4"
-        ? {
-            key: 10,
-            icon: <FaImage />,
-            label: (
-              <Link
-                onClick={refershNow}
-                to="/Update-Banner"
-                // reloadDocument={pathname === "/Update-Banner"}
-              >
-                Banner
-              </Link>
-            ),
-          }
-        : "",
+      ...(IsSelfState && (userType === "5" || userType === "7")
+        ? [
+            {
+              key: 76,
+              icon: <RiAccountCircleFill />,
+              label: "Payment",
+              children: [
+                {
+                  key: 79,
+                  label: (
+                    <Link
+                      onClick={refershNow}
+                      to="/Deposit-Pending-Request"
+                      // reloadDocument={pathname === "/Deposit-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Pending deposit request
+                      </span>
+                    </Link>
+                  ),
+                },
+                {
+                  key: 90,
+                  label: (
+                    <Link
+                      onClick={refershNow}
+                      to="/Widrwal-Pending-Request"
+                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Pending Withdraw request
+                      </span>
+                    </Link>
+                  ),
+                },
+              ],
+            },
+          ]
+        : []),
+      ...(userType === "5" && IsSelfState
+        ? [
+            {
+              key: 9,
+              icon: <RiBankFill />,
+              label: "Add Payment Method",
+              children: payment_list,
+            },
+          ]
+        : []),
+      ...(userType === "4"
+        ? [
+            {
+              key: 10,
+              icon: <FaImage />,
+              label: (
+                <Link
+                  onClick={refershNow}
+                  to="/Update-Banner"
+                  // reloadDocument={pathname === "/Update-Banner"}
+                >
+                  Banner
+                </Link>
+              ),
+            },
+            {
+              key: 9,
+              icon: <RiBankFill />,
+              label: (
+                <Link
+                  onClick={refershNow}
+                  to={Setting_Screen}
+                  // reloadDocument={pathname === "/Update-Banner"}
+                >
+                  Setting
+                </Link>
+              ),
+            },
+          ]
+        : []),
+
       {
         key: 11,
         icon: <TbFileReport />,

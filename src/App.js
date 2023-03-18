@@ -31,6 +31,7 @@ import {
   Power_List_Screen,
   Profite_Loss,
   Qr_Method,
+  Setting_Screen,
   TestMatch_Screen,
   Token_Checker,
   Upi_Method,
@@ -63,6 +64,7 @@ import Mainlayout from "./common/Mainlayout";
 import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
 import PartyWinLose from "./pages/partyWinLose/PartyWinLose";
 import { ToastContainer } from "react-toastify";
+import Setting from "./pages/settingPage/Setting";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -84,9 +86,6 @@ function App() {
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };
-  useEffect(() => {
-    tokenChecker();
-  }, [loc.pathname]);
 
   const tokenChecker = async () => {
     setTokenState(false);
@@ -140,6 +139,17 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      if (![Home_Screen, Change_Password].includes(loc.pathname))
+        tokenChecker();
+    } else {
+      // setIsSignedIn(false);
+    }
+    return () => {};
+  }, [loc.pathname]);
+
   const handle = useFullScreenHandle();
 
   return (
@@ -178,6 +188,7 @@ function App() {
 
             <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
             <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
+            <Route path={Setting_Screen} element={<Setting />}></Route>
 
             <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
             <Route path={AccountList_Screen} element={<AccountsList />}></Route>

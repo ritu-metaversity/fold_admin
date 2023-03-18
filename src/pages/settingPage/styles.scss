@@ -1,0 +1,45 @@
+.icon-col {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  p {
+    margin: 5px;
+  }
+  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+    margin-left: 10px;
+  }
+}
+
+.social-media-form {
+  width: 96%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  border: 1px solid rgb(193, 193, 193);
+  display: flex;
+  padding: 10px 0px 60px 20px;
+  justify-content: space-around;
+  .social-media-card {
+    width: 200px;
+    text-align: center;
+    height: auto;
+  }
+  .submit-btn {
+    position: absolute;
+    right: 11%;
+    bottom: 2%;
+    Button {
+      border: 1px solid transparent;
+      background-color: rgb(43, 134, 226);
+      color: white;
+      transition: 0.5s ease-in-out;
+      &:hover {
+        background-color: white;
+        border: 1px solid rgb(43, 134, 226);
+      }
+    }
+  }
+}

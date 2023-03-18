@@ -31,7 +31,7 @@ const Loginform = () => {
 
             navigate("/change-password");
           } else {
-            notifyToast().succes("Login success!!");
+            // notifyToast().succes("Login success!!");
             localStorage.setItem("token", res.data.token);
             setLoading((prev) => ({ ...prev, LoginUser: false }));
             navigate("/marketAnalysis");
