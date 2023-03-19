@@ -15,7 +15,7 @@ const social = [
   "googlePay",
   "phonePe",
 ];
-const UplaodSocailMediaIcon = () => {
+const UplaodSocailMediaIcon = ({ fun }) => {
   const [fileList, setFileList] = useState({
     paytm: [],
     whatsapp: [],
@@ -38,6 +38,9 @@ const UplaodSocailMediaIcon = () => {
     if (!Object.values(fileList).filter((i) => i.length !== 0).length) {
       return notifyToast().error("Pls Select Atleast One");
     }
+    if (Object.values(fileList).filter((i) => i[0]?.size / 1024 > 200).length) {
+      return notifyToast().error("image size should be less then 200kb");
+    }
     const response = await axios.post(`${Social_Media_Icon_Upload}`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -45,24 +48,27 @@ const UplaodSocailMediaIcon = () => {
       },
     });
     if (response) {
-      console.log(response.data.message);
       notifyToast().succes(response.data.message);
+      fun();
+      setFileList({
+        paytm: [],
+        whatsapp: [],
+        telegram: [],
+        instagram: [],
+        twitter: [],
+        facebook: [],
+        youtube: [],
+        upi: [],
+        googlePay: [],
+        phonePe: [],
+      });
     }
   };
 
   const onChange = ({ fileList }, key) => {
     setFileList((o) => ({ ...o, [key]: fileList }));
-    // setError((prev) => {
-    //   return {
-    //     ...prev,
-    //     image: !Boolean(fileList),
-    //   };
-    // });
   };
-  //   const [error, setError] = useState({
-  //     displayName: false,
-  //     image: false,
-  //   });
+
   const onPreview = async (file) => {
     let src = file.url;
     if (!src) {

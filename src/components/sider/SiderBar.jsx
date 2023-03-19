@@ -16,6 +16,7 @@ import {
   Payment_List,
   Profite_Loss,
   Setting_Screen,
+  Socila_Media_Manager_Screen,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
@@ -503,6 +504,19 @@ const SiderBar = ({ IsSelfState }) => {
             ),
           };
         }),
+      },
+      userType === "5" && {
+        key: 172,
+        icon: <CiLogout />,
+        label: (
+          <Link
+            onClick={refershNow}
+            to={Socila_Media_Manager_Screen}
+            // reloadDocument={pathname === "/account-Statement"}
+          >
+            Social Media Manager
+          </Link>
+        ),
       },
       {
         style: { aligItems: "flex-start" },

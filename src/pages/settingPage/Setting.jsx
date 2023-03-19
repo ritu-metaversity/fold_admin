@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UplaodSocailMediaIcon from "../../components/settingComponent/UplaodSocailMediaIcon";
 import "./styles.scss";
-import facebook from "../../assets/img/facebook.png";
 import axios from "axios";
 import { Get_Social_Media } from "../../routes/Routes";
 const Setting = () => {
@@ -30,18 +29,21 @@ const Setting = () => {
       newObje[key.replace("u_", "")] = socialIcondata[key];
     }
   }
-  console.log(newObje);
   return (
     <div>
+      <p>Already Uploaded</p>
       <div className="icon-col">
-        <p>Already Uploaded</p>
-        {Object.keys(newObje).map(function (key) {
-          return <img src={newObje[key]} alt="" />;
+        {Object?.keys(newObje).map(function (key) {
+          return (
+            <div className="img-col">
+              <img src={newObje[key]} alt="" />
+            </div>
+          );
         })}
       </div>
 
       <div className="social-media-form">
-        <UplaodSocailMediaIcon />
+        <UplaodSocailMediaIcon fun={getSocialImage} />
       </div>
     </div>
   );

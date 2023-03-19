@@ -32,6 +32,7 @@ import {
   Profite_Loss,
   Qr_Method,
   Setting_Screen,
+  Socila_Media_Manager_Screen,
   TestMatch_Screen,
   Token_Checker,
   Upi_Method,
@@ -65,6 +66,7 @@ import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
 import PartyWinLose from "./pages/partyWinLose/PartyWinLose";
 import { ToastContainer } from "react-toastify";
 import Setting from "./pages/settingPage/Setting";
+import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -195,6 +197,10 @@ function App() {
             <Route path={Bank_Screen} element={<Bank />}></Route>
             <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
             <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
+            <Route
+              path={Socila_Media_Manager_Screen}
+              element={<SocialMediaManager />}
+            ></Route>
             <Route
               path={CreateDomain_Screen}
               element={<CreateDomain />}

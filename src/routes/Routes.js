@@ -24,6 +24,7 @@ export const Casino_Screen = "/Casino";
 export const Profite_Loss = "Profite-loss";
 export const Party_Win_Lose = "Party-win-lose";
 export const Setting_Screen = "Setting";
+export const Socila_Media_Manager_Screen = "Socila-Media-Manager";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";
@@ -76,11 +77,14 @@ export const Active_Sport_list = "sport/active-sport-list";
 export const isSelf = "login/is-self-by-app-url";
 export const Sport_Profite = "report/profit-loss-match-wise";
 export const Token_Checker = "util/validate-jwt-token";
-export const Max_Bet_Min_Bet = "http://43.205.50.127:9000/fancy";
+export const Max_Bet_Min_Bet = "http://43.205.50.127:9000/betfair_api/fancy";
 export const Social_Media_Icon_Upload =
   "http://192.168.0.184/admin-new-apis/api/admin/saveForAdmin";
 export const Get_Social_Media =
   "http://192.168.0.184:80/admin-new-apis/api/admin/getData";
+export const Get_saveSelect =
+  "http://192.168.0.184:80/admin-new-apis/api/admin/saveSelect";
+
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";
