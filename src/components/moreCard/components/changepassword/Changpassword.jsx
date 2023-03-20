@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, message } from "antd";
+import { Button } from "antd";
 ///styles
 import "./styles.scss";
 import { MdOutlineLogin } from "react-icons/md";
@@ -7,6 +7,7 @@ import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { Tab_ChangePasword } from "../../../../routes/Routes";
 import { LoaderContext } from "../../../../App";
+import { notifyToast } from "../../../toast/Tost";
 
 const Changpassword = ({ data, handleCancelfunction }) => {
   const { setLoading } = useContext(LoaderContext);
@@ -67,21 +68,14 @@ const Changpassword = ({ data, handleCancelfunction }) => {
             )
             .then((res) => {
               if (res.data.status) {
-                message.success(res.data.message);
+                notifyToast().succes(res.data.message);
                 handleCancelfunction();
                 setformData({});
               } else {
-                message.error(res.data.message);
+                notifyToast().error(res.data.message);
               }
             })
-            .catch((error) => {
-              // message.error(error.response.data.message);
-              // if (error.response.status === 401) {
-              //   navigate("/");
-              //   localStorage.removeItem("token");
-              //   message.error(error.response.data.message);
-              // }
-            });
+            .catch((error) => {});
         } else {
           setError({ ...error, passwordNotMatch: true });
         }

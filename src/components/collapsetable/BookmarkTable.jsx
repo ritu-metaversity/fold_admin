@@ -4,14 +4,18 @@ import BookMarkRow from "./BookmarkRow";
 ////
 import "./styles.scss";
 
-const Bookmarktable = ({ data, name, prev, pnlData }) => {
+const Bookmarktable = ({ data, prev, pnlData, maxbet }) => {
   if (data) {
     return (
       <div>
         <div className="collapse-table-container">
           <div className="table-row-heading">
             <div className="left-text">
-              <p>{name}</p>
+              <p>
+                {/* {maxbet?.Bookmaker[0]} */}
+                min:{maxbet?.Bookmaker[0].minBet} max:
+                {maxbet?.Bookmaker[0].maxBet}
+              </p>
             </div>
             <div className="right-col-btn">
               <Button>Back</Button>

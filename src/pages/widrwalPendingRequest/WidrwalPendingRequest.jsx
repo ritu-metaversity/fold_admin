@@ -3,10 +3,9 @@ import { Button, Table } from "antd";
 import React, { useEffect, useState } from "react";
 ///styles
 // import "./styles.scss";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import axios from "axios";
-import { message as antdmessase } from "antd";
 import {
   Approve_Withdraw_Request,
   Reject_Withdraw_Request,
@@ -16,6 +15,7 @@ import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import DeleteModal from "../../components/deleteModal/DeleteModal";
+import { notifyToast } from "../../components/toast/Tost";
 
 const WidrwalPendingRequest = () => {
   const [searchText, setSearchText] = useState("");
@@ -38,8 +38,6 @@ const WidrwalPendingRequest = () => {
     setSearchText(event.target.value);
     // console.log(event);
   };
-
-  const navigate = useNavigate();
 
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, depositPendingRequest: true }));
@@ -68,15 +66,7 @@ const WidrwalPendingRequest = () => {
           setDataList();
         }
       })
-      .catch((error) => {
-        // antdmessase.error(error.response.data.message);
-        // if (error.response.status === 401) {
-        //   setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        //   antdmessase.error(error.response?.data.message);
-        // }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, depositPendingRequest: false }));
 
     // setLoading(false);
@@ -168,7 +158,7 @@ const WidrwalPendingRequest = () => {
               setApiCall(1);
             }}
           >
-            Approve
+            A
           </Button>
           <Button
             style={{ background: "#ed5c5c", color: "white", border: "none" }}
@@ -177,7 +167,7 @@ const WidrwalPendingRequest = () => {
               setApiCall(0);
             }}
           >
-            Reject
+            R
           </Button>
         </div>
       ),
@@ -226,20 +216,12 @@ const WidrwalPendingRequest = () => {
           }
         )
         .then((res) => {
-          antdmessase.success(res.data.message);
+          notifyToast().succes(res.data.message);
           handleCancel();
           // setTextArea("");
           setDataList(DataList.filter((row) => row.id !== id));
         })
-        .catch((error) => {
-          antdmessase.error(error.response.data.message);
-          if (error.response.status === 401) {
-            setLoading((prev) => ({ ...prev, reject: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-            antdmessase.error(error.response?.data.message);
-          }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, reject: false }));
     } else {
       // settextareaError(true);
@@ -265,20 +247,11 @@ const WidrwalPendingRequest = () => {
           }
         )
         .then((res) => {
-          console.log(res.data);
-          antdmessase.success(res.data.message);
+          notifyToast().succes(res.data.message);
           handleCancel();
-          // setTextArea("");
           setDataList(DataList.filter((row) => row.id !== id));
         })
-        .catch((error) => {
-          antdmessase.error(error.response?.data.message);
-          if (error.response.status === 401) {
-            setLoading((prev) => ({ ...prev, approve: false }));
-            navigate("/");
-            localStorage.removeItem("token");
-          }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, approve: false }));
     } else {
       // settextareaError(true);

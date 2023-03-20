@@ -78,7 +78,7 @@ $breakpoint-custom: 700px;
     .left-col {
       display: flex;
       gap: 10px;
-      align-items: center;
+      align-items: flex-end;
       @media (max-width: $breakpoint-mobile) {
         gap: 0px;
       }

@@ -3,200 +3,179 @@ $breakpoint-tablet: 870px;
 $breakpoint-mobile: 600px;
 $breakpoint-medium: 1370px;
 $breakpoint-common: 1280px;
-.view-more-header{
-    margin-bottom: 10px;
-    button{
-        border: none;
-        background-color: transparent;
-        outline: none;
-        height: 38px;
-        color: black !important;
-       
+.view-more-header {
+  margin-bottom: 10px;
+  button {
+    border: none;
+    background-color: transparent;
+    outline: none;
+    height: 38px;
+    color: black !important;
+  }
+  .active-btn {
+    background-color: #556ee6 !important;
+    color: white !important;
+    &:hover {
+      background-color: #556ee6 !important;
     }
-    .active-btn{
-        background-color: #556ee6!important;
-        color: white !important;
-        &:hover{
-            background-color: #556ee6!important;
-           
-        }
-    }
-
+  }
 }
-.Body{
-    border: 1px solid #ced4da;
-    width: 99%;
-    padding: 7px;
-    @media (max-width: $breakpoint-specific) {
+.Body {
+  border: 1px solid #ced4da;
+  width: 99%;
+  padding: 7px;
+  @media (max-width: $breakpoint-specific) {
     padding: 2px;
     // width: 97%;
-         }
-.search-filter{
+  }
+  .search-filter {
     // height: 66px;
-   
-  
- 
+
     display: flex;
     gap: 15px;
     align-items: flex-end;
     width: 99%;
-  
+
     @media (max-width: $breakpoint-specific) {
+      width: 99%;
+      flex-direction: column;
+      gap: 5px;
+
+      p {
+        margin-top: 0px;
+      }
+    }
+    @media (max-width: $breakpoint-mobile) {
+      width: 97%;
+    }
+    .user-name-input {
+      width: 16%;
+      @media (max-width: $breakpoint-specific) {
         width: 99%;
-        flex-direction: column;
-        gap: 5px;
+      }
+    }
+    .form-to {
+      width: 314px;
+      display: flex;
+      gap: 15px;
 
-        p{
-            margin-top: 0px;
+      .amount-from-input {
+        @media (max-width: $breakpoint-specific) {
+          width: 49%;
         }
-         }
-         @media (max-width: $breakpoint-mobile) {
-            width: 97%;
+      }
+      .amount-to-input {
+        @media (max-width: $breakpoint-specific) {
+          width: 49%;
         }
-    .user-name-input{
-        width: 16%;
-        @media (max-width: $breakpoint-specific) {
-            width: 99%;
-         
-             }
+      }
+      @media (max-width: $breakpoint-specific) {
+        width: 99%;
+      }
     }
-    .form-to{
-        width: 314px;
-        display: flex;
-        gap: 15px;
-
-       .amount-from-input{
-        @media (max-width: $breakpoint-specific) {
-            width: 49%;
-        
-
-             }
-       }
-       .amount-to-input{
-        @media (max-width: $breakpoint-specific) {
-            width: 49%;
-        
-
-             }
-       }
-        @media (max-width: $breakpoint-specific) {
-            width: 99%;
-        
-
-             }
-
+    .ip-addres-input {
+      width: 209px;
+      @media (max-width: $breakpoint-specific) {
+        width: 99%;
+      }
     }
-    .ip-addres-input{
-        width: 209px;
-        @media (max-width: $breakpoint-specific) {
-            width: 99%;
-             }
-    }
-    .btn{
-        display: flex;
-        align-items:flex-end;
-        gap: 8px;
-        @media (max-width: $breakpoint-specific) {
-            width: 99%;
-             }
-        Button{
-            // padding: 4px 16px;
-            border: 1px solid transparent;
-           
-        
-            height: 39px;
-            font-weight: 400;
-            color: #495057;
-            text-align: center;
-            vertical-align: middle;
-            cursor: pointer;
-            font-size: 14px;
-            line-height: 1.5;
-            border-radius: 0.25rem;
-            padding: 4px 13px;
-           }
-        .search{
-            background-color: black;
-            color: white;
-            border: 1px solid transparent;
-            &:hover{
-                border: 1px solid transparent;
-            }
-           }
-           .reset{
-            color: #212529;
-            background-Color: #eaecee;
-            border: 1px solid #eff2f7;
-            &:hover{
-                background-color:  #d6ddea;
-            }
-           }
+    .btn {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      @media (max-width: $breakpoint-specific) {
+        width: 99%;
+      }
+      Button {
+        // padding: 4px 16px;
+        border: 1px solid transparent;
+
+        height: 39px;
+        font-weight: 400;
+        color: #495057;
+        text-align: center;
+        vertical-align: middle;
+        cursor: pointer;
+        font-size: 14px;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        padding: 4px 13px;
+      }
+      .search {
+        background-color: black;
+        color: white;
+        border: 1px solid transparent;
+        &:hover {
+          border: 1px solid transparent;
         }
-
- 
-
-    
-    label{
-        margin-bottom: 0.5rem;
+      }
+      .reset {
+        color: #212529;
+        background-color: #eaecee;
+        border: 1px solid #eff2f7;
+        &:hover {
+          background-color: #d6ddea;
+        }
+      }
     }
-    input{
-    width: 99%;
-    height: 36px;
-    padding-left: 5px;
-    // padding: 0rem 0.75rem;
-    font-size: .8125rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+    label {
+      margin-bottom: 0.5rem;
     }
-}
- .radio-filter{
+    input {
+      width: 99%;
+      height: 36px;
+      padding-left: 5px;
+      // padding: 0rem 0.75rem;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+  }
+  .radio-filter {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
     align-items: center;
-    @media (max-width: $breakpoint-specific) {
-        padding: 2px;
-          
-             }
-             @media (max-width: $breakpoint-tablet) {
-               flex-direction: column;
-               align-items: flex-start;
-                     }
-                     p{
 
-                         @media (max-width: $breakpoint-tablet) {
-                            width: 100%;
-                           text-align: right;
-                                  }
-                     }
+    @media (max-width: $breakpoint-specific) {
+      padding: 2px;
+    }
+    @media (max-width: $breakpoint-tablet) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    p {
+      @media (max-width: $breakpoint-tablet) {
+        width: 100%;
+        text-align: right;
+      }
+    }
   }
 }
-.table-container{
-    
-    .ant-table-tbody>tr>td{
-        font-size: 12px;
-        // font-weight: 600;
-        padding: 2px 2px 2px 5px !important;
-        @media (max-width: $breakpoint-mobile) {
-            font-size: 14px;
-              }
-    
+.table-container {
+  .ant-table-tbody > tr > td {
+    font-size: 12px;
+    // font-weight: 600;
+    padding: 2px 2px 2px 5px !important;
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 14px;
     }
-tr{
+  }
+  tr {
     height: 30px;
-}
-td{
+  }
+  td {
     padding: 0px !important;
-}
-    .ant-table-thead>tr>th{
-        padding: 0px 0px;
-        font-size: 12px;
-    
-    }
+  }
+  .ant-table-thead > tr > th {
+    padding: 0px 0px;
+    font-size: 12px;
+  }
 }

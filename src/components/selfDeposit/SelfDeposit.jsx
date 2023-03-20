@@ -1,10 +1,11 @@
-import { Button, Input, message } from "antd";
+import { Button, Input } from "antd";
 import React, { useEffect, useState } from "react";
 // import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Admin_Self_Deposit } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 
 const SelfDepositForm = ({ handleCancel }) => {
   const { setLoading, userBalance } = useContext(LoaderContext);
@@ -58,20 +59,12 @@ const SelfDepositForm = ({ handleCancel }) => {
           },
         })
         .then((res) => {
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
           setData({});
           handleCancel();
           userBalance();
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, selfDeposit: false }));
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   message.error(error.response.data.message);
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, selfDeposit: false }));
     } else {
       setError({

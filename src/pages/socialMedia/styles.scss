@@ -1,0 +1,56 @@
+.social-manager-icon-conatainer {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  background-color: #fff;
+
+  .social-col {
+    width: calc(49% - 20px);
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    .img {
+      width: 200px;
+      img {
+        width: 50px;
+        height: auto;
+      }
+    }
+    .checkbox {
+      width: 200px;
+    }
+    .input {
+      width: 200px;
+    }
+  }
+  .submit-btn-social-live {
+    width: calc(100% - 10px);
+    margin-top: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+    Button {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      background-color: rgb(43, 134, 226);
+      border: 1px solid rgb(43, 134, 226);
+      color: white;
+    }
+  }
+}
+.support-container {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: calc(100% - 30px);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}

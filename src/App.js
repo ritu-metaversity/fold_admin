@@ -9,6 +9,7 @@ import Bank from "./pages/bank/Bank";
 import Login from "./pages/login/Login";
 import CurrentBets from "./pages/currentBets/CurrentBets";
 import "./components/font.css";
+import "react-toastify/dist/ReactToastify.css";
 import {
   AccountList_Screen,
   Account_Statement,
@@ -25,10 +26,15 @@ import {
   Deposit_Pending_Request,
   Home_Screen,
   MarketAnalysis_Screen,
+  Party_Win_Lose,
   Payment_Method,
   Power_List_Screen,
+  Profite_Loss,
   Qr_Method,
+  Setting_Screen,
+  Socila_Media_Manager_Screen,
   TestMatch_Screen,
+  Token_Checker,
   Upi_Method,
   User_Balance,
   User_History,
@@ -56,6 +62,11 @@ import axios from "axios";
 import UserHistory from "./pages/userHistory/UserHistory";
 import Casion from "./pages/Casino/Casion";
 import Mainlayout from "./common/Mainlayout";
+import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
+import PartyWinLose from "./pages/partyWinLose/PartyWinLose";
+import { ToastContainer } from "react-toastify";
+import Setting from "./pages/settingPage/Setting";
+import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -63,18 +74,45 @@ export const LoaderContext = createContext({
   setLoading: null,
   handle: null,
   refershNow: () => {},
+  keyNew: 0,
 });
 
 function App() {
   const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
   const [keyNew, setKeyNew] = useState(0);
+  const [tokenState, setTokenState] = useState(false);
   const nav = useNavigate();
   const loc = useLocation();
 
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };
+
+  const tokenChecker = async () => {
+    setTokenState(false);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Token_Checker}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status) {
+          // nav("/marketAnalysis")
+        } else {
+          nav("/");
+        }
+        // setUserBalance(res.data?.data?.balance);
+      })
+      .catch((error) => {});
+    setTokenState(true);
+  };
+
   const userBalance = async () => {
     await axios
       .post(
@@ -88,11 +126,8 @@ function App() {
       )
       .then((res) => {
         setUserBalance(res.data?.data?.balance);
-        // console.log(res.data.data.balance);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -106,6 +141,17 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      if (![Home_Screen, Change_Password].includes(loc.pathname))
+        tokenChecker();
+    } else {
+      // setIsSignedIn(false);
+    }
+    return () => {};
+  }, [loc.pathname]);
+
   const handle = useFullScreenHandle();
 
   return (
@@ -117,8 +163,10 @@ function App() {
         setLoading,
         handle,
         refershNow,
+        keyNew,
       }}
     >
+      <ToastContainer />
       {!Object.keys(loading).every((key) => loading[key] === false) && (
         <div className="loader-container">
           <img src={loader} alt="" height={60} width={60} />
@@ -126,26 +174,33 @@ function App() {
       )}
       <FullScreen handle={handle}>
         <OfflineAlert />
-        <Routes key={keyNew}>
+        <Routes>
           <Route path={Home_Screen} element={<Login />}></Route>
 
           <Route
             path={Change_Password}
             element={<ChangePasswordLogin />}
           ></Route>
-          <Route path="/" element={<Mainlayout />}>
+          <Route path="/" element={<Mainlayout view={tokenState} />}>
             <Route
               exact
               path={CreatAaccounts_Screen}
               element={<CreateAccount />}
-              // render={(props) => <CreateAccount key={Date.now()} {...props} />}
             />
+
             <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
+            <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
+            <Route path={Setting_Screen} element={<Setting />}></Route>
+
             <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
             <Route path={AccountList_Screen} element={<AccountsList />}></Route>
             <Route path={Bank_Screen} element={<Bank />}></Route>
             <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
             <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
+            <Route
+              path={Socila_Media_Manager_Screen}
+              element={<SocialMediaManager />}
+            ></Route>
             <Route
               path={CreateDomain_Screen}
               element={<CreateDomain />}
@@ -177,6 +232,7 @@ function App() {
             ></Route>
 
             <Route path={Casino_Screen} element={<Casion />}></Route>
+            <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route>
           </Route>
 
           <Route path="*" element={<NoteFound />} />

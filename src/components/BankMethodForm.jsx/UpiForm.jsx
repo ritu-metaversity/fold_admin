@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, message } from "antd";
+import { Button } from "antd";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Add_Upi } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 const UpiForm = () => {
   const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
@@ -52,7 +53,6 @@ const UpiForm = () => {
     });
 
     if (nerror.upiId || nerror.upiDisplayName) {
-      console.log("not hit");
     } else {
       setLoading((prev) => ({ ...prev, CreateQr: true }));
       await axios
@@ -62,9 +62,7 @@ const UpiForm = () => {
           },
         })
         .then((res) => {
-          setLoading(false);
-          console.log(res.data);
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
           setData({
             upiId: "",
             upiDisplayName: "",

@@ -1,4 +1,4 @@
-import { Button, message, Upload } from "antd";
+import { Button, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import ImgCrop from "antd-img-crop";
 import "./styles.scss";
@@ -6,6 +6,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Payment_method_api } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 
 const PaymentForm = () => {
   const { setLoading } = useContext(LoaderContext);
@@ -69,7 +70,6 @@ const PaymentForm = () => {
 
     let formData = new FormData();
     if (!fileList.length) {
-      console.log("no file");
       return;
     }
 
@@ -99,16 +99,9 @@ const PaymentForm = () => {
             };
           });
           setFileList([]);
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, paymentMethodForm: false }));
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, paymentMethodForm: false }));
     }
   };

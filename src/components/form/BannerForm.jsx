@@ -1,4 +1,4 @@
-import { Button, Image, message, Select, Table, Tooltip, Upload } from "antd";
+import { Button, Image, Select, Table, Tooltip, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import axios from "axios";
@@ -8,6 +8,7 @@ import { GoTrashcan } from "react-icons/go";
 import { Add_banner, Banner_List } from "../../routes/Routes";
 import { NavLink } from "react-router-dom";
 import DeleteModal from "../deleteModal/DeleteModal";
+import { notifyToast } from "../toast/Tost";
 
 const BannerFormComponent = () => {
   const { setLoading } = useContext(LoaderContext);
@@ -26,6 +27,7 @@ const BannerFormComponent = () => {
     image: false,
   });
   ////////image
+  const fileSize = fileList[0]?.size / 1024;
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
     setError((prev) => {
@@ -98,13 +100,14 @@ const BannerFormComponent = () => {
       };
     });
     let formData = new FormData();
-    if (!fileList.length) {
+    if (!fileList.length || fileSize > 512) {
       setError((prev) => {
         return {
           ...prev,
           image: Boolean(fileList),
         };
       });
+      return notifyToast().error("image size should be less then 512kb");
     }
 
     formData.append("type", type);
@@ -132,17 +135,9 @@ const BannerFormComponent = () => {
           setFileList([]);
           setType();
           setPriority();
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, createDomain: false }));
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   message.error(error.response.data.message);
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };
@@ -210,7 +205,7 @@ const BannerFormComponent = () => {
         }
       )
       .then((res) => {
-        message.success(res.data.message);
+        notifyToast().succes(res.data.message);
         setBannerList(bannerList.filter((row) => row.id !== id));
       })
       .catch((error) => {

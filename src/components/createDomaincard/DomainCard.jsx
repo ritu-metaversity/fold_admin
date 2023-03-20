@@ -1,10 +1,11 @@
-import { Button, message, Select, Upload } from "antd";
+import { Button, Select, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Create_app_detail } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 const DomainCard = () => {
   const { setLoading } = useContext(LoaderContext);
   const [fileList, setFileList] = useState([]);
@@ -24,6 +25,7 @@ const DomainCard = () => {
     isSelfAllowed: false,
     image: false,
   });
+  const fileSize = fileList[0]?.size / 1024;
   ////////image
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -90,7 +92,6 @@ const DomainCard = () => {
   };
 
   const onSubmit = async () => {
-    console.log(error.isSelfAllowed);
     setError((prev) => {
       return {
         ...prev,
@@ -118,13 +119,15 @@ const DomainCard = () => {
     });
 
     let formData = new FormData();
-    if (!fileList.length) {
+    if (!fileList.length || fileSize > 512) {
       setError((prev) => {
         return {
           ...prev,
-          image: Boolean(fileList),
+          image: true,
         };
       });
+      console.log("not hit");
+      return notifyToast().error("image size should be less then 512kb");
     }
 
     formData.append("appname", data.appName);
@@ -135,7 +138,6 @@ const DomainCard = () => {
       "isSelfAllowed",
       type === "live" ? true : type === "admin" ? false : false
     );
-    // console.log("formData", formData.get("file"));
 
     if (
       !!error?.appName ||
@@ -145,7 +147,7 @@ const DomainCard = () => {
     ) {
       return;
     } else {
-      // console.log("error");
+      console.log("hit");
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
@@ -159,8 +161,7 @@ const DomainCard = () => {
           }
         )
         .then((res) => {
-          // console.log(res.data);
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
           setFileList([]);
           setData({
             appName: "",
@@ -171,15 +172,7 @@ const DomainCard = () => {
           setError({});
           setType("");
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, createDomain: false }));
-          //   navigate("/");
-          //   localStorage.removeItem("token");
-          //   message.error(error.response.data.message);
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, createDomain: false }));
     }
   };

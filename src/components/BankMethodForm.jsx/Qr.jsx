@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Button, message, Upload } from "antd";
+import { Button, Upload } from "antd";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Add_QR } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 
 const QrForm = () => {
   const { setLoading } = useContext(LoaderContext);
@@ -17,6 +18,7 @@ const QrForm = () => {
   });
   ////////image
   const [fileList, setFileList] = useState([]);
+  const fileSize = fileList[0]?.size / 1024;
   // const [type, setType] = useState("");
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -73,13 +75,14 @@ const QrForm = () => {
     });
 
     let formData = new FormData();
-    if (!fileList.length) {
+    if (!fileList.length || fileSize > 512) {
       setError((prev) => {
         return {
           ...prev,
           image: Boolean(fileList),
         };
       });
+      return notifyToast().error("image size should be less then 512kb");
     }
 
     formData.append("displayName", data.displayName);
@@ -97,9 +100,7 @@ const QrForm = () => {
           },
         })
         .then((res) => {
-          setLoading(false);
-          console.log(res.data);
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
         })
         .catch((error) => {});
       setLoading((prev) => ({ ...prev, createDomain: false }));

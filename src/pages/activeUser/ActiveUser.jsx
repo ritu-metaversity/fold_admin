@@ -32,7 +32,7 @@ const ActiveUser = () => {
   const [userId, setUserId] = useState("");
 
   const [sortedInfo, setSortedInfo] = useState({});
-  const handleChangeTable = (pagination, filters, sorter) => {
+  const handleChangeTable = (sorter) => {
     // console.log("Various parameters", pagination, filters, sorter);
     setSortedInfo(sorter);
   };
@@ -374,7 +374,6 @@ const ActiveUser = () => {
       >
         <MoreCard data={userId} handleCancelfunction={handleCancel} />
       </Modal>
-      {/* /////credit Activity modal */}
       <Modal
         title="CREDIT ACTIVITY"
         open={credit}

@@ -4,14 +4,22 @@ import MatchOddsRow from "./MatchOddsRow";
 ////
 import "./styles.scss";
 
-const MatchOddTable = ({ data, prev, pnlData }) => {
+const MatchOddTable = ({ data, prev, pnlData, maxbet }) => {
   if (!data) return <Spin style={{ width: "100%", margin: "auto" }} />;
   else {
     return (
       <div>
         <div className="collapse-table-container">
           <div className="table-row-heading">
-            <div className="left-text">1</div>
+            <div className="left-text">
+              {" "}
+              <p>
+                {/* {maxbet?.Bookmaker[0]} */}
+                {/* ihiu */}
+                min:{maxbet?.minBet} max:
+                {maxbet?.maxBet}
+              </p>
+            </div>
             <div className="right-col-btn">
               <Button>Back</Button>
               <Button>Lay</Button>

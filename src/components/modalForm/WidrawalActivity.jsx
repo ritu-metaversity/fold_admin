@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { MdOutlineLogin } from "react-icons/md";
@@ -8,12 +8,12 @@ import {
   Tab_WidrawalActivity,
   Tab_WidrawalActivitySubmitForm,
 } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 
 const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
   const { setLoading } = useContext(LoaderContext);
-
   const [depositActivity, setDepositActivity] = useState([]);
 
   const handleChange = (e) => {
@@ -91,18 +91,12 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
           }
         )
         .then((res) => {
-          message.success(res.data.message);
+          notifyToast().succes(res.data.message);
           handleCancelfunction();
           setformData({});
           gettableData();
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.status === 401) {
-          //   navigate("/");
-          //   localStorage.clear();
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, submitActivityDeposit: false }));
     } else {
       setError({

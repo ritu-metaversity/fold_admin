@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Menu, message } from "antd";
+import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
@@ -12,11 +12,16 @@ import {
   Create_Power_user,
   Left_Event_Menu,
   Log_Out,
+  Party_Win_Lose,
   Payment_List,
+  Profite_Loss,
+  Setting_Screen,
+  Socila_Media_Manager_Screen,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
+import { notifyToast } from "../toast/Tost";
 
 const SiderBar = ({ IsSelfState }) => {
   const navigate = useNavigate();
@@ -24,7 +29,7 @@ const SiderBar = ({ IsSelfState }) => {
   const { setLoading, refershNow } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
   const [eventData, setEventData] = useState([]);
-  const [casionData, setCasionData] = useState([]);
+  const [casionDataState, setCasionData] = useState([]);
 
   const logout = async () => {
     setLoading((prev) => ({ ...prev, logout: true }));
@@ -42,16 +47,10 @@ const SiderBar = ({ IsSelfState }) => {
         setLoading((prev) => ({ ...prev, logout: false }));
         navigate("/");
         localStorage.clear();
-        message.success(res.data.message);
+        notifyToast().succes(res.data.message);
       })
-      .catch((error) => {
-        message.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, logout: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
-      });
+      .catch((error) => {});
+
     setLoading((prev) => ({ ...prev, logout: false }));
     //
   };
@@ -69,16 +68,9 @@ const SiderBar = ({ IsSelfState }) => {
         }
       )
       .then((res) => {
-        message.success(res.data.message);
+        notifyToast().succes(res.data.message);
       })
-      .catch((error) => {
-        message.error(error.response?.data.message);
-        if (error.response.status === 401) {
-          setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
-          navigate("/");
-          localStorage.removeItem("token");
-        }
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
   };
 
@@ -289,66 +281,86 @@ const SiderBar = ({ IsSelfState }) => {
         ),
       },
 
-      IsSelfState && (userType === "5" || userType === "7")
-        ? {
-            key: 76,
-            icon: <RiAccountCircleFill />,
-            label: "Payment",
-            children: [
-              {
-                key: 79,
-                label: (
-                  <Link
-                    onClick={refershNow}
-                    to="/Deposit-Pending-Request"
-                    // reloadDocument={pathname === "/Deposit-Pending-Request"}
-                  >
-                    <span style={{ fontSize: "14px" }}>
-                      Pending deposit request
-                    </span>
-                  </Link>
-                ),
-              },
-              {
-                key: 90,
-                label: (
-                  <Link
-                    onClick={refershNow}
-                    to="/Widrwal-Pending-Request"
-                    // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-                  >
-                    <span style={{ fontSize: "14px" }}>
-                      Pending Withdraw request
-                    </span>
-                  </Link>
-                ),
-              },
-            ],
-          }
-        : "",
-      userType === "5" && IsSelfState
-        ? {
-            key: 9,
-            icon: <RiBankFill />,
-            label: "Add Payment Method",
-            children: payment_list,
-          }
-        : "",
-      userType === "4"
-        ? {
-            key: 10,
-            icon: <FaImage />,
-            label: (
-              <Link
-                onClick={refershNow}
-                to="/Update-Banner"
-                // reloadDocument={pathname === "/Update-Banner"}
-              >
-                Banner
-              </Link>
-            ),
-          }
-        : "",
+      ...(IsSelfState && (userType === "5" || userType === "7")
+        ? [
+            {
+              key: 76,
+              icon: <RiAccountCircleFill />,
+              label: "Payment",
+              children: [
+                {
+                  key: 79,
+                  label: (
+                    <Link
+                      onClick={refershNow}
+                      to="/Deposit-Pending-Request"
+                      // reloadDocument={pathname === "/Deposit-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Pending deposit request
+                      </span>
+                    </Link>
+                  ),
+                },
+                {
+                  key: 90,
+                  label: (
+                    <Link
+                      onClick={refershNow}
+                      to="/Widrwal-Pending-Request"
+                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Pending Withdraw request
+                      </span>
+                    </Link>
+                  ),
+                },
+              ],
+            },
+          ]
+        : []),
+      ...(userType === "5" && IsSelfState
+        ? [
+            {
+              key: 9,
+              icon: <RiBankFill />,
+              label: "Add Payment Method",
+              children: payment_list,
+            },
+          ]
+        : []),
+      ...(userType === "4"
+        ? [
+            {
+              key: 10,
+              icon: <FaImage />,
+              label: (
+                <Link
+                  onClick={refershNow}
+                  to="/Update-Banner"
+                  // reloadDocument={pathname === "/Update-Banner"}
+                >
+                  Banner
+                </Link>
+              ),
+            },
+            {
+              key: 9,
+              icon: <RiBankFill />,
+              label: (
+                <Link
+                  onClick={refershNow}
+                  to={Setting_Screen}
+                  // reloadDocument={pathname === "/Update-Banner"}
+                >
+                  Setting
+                </Link>
+              ),
+            },
+          ]
+        : []),
+
       {
         key: 11,
         icon: <TbFileReport />,
@@ -406,6 +418,32 @@ const SiderBar = ({ IsSelfState }) => {
               </Link>
             ),
           },
+          {
+            key: 52,
+
+            label: (
+              <Link
+                onClick={refershNow}
+                to={Profite_Loss}
+                // eloadDocument={pathname === "/betHistory"}
+              >
+                Profite & Loss
+              </Link>
+            ),
+          },
+          {
+            key: 523,
+
+            label: (
+              <Link
+                onClick={refershNow}
+                to={Party_Win_Lose}
+                // eloadDocument={pathname === "/betHistory"}
+              >
+                Party Win Lose
+              </Link>
+            ),
+          },
         ],
       },
       {
@@ -451,7 +489,7 @@ const SiderBar = ({ IsSelfState }) => {
         key: 687,
         icon: <TbFileReport />,
         label: "Casino",
-        children: casionData?.map((res, index) => {
+        children: casionDataState?.map((res, index) => {
           // console.log(casionData);
           return {
             key: 458 + index,
@@ -466,6 +504,19 @@ const SiderBar = ({ IsSelfState }) => {
             ),
           };
         }),
+      },
+      userType === "5" && {
+        key: 172,
+        icon: <CiLogout />,
+        label: (
+          <Link
+            onClick={refershNow}
+            to={Socila_Media_Manager_Screen}
+            // reloadDocument={pathname === "/account-Statement"}
+          >
+            Social Media Manager
+          </Link>
+        ),
       },
       {
         style: { aligItems: "flex-start" },

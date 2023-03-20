@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Button, message, Switch } from "antd";
+import { Button, Switch } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 // import { UserModalContext } from "../../../../pages/activeUser/ActiveUser";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
 import { Tab_EditProfileForm } from "../../../../routes/Routes";
 import { LoaderContext } from "../../../../App";
+import { notifyToast } from "../../../toast/Tost";
 
 ///styles
 // import './styles.scss'
@@ -71,19 +72,13 @@ const EditProfile = ({ data, handleCancelfunction }) => {
         )
         .then((res) => {
           if (res?.data?.status) {
-            message.success(res.data.message);
-            console.log(res.data.message);
+            notifyToast().succes(res.data.message);
+
             handleCancelfunction();
             setformData({});
           }
         })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.status === 401) {
-          //   navigate("/");
-          //   localStorage.clear();
-          // }
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, changePassword: false }));
     } else {
       setError({

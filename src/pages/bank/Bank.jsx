@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table, message } from "antd";
+import { Button, Input, Table } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 ///styles
 import "./styles.scss";
@@ -9,6 +9,7 @@ import axios from "axios";
 import { Bank_deposit_amount, Table_ActiveUser } from "../../routes/Routes";
 import { BsArrowRightShort } from "react-icons/bs";
 import { LoaderContext } from "../../App";
+import { notifyToast } from "../../components/toast/Tost";
 
 const Bank = () => {
   const [searchText, setSearchText] = useState("");
@@ -120,7 +121,8 @@ const Bank = () => {
         )
         .then((res) => {
           // console.log(res.data);
-          message.success(res.data.message);
+
+          notifyToast().succes(res.data.message);
           setError({});
           setTransactionCode("");
           tabledata();

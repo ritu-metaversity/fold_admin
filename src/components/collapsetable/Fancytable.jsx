@@ -8,7 +8,7 @@ import FancyRow from "./FancyRow";
 ////
 import "./styles.scss";
 
-const FancyTable = ({ data, prev }) => {
+const FancyTable = ({ data, prev, maxbet }) => {
   const [searchparam] = useSearchParams();
   const [fancyPnldata, setFancyPnldata] = useState([]);
   const id = searchparam.get("event-id");
@@ -23,9 +23,7 @@ const FancyTable = ({ data, prev }) => {
       .then((res) => {
         setFancyPnldata(res?.data?.data);
       })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -82,9 +80,7 @@ const FancyTable = ({ data, prev }) => {
             <div
               className="right-col-fancy"
               style={{ opacity: "0", display: "flex", flexWrap: "wrap" }}
-            >
-              min:100 max:1l
-            </div>
+            ></div>
           </div>
         </div>
 
@@ -96,7 +92,12 @@ const FancyTable = ({ data, prev }) => {
           }
           return (
             <React.Fragment key={item?.sid + rowIndex?.sid + index}>
-              <FancyRow data={item} prev={prev[rowIndex]} bet={bet} />
+              <FancyRow
+                data={item}
+                prev={prev[rowIndex]}
+                bet={bet}
+                maxbet={maxbet[rowIndex]}
+              />
             </React.Fragment>
           );
         })}

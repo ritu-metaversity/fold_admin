@@ -68,7 +68,6 @@ const CurrentBetsTable = () => {
         setTotalAmount(res.data.data.totalStake);
 
         if (res?.data?.data?.dataList) {
-          setLoading(false);
           setPaginationData({
             ...paginationData,
             totalPages: res.data.data?.totalPages || 1,
