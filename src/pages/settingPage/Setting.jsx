@@ -29,6 +29,7 @@ const Setting = () => {
       newObje[key.replace("u_", "")] = socialIcondata[key];
     }
   }
+
   return (
     <div>
       <p>Already Uploaded</p>
