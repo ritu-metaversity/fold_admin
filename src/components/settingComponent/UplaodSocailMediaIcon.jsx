@@ -41,12 +41,16 @@ const UplaodSocailMediaIcon = ({ fun }) => {
     if (Object.values(fileList).filter((i) => i[0]?.size / 1024 > 200).length) {
       return notifyToast().error("image size should be less then 200kb");
     }
-    const response = await axios.post(`${Social_Media_Icon_Upload}`, formData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/${Social_Media_Icon_Upload}`,
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     if (response) {
       notifyToast().succes(response.data.message);
       fun();
