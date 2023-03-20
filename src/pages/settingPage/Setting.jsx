@@ -7,11 +7,15 @@ const Setting = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
   const data = { appUrl: "admin" };
   const getSocialImage = async () => {
-    const response = await axios.post(`${Get_Social_Media}`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/${Get_Social_Media}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     if (response) {
       console.log(response);
       setSocialIcondata(response.data.data);

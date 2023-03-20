@@ -121,7 +121,7 @@ const CasinoProfiteLossTable = () => {
             ...paginationData,
             totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res?.data?.data);
+          setDataList(res?.data?.data.market);
         } else {
           setDataList();
         }

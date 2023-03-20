@@ -87,11 +87,15 @@ const SocialMediaManager = () => {
       isChecked = true;
     }
     if (isChecked) {
-      const response = await axios.post(`${Get_saveSelect}`, value, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/${Get_saveSelect}`,
+        value,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (response) {
         console.log(response);
       }

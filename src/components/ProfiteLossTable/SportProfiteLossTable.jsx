@@ -101,7 +101,6 @@ const SportProfiteLossTable = () => {
       .then((res) => {
         setSearchDataList([]);
 
-        // console.log(res.data.data);
         setSearchDataList(res.data.data);
       })
       .catch((error) => {
@@ -140,9 +139,9 @@ const SportProfiteLossTable = () => {
             ...paginationData,
             totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res?.data?.data);
+          setDataList(res?.data?.data.market || []);
         } else {
-          setDataList();
+          setDataList([]);
         }
       })
       .catch((erro) => {});
