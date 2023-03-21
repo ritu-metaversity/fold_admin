@@ -84,7 +84,9 @@ const Mainlayout = ({ view }) => {
       <div className="content-conatiner">
         <div className="container">
           <div className="upcomig-2">
-            <Marquee style={{ margin: "auto" }}>{message}</Marquee>
+            <Marquee style={{ margin: "auto" }} speed={100}>
+              {message}
+            </Marquee>
           </div>
         </div>
         <div>

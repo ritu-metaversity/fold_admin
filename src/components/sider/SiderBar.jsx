@@ -4,6 +4,7 @@ import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
+import { ImDice } from "react-icons/im";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
 import {
@@ -22,6 +23,7 @@ import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
+import { AiFillFacebook } from "react-icons/ai";
 
 const SiderBar = ({ IsSelfState }) => {
   const navigate = useNavigate();
@@ -487,7 +489,7 @@ const SiderBar = ({ IsSelfState }) => {
 
       {
         key: 687,
-        icon: <TbFileReport />,
+        icon: <ImDice />,
         label: "Casino",
         children: casionDataState?.map((res, index) => {
           // console.log(casionData);
@@ -505,9 +507,10 @@ const SiderBar = ({ IsSelfState }) => {
           };
         }),
       },
+
       userType === "5" && {
         key: 172,
-        icon: <CiLogout />,
+        icon: <AiFillFacebook />,
         label: (
           <Link
             onClick={refershNow}

@@ -165,12 +165,12 @@ const TestPageLeftCollapse = () => {
   }, [odddata]);
 
   useEffect(() => {
+    getOddPnl();
     const timer = setInterval(() => {
       getOddPnl();
     }, 5000);
-
     return () => clearInterval(timer);
-  }, [odddata]);
+  }, []);
 
   const getBetLock = async (marketNameid) => {
     setLoading((prev) => ({ ...prev, marketNameid: true }));

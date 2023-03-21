@@ -111,6 +111,7 @@ const DepositPendingRequest = () => {
         <Image
           width={50}
           height={50}
+          alt="loading"
           src={res.image}
           style={{ borderRadius: "100px" }}
         />
