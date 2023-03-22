@@ -101,7 +101,12 @@ const TestPageLeftCollapse = () => {
   const maxBetMinBetData = async () => {
     setLoading((prev) => ({ ...prev, maxBetMinBetData: true }));
     await axios
-      .get(`${Max_Bet_Min_Bet}/${id}`)
+      .get(`${Max_Bet_Min_Bet}/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((res) => {
         // setLoading(false);
         setMaxBetData(res.data);
@@ -165,12 +170,12 @@ const TestPageLeftCollapse = () => {
   }, [odddata]);
 
   useEffect(() => {
+    getOddPnl();
     const timer = setInterval(() => {
       getOddPnl();
     }, 5000);
-
     return () => clearInterval(timer);
-  }, [odddata]);
+  }, []);
 
   const getBetLock = async (marketNameid) => {
     setLoading((prev) => ({ ...prev, marketNameid: true }));

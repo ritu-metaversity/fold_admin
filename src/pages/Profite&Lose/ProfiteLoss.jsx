@@ -28,7 +28,7 @@ const ProfiteLoss = () => {
           <p>
             <NavLink to="/marketAnalysis">Home / </NavLink>
             {/* <NavLink to="/activeUser">User / </NavLink> */}
-            <NavLink style={{ color: "#74788d" }}>Bet History</NavLink>
+            <NavLink style={{ color: "#74788d" }}>PROFITE & LOSS</NavLink>
           </p>
         </div>
         <Tabs

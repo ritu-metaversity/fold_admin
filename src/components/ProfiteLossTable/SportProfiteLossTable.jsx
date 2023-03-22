@@ -26,13 +26,13 @@ const SportProfiteLossTable = () => {
   // const [selectValue, setSelectValue] = useState(1);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
-  const [valueDropDown, setvalueDropDown] = useState("");
+  const [valueDropDown, setvalueDropDown] = useState("4");
   ////edit profile State
   // const [sortedInfo, setSortedInfo] = useState({});
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
-  const [sportChangeId, setSportChangeId] = useState("4");
+  const [sportChangeId, setSportChangeId] = useState("");
   const [sportsList, setSportsList] = useState([]);
   const [sportsId, setSportsId] = useState([]);
 
@@ -58,8 +58,8 @@ const SportProfiteLossTable = () => {
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
       userId: "",
-      index: 0,
-      noOfRecords: 25,
+      pageNumber: 0,
+      pageSize: 25,
     });
   };
 
@@ -111,17 +111,18 @@ const SportProfiteLossTable = () => {
   const tabledata = async (DateFrom) => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
     // console.log(dateTo, dateTo.toISOString());
+    //
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Sport_Profite}`,
         {
-          sportId: sportChangeId,
-          matchId: valueDropDown,
+          sportId: String(valueDropDown),
+          matchId: String(sportChangeId),
           fromDate: dateFrom.toISOString().split("T")[0],
           toDate: dateTo.toISOString().split("T")[0],
           userId: id,
-          index: paginationData.index,
-          noOfRecords: paginationData.noOfRecords,
+          pageNumber: paginationData.index,
+          pageSize: paginationData.noOfRecords,
           ...DateFrom,
         },
 

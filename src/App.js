@@ -89,8 +89,8 @@ function App() {
     setKeyNew((prev) => prev + 1);
   };
 
-  const tokenChecker = async () => {
-    setTokenState(false);
+  const tokenChecker = async (state = false) => {
+    if (state) setTokenState(false);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Token_Checker}`,
@@ -110,7 +110,7 @@ function App() {
         // setUserBalance(res.data?.data?.balance);
       })
       .catch((error) => {});
-    setTokenState(true);
+    if (state) setTokenState(true);
   };
 
   const userBalance = async () => {
@@ -142,14 +142,17 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      if (![Home_Screen, Change_Password].includes(loc.pathname))
-        tokenChecker();
-    } else {
-      // setIsSignedIn(false);
-    }
-    return () => {};
+    tokenChecker(true);
+    const timer = setInterval(() => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        if (![Home_Screen, Change_Password].includes(loc.pathname))
+          tokenChecker();
+      } else {
+        // setIsSignedIn(false);
+      }
+    }, 5000);
+    return () => clearInterval(timer);
   }, [loc.pathname]);
 
   const handle = useFullScreenHandle();

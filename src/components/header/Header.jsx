@@ -182,7 +182,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
         </div>
 
         <div className="up-coming">
-          <Marquee width="100%" height="100%">
+          <Marquee width="100%" height="100%" speed={100}>
             {message}
           </Marquee>
         </div>

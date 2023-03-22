@@ -30,8 +30,8 @@ const CasinoProfiteLossTable = () => {
   const [id, setId] = useState("");
   const [sportsList, setSportsList] = useState([]);
   const [sportsId, setSportsId] = useState([]);
-  const [sportChangeId, setSportChangeId] = useState(323334);
-  const [valueDropDown, setvalueDropDown] = useState("");
+  const [sportChangeId, setSportChangeId] = useState("");
+  const [valueDropDown, setvalueDropDown] = useState("323334");
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
@@ -44,13 +44,13 @@ const CasinoProfiteLossTable = () => {
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
     tabledata({
-      sportId: "4",
+      sportId: "323334",
       matchId: "",
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
       userId: "",
-      index: 0,
-      noOfRecords: 25,
+      pageNumber: 0,
+      pageSize: 25,
     });
   };
 
@@ -101,11 +101,13 @@ const CasinoProfiteLossTable = () => {
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Sport_Profite}`,
         {
-          sportId: sportChangeId,
-          matchId: valueDropDown,
+          sportId: String(valueDropDown),
+          matchId: String(sportChangeId),
           fromDate: dateFrom.toISOString().split("T")[0],
           toDate: dateTo.toISOString().split("T")[0],
           userId: id,
+          pageNumber: paginationData.index,
+          pageSize: paginationData.noOfRecords,
           ...DateFrom,
         },
 

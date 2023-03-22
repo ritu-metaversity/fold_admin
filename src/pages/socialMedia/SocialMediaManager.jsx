@@ -2,8 +2,13 @@ import { Button, Checkbox, Input } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import axios from "axios";
-import { Get_saveSelect, Get_Social_Media } from "../../routes/Routes";
+import {
+  Get_saveSelect,
+  Get_Social_Media,
+  Socila_Media_Manager_Screen,
+} from "../../routes/Routes";
 import { notifyToast } from "../../components/toast/Tost";
+import { NavLink } from "react-router-dom";
 const SocialMediaManager = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
   const data = { appUrl: "admin" };
@@ -18,7 +23,6 @@ const SocialMediaManager = () => {
       }
     );
     if (response) {
-      console.log(response);
       const newObje = {};
       const newValue = {};
       const data = response.data.data;
@@ -101,7 +105,7 @@ const SocialMediaManager = () => {
         }
       );
       if (response) {
-        console.log(response);
+        notifyToast().succes(response.data.message);
       }
     } else {
       notifyToast().error("Pls select Atleast One");
@@ -131,11 +135,23 @@ const SocialMediaManager = () => {
   };
   return (
     <>
+      <div className="hading-create-accounts">
+        <h4>Socila Media Manager</h4>
+        <p>
+          <NavLink to="/marketAnalysis">Home / </NavLink>
+          <NavLink
+            to={Socila_Media_Manager_Screen}
+            style={{ color: "#74788d" }}
+          >
+            Socila Media Manager
+          </NavLink>
+        </p>
+      </div>
       <div className="social-manager-icon-conatainer">
         {Object?.keys(socialIcondata).map(function (key) {
           if (!["paytm", "phonePe", "upi", "googlePay"].includes(key))
             return (
-              <div className="social-col">
+              <div className="social-col" key={key}>
                 <div className="img">
                   <img src={socialIcondata[key]?.icon} alt="" />
                 </div>
@@ -143,7 +159,7 @@ const SocialMediaManager = () => {
                 <div className="checkbox">
                   <Checkbox
                     name={key}
-                    value={value[key]}
+                    checked={value[key]}
                     onChange={handleChangeValue}
                   />
                 </div>
@@ -173,7 +189,7 @@ const SocialMediaManager = () => {
             <div className="checkbox">
               <Checkbox
                 name="support"
-                value={supportState.support}
+                checked={supportState.support}
                 onChange={handleChangeSupport}
               />
             </div>
@@ -194,7 +210,7 @@ const SocialMediaManager = () => {
             <div className="checkbox">
               <Checkbox
                 name="mobileNo"
-                value={supportState.mobileNo}
+                checked={supportState.mobileNo}
                 onChange={handleChangeSupport}
               />
             </div>
