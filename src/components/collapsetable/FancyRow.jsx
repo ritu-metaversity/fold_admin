@@ -6,7 +6,30 @@ import { Fancy_Book } from "../../routes/Routes";
 import "./styles.scss";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
-
+const intToString = (num) => {
+  // num = num.toString().replace(/[^0-9.]/g, "");
+  if (num < 1000) {
+    return num;
+  }
+  let si = [
+    { v: 1e3, s: "K" },
+    { v: 1e6, s: "M" },
+    { v: 1e9, s: "B" },
+    { v: 1e12, s: "T" },
+    { v: 1e15, s: "P" },
+    { v: 1e18, s: "E" },
+  ];
+  let index;
+  for (index = si.length - 1; index > 0; index--) {
+    if (num >= si[index].v) {
+      break;
+    }
+  }
+  return (
+    (num / si[index].v).toFixed(2).replace(/\.0+$|(\.[0-9]*[1-9])0+$/, "$1") +
+    si[index].s
+  );
+};
 const FancyRow = ({ data, prev, bet, maxbet }) => {
   const [searchparam] = useSearchParams();
 
@@ -78,7 +101,6 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
               </h4>
             </div>
             {pnl?.map((res, index) => {
-              console.log(res, "res");
               return (
                 <React.Fragment key={res?.pnl + index + 1}>
                   <div
@@ -114,7 +136,10 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
             })}
           </div>
         </Modal>
-        <div className="collapse-table-container">
+        <div
+          className="collapse-table-container"
+          onClick={() => showModal(data?.sid)}
+        >
           <div
             className="row2"
             style={{
@@ -124,12 +149,7 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
             }}
           >
             <div className="left-col-fancy">
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => showModal(data?.sid)}
-              >
-                {data?.nation}
-              </span>
+              <span style={{ cursor: "pointer" }}>{data?.nation}</span>
               <p
                 style={{
                   marginBottom: "2px",
@@ -191,7 +211,7 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
                 min:{maxbet?.minBet} max:
-                {maxbet?.maxBet}
+                {intToString(maxbet?.maxBet)}
               </div>
             </div>
           </div>

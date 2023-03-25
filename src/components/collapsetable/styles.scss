@@ -4,96 +4,79 @@ $breakpoint-specific: 1218px;
 $breakpoint-medium: 1370px;
 $breakpoint-common: 1280px;
 
-
-.Collapse{
-    padding-left: 2px;
-    padding-right: 2px;
+.Collapse {
+  padding-left: 2px;
+  padding-right: 2px;
 }
-.modal{
-    .ant-modal-header{
-        margin-bottom: 0px;
-
-    }
-    .ant-modal-title{
-        margin-bottom: 0px;
-        background-color: rgb(62 67 74)!important;
-
-    }
-    .ant-modal-body{
-        background-color: rgb(46 51 55)!important;
-        height: 450px;
-        overflow-y: scroll;
-    }
+.modal {
+  .ant-modal-header {
+    margin-bottom: 0px;
+  }
+  .ant-modal-title {
+    margin-bottom: 0px;
+    background-color: rgb(62 67 74) !important;
+  }
+  .ant-modal-body {
+    background-color: rgb(46 51 55) !important;
+    height: 450px;
+    overflow-y: scroll;
+  }
 }
-.collapse-table-container{
-   
-    width: 100%;
-.table-row-heading{
+.collapse-table-container {
+  cursor: pointer;
+  width: 100%;
+  .table-row-heading {
     width: 100%;
     display: flex;
     align-items: center;
     padding: 2px 0px;
-   
 
-   
-    .left-text{
+    .left-text {
+      width: calc(100% - 308px);
+      display: flex;
+      justify-content: right;
+      align-items: center;
+      padding-right: 5px;
 
-        width: calc(100% - 308px);
-        display: flex;
-        justify-content: right;
-        align-items: center;
-        padding-right: 5px;
-      
-       
-        p{
-            margin: 0px 0px 0px 0px!important;
-            font-size: 12px;
-            color: #333;
-            
-      
-        }
-
+      p {
+        margin: 0px 0px 0px 0px !important;
+        font-size: 12px;
+        color: #333;
+      }
     }
-    .right-col-btn{
-        width: 300px;
-        display: flex;
-        gap: 4px;
-        @media (max-width: $breakpoint-common) {
-            opacity: 0;
-             }
-        Button{
-            width: 23.5%;
-            height: 30px;
-            border: none;
-            &:hover{
-                color: #000000;
-               }
+    .right-col-btn {
+      width: 300px;
+      display: flex;
+      gap: 4px;
+      @media (max-width: $breakpoint-common) {
+        opacity: 0;
+      }
+      Button {
+        width: 23.5%;
+        height: 30px;
+        border: none;
+        &:hover {
+          color: #000000;
         }
-        Button:nth-child(1){
-          background: #4FA1DC;
-           color: #000000;
-            border-radius: 4px!important;
-            border: 1px solid transparent;
-            font-weight: 500;
-            
-         
-        }
-        Button:nth-child(2){
-            
-            background: #E16F9A;
-             color: #000000;
-              border-radius: 4px!important;
-              border: 1px solid transparent;
-              font-weight: 500;
-          }
-          
+      }
+      Button:nth-child(1) {
+        background: #4fa1dc;
+        color: #000000;
+        border-radius: 4px !important;
+        border: 1px solid transparent;
+        font-weight: 500;
+      }
+      Button:nth-child(2) {
+        background: #e16f9a;
+        color: #000000;
+        border-radius: 4px !important;
+        border: 1px solid transparent;
+        font-weight: 500;
+      }
     }
-}
+  }
 
-
-
-
-.table-row-col{
+  .table-row-col {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -101,354 +84,316 @@ $breakpoint-common: 1280px;
     padding-bottom: 4px;
     border-bottom: 1px solid #d4d4d4;
     @media (max-width: $breakpoint-mobile) {
-    padding-left: 16px;
-    padding-right: 16px;
+      padding-left: 16px;
+      padding-right: 16px;
     }
-    .left-col-table{
-
-    width: calc(100% - 452px);
-        // padding-left: 10px;
-        @media (max-width: $breakpoint-common) {
-            width: 100%;
-            display: flex;
-       
-            justify-content: space-between;
-             }
-             p{
-                padding-left: 5px;
-             }
-        p:nth-child(1){
-            margin: 0px 0px 0px 0px!important;
-            font-size: 12px;
-            color: black;
-          
-        }
-        p:nth-child(2){
-            margin: 0px 0px 0px 0px!important;
-            font-size: 12px;
-            color: rgb(153, 153, 153);
-        }
-    }
-    .right-col-table{
+    .left-col-table {
+      width: calc(100% - 452px);
+      // padding-left: 10px;
+      @media (max-width: $breakpoint-common) {
+        width: 100%;
         display: flex;
-        gap: 4px;
-        flex-wrap: wrap;
-        width: 452px;
-        @media (max-width: $breakpoint-common) {
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-             }
-        .backButton {
-            height: 38px;
-            &:hover {
-                background-color: #4FA1DC !important;
-            }
-        }
-        .layButton {
-            height: 38px;
-            &:hover {
-                background-color: #E16F9A !important;
-            }
-        }
-        Button{
 
-            height: 38px;
-            padding: 0px;
-            width: 15.6%;
-            color: #000000;
-            height: auto;
-             border-radius: 4px!important;
-             border: 1px solid transparent;
-             font-weight: 500;
-           
-             p:nth-child(1){
-                font-size: 16px;
-                margin: 0px;
-              }
-              p:nth-child(2){
-                font-size: 14px;
-                margin: 0px;
-              }
-        }
-        p{
-            line-height: normal;
-            font-size: 12px !important;
-        }
-       
-    }
-}
-    
-}
-
-
-
-.bets-tab{
-    @media (max-width: $breakpoint-common) {
-        margin-left: 4px;
-        margin-right: 4px;
-         }
-    .ant-table-thead >tr>th {
+        justify-content: space-between;
+      }
+      p {
+        padding-left: 5px;
+      }
+      p:nth-child(1) {
+        margin: 0px 0px 0px 0px !important;
         font-size: 12px;
-        font-weight: normal;
-        padding: 5px!important;
-    }
-    .ant-tabs-tab-btn{
-        color: #495057!important;
+        color: black;
+      }
+      p:nth-child(2) {
+        margin: 0px 0px 0px 0px !important;
         font-size: 12px;
-        font-weight: 400;
+        color: rgb(153, 153, 153);
+      }
     }
-    .ant-tabs-tab{
-    } 
-    .ant-tabs-tab-active{
-        border-radius: 0px!important;
-        background-color: transparent!important;
-        color: #495057!important;
+    .right-col-table {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      width: 452px;
+      @media (max-width: $breakpoint-common) {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+      }
+      .backButton {
+        height: 38px;
+        &:hover {
+          background-color: #4fa1dc !important;
         }
-}
-.overlay{
-    display: none;
-}
-    .over{
-        position: relative;
-        .overlay{
-            position: absolute;
-            top: 0%;
-            left: 0%;
-            display: block;
-     
-            align-items: center;
-            text-align: center;
-            color: red;
-            height: 100%;
-            width: 100%;
-            font-size: 15px;
-            border-radius: 5px;
-            p{
-                position: absolute;
-                margin-top: 0px;
-                margin-bottom: 0px;
-                font-size: 20px;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%,-50%);
-            }
-            background-color: rgba(0,0,0,0.5);
+      }
+      .layButton {
+        height: 38px;
+        &:hover {
+          background-color: #e16f9a !important;
         }
+      }
+      Button {
+        height: 38px;
+        padding: 0px;
+        width: 15.6%;
+        color: #000000;
+        height: auto;
+        border-radius: 4px !important;
+        border: 1px solid transparent;
+        font-weight: 500;
+
+        p:nth-child(1) {
+          font-size: 16px;
+          margin: 0px;
+        }
+        p:nth-child(2) {
+          font-size: 14px;
+          margin: 0px;
+        }
+      }
+      p {
+        line-height: normal;
+        font-size: 12px !important;
+      }
     }
+  }
+}
 
+.bets-tab {
+  @media (max-width: $breakpoint-common) {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  .ant-table-thead > tr > th {
+    font-size: 12px;
+    font-weight: normal;
+    padding: 5px !important;
+  }
+  .ant-tabs-tab-btn {
+    color: #495057 !important;
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .ant-tabs-tab {
+  }
+  .ant-tabs-tab-active {
+    border-radius: 0px !important;
+    background-color: transparent !important;
+    color: #495057 !important;
+  }
+}
+.overlay {
+  display: none;
+}
+.over {
+  position: relative;
+  .overlay {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    display: block;
 
+    align-items: center;
+    text-align: center;
+    color: red;
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+    border-radius: 5px;
+    p {
+      position: absolute;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      font-size: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
 
-.row{
-border-bottom: 1px solid #d4d4d4;
+.row {
+  border-bottom: 1px solid #d4d4d4;
 
-width: 100%;
-padding: 2px 0px;
-@media (max-width: $breakpoint-common) {
-   display: none !important;
-     }
-.left-col-fancy{
-
+  width: 100%;
+  padding: 2px 0px;
+  @media (max-width: $breakpoint-common) {
+    display: none !important;
+  }
+  .left-col-fancy {
     width: calc(100% - 224px);
     padding-left: 5px;
- 
-}
-.colwrapper{
-
+  }
+  .colwrapper {
     display: flex;
     align-items: center;
-   
+
     height: auto;
-   
- .middle-col-fancy{
-   
 
-
-    Button{
-       
+    .middle-col-fancy {
+      Button {
         display: inline-block;
         height: 38px;
-        border-radius: 4px!important;
+        border-radius: 4px !important;
         border: 1px solid transparent;
         font-weight: 500;
         color: #000000;
         padding: 0px !important;
         border: none;
-        p{
-            margin-top: 0px;
-            margin-bottom: 0px;
-             line-height: normal;
+        p {
+          margin-top: 0px;
+          margin-bottom: 0px;
+          line-height: normal;
         }
+      }
+      Button:nth-child(1) {
+        background: #72bbef;
+      }
+      Button:nth-child(2) {
+        background: #f994bacc;
+      }
     }
-        Button:nth-child(1){
-            background: #72BBEF;
-             
-          }
-          Button:nth-child(2){
-            
-            background: #F994BACC;
-          }
- }   
-   .right-col-fancy{
-    padding-right: 7px;
-        text-align: right;
-        width: 75px;
-        @media (max-width: $breakpoint-common) {
-            width: auto;
-              }
-   }
-}
-}
-   .backButton {
-  
-    &:hover {
-        background-color: #4FA1DC !important;
-        color: black !important;
+    .right-col-fancy {
+      padding-right: 7px;
+      text-align: right;
+      width: 75px;
+      @media (max-width: $breakpoint-common) {
+        width: auto;
+      }
     }
+  }
+}
+.backButton {
+  &:hover {
+    background-color: #4fa1dc !important;
+    color: black !important;
+  }
 }
 
 .layButton {
-    &:hover {
-        background-color: #E16F9A !important;
-        color: black !important;
-
-    }
+  &:hover {
+    background-color: #e16f9a !important;
+    color: black !important;
+  }
 }
 
-.header-btn{
-    width: 72px;
-    height: 37px;
-    border-radius:4px;
+.header-btn {
+  width: 72px;
+  height: 37px;
+  border-radius: 4px;
 
-    border:none;
-    &:hover{
-    color: #000000!important;
-
-    }
+  border: none;
+  &:hover {
+    color: #000000 !important;
+  }
 }
 
-
-.ant-collapse{
-    border:none ;
-    overflow: hidden;
+.ant-collapse {
+  border: none;
+  overflow: hidden;
 }
-.ant-collapse-header{
-    height: 40px !important;
+.ant-collapse-header {
+  height: 40px !important;
 }
 
-.row2{
-    border-bottom: 1px solid #d4d4d4;
-  
-    // width: 100%;
-    height: auto;
-    padding: 2px 0px;
+.row2 {
+  border-bottom: 1px solid #d4d4d4;
+
+  // width: 100%;
+  height: auto;
+  padding: 2px 0px;
+  @media (max-width: $breakpoint-common) {
+    flex-direction: column;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .left-col-fancy {
+    width: calc(100% - 224px);
+    padding-left: 5px;
+    font-size: 12px;
     @media (max-width: $breakpoint-common) {
-        flex-direction: column;
-        padding-left: 16px;
-        padding-right: 16px;
-         }
-    .left-col-fancy{
-    
-        width: calc(100% - 224px);
-        padding-left: 5px;
-        font-size: 12px;
-        @media (max-width: $breakpoint-common) {
-         width: 100%;
-        
-             }
+      width: 100%;
     }
-    .colwrapper{
-    
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-       
-        @media (max-width: $breakpoint-common) {
-            width: 100%;
-                }
-    
-       
-     .middle-col-fancy{
-        width: 150px;
-        @media (max-width: $breakpoint-common) {
-            width: 70%;
-            justify-content: center;
-                }
-        Button{
-            width: 48%;
-            height: 38px;
-            border-radius: 4px!important;
-            border: 1px solid transparent;
-            font-weight: 500;
-            color: #000000;
-            padding: 0px !important;
-            border: none;
-            p{
-                margin-top: 0px;
-                margin-bottom: 0px;
-                 line-height: normal;
-            }
+  }
+  .colwrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (max-width: $breakpoint-common) {
+      width: 100%;
+    }
+
+    .middle-col-fancy {
+      width: 150px;
+      @media (max-width: $breakpoint-common) {
+        width: 70%;
+        justify-content: center;
+      }
+      Button {
+        width: 48%;
+        height: 38px;
+        border-radius: 4px !important;
+        border: 1px solid transparent;
+        font-weight: 500;
+        color: #000000;
+        padding: 0px !important;
+        border: none;
+        p {
+          margin-top: 0px;
+          margin-bottom: 0px;
+          line-height: normal;
         }
-            Button:nth-child(1){
-                background: #72BBEF;
-                 
-              }
-              Button:nth-child(2){
-                
-                background: #F994BACC;
-              }
-     }   
-       .right-col-fancy{
-        padding-right: 7px;
-        text-align: right;
-        width: 75px;
-        font-size: 12px;
-        @media (max-width: $breakpoint-common) {
-            width: auto;
-              }
-       }
+      }
+      Button:nth-child(1) {
+        background: #72bbef;
+      }
+      Button:nth-child(2) {
+        background: #f994bacc;
+      }
     }
+    .right-col-fancy {
+      padding-right: 7px;
+      text-align: right;
+      width: 75px;
+      font-size: 12px;
+      @media (max-width: $breakpoint-common) {
+        width: auto;
+      }
     }
-    
-
-.bets-table{
-    .ant-table-tbody>tr>td{
-        font-size: 12px;
-        // font-weight: 600;
-        padding: 2px 2px 2px 5px !important;
-        @media (max-width: $breakpoint-mobile) {
-            font-size: 14px;
-              }
-    
-    }
-    .ant-table-thead >tr>th{
-        font-size: 12px;
-        padding: 3px 2px 3px 10px!important;
-        font-weight: bolder!important;
-    }
-    .ant-table-wrapper table{
-        border-collapse: separate !important;
-    }
-    .ant-table-row
-    {
-      
-   
-        height: 35px;
-         border-bottom-color: transparent !important;
-       
-           
-            &:nth-child(3n){
-               height: 5px;
-               background-color: white !important;
-               box-shadow: inset 3px 0 0px transparent;
-            //    border-bottom: 5px solid white !important;
-            }
-            
-    }
-    .ant-table-cell-row-hover{
-  
-        background-color:#72bbef57 !important;
-
-    }
+  }
 }
 
+.bets-table {
+  .ant-table-tbody > tr > td {
+    font-size: 12px;
+    // font-weight: 600;
+    padding: 2px 2px 2px 5px !important;
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 14px;
+    }
+  }
+  .ant-table-thead > tr > th {
+    font-size: 12px;
+    padding: 3px 2px 3px 10px !important;
+    font-weight: bolder !important;
+  }
+  .ant-table-wrapper table {
+    border-collapse: separate !important;
+  }
+  .ant-table-row {
+    height: 35px;
+    border-bottom-color: transparent !important;
+
+    &:nth-child(3n) {
+      height: 5px;
+      background-color: white !important;
+      box-shadow: inset 3px 0 0px transparent;
+      //    border-bottom: 5px solid white !important;
+    }
+  }
+  .ant-table-cell-row-hover {
+    background-color: #72bbef57 !important;
+  }
+}

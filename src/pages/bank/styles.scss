@@ -3,20 +3,63 @@ $breakpoint-tablet: 870px;
 $breakpoint-mobile: 600px;
 $breakpoint-medium: 1370px;
 $breakpoint-common: 1280px;
-.bank{
-    .ant-table-tbody>tr>td{
-        font-size: 12px;
-        // font-weight: 600;
-        padding: 1px 0px 1px 16px !important;
-        @media (max-width: $breakpoint-mobile) {
-            font-size: 14px;
-              }
+.bank {
+  .ant-table-tbody > tr > td {
+    font-size: 12px;
+    // font-weight: 600;
+    padding: 1px 0px 1px 16px !important;
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 14px;
     }
-    .ant-table-thead >tr>th{
-        font-size: 12px;
-        font-weight: bolder!important;
-        @media (max-width: $breakpoint-mobile) {
-            font-size: 14px;
-              }
+  }
+  .ant-table-thead > tr > th {
+    font-size: 12px;
+    font-weight: bolder !important;
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 14px;
     }
+  }
+}
+.search-header {
+  display: flex;
+  align-items: center;
+  .search-left-col {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    .input-col {
+      width: 200px;
+      position: relative;
+
+      .dropdownList {
+        width: 100%;
+        background-color: white;
+        position: absolute;
+        z-index: 10;
+        top: 90%;
+        display: block;
+        border: 1px solid rgb(233, 227, 227);
+        border-radius: 5px;
+        p {
+          margin-top: 5px;
+          margin-bottom: 5px;
+          margin-left: 10px;
+        }
+      }
+
+      .dropdownList2 {
+        display: none;
+        p {
+          margin-top: 5px;
+          margin-bottom: 5px;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  .search-right-col {
+    width: 50%;
+    text-align: right;
+  }
 }

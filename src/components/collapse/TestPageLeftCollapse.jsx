@@ -9,6 +9,7 @@ import {
   bets_Lock_Status,
   Bets_Odds_Pnl,
   Bet_Lock,
+  Bet_User_Book,
   Max_Bet_Min_Bet,
   Odds_List,
 } from "../../routes/Routes";
@@ -202,7 +203,7 @@ const TestPageLeftCollapse = () => {
     const data = { marketId: marketId, userId: "" };
     setLoading((prev) => ({ ...prev, getUserBook: true }));
     await axios
-      .post("http://api.a2zscore.com/admin-new-apis/bets/user-book", data, {
+      .post(`${process.env.REACT_APP_BASE_URL}/${Bet_User_Book}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -236,7 +237,7 @@ const TestPageLeftCollapse = () => {
       return "";
 
     if (odddata[keyName]) {
-      endUIArray.push(
+      endUIArray?.push(
         <Collapse key={keyName}>
           <Panel
             header={
@@ -459,7 +460,7 @@ const TestPageLeftCollapse = () => {
                   alignItems: "center",
                 }}
               >
-                Bookmaker TOSS
+                Toss
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
                   {userType === "4" ? (
                     <Button

@@ -56,6 +56,20 @@ const ModalViewMore = ({ keyName }) => {
   const handleChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
+    if (name === "ip") {
+      var regex = new RegExp(/^[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\d]*$/g);
+
+      if (regex.test(value)) {
+        setSearch((prev) => {
+          return {
+            ...prev,
+            [name]: value,
+          };
+        });
+      } else {
+        return;
+      }
+    }
     setSearch((prev) => {
       return {
         ...prev,
@@ -108,7 +122,7 @@ const ModalViewMore = ({ keyName }) => {
                 <p>Amount From</p>
               </label>
               <input
-                type="text"
+                type="number"
                 placeholder="Amount From"
                 name="amountFrom"
                 onChange={handleChange}
@@ -120,7 +134,7 @@ const ModalViewMore = ({ keyName }) => {
                 <p>Amount To</p>
               </label>
               <input
-                type="text"
+                type="number"
                 placeholder="Amount To"
                 name="amountTo"
                 onChange={handleChange}
@@ -132,6 +146,7 @@ const ModalViewMore = ({ keyName }) => {
             <label>
               <p>IP Address</p>
             </label>
+
             <input
               type="text"
               placeholder="IP Address"
