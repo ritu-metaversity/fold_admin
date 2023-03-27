@@ -238,7 +238,7 @@ const TestPageLeftCollapse = () => {
 
     if (odddata[keyName]) {
       endUIArray?.push(
-        <Collapse key={keyName}>
+        <Collapse key={keyName} defaultActiveKey={keyName}>
           <Panel
             header={
               <div
@@ -279,7 +279,7 @@ const TestPageLeftCollapse = () => {
                 name={keyName}
                 data={odddata[keyName]}
                 prev={prevState[keyName]}
-                maxbet={maxBetData[keyName]}
+                maxbet={maxBetData?.length && maxBetData[keyName]}
               />
             </div>
           </Panel>
@@ -313,67 +313,72 @@ const TestPageLeftCollapse = () => {
         ""
       )}
 
-      <Collapse bordered={false} defaultActiveKey={["0", "1"]}>
-        {odddata?.Odds?.map((item, index) => {
-          return (
-            <Panel
-              key={index}
-              header={
-                <div
-                  className="panel-header"
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  {item.Name}
-                  <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                    {userType === "4" ? (
+      <Collapse bordered={false} defaultActiveKey={["0", "1", "2bm"]}>
+        {odddata?.Odds?.filter((item) => item.Name === "Match Odds").map(
+          (item, index) => {
+            return (
+              <Panel
+                key={index}
+                header={
+                  <div
+                    className="panel-header"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item.Name}
+                    <div
+                      className="btn"
+                      style={{ gap: "10px", display: "flex" }}
+                    >
+                      {userType === "4" ? (
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            getBetLock(item.marketId);
+                          }}
+                          type="primary"
+                          style={{ background: "#F18521", color: "white" }}
+                        >
+                          {betStatus?.find((res) => res == item.marketId)
+                            ? " Bet / Unlock"
+                            : "Bet Lock"}
+                        </Button>
+                      ) : (
+                        ""
+                      )}
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
-                          getBetLock(item.marketId);
+                          showModal(item.marketId);
                         }}
                         type="primary"
-                        style={{ background: "#F18521", color: "white" }}
+                        style={{
+                          background: "#F18521",
+                          color: "white",
+                        }}
                       >
-                        {betStatus?.find((res) => res == item.marketId)
-                          ? " Bet / Unlock"
-                          : "Bet Lock"}
+                        User Book
                       </Button>
-                    ) : (
-                      ""
-                    )}
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        showModal(item.marketId);
-                      }}
-                      type="primary"
-                      style={{
-                        background: "#F18521",
-                        color: "white",
-                      }}
-                    >
-                      User Book
-                    </Button>
+                    </div>
                   </div>
+                }
+                className="left-panel-header"
+              >
+                <div className="collpase-div">
+                  <MatchOddTable
+                    data={item}
+                    prev={prevState?.Odds[index]}
+                    pnlData={oddPnl}
+                    maxbet={maxBetData.Odds?.length && maxBetData.Odds[index]}
+                  />
                 </div>
-              }
-              className="left-panel-header"
-            >
-              <div className="collpase-div">
-                <MatchOddTable
-                  data={item}
-                  prev={prevState?.Odds[index]}
-                  pnlData={oddPnl}
-                  maxbet={maxBetData.Odds[index]}
-                />
-              </div>
-            </Panel>
-          );
-        })}
+              </Panel>
+            );
+          }
+        )}
 
         {odddata?.Bookmaker.filter((ele) => ele?.t !== "TOSS").length > 0 ? (
           <Panel
@@ -446,6 +451,71 @@ const TestPageLeftCollapse = () => {
           </Panel>
         ) : (
           ""
+        )}
+        {odddata?.Odds?.filter((item) => item.Name !== "Match Odds").map(
+          (item, index) => {
+            return (
+              <Panel
+                key={index}
+                header={
+                  <div
+                    className="panel-header"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item.Name}
+                    <div
+                      className="btn"
+                      style={{ gap: "10px", display: "flex" }}
+                    >
+                      {userType === "4" ? (
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            getBetLock(item.marketId);
+                          }}
+                          type="primary"
+                          style={{ background: "#F18521", color: "white" }}
+                        >
+                          {betStatus?.find((res) => res == item.marketId)
+                            ? " Bet / Unlock"
+                            : "Bet Lock"}
+                        </Button>
+                      ) : (
+                        ""
+                      )}
+                      <Button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          showModal(item.marketId);
+                        }}
+                        type="primary"
+                        style={{
+                          background: "#F18521",
+                          color: "white",
+                        }}
+                      >
+                        User Book
+                      </Button>
+                    </div>
+                  </div>
+                }
+                className="left-panel-header"
+              >
+                <div className="collpase-div">
+                  <MatchOddTable
+                    data={item}
+                    prev={prevState?.Odds[index]}
+                    pnlData={oddPnl}
+                    maxbet={maxBetData.Odds?.length && maxBetData.Odds[index]}
+                  />
+                </div>
+              </Panel>
+            );
+          }
         )}
       </Collapse>
       <Collapse bordered={false}>

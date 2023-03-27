@@ -227,6 +227,18 @@ const DomainCard = () => {
           onChange={handleChangeSelct}
           options={options}
         />
+        <div className="img-div">
+          <Upload
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            className={error.image ? "image-upload" : ""}
+            accept="image/png, image/jpeg,image/jpg ,image/webp,image/svg"
+          >
+            {fileList.length < 1 && "+ Upload"}
+          </Upload>
+        </div>
         <label>Transaction Code:</label>
         <input
           type="password"
@@ -245,18 +257,6 @@ const DomainCard = () => {
           onChange={handleChange}
         />
 
-        <div className="img-div">
-          <Upload
-            listType="picture-card"
-            fileList={fileList}
-            onChange={onChange}
-            onPreview={onPreview}
-            className={error.image ? "image-upload" : ""}
-            accept="image/png, image/jpeg,image/jpg ,image/webp,image/svg"
-          >
-            {fileList.length < 1 && "+ Upload"}
-          </Upload>
-        </div>
         <div className="btn" style={{ textAlign: "right" }}>
           <Button
             style={{ background: "black", color: "white", width: "auto" }}

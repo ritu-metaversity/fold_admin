@@ -3,7 +3,7 @@ import React from "react";
 import BookMarkRow from "./BookmarkRow";
 ////
 import "./styles.scss";
-const intToString = (num) => {
+export const intToString = (num) => {
   // num = num.toString().replace(/[^0-9.]/g, "");
   if (num < 1000) {
     return num;
@@ -36,8 +36,12 @@ const Bookmarktable = ({ data, prev, pnlData, maxbet }) => {
             <div className="left-text">
               <p>
                 {/* {maxbet?.Bookmaker[0]} */}
-                min:{maxbet?.Bookmaker[0]?.minBet} max:
-                {intToString(maxbet?.Bookmaker[0]?.maxBet)}
+                min:
+                {maxbet?.Bookmaker?.length &&
+                  intToString(maxbet?.Bookmaker[0]?.minBet)}{" "}
+                max:
+                {maxbet?.Bookmaker?.length &&
+                  intToString(maxbet?.Bookmaker[0]?.maxBet)}
               </p>
             </div>
             <div className="right-col-btn">

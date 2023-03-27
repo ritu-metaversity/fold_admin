@@ -1,0 +1,41 @@
+.rule-modal {
+  top: 5px;
+  p {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5px;
+    margin: 0px 0px 5px 0px;
+    img {
+      width: 30px;
+      height: auto;
+    }
+  }
+  .ant-collapse-item {
+    border-bottom: 0px;
+  }
+  .ant-modal-header {
+    padding: 8px 8px;
+    .ant-modal-title {
+      background-color: white;
+      color: #495057;
+    }
+  }
+  .ant-collapse-header {
+    background-color: transparent;
+    border-bottom: transparent;
+    .ant-collapse-expand-icon {
+      color: black;
+    }
+    .ant-collapse-header-text {
+      color: black;
+    }
+  }
+  .ant-collapse-content {
+    background-color: transparent;
+  }
+  .ant-collapse-content-box {
+    padding: 5px !important;
+    background-color: transparent;
+  }
+}

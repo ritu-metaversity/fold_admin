@@ -5,7 +5,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { GoTrashcan } from "react-icons/go";
-import { Add_banner, Banner_List } from "../../routes/Routes";
+import { Add_banner, Banner_Delete, Banner_List } from "../../routes/Routes";
 import { NavLink } from "react-router-dom";
 import DeleteModal from "../deleteModal/DeleteModal";
 import { notifyToast } from "../toast/Tost";
@@ -194,7 +194,7 @@ const BannerFormComponent = () => {
   const deleteRow = async (id) => {
     await axios
       .post(
-        "http://api.a2zscore.com/admin-new-apis/banner/delete",
+        `${process.env.REACT_APP_BASE_URL}/${Banner_Delete}`,
         {
           bannerId: id,
         },

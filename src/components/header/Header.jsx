@@ -24,6 +24,7 @@ import { get_msg, MarketAnalysis_Screen } from "../../routes/Routes";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
 import LogoutModal from "../logoutModal/LogoutModal";
+import RuleModal from "../ruleModal/RuleModal";
 const Header = ({ overlayState, setDisplay, logo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
@@ -34,6 +35,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
 
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const { userBalanceamount, userBalance, handle } = useContext(LoaderContext);
+  const [ruleModal, setRuleModal] = useState(false);
   const navigate = useNavigate();
   // const userBalance = async () => {
   //   await axios
@@ -71,14 +73,19 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   const handleOk = () => {
     setIsModalOpen(false);
     setIsModalOpen2(false);
+    setRuleModal(false);
     logout();
   };
   const handleCancel = () => {
     setIsModalOpen(false);
     setIsModalOpen2(false);
+    setRuleModal(false);
   };
   const showModal2 = () => {
     setIsModalOpen2(true);
+  };
+  const showRuleModal = () => {
+    setRuleModal(true);
   };
   const items = [
     userType === "4"
@@ -168,6 +175,11 @@ const Header = ({ overlayState, setDisplay, logo }) => {
 
   return (
     <>
+      <RuleModal
+        ruleModal={ruleModal}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+      />
       <LogoutModal
         handleOk={handleOk}
         isModalOpen={isModalOpen2}
@@ -234,7 +246,17 @@ const Header = ({ overlayState, setDisplay, logo }) => {
           <div className="col-2">
             <IoIosAlert style={{ fontWeight: "500" }} />
             <p>
-              <span style={{ color: "#FDCF13", fontWeight: "500" }}>Rule</span>
+              <span
+                style={{
+                  color: "#FDCF13",
+                  fontWeight: "500",
+                  paddingRight: "5px",
+                  cursor: "pointer",
+                }}
+                onClick={showRuleModal}
+              >
+                Rule
+              </span>
               PTS: {userBalanceamount}
             </p>
           </div>
