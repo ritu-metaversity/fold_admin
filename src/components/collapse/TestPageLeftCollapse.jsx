@@ -279,7 +279,7 @@ const TestPageLeftCollapse = () => {
                 name={keyName}
                 data={odddata[keyName]}
                 prev={prevState[keyName]}
-                maxbet={maxBetData?.length && maxBetData[keyName]}
+                maxbet={maxBetData[keyName]}
               />
             </div>
           </Panel>

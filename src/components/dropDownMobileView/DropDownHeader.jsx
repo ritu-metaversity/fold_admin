@@ -6,7 +6,7 @@ import Changpasswordheader from "../moreCard/components/changepassword/headercha
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
 import { RiWalletLine } from "react-icons/ri";
 import "./styles.scss";
-const DropDownHeader = ({ pts }) => {
+const DropDownHeader = ({ pts, logout }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
   const navigate = useNavigate();
@@ -18,11 +18,6 @@ const DropDownHeader = ({ pts }) => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
-
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
   };
 
   return (
