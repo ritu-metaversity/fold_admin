@@ -85,18 +85,20 @@ const FancyTable = ({ data, prev, maxbet }) => {
         </div>
 
         {data?.map((item, rowIndex, index) => {
-          // console.log(item, "tem");
           let bet = 0;
-          if (Object?.keys(fancyPnldata).includes(item?.sid)) {
-            bet = fancyPnldata[item?.sid];
+          if (fancyPnldata) {
+            if (Object?.keys(fancyPnldata)?.includes(item?.sid)) {
+              bet = fancyPnldata[item?.sid];
+            }
           }
+
           return (
             <React.Fragment key={item?.sid + rowIndex?.sid + index}>
               <FancyRow
                 data={item}
                 prev={prev[rowIndex]}
                 bet={bet}
-                maxbet={maxbet[rowIndex]}
+                maxbet={maxbet?.length && maxbet[rowIndex]}
               />
             </React.Fragment>
           );

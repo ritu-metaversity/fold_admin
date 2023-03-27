@@ -9,7 +9,7 @@ import { BsWallet2 } from "react-icons/bs";
 import { HiOutlineKey } from "react-icons/hi";
 import { FiLogOut } from "react-icons/fi";
 import "./styles.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
 import { CgMinimize } from "react-icons/cg";
@@ -23,11 +23,9 @@ import { LoaderContext } from "../../App";
 import { get_msg, MarketAnalysis_Screen } from "../../routes/Routes";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
+import LogoutModal from "../logoutModal/LogoutModal";
+import RuleModal from "../ruleModal/RuleModal";
 const Header = ({ overlayState, setDisplay, logo }) => {
-  const logout = () => {
-    localStorage.clear();
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
   const userType = localStorage.getItem("userType");
@@ -35,8 +33,10 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
   const [message, setmessage] = useState("");
 
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const { userBalanceamount, userBalance, handle } = useContext(LoaderContext);
-
+  const [ruleModal, setRuleModal] = useState(false);
+  const navigate = useNavigate();
   // const userBalance = async () => {
   //   await axios
   //     .post(
@@ -63,17 +63,30 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   //   }, 1000);
   //   return () => clearInterval(timer);
   // }, []);
-
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    setIsModalOpen2(false);
+    setRuleModal(false);
+    logout();
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setIsModalOpen2(false);
+    setRuleModal(false);
   };
-
+  const showModal2 = () => {
+    setIsModalOpen2(true);
+  };
+  const showRuleModal = () => {
+    setRuleModal(true);
+  };
   const items = [
     userType === "4"
       ? {
@@ -122,10 +135,18 @@ const Header = ({ overlayState, setDisplay, logo }) => {
     },
     {
       label: (
-        <Link to="/" onClick={logout}>
+        <span
+          style={{
+            display: "flex",
+            gap: "10px",
+            alignItems: "center",
+            fontSize: "12px",
+          }}
+          onClick={showModal2}
+        >
           <FiLogOut />
           Log Out
-        </Link>
+        </span>
       ),
       key: "3",
     },
@@ -151,8 +172,19 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   useEffect(() => {
     getMsg();
   }, []);
+
   return (
     <>
+      <RuleModal
+        ruleModal={ruleModal}
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+      />
+      <LogoutModal
+        handleOk={handleOk}
+        isModalOpen={isModalOpen2}
+        handleCancel={handleCancel}
+      />
       <div
         className="drop"
         style={{ display: !overlayState ? "none" : "block" }}
@@ -214,7 +246,17 @@ const Header = ({ overlayState, setDisplay, logo }) => {
           <div className="col-2">
             <IoIosAlert style={{ fontWeight: "500" }} />
             <p>
-              <span style={{ color: "#FDCF13", fontWeight: "500" }}>Rule</span>
+              <span
+                style={{
+                  color: "#FDCF13",
+                  fontWeight: "500",
+                  paddingRight: "5px",
+                  cursor: "pointer",
+                }}
+                onClick={showRuleModal}
+              >
+                Rule
+              </span>
               PTS: {userBalanceamount}
             </p>
           </div>

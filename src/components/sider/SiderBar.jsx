@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Menu } from "antd";
+import { Menu, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
@@ -13,7 +13,6 @@ import {
   Create_Power_user,
   Left_Event_Menu,
   Log_Out,
-  Party_Win_Lose,
   Payment_List,
   Profite_Loss,
   Setting_Screen,
@@ -24,6 +23,7 @@ import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
 import { AiFillFacebook } from "react-icons/ai";
+import LogoutModal from "../logoutModal/LogoutModal";
 
 const SiderBar = ({ IsSelfState }) => {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const SiderBar = ({ IsSelfState }) => {
   const [paymentListData, setPaymentListData] = useState([]);
   const [eventData, setEventData] = useState([]);
   const [casionDataState, setCasionData] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const logout = async () => {
     setLoading((prev) => ({ ...prev, logout: true }));
     await axios
@@ -165,6 +165,16 @@ const SiderBar = ({ IsSelfState }) => {
     };
   });
 
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+    logout();
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const item = useMemo(
     () => [
       // {
@@ -433,19 +443,19 @@ const SiderBar = ({ IsSelfState }) => {
               </Link>
             ),
           },
-          {
-            key: 523,
+          // {
+          //   key: 523,
 
-            label: (
-              <Link
-                onClick={refershNow}
-                to={Party_Win_Lose}
-                // eloadDocument={pathname === "/betHistory"}
-              >
-                Party Win Lose
-              </Link>
-            ),
-          },
+          //   label: (
+          //     <Link
+          //       onClick={refershNow}
+          //       to={Party_Win_Lose}
+          //       // eloadDocument={pathname === "/betHistory"}
+          //     >
+          //       Party Win Lose
+          //     </Link>
+          //   ),
+          // },
         ],
       },
       {
@@ -532,7 +542,8 @@ const SiderBar = ({ IsSelfState }) => {
               textAlign: "left",
               marginBottom: "200px",
             }}
-            onClick={logout}
+            onClick={showModal}
+            // onClick={logout}
           >
             Log Out
           </span>
@@ -542,10 +553,13 @@ const SiderBar = ({ IsSelfState }) => {
     [eventData, CasionData]
   );
 
-  // console.log(casionData);
-
   return (
     <>
+      <LogoutModal
+        isModalOpen={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+      />
       <Menu
         theme="dark"
         style={{ width: 256 }}

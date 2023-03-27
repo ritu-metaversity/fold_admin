@@ -26,7 +26,7 @@ import {
   Deposit_Pending_Request,
   Home_Screen,
   MarketAnalysis_Screen,
-  Party_Win_Lose,
+  // Party_Win_Lose,
   Payment_Method,
   Power_List_Screen,
   Profite_Loss,
@@ -63,7 +63,7 @@ import UserHistory from "./pages/userHistory/UserHistory";
 import Casion from "./pages/Casino/Casion";
 import Mainlayout from "./common/Mainlayout";
 import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
-import PartyWinLose from "./pages/partyWinLose/PartyWinLose";
+// import PartyWinLose from "./pages/partyWinLose/PartyWinLose";
 import { ToastContainer } from "react-toastify";
 import Setting from "./pages/settingPage/Setting";
 import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
@@ -235,7 +235,7 @@ function App() {
             ></Route>
 
             <Route path={Casino_Screen} element={<Casion />}></Route>
-            <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route>
+            {/* <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route> */}
           </Route>
 
           <Route path="*" element={<NoteFound />} />

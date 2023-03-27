@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Fancy_Book } from "../../routes/Routes";
 import "./styles.scss";
+import { intToString } from "./BookmarkTable";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
@@ -78,7 +79,6 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
               </h4>
             </div>
             {pnl?.map((res, index) => {
-              console.log(res, "res");
               return (
                 <React.Fragment key={res?.pnl + index + 1}>
                   <div
@@ -114,7 +114,10 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
             })}
           </div>
         </Modal>
-        <div className="collapse-table-container">
+        <div
+          className="collapse-table-container"
+          onClick={() => showModal(data?.sid)}
+        >
           <div
             className="row2"
             style={{
@@ -124,12 +127,7 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
             }}
           >
             <div className="left-col-fancy">
-              <span
-                style={{ cursor: "pointer" }}
-                onClick={() => showModal(data?.sid)}
-              >
-                {data?.nation}
-              </span>
+              <span style={{ cursor: "pointer" }}>{data?.nation}</span>
               <p
                 style={{
                   marginBottom: "2px",
@@ -190,8 +188,8 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
                 className="right-col-fancy"
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
-                min:{maxbet?.minBet} max:
-                {maxbet?.maxBet}
+                min:{intToString(maxbet?.minBet)} max:
+                {intToString(maxbet?.maxBet)}
               </div>
             </div>
           </div>

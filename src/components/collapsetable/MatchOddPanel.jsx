@@ -2,6 +2,7 @@ import { Button, Spin } from "antd";
 import React from "react";
 import MatchOddsRow from "./MatchOddsRow";
 ////
+import { intToString } from "./BookmarkTable";
 import "./styles.scss";
 
 const MatchOddTable = ({ data, prev, pnlData, maxbet }) => {
@@ -16,8 +17,8 @@ const MatchOddTable = ({ data, prev, pnlData, maxbet }) => {
               <p>
                 {/* {maxbet?.Bookmaker[0]} */}
                 {/* ihiu */}
-                min:{maxbet?.minBet} max:
-                {maxbet?.maxBet}
+                min:{intToString(maxbet?.minBet)} max:
+                {intToString(maxbet?.maxBet)}
               </p>
             </div>
             <div className="right-col-btn">

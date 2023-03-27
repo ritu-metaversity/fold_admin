@@ -6,7 +6,11 @@ import "./styles.scss";
 import { NavLink } from "react-router-dom";
 
 import axios from "axios";
-import { Bank_deposit_amount, Table_ActiveUser } from "../../routes/Routes";
+import {
+  Bank_deposit_amount,
+  Search_Api,
+  Table_ActiveUser,
+} from "../../routes/Routes";
 import { BsArrowRightShort } from "react-icons/bs";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../../components/toast/Tost";
@@ -20,7 +24,10 @@ const Bank = () => {
   const [DataList, setDataList] = useState([]);
   const [transactionCode, setTransactionCode] = useState("");
   const [errorTransaction, seterrorTransaction] = useState(false);
-
+  const [listDisplay, setListDisplay] = useState(false);
+  const [searchDataList, setSearchDataList] = useState([]);
+  const [searchData, setSearchData] = useState("");
+  const [id, setId] = useState("");
   ////edit profile State
 
   const [value, setvalue] = useState({});
@@ -293,6 +300,38 @@ const Bank = () => {
     setTransactionCode(value);
     // console.log(value);
   };
+  const setIdText = (id, text) => {
+    // console.log(id, text, "dtat");
+    setSearchData(text);
+    setId(id);
+    setListDisplay(false);
+    setSearchDataList([]);
+  };
+
+  const Search = async (e) => {
+    const value = e.target.value;
+    setSearchData(value);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setSearchDataList([]);
+
+        // console.log(res.data.data);
+        setSearchDataList(res.data.data);
+      })
+      .catch((error) => {
+        setSearchDataList([]);
+        // console.log(error);
+      });
+  };
   return (
     <>
       <>
@@ -310,30 +349,48 @@ const Bank = () => {
           </p>
         </div>
         <div className="table">
-          <div className="search">
-            <div className="left-col">
-              <Input
-                placeholder="search here....."
-                name="message"
-                onChange={handleChange}
-                value={Inputvalue}
-              />
-              <div className="serch-btn">
-                <Button
-                  onClick={handleClick}
-                  style={{ background: "#eff2f7", color: "black" }}
-                >
-                  Search
-                </Button>
-                <Button
-                  onClick={reset}
-                  style={{ background: "#23292E", color: "white" }}
-                >
-                  Reset
-                </Button>
+          <div className="search-header">
+            <div className="search-left-col">
+              <div className="input-col">
+                <Input
+                  placeholder="search here....."
+                  name="message"
+                  onChange={Search}
+                  value={searchData}
+                  autoComplete="off"
+                  onFocus={() => setListDisplay(true)}
+                  // onBlur={() => setListDisplay(false)}
+                  style={{ margin: "7px 0px 7px 0px" }}
+                />
+                <div className={listDisplay ? "dropdownList" : "dropdownList2"}>
+                  {searchDataList?.map((res, index) => {
+                    return (
+                      <div
+                        style={{ borderBottom: "1px solid #e1dbdb" }}
+                        key={res.id + res.text + index}
+                      >
+                        <p onClick={() => setIdText(res.id, res.text)}>
+                          {res.text}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
+              <Button
+                onClick={handleClick}
+                style={{ background: "#eff2f7", color: "black" }}
+              >
+                Search
+              </Button>
+              <Button
+                onClick={reset}
+                style={{ background: "#23292E", color: "white" }}
+              >
+                Reset
+              </Button>
             </div>
-            <div className="right-col">
+            <div className="search-right-col">
               <input
                 type="password"
                 placeholder="Transaction Code"
@@ -348,9 +405,6 @@ const Bank = () => {
                     : "1px solid #ced4da",
                 }}
               />
-              {/* <Button style={{ background: "black", color: "white" }}>
-                  <Link to="">Transfer All</Link>
-                </Button> */}
             </div>
           </div>
 

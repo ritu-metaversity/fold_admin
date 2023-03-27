@@ -9,7 +9,11 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 // import { Table_ActiveUser, Tab_CurrentBet } from "../../../../routes/Routes";
-import { TabBet_History } from "../../../routes/Routes";
+import {
+  Active_Sport_list,
+  Detail_Sport_Wise,
+  TabBet_History,
+} from "../../../routes/Routes";
 import { LoaderContext } from "../../../App";
 
 export const UserModalContext = createContext({
@@ -254,7 +258,7 @@ const BetHistorytable = ({ id }) => {
   useEffect(() => {
     const getSpotsList = async () => {
       await axios
-        .post("http://api.a2zscore.com/admin-new-apis/sport/active-sport-list")
+        .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_list}`)
         .then((res) => {
           setSportsList(res?.data?.data);
         })
@@ -279,7 +283,7 @@ const BetHistorytable = ({ id }) => {
     setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
     await axios
       .post(
-        "http://api.a2zscore.com/admin-new-apis/sport/event-detail-sport-wise",
+        `${process.env.REACT_APP_BASE_URL}/${Detail_Sport_Wise}`,
         { sportId: id },
         {
           headers: {
