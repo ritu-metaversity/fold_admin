@@ -96,10 +96,11 @@ const Mainlayout = ({ view }) => {
                 closeSidebar={closeSidebar}
                 siderBar={siderBar}
                 IsSelfState={IsSelfState}
+                setSidebar={setSidebar}
               />
             </div>
             <div className="content" onClick={closeSidebar}>
-              {view && <Outlet key={keyNew} />}
+              {view && <Outlet key={keyNew} context={[IsSelfState]} />}
             </div>
           </div>
         </div>

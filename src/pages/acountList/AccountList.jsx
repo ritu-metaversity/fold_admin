@@ -193,7 +193,11 @@ const Activelist = () => {
   const data = DataList?.map((res) => {
     return {
       key: res?.username + res.id,
-      username: res?.username,
+      username: (
+        <p>
+          {res?.username} <br />({res.userId})
+        </p>
+      ),
       CR: (
         <span
           style={{ color: "#f1b44c", cursor: "pointer" }}

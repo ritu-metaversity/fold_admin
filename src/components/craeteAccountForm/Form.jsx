@@ -8,6 +8,7 @@ import { Create_Admin, get_Sport_List } from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
+import { useOutletContext } from "react-router-dom";
 
 const defaultData = {
   username: "",
@@ -22,6 +23,8 @@ const defaultData = {
 };
 const arr = ["city", "mobile"];
 const Accountform = () => {
+  const [name] = useOutletContext();
+
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
   const [userPass, setUserPass] = useState("");
@@ -36,9 +39,9 @@ const Accountform = () => {
     lupassword: false,
     appId: currentUserROle === 2 ? false : undefined,
     // city: false,
-    fancyLossCommission: false,
+    fancyLossCommission: name ? 0 : false,
     // mobile: false,
-    oddLossCommission: false,
+    oddLossCommission: name ? 0 : false,
     sportPartnership: currentUserROle === 2 ? false : undefined,
     userRole: false,
   });
@@ -123,8 +126,8 @@ const Accountform = () => {
       }
 
     Object.keys(data).forEach((key) => {
-      // console.log();
-      if (["", null, undefined, NaN].includes(data[key])) {
+      console.log(key);
+      if (["", 0, null, undefined, NaN].includes(data[key])) {
         if (arr.includes(key)) {
         } else {
           if (userType !== 4 && key === "appId") {
@@ -135,6 +138,16 @@ const Accountform = () => {
               };
             });
           } else if (data.userRole === 2 && key === "sportPartnership") {
+            setErrorData((prev) => {
+              return {
+                ...prev,
+                [key]: false,
+              };
+            });
+          } else if (
+            name &&
+            (key === "fancyLossCommission" || key === "oddLossCommission")
+          ) {
             setErrorData((prev) => {
               return {
                 ...prev,
@@ -185,7 +198,7 @@ const Accountform = () => {
           }
         )
         .then((res) => {
-          if (res.data.message) {
+          if (res.data.status) {
             notifyToast().succes(res.data.message);
             setuserId(res?.data?.username);
             setUserPass(res?.data?.password);
@@ -202,6 +215,8 @@ const Accountform = () => {
               sportPartnership: currentUserROle === "2" ? false : "",
               userRole: false,
             });
+          } else {
+            notifyToast().error(res.data.message);
           }
         })
         .catch((error) => {});
@@ -436,7 +451,8 @@ const Accountform = () => {
                 placeholder="Match Commission:"
                 type="number"
                 name="oddLossCommission"
-                value={Math.abs(data?.oddLossCommission) || ""}
+                disabled={name}
+                value={name ? 0 : Math.abs(data?.oddLossCommission) || ""}
                 onChange={handleChange}
               />
               {errorData?.oddLossCommission ? (
@@ -457,7 +473,8 @@ const Accountform = () => {
                 placeholder="Session Commission:"
                 type="number"
                 name="fancyLossCommission"
-                value={Math.abs(data?.fancyLossCommission) || ""}
+                disabled={name}
+                value={name ? 0 : Math.abs(data?.fancyLossCommission) || ""}
                 onChange={handleChange}
               />
               {errorData?.fancyLossCommission ? (
@@ -538,7 +555,7 @@ const Accountform = () => {
               </Form.Item>
 
               <p style={{ fontSize: "14px" }}>
-                Our :{" "}
+                Our :
                 {data?.sportPartnership ? data.sportPartnership : partnership}|
                 Down Line:
                 {data.sportPartnership

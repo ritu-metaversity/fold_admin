@@ -210,7 +210,11 @@ const Header = ({ overlayState, setDisplay, logo }) => {
         className="drop"
         style={{ display: !overlayState ? "none" : "block" }}
       >
-        <DropDownHeader pts={userBalanceamount} logout={logout} />
+        <DropDownHeader
+          pts={userBalanceamount}
+          logout={logout}
+          showRuleModal={showRuleModal}
+        />
       </div>
       <Modal
         title="Basic Modal"

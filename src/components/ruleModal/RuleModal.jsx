@@ -61,6 +61,7 @@ const RuleModal = ({ ruleModal, handleOk, handleCancel }) => {
                         <HiPlusCircle style={{ fontSize: "16px" }} />
                       )
                     }
+                    key={res}
                   >
                     <Panel header={res}>
                       <p>{text}</p>

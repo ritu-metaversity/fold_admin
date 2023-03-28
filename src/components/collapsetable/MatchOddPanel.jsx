@@ -13,7 +13,6 @@ const MatchOddTable = ({ data, prev, pnlData, maxbet }) => {
         <div className="collapse-table-container">
           <div className="table-row-heading">
             <div className="left-text">
-              {" "}
               <p>
                 {/* {maxbet?.Bookmaker[0]} */}
                 {/* ihiu */}

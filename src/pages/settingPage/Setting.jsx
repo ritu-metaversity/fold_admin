@@ -3,6 +3,7 @@ import UplaodSocailMediaIcon from "../../components/settingComponent/UplaodSocai
 import "./styles.scss";
 import axios from "axios";
 import { Get_Social_Media } from "../../routes/Routes";
+import { NavLink } from "react-router-dom";
 const Setting = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
   const data = { appUrl: "admin" };
@@ -37,7 +38,15 @@ const Setting = () => {
 
   return (
     <div>
-      <p>Already Uploaded</p>
+      <div className="hading-create-accounts">
+        <h4>ALLREADY UPLAODED</h4>
+        <p>
+          <NavLink to="/marketAnalysis">Home / </NavLink>
+          <NavLink to="/Setting" style={{ color: "#74788d" }}>
+            ALLREADY UPLAODED
+          </NavLink>
+        </p>
+      </div>
       <div className="icon-col">
         {Object?.keys(newObje).map(function (key) {
           return (

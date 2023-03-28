@@ -1,3 +1,4 @@
+$breakpoint-tablet: 870px;
 .social-manager-icon-conatainer {
   width: 100%;
   height: auto;
@@ -15,6 +16,10 @@
     border-radius: 5px;
     padding-right: 10px;
     padding-left: 10px;
+    @media (max-width: $breakpoint-tablet) {
+      width: calc(100% - 5px);
+      padding: 0px;
+    }
     .img {
       width: 200px;
       img {
@@ -53,4 +58,24 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
+  @media (max-width: $breakpoint-tablet) {
+    flex-direction: column;
+    width: calc(100% - 0px);
+    padding: 0px;
+  }
+  .social-col {
+    width: calc(49% - 20px);
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    @media (max-width: $breakpoint-tablet) {
+      width: calc(100% - 5px);
+      padding: 0px;
+    }
+  }
 }

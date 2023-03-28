@@ -58,7 +58,7 @@ const ModalViewMore = ({ keyName }) => {
     const value = e.target.value;
     if (name === "ip") {
       var regex = new RegExp(/^[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\d]*$/g);
-
+      // /^[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\d]*$/g
       if (regex.test(value)) {
         setSearch((prev) => {
           return {
@@ -169,8 +169,8 @@ const ModalViewMore = ({ keyName }) => {
                   amountTo: 0,
                   betType: 1,
                   ipAddres: "",
-                  marketName: "Match Odds",
-                  matchId: "32126984",
+                  marketName: keyName,
+                  matchId: id,
                   username: "",
                 });
               }}

@@ -136,14 +136,14 @@ const SocialMediaManager = () => {
   return (
     <>
       <div className="hading-create-accounts">
-        <h4>Socila Media Manager</h4>
+        <h4>Social Media Manager</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
           <NavLink
             to={Socila_Media_Manager_Screen}
             style={{ color: "#74788d" }}
           >
-            Socila Media Manager
+            Social Media Manager
           </NavLink>
         </p>
       </div>

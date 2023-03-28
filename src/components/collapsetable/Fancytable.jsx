@@ -98,7 +98,7 @@ const FancyTable = ({ data, prev, maxbet }) => {
                 data={item}
                 prev={prev[rowIndex]}
                 bet={bet}
-                maxbet={maxbet?.length && maxbet[rowIndex]}
+                maxbet={maxbet[rowIndex]}
               />
             </React.Fragment>
           );
