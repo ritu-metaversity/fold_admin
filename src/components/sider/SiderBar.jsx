@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Menu, Modal } from "antd";
+import { Menu } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
@@ -25,7 +25,7 @@ import { notifyToast } from "../toast/Tost";
 import { AiFillFacebook } from "react-icons/ai";
 import LogoutModal from "../logoutModal/LogoutModal";
 
-const SiderBar = ({ IsSelfState }) => {
+const SiderBar = ({ IsSelfState, setSidebar }) => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
   const { setLoading, refershNow } = useContext(LoaderContext);
@@ -33,6 +33,7 @@ const SiderBar = ({ IsSelfState }) => {
   const [eventData, setEventData] = useState([]);
   const [casionDataState, setCasionData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [menuKey, setMenuKey] = useState("");
   const logout = async () => {
     setLoading((prev) => ({ ...prev, logout: true }));
     await axios
@@ -192,7 +193,10 @@ const SiderBar = ({ IsSelfState }) => {
         icon: <TbBrandGoogleAnalytics />,
         label: (
           <Link
-            onClick={refershNow}
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
             to="/marketanalysis"
             // reloadDocument={pathname === "/marketanalysis"}
           >
@@ -209,7 +213,10 @@ const SiderBar = ({ IsSelfState }) => {
             key: 4,
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to="/activeUser"
                 // reloadDocument={pathname === "/activeUser"}
                 // onChange={() => handleChangeLink(4)}
@@ -223,7 +230,10 @@ const SiderBar = ({ IsSelfState }) => {
                 key: 5,
                 label: (
                   <Link
-                    onClick={refershNow}
+                    onClick={() => {
+                      refershNow();
+                      setSidebar();
+                    }}
                     to="/Power_List_Screen"
                     // reloadDocument={pathname === "/Power_List_Screen"}
                   >
@@ -236,7 +246,10 @@ const SiderBar = ({ IsSelfState }) => {
             key: 67,
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to="/accountList"
                 // reloadDocument={pathname === "/accountList"}
               >
@@ -249,7 +262,10 @@ const SiderBar = ({ IsSelfState }) => {
             key: 6,
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to="/createAccounts"
                 // reloadDocument={pathname === "/createAccounts"}
               >
@@ -268,7 +284,10 @@ const SiderBar = ({ IsSelfState }) => {
                 key: 7,
                 label: (
                   <Link
-                    onClick={refershNow}
+                    onClick={() => {
+                      refershNow();
+                      setSidebar();
+                    }}
                     to="/createdomain"
                     // reloadDocument={pathname === "/createdomain"}
                   >
@@ -284,7 +303,10 @@ const SiderBar = ({ IsSelfState }) => {
         icon: <RiBankFill />,
         label: (
           <Link
-            onClick={refershNow}
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
             to="/bank"
             // reloadDocument={pathname === "/bank"}
           >
@@ -304,7 +326,10 @@ const SiderBar = ({ IsSelfState }) => {
                   key: 79,
                   label: (
                     <Link
-                      onClick={refershNow}
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
                       to="/Deposit-Pending-Request"
                       // reloadDocument={pathname === "/Deposit-Pending-Request"}
                     >
@@ -318,7 +343,10 @@ const SiderBar = ({ IsSelfState }) => {
                   key: 90,
                   label: (
                     <Link
-                      onClick={refershNow}
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
                       to="/Widrwal-Pending-Request"
                       // reloadDocument={pathname === "/Widrwal-Pending-Request"}
                     >
@@ -349,7 +377,10 @@ const SiderBar = ({ IsSelfState }) => {
               icon: <FaImage />,
               label: (
                 <Link
-                  onClick={refershNow}
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
                   to="/Update-Banner"
                   // reloadDocument={pathname === "/Update-Banner"}
                 >
@@ -362,7 +393,10 @@ const SiderBar = ({ IsSelfState }) => {
               icon: <RiBankFill />,
               label: (
                 <Link
-                  onClick={refershNow}
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
                   to={Setting_Screen}
                   // reloadDocument={pathname === "/Update-Banner"}
                 >
@@ -383,7 +417,10 @@ const SiderBar = ({ IsSelfState }) => {
 
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to="/account-Statement"
                 // reloadDocument={pathname === "/account-Statement"}
               >
@@ -396,7 +433,10 @@ const SiderBar = ({ IsSelfState }) => {
 
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to="/currentsBets"
                 // reloadDocument={pathname === "/currentsBets"}
               >
@@ -409,7 +449,10 @@ const SiderBar = ({ IsSelfState }) => {
 
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to="/betHistory"
                 // eloadDocument={pathname === "/betHistory"}
               >
@@ -422,7 +465,10 @@ const SiderBar = ({ IsSelfState }) => {
 
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to="/User-History"
                 // eloadDocument={pathname === "/betHistory"}
               >
@@ -435,7 +481,10 @@ const SiderBar = ({ IsSelfState }) => {
 
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to={Profite_Loss}
                 // eloadDocument={pathname === "/betHistory"}
               >
@@ -481,7 +530,10 @@ const SiderBar = ({ IsSelfState }) => {
                 key: list.date + list.matchId + list.matchName,
                 label: (
                   <Link
-                    onClick={refershNow}
+                    onClick={() => {
+                      refershNow();
+                      setSidebar();
+                    }}
                     to={`/test-match-screen/?event-id=${list?.matchId}`}
                   >
                     <p style={{ margin: "0px" }}>
@@ -507,7 +559,10 @@ const SiderBar = ({ IsSelfState }) => {
             key: 458 + index,
             label: (
               <Link
-                onClick={refershNow}
+                onClick={() => {
+                  refershNow();
+                  setSidebar();
+                }}
                 to={`${Casino_Screen}/?casino-id=${res?.id}`}
                 // reloadDocument={pathname === "/account-Statement"}
               >
@@ -523,7 +578,10 @@ const SiderBar = ({ IsSelfState }) => {
         icon: <AiFillFacebook />,
         label: (
           <Link
-            onClick={refershNow}
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
             to={Socila_Media_Manager_Screen}
             // reloadDocument={pathname === "/account-Statement"}
           >
@@ -553,6 +611,15 @@ const SiderBar = ({ IsSelfState }) => {
     [eventData, CasionData]
   );
 
+  const handleClick = (key) => {
+    if (key) {
+      if (key[1]) {
+        setMenuKey(key[1]);
+      } else {
+        setMenuKey(key[0]);
+      }
+    }
+  };
   return (
     <>
       <LogoutModal
@@ -565,6 +632,9 @@ const SiderBar = ({ IsSelfState }) => {
         style={{ width: 256 }}
         items={item}
         mode="inline"
+        openKeys={[menuKey]}
+        // onChange={handleClick}
+        onOpenChange={handleClick}
         className="sider-bar"
       ></Menu>
     </>

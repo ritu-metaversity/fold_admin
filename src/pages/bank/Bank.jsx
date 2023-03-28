@@ -198,19 +198,19 @@ const Bank = () => {
       title: "Action",
       dataIndex: "Action",
     },
-    // {
-    //   title: "Status",
-    //   dataIndex: "Status",
-    // },
   ];
 
   const data = DataList?.map((res, index) => {
     return {
       key: res.chips + res.pts + res.availabePts + index,
-      username: res?.username,
+      username: <p style={{ textTransform: "uppercase" }}>{res?.username}</p>,
       CR: res?.chips,
-      PTS: res?.pts,
-      Client: res?.clientPl,
+      PTS: <p style={{ color: res?.pts >= 0 ? "green" : "red" }}>{res?.pts}</p>,
+      Client: (
+        <p style={{ color: res?.clientPl >= 0 ? "green" : "red" }}>
+          {res?.clientPl}
+        </p>
+      ),
       Exposer: res?.exposure,
       Available: res?.availabePts,
       AccountType: res?.accountType,

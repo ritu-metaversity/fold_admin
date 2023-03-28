@@ -20,11 +20,12 @@ import Changpasswordheader from "../moreCard/components/changepassword/headercha
 import DropDownHeader from "../dropDownMobileView/DropDownHeader";
 import { useMediaQuery } from "../modalForm/UseMedia";
 import { LoaderContext } from "../../App";
-import { get_msg, MarketAnalysis_Screen } from "../../routes/Routes";
+import { get_msg, Log_Out, MarketAnalysis_Screen } from "../../routes/Routes";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
 import LogoutModal from "../logoutModal/LogoutModal";
 import RuleModal from "../ruleModal/RuleModal";
+import { notifyToast } from "../toast/Tost";
 const Header = ({ overlayState, setDisplay, logo }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
@@ -32,9 +33,9 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   const userName = localStorage.getItem("username");
   const isMobile = useMediaQuery("(min-width: 768px)");
   const [message, setmessage] = useState("");
-
   const [isModalOpen2, setIsModalOpen2] = useState(false);
-  const { userBalanceamount, userBalance, handle } = useContext(LoaderContext);
+  const { userBalanceamount, userBalance, handle, setLoading } =
+    useContext(LoaderContext);
   const [ruleModal, setRuleModal] = useState(false);
   const navigate = useNavigate();
   // const userBalance = async () => {
@@ -63,10 +64,30 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   //   }, 1000);
   //   return () => clearInterval(timer);
   // }, []);
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
+  const logout = async () => {
+    setLoading((prev) => ({ ...prev, logout2: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Log_Out}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setLoading((prev) => ({ ...prev, logout: false }));
+        navigate("/");
+        localStorage.clear();
+        notifyToast().succes(res.data.message);
+      })
+      .catch((error) => {});
+
+    setLoading((prev) => ({ ...prev, logout2: false }));
+    //
   };
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -189,7 +210,11 @@ const Header = ({ overlayState, setDisplay, logo }) => {
         className="drop"
         style={{ display: !overlayState ? "none" : "block" }}
       >
-        <DropDownHeader pts={userBalanceamount} />
+        <DropDownHeader
+          pts={userBalanceamount}
+          logout={logout}
+          showRuleModal={showRuleModal}
+        />
       </div>
       <Modal
         title="Basic Modal"

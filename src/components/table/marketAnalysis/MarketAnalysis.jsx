@@ -28,7 +28,8 @@ const Datatable = (props) => {
   return data?.map((res) => {
     const newRes = res?.marketData?.some((market, index) => {
       return (
-        market.marketName === "Match Odds" || market.marketName === "Bookmaker"
+        market.marketName === "Match Odds" ||
+        market.marketName.includes("Bookmaker")
       );
     });
 
@@ -76,7 +77,7 @@ const Datatable = (props) => {
                 {res?.marketData?.map((market, index) => {
                   if (
                     market.marketName === "Match Odds" ||
-                    market.marketName === "Bookmaker"
+                    market.marketName.includes("Bookmaker")
                   ) {
                     return (
                       <React.Fragment

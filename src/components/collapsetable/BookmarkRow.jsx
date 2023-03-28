@@ -5,9 +5,7 @@ import "./styles.scss";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 const BookMarkRow = ({ data, prev, pnlData }) => {
-  const myPnl = pnlData?.find((ele) =>
-    console.log(ele?.marketId, data[0]?.mid, "mid")
-  );
+  const myPnl = pnlData?.find((ele) => ele?.marketId, data[0]?.mid);
 
   const pnlBookMaker = [
     {

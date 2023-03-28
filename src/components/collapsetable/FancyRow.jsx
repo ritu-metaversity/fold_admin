@@ -188,8 +188,8 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
                 className="right-col-fancy"
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
-                min:{intToString(maxbet?.minBet)} max:
-                {intToString(maxbet?.maxBet)}
+                min:{maxbet ? intToString(maxbet?.minBet) : 0} max:
+                {maxbet ? intToString(maxbet?.maxBet) : 0}
               </div>
             </div>
           </div>

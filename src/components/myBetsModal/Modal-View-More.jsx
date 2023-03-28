@@ -31,7 +31,7 @@ const ModalViewMore = ({ keyName }) => {
     username: search.userName ? search.userName : "",
     betType: value,
   };
-  const viewMoreTabledata = async () => {
+  const viewMoreTabledata = async (data) => {
     setLoading((prev) => ({ ...prev, viewMoreTabledata: true }));
     await axios
       .post(`${process.env.REACT_APP_BASE_URL}/${Bet_Search}`, data, {
@@ -40,7 +40,7 @@ const ModalViewMore = ({ keyName }) => {
         },
       })
       .then((res) => {
-        setSearch({});
+        // setSearch({});
         setTotalAmount(res?.data?.data.totalAmount);
         setTotalSoda(res?.data?.data.totalBet);
         setViewMoreTable(res?.data?.data?.betList);
@@ -50,7 +50,7 @@ const ModalViewMore = ({ keyName }) => {
   };
 
   useEffect(() => {
-    viewMoreTabledata();
+    viewMoreTabledata(data);
   }, [value]);
 
   const handleChange = (e) => {
@@ -58,7 +58,7 @@ const ModalViewMore = ({ keyName }) => {
     const value = e.target.value;
     if (name === "ip") {
       var regex = new RegExp(/^[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\d]*$/g);
-
+      // /^[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~\d]*$/g
       if (regex.test(value)) {
         setSearch((prev) => {
           return {
@@ -156,7 +156,7 @@ const ModalViewMore = ({ keyName }) => {
             />
           </div>
           <div className="btn">
-            <Button className="search" onClick={viewMoreTabledata}>
+            <Button className="search" onClick={() => viewMoreTabledata(data)}>
               Search
             </Button>
             <Button
@@ -164,7 +164,15 @@ const ModalViewMore = ({ keyName }) => {
               onClick={() => {
                 setSearch({});
                 setValue(1);
-                viewMoreTabledata();
+                viewMoreTabledata({
+                  amountFrom: 0,
+                  amountTo: 0,
+                  betType: 1,
+                  ipAddres: "",
+                  marketName: keyName,
+                  matchId: id,
+                  username: "",
+                });
               }}
             >
               Reset

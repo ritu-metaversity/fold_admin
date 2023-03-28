@@ -1,15 +1,15 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import { BsFillInfoCircleFill } from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Changpasswordheader from "../moreCard/components/changepassword/headerchangePassword";
 import SelfDepositForm from "../selfDeposit/SelfDeposit";
 import { RiWalletLine } from "react-icons/ri";
 import "./styles.scss";
-const DropDownHeader = ({ pts }) => {
+
+const DropDownHeader = ({ pts, logout, showRuleModal }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalKey, setModalKey] = useState(0);
-  const navigate = useNavigate();
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -18,11 +18,6 @@ const DropDownHeader = ({ pts }) => {
   };
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
-
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
   };
 
   return (
@@ -66,12 +61,13 @@ const DropDownHeader = ({ pts }) => {
         >
           Self Deposit
         </Link>
-        <Link
+        <span
           className="dropdown-item"
           style={{ display: "flex", alignItems: "center", gap: "10px" }}
+          onClick={showRuleModal}
         >
           <BsFillInfoCircleFill /> Rules
-        </Link>
+        </span>
         <Link
           className="dropdown-item"
           style={{ display: "flex", alignItems: "center", gap: "10px" }}

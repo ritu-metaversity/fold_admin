@@ -3,6 +3,8 @@
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
   .img-col {
     display: flex;
     flex-direction: column;

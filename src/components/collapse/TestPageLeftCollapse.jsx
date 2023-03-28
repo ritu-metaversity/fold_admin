@@ -279,7 +279,7 @@ const TestPageLeftCollapse = () => {
                 name={keyName}
                 data={odddata[keyName]}
                 prev={prevState[keyName]}
-                maxbet={maxBetData?.length && maxBetData[keyName]}
+                maxbet={maxBetData[keyName]}
               />
             </div>
           </Panel>
@@ -518,7 +518,7 @@ const TestPageLeftCollapse = () => {
           }
         )}
       </Collapse>
-      <Collapse bordered={false}>
+      <Collapse bordered={false} defaultActiveKey={["Toss"]}>
         {odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
           <Panel
             header={
@@ -576,7 +576,7 @@ const TestPageLeftCollapse = () => {
                 </div>
               </div>
             }
-            key="2"
+            key="Toss"
             className="left-panel-header"
           >
             <div className="collpase-div">
