@@ -313,12 +313,23 @@ const TestPageLeftCollapse = () => {
         ""
       )}
 
-      <Collapse bordered={false} defaultActiveKey={["0", "1", "2bm"]}>
+      <Collapse
+        bordered={false}
+        defaultActiveKey={[
+          0,
+          "Match Odds",
+          "2b",
+          "Completed Match",
+          "Tied Match",
+          "4",
+          "book",
+        ]}
+      >
         {odddata?.Odds?.filter((item) => item.Name === "Match Odds").map(
           (item, index) => {
             return (
               <Panel
-                key={index}
+                key={item.Name}
                 header={
                   <div
                     className="panel-header"
@@ -390,6 +401,7 @@ const TestPageLeftCollapse = () => {
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}
+                key="book"
               >
                 Bookmaker
                 <div className="btn" style={{ gap: "10px", display: "flex" }}>
@@ -437,7 +449,7 @@ const TestPageLeftCollapse = () => {
                 </div>
               </div>
             }
-            key="2bm"
+            key="2b"
             className="left-panel-header"
           >
             <div className="collpase-div">
@@ -456,7 +468,7 @@ const TestPageLeftCollapse = () => {
           (item, index) => {
             return (
               <Panel
-                key={index}
+                key={item.Name}
                 header={
                   <div
                     className="panel-header"
