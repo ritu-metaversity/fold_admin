@@ -11,7 +11,7 @@ const TableComponent = ({ data }) => {
       Rate: res?.pricevalue,
       Amount: res?.stack,
       Date: res?.matchedtime,
-      IP: res?.ipAddress,
+      IP: res?.userIp,
       BDetails: (
         <Tooltip title={res?.deviceInfo} placement="top">
           <span style={{ color: "#128412" }}>Detail</span>
@@ -65,6 +65,13 @@ const TableComponent = ({ data }) => {
         columns={columns}
         rowClassName={(record) => {
           return record.isback ? "blue" : "pink";
+        }}
+        pagination={{
+          pageSize: 100,
+        }}
+        scroll={{
+          y: 300,
+          x: "auto",
         }}
       />
     </div>
