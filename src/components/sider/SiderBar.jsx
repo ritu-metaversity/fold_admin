@@ -613,7 +613,6 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   );
 
   const handleClick = (key) => {
-    console.log(key, "key");
     if (key) {
       if (key[2]) {
         if (Number(key[2])) {

@@ -11,7 +11,8 @@ import { notifyToast } from "../../components/toast/Tost";
 import { NavLink } from "react-router-dom";
 const SocialMediaManager = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
-  const data = { appUrl: "admin" };
+  const [smobileNo, setMobileNo] = useState("");
+  const data = { appUrl: "maggibook.com" };
   const getSocialImage = async () => {
     const response = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/${Get_Social_Media}`,
@@ -23,6 +24,7 @@ const SocialMediaManager = () => {
       }
     );
     if (response) {
+      setMobileNo(response.data.data.mobileNo);
       const newObje = {};
       const newValue = {};
       const data = response.data.data;
@@ -217,7 +219,7 @@ const SocialMediaManager = () => {
             <div className="input">
               <Input
                 name="mobileNo"
-                value={value.mobileNo}
+                value={value.mobileNo || smobileNo}
                 onChange={handleChangeSupportValue}
                 disabled={!supportState.mobileNo}
               />
