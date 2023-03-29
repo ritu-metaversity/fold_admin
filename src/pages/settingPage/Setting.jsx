@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 const Setting = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
 
-  const data = { appUrl: "maggibook.com" };
+  const data = { appUrl: window.location.hostname };
   const getSocialImage = async () => {
     console.log(process.env.REACT_APP_BASE_URL);
     const response = await axios.post(
