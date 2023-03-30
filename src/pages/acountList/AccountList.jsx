@@ -332,7 +332,11 @@ const Activelist = () => {
         className="more"
         destroyOnClose="true"
       >
-        <MoreCard data={userId} handleCancelfunction={handleCancel} />
+        <MoreCard
+          data={userId}
+          handleCancelfunction={handleCancel}
+          Apifun={tabledata}
+        />
       </Modal>
       {/* /////credit Activity modal */}
       <Modal

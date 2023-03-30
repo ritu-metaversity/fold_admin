@@ -142,11 +142,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    tokenChecker(true);
+    if (!["/", "/" + Change_Password].includes(loc.pathname)) {
+      tokenChecker(true);
+    }
     const timer = setInterval(() => {
       const token = localStorage.getItem("token");
       if (token) {
-        if (![Home_Screen, Change_Password].includes(loc.pathname))
+        if (!["/", "/" + Change_Password].includes(loc.pathname))
           tokenChecker();
       } else {
         // setIsSignedIn(false);

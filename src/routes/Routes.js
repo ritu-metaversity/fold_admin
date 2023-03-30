@@ -89,7 +89,7 @@ export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";
 export const Tab_Deposit = "dwc/depositwithdrawdata";
 export const Tab_Widrawal = "dwc/depositwithdrawdata";
-
+export const User_Lock_Api = "user/update-bet-account-status";
 /////curent bets Api
 export const Tab_CurrentBet = "report/current-bets";
 ///bet history api

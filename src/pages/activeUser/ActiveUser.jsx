@@ -372,7 +372,11 @@ const ActiveUser = () => {
         className="more card-header"
         destroyOnClose
       >
-        <MoreCard data={userId} handleCancelfunction={handleCancel} />
+        <MoreCard
+          data={userId}
+          handleCancelfunction={handleCancel}
+          Apifun={tabledata}
+        />
       </Modal>
       <Modal
         title="CREDIT ACTIVITY"

@@ -3,6 +3,7 @@ import { Table, Tabs } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { Bet_List } from "../../routes/Routes";
 import { notifyToast } from "../toast/Tost";
 const MyBets = () => {
@@ -11,34 +12,52 @@ const MyBets = () => {
 
   const id = searchparam.get("event-id");
   const navigate = useNavigate();
+  // useEffect(() => {
+  //   const getBetsData = async () => {
+  //     await axios
+  //       .post(
+  //         `${process.env.REACT_APP_BASE_URL}/${Bet_List}`,
+  //         { matchId: id },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         setBetData(res?.data?.data);
+  //       })
+  //       .catch((error) => {
+  //         notifyToast().error(error.response.data.message);
+  //         if (error.response.data.status === 401) {
+  //           navigate("/");
+  //           localStorage.clear();
+  //         }
+  //       });
+  //   };
+  //   const timer = setInterval(() => {
+  //     getBetsData();
+  //   }, 500);
+  //   return () => clearInterval(timer);
+  // }, [id, navigate]);
+
+  const { lastMessage } = useWebSocket(
+    `ws://3.7.84.132:8082/admin/${id}/${localStorage.getItem("token")}`,
+    {
+      onError: (err) => {
+        // console.log(JSON.stringify(err) + "error");
+      },
+      onOpen: () => {
+        // console.log("connected");
+      },
+      // onMessage: (event) => console.log(event.data),
+    }
+  );
+
   useEffect(() => {
-    const getBetsData = async () => {
-      await axios
-        .post(
-          `${process.env.REACT_APP_BASE_URL}/${Bet_List}`,
-          { matchId: id },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          setBetData(res?.data?.data);
-        })
-        .catch((error) => {
-          notifyToast().error(error.response.data.message);
-          if (error.response.data.status === 401) {
-            navigate("/");
-            localStorage.clear();
-          }
-        });
-    };
-    const timer = setInterval(() => {
-      getBetsData();
-    }, 500);
-    return () => clearInterval(timer);
-  }, [id, navigate]);
+    if (lastMessage?.data && JSON.parse(lastMessage?.data)?.data)
+      setBetData(JSON.parse(lastMessage?.data).data);
+  }, [lastMessage]);
 
   const dataSource = [];
   betData?.map((res, index) => {

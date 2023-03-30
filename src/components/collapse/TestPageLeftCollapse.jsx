@@ -13,6 +13,7 @@ import {
   Max_Bet_Min_Bet,
   Odds_List,
 } from "../../routes/Routes";
+import { socket } from "../../webSocket/Socket";
 import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
@@ -39,6 +40,7 @@ const TestPageLeftCollapse = () => {
   const [betStatus, setBetlockStatus] = useState([]);
   const [maxBetData, setMaxBetData] = useState([]);
   const [userBook, setUserBook] = useState([]);
+  const [oddSocketConnected, setOddSocketConnected] = useState(false);
   const navigate = useNavigate();
 
   const id = searchparam.get("event-id");
@@ -62,22 +64,64 @@ const TestPageLeftCollapse = () => {
     setIsModalOpen(false);
   };
 
-  const getOdds = async () => {
-    await axios
-      .get(`${Odds_List}${id}`)
-      .then((res) => {
-        if (res?.status === 200) {
-          if (!odddata) {
-            setPrevState(res?.data);
-          } else {
-            setPrevState(odddata);
-          }
-          setOdddata(res?.data);
-        }
-      })
-      .catch((error) => {});
-  };
+  useEffect(() => {
+    // no-op if the socket is already connected
+    socket.connect();
 
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+  const oddFromSocket = (response) => {
+    setOdddata((fancyOdds) => {
+      if (fancyOdds) {
+        const newFancy = { ...fancyOdds };
+        setPrevState(newFancy);
+      } else {
+        setPrevState(response);
+      }
+      return { ...response };
+    });
+  };
+  // const getOdds = async () => {
+  //   await axios
+  //     .get(`${Odds_List}${id}`)
+  //     .then((res) => {
+  //       if (res?.status === 200) {
+  //         if (!odddata) {
+  //           setPrevState(res?.data);
+  //         } else {
+  //           setPrevState(odddata);
+  //         }
+  //         setOdddata(res?.data);
+  //       }
+  //     })
+  //     .catch((error) => {});
+  // };
+
+  useEffect(() => {
+    socket.on("OddsUpdated", oddFromSocket);
+    socket.on("JoinedSuccessfully", () => {
+      setOddSocketConnected(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    let timer = setInterval(
+      () =>
+        !oddSocketConnected &&
+        socket.emit("JoinRoom", {
+          eventId: id,
+        }),
+      1000
+    );
+    return () => {
+      clearInterval(timer);
+    };
+  }, [oddSocketConnected]);
+  useEffect(() => {
+    oddSocketConnected && setOddSocketConnected(false);
+  }, [id]);
   const getOddPnl = async () => {
     // setLoading(true);
     await axios
@@ -164,7 +208,7 @@ const TestPageLeftCollapse = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      getOdds();
+      // getOdds();
     }, 500);
 
     return () => clearInterval(timer);
