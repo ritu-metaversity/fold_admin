@@ -38,11 +38,9 @@ const Bookmarktable = ({ data, prev, pnlData, maxbet }) => {
               <p>
                 {/* {maxbet?.Bookmaker[0]} */}
                 min:
-                {maxbet?.Bookmaker?.length &&
-                  intToString(maxbet?.Bookmaker[0]?.minBet)}
+                {maxbet?.length && intToString(maxbet[0]?.minBet)}
                 max:
-                {maxbet?.Bookmaker?.length &&
-                  intToString(maxbet?.Bookmaker[0]?.maxBet)}
+                {maxbet?.length && intToString(maxbet[0]?.maxBet)}
               </p>
             </div>
             <div className="right-col-btn">

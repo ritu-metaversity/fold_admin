@@ -73,31 +73,32 @@ const TestPageLeftCollapse = () => {
     };
   }, []);
   const oddFromSocket = (response) => {
-    setOdddata((fancyOdds) => {
-      if (fancyOdds) {
-        const newFancy = { ...fancyOdds };
-        setPrevState(newFancy);
-      } else {
-        setPrevState(response);
-      }
-      return { ...response };
-    });
+    setMaxBetData(response);
+    // setOdddata((fancyOdds) => {
+    //   if (fancyOdds) {
+    //     const newFancy = { ...fancyOdds };
+    //     setPrevState(newFancy);
+    //   } else {
+    //     setPrevState(response);
+    //   }
+    //   return { ...response };
+    // });
   };
-  // const getOdds = async () => {
-  //   await axios
-  //     .get(`${Odds_List}${id}`)
-  //     .then((res) => {
-  //       if (res?.status === 200) {
-  //         if (!odddata) {
-  //           setPrevState(res?.data);
-  //         } else {
-  //           setPrevState(odddata);
-  //         }
-  //         setOdddata(res?.data);
-  //       }
-  //     })
-  //     .catch((error) => {});
-  // };
+  const getOdds = async () => {
+    await axios
+      .get(`${Odds_List}${id}`)
+      .then((res) => {
+        if (res?.status === 200) {
+          if (!odddata) {
+            setPrevState(res?.data);
+          } else {
+            setPrevState(odddata);
+          }
+          setOdddata(res?.data);
+        }
+      })
+      .catch((error) => {});
+  };
 
   useEffect(() => {
     socket.on("OddsUpdated", oddFromSocket);
@@ -119,9 +120,11 @@ const TestPageLeftCollapse = () => {
       clearInterval(timer);
     };
   }, [oddSocketConnected]);
+
   useEffect(() => {
     oddSocketConnected && setOddSocketConnected(false);
   }, [id]);
+
   const getOddPnl = async () => {
     // setLoading(true);
     await axios
@@ -143,25 +146,25 @@ const TestPageLeftCollapse = () => {
     // setLoading(false);
   };
 
-  const maxBetMinBetData = async () => {
-    setLoading((prev) => ({ ...prev, maxBetMinBetData: true }));
-    await axios
-      .get(`${Max_Bet_Min_Bet}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        // setLoading(false);
-        setMaxBetData(res.data);
-      })
-      .catch((error) => {});
-    setLoading((prev) => ({ ...prev, maxBetMinBetData: false }));
-  };
-  useEffect(() => {
-    maxBetMinBetData();
-  }, []);
+  // const maxBetMinBetData = async () => {
+  //   setLoading((prev) => ({ ...prev, maxBetMinBetData: true }));
+  //   await axios
+  //     .get(`${Max_Bet_Min_Bet}/${id}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       // setLoading(false);
+  //       setMaxBetData(res.data);
+  //     })
+  //     .catch((error) => {});
+  //   setLoading((prev) => ({ ...prev, maxBetMinBetData: false }));
+  // };
+  // useEffect(() => {
+  //   maxBetMinBetData();
+  // }, []);
 
   const BetLockStatus = async () => {
     setLoading((prev) => ({ ...prev, BetLockStatus: true }));
@@ -208,7 +211,7 @@ const TestPageLeftCollapse = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      // getOdds();
+      getOdds();
     }, 500);
 
     return () => clearInterval(timer);
@@ -501,7 +504,11 @@ const TestPageLeftCollapse = () => {
                 data={odddata?.Bookmaker?.filter((ele) => ele?.t !== "TOSS")}
                 prev={prevState?.Bookmaker?.filter((ele) => ele?.t !== "TOSS")}
                 pnlData={oddPnl}
-                maxbet={maxBetData}
+                maxbet={maxBetData?.Bookmaker?.filter(
+                  (odd) => odd.t !== "TOSS"
+                )}
+
+                // maxbet={maxBetData}
               />
             </div>
           </Panel>
@@ -510,6 +517,7 @@ const TestPageLeftCollapse = () => {
         )}
         {odddata?.Odds?.filter((item) => item.Name !== "Match Odds").map(
           (item, index) => {
+            if (!(item?.runner?.length > 0)) return <></>;
             return (
               <Panel
                 key={item.Name}
@@ -640,7 +648,9 @@ const TestPageLeftCollapse = () => {
                 data={odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS")}
                 prev={prevState?.Bookmaker?.filter((ele) => ele?.t === "TOSS")}
                 pnlData={oddPnl}
-                maxbet={maxBetData}
+                maxbet={maxBetData?.Bookmaker?.filter(
+                  (odd) => odd.t === "TOSS"
+                )}
               />
             </div>
           </Panel>
