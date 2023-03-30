@@ -38,8 +38,8 @@ const SocialMediaManager = () => {
       setvalue((o) => ({
         ...o,
         ...newValue,
-        support: data.support,
-        mobileNo: data.mobileNo,
+        support: data?.support,
+        mobileNo: data?.mobileNo,
       }));
       setSocialIcondata(newObje);
     }
@@ -87,11 +87,11 @@ const SocialMediaManager = () => {
       }
     }
     if (
-      (supportState.support && !value.support) ||
-      (supportState.mobileNo && !value.mobileNo)
+      (supportState?.support && !value?.support) ||
+      (supportState?.mobileNo && !value?.mobileNo)
     ) {
       return notifyToast().error("Pls Enter Value");
-    } else if (supportState.support || supportState.mobileNo) {
+    } else if (supportState?.support || supportState?.mobileNo) {
       isChecked = true;
     }
     if (isChecked) {
