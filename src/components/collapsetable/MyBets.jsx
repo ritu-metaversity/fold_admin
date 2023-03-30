@@ -42,7 +42,7 @@ const MyBets = () => {
   // }, [id, navigate]);
 
   const { lastMessage } = useWebSocket(
-    `ws://3.7.84.132:8082/admin/${id}/${localStorage.getItem("token")}`,
+    `ws://13.233.248.48:8082/admin/${id}/${localStorage.getItem("token")}`,
     {
       onError: (err) => {
         // console.log(JSON.stringify(err) + "error");
