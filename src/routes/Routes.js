@@ -112,7 +112,7 @@ export const Tab_EditProfileForm = "user/update-user-info";
 export const Bet_List = "bets/bet-list-by-matchid";
 
 ///Odds
-export const Odds_List = "http://89.39.105.69:9001/fancy/";
+export const Odds_List = "http://142.132.159.166:9001/fancy/";
 
 // export const Odds_List = "enduser/get-fancy-odds";
 

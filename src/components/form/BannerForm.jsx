@@ -121,7 +121,7 @@ const BannerFormComponent = () => {
       });
       return;
     }
-    if (fileSize > 1500) {
+    if (fileSize > 1024) {
       return notifyToast().error("image size should be less then 1500kb");
     } else {
       setLoading((prev) => ({ ...prev, createDomain: true }));
