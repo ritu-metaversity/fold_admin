@@ -535,7 +535,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       refershNow();
                       setSidebar();
                     }}
-                    to={`/test-match-screen/?event-id=${list?.matchId}`}
+                    to={`/Detail/?event-id=${list?.matchId}`}
                   >
                     <p style={{ margin: "0px" }}>
                       {list.matchName}

@@ -36,7 +36,7 @@ const Datatable = (props) => {
     // newRes.map((res) => {});
     if (newRes) {
       return (
-        <Link to={`/test-match-screen/?event-id=${res?.matchId}`}>
+        <Link to={`/Detail/?event-id=${res?.matchId}`}>
           <div
             className="tabledata"
             key={res?.matchId + "marketAnalysis" + 1 + res.sportName}
