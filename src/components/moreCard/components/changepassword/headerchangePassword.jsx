@@ -67,7 +67,7 @@ const Changpasswordheader = ({ handleCancelfunction }) => {
             )
             .then((res) => {
               if (res.data.status) {
-                notifyToast.succes(res.data.message);
+                notifyToast().succes(res.data.message);
                 handleCancelfunction();
                 setformData({});
               } else {
