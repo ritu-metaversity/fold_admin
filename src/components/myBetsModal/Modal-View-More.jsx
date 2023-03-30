@@ -209,6 +209,8 @@ const ModalViewMore = ({ keyName }) => {
                   marketName: keyName,
                   matchId: id,
                   username: "",
+                  index: paginationData.index,
+                  noOfRecords: 100,
                 });
               }}
             >

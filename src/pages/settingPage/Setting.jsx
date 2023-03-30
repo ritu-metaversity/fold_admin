@@ -6,7 +6,8 @@ import { Get_Social_Media } from "../../routes/Routes";
 import { NavLink } from "react-router-dom";
 const Setting = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
-  const data = { appUrl: "admin" };
+
+  const data = { appUrl: window.location.hostname };
   const getSocialImage = async () => {
     console.log(process.env.REACT_APP_BASE_URL);
     const response = await axios.post(

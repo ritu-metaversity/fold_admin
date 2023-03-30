@@ -11,7 +11,7 @@ import { notifyToast } from "../../components/toast/Tost";
 import { NavLink } from "react-router-dom";
 const SocialMediaManager = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
-  const data = { appUrl: "admin" };
+  const data = { appUrl: window.location.hostname };
   const getSocialImage = async () => {
     const response = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/${Get_Social_Media}`,

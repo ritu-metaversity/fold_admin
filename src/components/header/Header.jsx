@@ -114,8 +114,8 @@ const Header = ({ overlayState, setDisplay, logo }) => {
           label: (
             <span
               onClick={() => {
-                showModal();
                 setModalKey(0);
+                showModal();
               }}
               style={{
                 display: "flex",
@@ -141,8 +141,8 @@ const Header = ({ overlayState, setDisplay, logo }) => {
             fontSize: "12px",
           }}
           onClick={() => {
-            showModal();
             setModalKey(1);
+            showModal();
           }}
         >
           <HiOutlineKey />

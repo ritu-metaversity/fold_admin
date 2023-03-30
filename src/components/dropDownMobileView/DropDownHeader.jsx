@@ -31,7 +31,7 @@ const DropDownHeader = ({ pts, logout, showRuleModal }) => {
         className="modal-self-deposit"
         destroyOnClose
       >
-        {modalKey === "0" ? (
+        {modalKey === 0 ? (
           <SelfDepositForm handleCancel={handleCancel} />
         ) : (
           <Changpasswordheader handleCancelfunction={handleCancel} />

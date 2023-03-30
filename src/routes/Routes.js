@@ -8,7 +8,7 @@ export const CreatAaccounts_Screen = "createAccounts";
 export const currentsBets_Screen = "currentsBets";
 export const BetHistory_Screen = "betHistory";
 export const CreateDomain_Screen = "createdomain";
-export const TestMatch_Screen = "test-match-screen";
+export const TestMatch_Screen = "Detail";
 export const Change_Password = "change-password";
 export const Payment_Method = "Payment-method";
 export const Banner_Update = "Update-Banner";
@@ -89,7 +89,7 @@ export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";
 export const Tab_Deposit = "dwc/depositwithdrawdata";
 export const Tab_Widrawal = "dwc/depositwithdrawdata";
-
+export const User_Lock_Api = "user/update-bet-account-status";
 /////curent bets Api
 export const Tab_CurrentBet = "report/current-bets";
 ///bet history api
@@ -112,7 +112,7 @@ export const Tab_EditProfileForm = "user/update-user-info";
 export const Bet_List = "bets/bet-list-by-matchid";
 
 ///Odds
-export const Odds_List = "http://89.39.105.69:9001/fancy/";
+export const Odds_List = "http://142.132.159.166:9001/fancy/";
 
 // export const Odds_List = "enduser/get-fancy-odds";
 

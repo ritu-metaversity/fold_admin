@@ -8,7 +8,7 @@ import Transaction from "./components/transaction/Transaction";
 import UserLock from "./components/userlock/UserLock";
 ///styles
 import "./styles.scss";
-const MoreCard = ({ data, handleCancelfunction }) => {
+const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
 
   const items = [
@@ -33,7 +33,11 @@ const MoreCard = ({ data, handleCancelfunction }) => {
       key: "2",
       label: isMobile ? "User lock" : "lock",
       children: (
-        <UserLock data={data} handleCancelfunction={handleCancelfunction} />
+        <UserLock
+          data={data}
+          handleCancelfunction={handleCancelfunction}
+          Apifun={Apifun}
+        />
       ),
     },
     {

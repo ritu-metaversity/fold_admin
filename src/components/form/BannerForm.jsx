@@ -91,30 +91,27 @@ const BannerFormComponent = () => {
     });
   };
   const onSubmit = async () => {
-    setError((prev) => {
-      return {
-        ...prev,
-        priority: !Boolean(priority),
-        type: !Boolean(type),
-        image: !Boolean(fileList),
-      };
-    });
+    const currentError = {
+      priority: !Boolean(priority),
+      type: !Boolean(type),
+      image: !Boolean(fileList),
+    };
+    setError(currentError);
     let formData = new FormData();
-    if (!fileList.length || fileSize > 512) {
+    if (!fileList.length) {
       setError((prev) => {
         return {
           ...prev,
           image: Boolean(fileList),
         };
       });
-      return notifyToast().error("image size should be less then 512kb");
     }
 
     formData.append("type", type);
     formData.append("priority", priority);
     formData.append("image", fileList[0].originFileObj);
 
-    if (error.priority && error.type) {
+    if (currentError.priority || currentError.type) {
       setError((prev) => {
         return {
           ...prev,
@@ -122,6 +119,10 @@ const BannerFormComponent = () => {
           type: !Boolean(type),
         };
       });
+      return;
+    }
+    if (fileSize > 1024) {
+      return notifyToast().error("image size should be less then 1500kb");
     } else {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
@@ -261,7 +262,7 @@ const BannerFormComponent = () => {
   useEffect(() => {
     BannerListData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [typeValue]);
   ////////list Pyment method
   /////bank/list-payment-method
   useEffect(() => {
@@ -319,7 +320,7 @@ const BannerFormComponent = () => {
                 onChange={onChange}
                 onPreview={onPreview}
                 className={error.image ? "image-upload" : ""}
-                accept="image/png, image/jpeg,image/jpg ,image/webp, image/svg"
+                accept="image/png, image/jpeg,image/jpg ,image/webp, image/svg, image/gif"
               >
                 {fileList.length < 1 && "+ Upload"}
               </Upload>
@@ -394,7 +395,7 @@ const BannerFormComponent = () => {
               <Table
                 dataSource={dataSource}
                 columns={columns}
-                pagination={{ pageSize: "500" }}
+                pagination={{ pageSize: 500 }}
               />
             </div>
           </form>

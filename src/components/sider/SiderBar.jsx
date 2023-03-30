@@ -34,6 +34,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   const [casionDataState, setCasionData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [menuKey, setMenuKey] = useState("");
+  const [nestedMenuKey, setNestedMenuKey] = useState("");
   const logout = async () => {
     setLoading((prev) => ({ ...prev, logout: true }));
     await axios
@@ -534,7 +535,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       refershNow();
                       setSidebar();
                     }}
-                    to={`/test-match-screen/?event-id=${list?.matchId}`}
+                    to={`/Detail/?event-id=${list?.matchId}`}
                   >
                     <p style={{ margin: "0px" }}>
                       {list.matchName}
@@ -613,9 +614,15 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
 
   const handleClick = (key) => {
     if (key) {
-      if (key[1]) {
-        setMenuKey(key[1]);
+      if (key[2]) {
+        if (Number(key[2])) {
+          setMenuKey(key[2]);
+        } else {
+          setNestedMenuKey(key[2]);
+        }
       } else {
+        setNestedMenuKey("");
+
         setMenuKey(key[0]);
       }
     }
@@ -632,7 +639,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
         style={{ width: 256 }}
         items={item}
         mode="inline"
-        openKeys={[menuKey]}
+        openKeys={[menuKey, nestedMenuKey]}
         // onChange={handleClick}
         onOpenChange={handleClick}
         className="sider-bar"
