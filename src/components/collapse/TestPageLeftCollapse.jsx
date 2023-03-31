@@ -16,7 +16,6 @@ import { socket } from "../../webSocket/Socket";
 import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
-import Iframe from "../iframe/Iframe";
 import { notifyToast } from "../toast/Tost";
 import UserBook from "../userBook/UserBook";
 ///styles
@@ -42,9 +41,11 @@ const TestPageLeftCollapse = () => {
   const [userBook, setUserBook] = useState([]);
   const [oddSocketConnected, setOddSocketConnected] = useState(false);
   const [toggle, setToggle] = useState(false);
+  const [matchToggle, setmatchToggle] = useState(false);
   const navigate = useNavigate();
 
   const id = searchparam.get("event-id");
+  const sportId = searchparam.get("id");
   // console.log(, "odddata");
   useEffect(() => {
     if (!id) {
@@ -360,12 +361,39 @@ const TestPageLeftCollapse = () => {
           </div>
           <div className="switch-clas">
             <Switch
-              defaultChecked
-              onChange={() => setToggle(!toggle)}
+              checked={matchToggle}
+              onChange={() => {
+                setmatchToggle(!matchToggle);
+                toggle && setToggle(false);
+              }}
+              size="small"
+            />
+            <Switch
+              checked={toggle}
+              onChange={() => {
+                setToggle(!toggle);
+                matchToggle && setmatchToggle(false);
+              }}
               size="small"
             />
           </div>
-          <Iframe toggle={toggle} />
+
+          {toggle && (
+            <iframe
+              width="100%"
+              height="200px"
+              title="score-iframe"
+              src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
+            />
+          )}
+          {matchToggle && (
+            <iframe
+              width="100%"
+              className="live-iframe"
+              title="score-iframe"
+              src={`http://13.233.57.150/test.php?ChannelId=1029`}
+            />
+          )}
         </>
       ) : (
         ""
