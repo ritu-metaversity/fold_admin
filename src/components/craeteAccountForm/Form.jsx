@@ -144,17 +144,19 @@ const Accountform = () => {
                 [key]: false,
               };
             });
-          } else if (
-            name &&
-            (key === "fancyLossCommission" || key === "oddLossCommission")
-          ) {
-            setErrorData((prev) => {
-              return {
-                ...prev,
-                [key]: false,
-              };
-            });
-          } else {
+          }
+          // else if (
+          //   name &&
+          //   (key === "fancyLossCommission" || key === "oddLossCommission")
+          // ) {
+          //   setErrorData((prev) => {
+          //     return {
+          //       ...prev,
+          //       [key]: false,
+          //     };
+          //   });
+          // }
+          else {
             isError = true;
             setErrorData((prev) => {
               return {
@@ -471,7 +473,7 @@ const Accountform = () => {
             >
               <Select
                 // defaultValue={"Select App Url"}
-                value={data.oddLossCommission || "Select oddLossCommission"}
+                value={data.oddLossCommission || "Select Match Commission"}
                 name="oddLossCommission"
                 onChange={(e) => {
                   handleSelectChange(e, "oddLossCommission");
@@ -502,7 +504,7 @@ const Accountform = () => {
             >
               <Select
                 // defaultValue={"Select App Url"}
-                value={data.fancyLossCommission || "Select Session Commission:"}
+                value={data.fancyLossCommission || "Select Session Commission"}
                 name="fancyLossCommission"
                 onChange={(e) => {
                   handleSelectChange(e, "fancyLossCommission");
