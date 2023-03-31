@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Collapse, Modal } from "antd";
+import { Button, Collapse, Modal, Switch } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -10,13 +10,13 @@ import {
   Bets_Odds_Pnl,
   Bet_Lock,
   Bet_User_Book,
-  Max_Bet_Min_Bet,
   Odds_List,
 } from "../../routes/Routes";
 import { socket } from "../../webSocket/Socket";
 import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
+import Iframe from "../iframe/Iframe";
 import { notifyToast } from "../toast/Tost";
 import UserBook from "../userBook/UserBook";
 ///styles
@@ -41,6 +41,7 @@ const TestPageLeftCollapse = () => {
   const [maxBetData, setMaxBetData] = useState([]);
   const [userBook, setUserBook] = useState([]);
   const [oddSocketConnected, setOddSocketConnected] = useState(false);
+  const [toggle, setToggle] = useState(false);
   const navigate = useNavigate();
 
   const id = searchparam.get("event-id");
@@ -350,12 +351,22 @@ const TestPageLeftCollapse = () => {
         <UserBook data={userBook} />
       </Modal>
       {odddata?.Odds[0]?.runners[0]?.name ? (
-        <div className="heading">
-          <h4>
-            {`${odddata?.Odds[0]?.Series} > ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
-          </h4>
-          <h4>{odddata?.Odds[0]?.eventTime}</h4>
-        </div>
+        <>
+          <div className="heading">
+            <h4>
+              {`${odddata?.Odds[0]?.Series} > ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
+            </h4>
+            <h4>{odddata?.Odds[0]?.eventTime}</h4>
+          </div>
+          <div className="switch-clas">
+            <Switch
+              defaultChecked
+              onChange={() => setToggle(!toggle)}
+              size="small"
+            />
+          </div>
+          <Iframe toggle={toggle} />
+        </>
       ) : (
         ""
       )}

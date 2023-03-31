@@ -3,136 +3,123 @@ $breakpoint-mobile: 600px;
 $breakpoint-specific: 1218px;
 $breakpoint-medium: 1370px;
 
-.heading-match-bet{
+.heading-match-bet {
+  padding: 4px 12px;
 
-    padding: 4px 12px;
-    
-    color: #AAAFB5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 40px;
-    border-radius: 5px 5px 0px 0px ;
-    background: #3c444b;
-  
-   
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    @media (max-width: $breakpoint-tablet) {
-        margin-left: 4px;
-        margin-right: 4px;
-         }
-    h5{
-        font-size: 14px;
-        font-weight: 400;
-    }
+  color: #aaafb5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 40px;
+  border-radius: 5px 5px 0px 0px;
+  background: #3c444b;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  @media (max-width: $breakpoint-tablet) {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+  h5 {
+    font-size: 14px;
+    font-weight: 400;
+  }
 }
-.ant-collapse-header{
-    background-color: #3c444b;
-    padding: 8px 16px!important;
-    align-items: center!important;
-    border-radius: 8px 8px 0px 0px!important;
-    margin-top: 5px;
-    .ant-collapse-expand-icon{
-        color: #AAAFB5;
-
-    }
-    .ant-collapse-header-text{
-        color: #AAAFB5;
-        font-size: 14px;
-        font-weight: 500;
-    }
+.ant-collapse-header {
+  background-color: #3c444b;
+  padding: 8px 16px !important;
+  align-items: center !important;
+  border-radius: 8px 8px 0px 0px !important;
+  margin-top: 5px;
+  .ant-collapse-expand-icon {
+    color: #aaafb5;
+  }
+  .ant-collapse-header-text {
+    color: #aaafb5;
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
-.panel-header{
-  
- 
-    .btn{
-
-        .ant-btn-primary{
-            padding: 4px !important;
-            font-size: 12px;
-            font-weight: 600;
-            border-radius: 0.25rem;
-            color: #fff;
-            border: 1px solid transparent;
-            vertical-align: middle;
-
-        }
+.panel-header {
+  .btn {
+    .ant-btn-primary {
+      padding: 4px !important;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 0.25rem;
+      color: #fff;
+      border: 1px solid transparent;
+      vertical-align: middle;
     }
+  }
 }
 
-.left-panel-header{
-    .ant-collapse-content-box{
-      box-shadow: 0 0 5px #c7c7c7;
-      padding: 0px!important;
-      &:hover{
-        box-shadow:0 0 10px #868686;
-        transition: 1.5s;
-     
-      }
-        }
+.left-panel-header {
+  .ant-collapse-content-box {
+    box-shadow: 0 0 5px #c7c7c7;
+    padding: 0px !important;
+    &:hover {
+      box-shadow: 0 0 10px #868686;
+      transition: 1.5s;
+    }
+  }
 }
 
-
-
-
-
-
-.live-match-header{
-   
-    .ant-collapse-content-box{
+.live-match-header {
+  .ant-collapse-content-box {
     background-color: #434343;
-    }
-  
+  }
 }
-.fancy-panel-conatiner{
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    justify-content: space-between;
+.fancy-panel-conatiner {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+  }
+  .ant-collapse {
+    width: 49.5%;
     @media (max-width: $breakpoint-mobile) {
-        flex-direction: column;
-         }
-    .ant-collapse{
-        width: 49.5%;
-        @media (max-width: $breakpoint-mobile) {
-           width: 100%;
-            }
+      width: 100%;
     }
+  }
 }
-.ant-collapse-header{
-    height: 40px;
+.ant-collapse-header {
+  height: 40px;
 }
-.my-Bets-view-more{
+.my-Bets-view-more {
+  .ant-tabs-tab-btn {
+    color: #495057 !important;
+    &:hover {
+      color: #495057;
+    }
+  }
+
+  .ant-tabs-tab-active {
     .ant-tabs-tab-btn {
-
-        color: #495057 !important;
-        &:hover{
-
-            color: #495057;
-        }
-      
+      color: #495057 !important;
     }
-   
-    .ant-tabs-tab-active{
-        .ant-tabs-tab-btn {
-
-            color: #495057 !important;
-          
-        }
-    }
+  }
 }
-.user-Book-modal{
-    top: 5px;
-    @media (max-width: $breakpoint-tablet) {
-        top: 64px;
-         }
-    .ant-modal-header{
-        margin-bottom: 0px;
-    }
-    .ant-modal-title{
-        background-color: white;
-        color: black;
-    }
+.user-Book-modal {
+  top: 5px;
+  @media (max-width: $breakpoint-tablet) {
+    top: 64px;
+  }
+  .ant-modal-header {
+    margin-bottom: 0px;
+  }
+  .ant-modal-title {
+    background-color: white;
+    color: black;
+  }
+}
+.switch-clas {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  margin-top: 0px;
+  margin-bottom: 5px;
 }
