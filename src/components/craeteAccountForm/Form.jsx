@@ -117,7 +117,7 @@ const Accountform = () => {
       };
     });
   };
-
+  console.log(data, "data");
   const onFinish = async () => {
     let isError = false;
     if (data)
@@ -144,17 +144,19 @@ const Accountform = () => {
                 [key]: false,
               };
             });
-          } else if (
-            name &&
-            (key === "fancyLossCommission" || key === "oddLossCommission")
-          ) {
-            setErrorData((prev) => {
-              return {
-                ...prev,
-                [key]: false,
-              };
-            });
-          } else {
+          }
+          // else if (
+          //   name &&
+          //   (key === "fancyLossCommission" || key === "oddLossCommission")
+          // ) {
+          //   setErrorData((prev) => {
+          //     return {
+          //       ...prev,
+          //       [key]: false,
+          //     };
+          //   });
+          // }
+          else {
             isError = true;
             setErrorData((prev) => {
               return {
@@ -329,6 +331,28 @@ const Accountform = () => {
     };
   }, [setLoading]);
 
+  const oddLossCommissionOption = [
+    {
+      value: "0",
+      label: "0",
+    },
+    {
+      value: "1",
+      label: "1",
+    },
+    {
+      value: "2",
+      label: "2",
+    },
+    {
+      value: "2.5",
+      label: "2.5",
+    },
+    {
+      value: "3",
+      label: "3",
+    },
+  ];
   return (
     <>
       <Modal
@@ -447,14 +471,23 @@ const Accountform = () => {
                 errorData?.oddLossCommission ? "col-input2" : "col-input"
               }
             >
-              <Input
+              <Select
+                // defaultValue={"Select App Url"}
+                value={data.oddLossCommission || "Select Match Commission"}
+                name="oddLossCommission"
+                onChange={(e) => {
+                  handleSelectChange(e, "oddLossCommission");
+                }}
+                options={oddLossCommissionOption}
+              ></Select>
+              {/* <Input
                 placeholder="Match Commission:"
                 type="number"
                 name="oddLossCommission"
                 disabled={name}
-                value={name ? 0 : Math.abs(data?.oddLossCommission) || ""}
+                value={name ? 0 : data?.oddLossCommission || ""}
                 onChange={handleChange}
-              />
+              /> */}
               {errorData?.oddLossCommission ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
               ) : (
@@ -469,14 +502,23 @@ const Accountform = () => {
                 errorData?.fancyLossCommission ? "col-input2" : "col-input"
               }
             >
-              <Input
-                placeholder="Session Commission:"
+              <Select
+                // defaultValue={"Select App Url"}
+                value={data.fancyLossCommission || "Select Session Commission"}
+                name="fancyLossCommission"
+                onChange={(e) => {
+                  handleSelectChange(e, "fancyLossCommission");
+                }}
+                options={oddLossCommissionOption}
+              ></Select>
+              {/* <Input
+                placeholder=""
                 type="number"
                 name="fancyLossCommission"
                 disabled={name}
-                value={name ? 0 : Math.abs(data?.fancyLossCommission) || ""}
+                value={name ? 0 : data?.fancyLossCommission || ""}
                 onChange={handleChange}
-              />
+              /> */}
               {errorData?.fancyLossCommission ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
               ) : (

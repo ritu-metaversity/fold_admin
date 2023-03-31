@@ -72,8 +72,8 @@ const BookMarkRow = ({ data, prev, pnlData }) => {
                         : backColor[0],
                   }}
                 >
-                  <p>{item?.b1 === "0" ? "" : item?.b1}</p>
-                  <p>{item?.bs1 === "0" ? "" : item?.bs1}</p>
+                  <p>{item?.b1 === "0" ? "0" : item?.b1}</p>
+                  <p>{item?.bs1 === "0" ? "0" : item?.bs1}</p>
                 </Button>
               </>
 
@@ -89,8 +89,8 @@ const BookMarkRow = ({ data, prev, pnlData }) => {
                       : layColor[0],
                 }}
               >
-                <p>{item?.l1 === "0" ? "" : item?.l1}</p>
-                <p>{item?.ls1 === "0" ? "" : item?.ls1}</p>
+                <p>{item?.l1 === "0" ? "0" : item?.l1}</p>
+                <p>{item?.ls1 === "0" ? "0" : item?.ls1}</p>
               </Button>
               <Button
                 className="layButton"

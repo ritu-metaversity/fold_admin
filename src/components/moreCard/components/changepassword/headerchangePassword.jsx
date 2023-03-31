@@ -9,7 +9,7 @@ import { Change_Password_User } from "../../../../routes/Routes";
 import { LoaderContext } from "../../../../App";
 import { notifyToast } from "../../../toast/Tost";
 
-const Changpasswordheader = ({ handleCancelfunction }) => {
+const Changpasswordheader = ({ logout, handleCancelfunction }) => {
   const { setLoading } = useContext(LoaderContext);
   const [formData, setformData] = useState({});
   const [error, setError] = useState({});
@@ -69,6 +69,10 @@ const Changpasswordheader = ({ handleCancelfunction }) => {
               if (res.data.status) {
                 notifyToast().succes(res.data.message);
                 handleCancelfunction();
+
+                setTimeout(() => {
+                  logout();
+                }, 4000);
                 setformData({});
               } else {
                 notifyToast().error(res.data.message);
