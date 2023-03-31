@@ -452,7 +452,7 @@ const Accountform = () => {
                 type="number"
                 name="oddLossCommission"
                 disabled={name}
-                value={name ? 0 : Math.abs(data?.oddLossCommission) || ""}
+                value={name ? 0 : data?.oddLossCommission || ""}
                 onChange={handleChange}
               />
               {errorData?.oddLossCommission ? (
@@ -474,7 +474,7 @@ const Accountform = () => {
                 type="number"
                 name="fancyLossCommission"
                 disabled={name}
-                value={name ? 0 : Math.abs(data?.fancyLossCommission) || ""}
+                value={name ? 0 : data?.fancyLossCommission || ""}
                 onChange={handleChange}
               />
               {errorData?.fancyLossCommission ? (

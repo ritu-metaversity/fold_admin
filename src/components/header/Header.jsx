@@ -228,7 +228,10 @@ const Header = ({ overlayState, setDisplay, logo }) => {
         {modalKey === 0 ? (
           <SelfDepositForm handleCancel={handleCancel} />
         ) : (
-          <Changpasswordheader handleCancelfunction={handleCancel} />
+          <Changpasswordheader
+            handleCancelfunction={handleCancel}
+            logout={logout}
+          />
         )}
       </Modal>
       <div className="header-col">
