@@ -6,6 +6,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { Bet_List } from "../../routes/Routes";
 import { notifyToast } from "../toast/Tost";
+
 const MyBets = () => {
   const [betData, setBetData] = useState([]);
   const [searchparam] = useSearchParams();
@@ -42,7 +43,9 @@ const MyBets = () => {
   // }, [id, navigate]);
 
   const { lastMessage } = useWebSocket(
-    `ws://13.233.248.48:8082/admin/${id}/${localStorage.getItem("token")}`,
+    `${process.env.REACT_APP_ANKIT_SOCKET}/${id}/${localStorage.getItem(
+      "token"
+    )}`,
     {
       onError: (err) => {
         // console.log(JSON.stringify(err) + "error");

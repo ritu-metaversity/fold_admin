@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Collapse, Modal } from "antd";
+import { Button, Collapse, Modal, Switch } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -10,7 +10,6 @@ import {
   Bets_Odds_Pnl,
   Bet_Lock,
   Bet_User_Book,
-  Max_Bet_Min_Bet,
   Odds_List,
 } from "../../routes/Routes";
 import { socket } from "../../webSocket/Socket";
@@ -41,9 +40,12 @@ const TestPageLeftCollapse = () => {
   const [maxBetData, setMaxBetData] = useState([]);
   const [userBook, setUserBook] = useState([]);
   const [oddSocketConnected, setOddSocketConnected] = useState(false);
+  const [toggle, setToggle] = useState(false);
+  const [matchToggle, setmatchToggle] = useState(false);
   const navigate = useNavigate();
 
   const id = searchparam.get("event-id");
+  const sportId = searchparam.get("id");
   // console.log(, "odddata");
   useEffect(() => {
     if (!id) {
@@ -350,12 +352,49 @@ const TestPageLeftCollapse = () => {
         <UserBook data={userBook} />
       </Modal>
       {odddata?.Odds[0]?.runners[0]?.name ? (
-        <div className="heading">
-          <h4>
-            {`${odddata?.Odds[0]?.Series} > ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
-          </h4>
-          <h4>{odddata?.Odds[0]?.eventTime}</h4>
-        </div>
+        <>
+          <div className="heading">
+            <h4>
+              {`${odddata?.Odds[0]?.Series} > ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
+            </h4>
+            <h4>{odddata?.Odds[0]?.eventTime}</h4>
+          </div>
+          <div className="switch-clas">
+            <Switch
+              checked={matchToggle}
+              onChange={() => {
+                setmatchToggle(!matchToggle);
+                toggle && setToggle(false);
+              }}
+              size="small"
+            />
+            <Switch
+              checked={toggle}
+              onChange={() => {
+                setToggle(!toggle);
+                matchToggle && setmatchToggle(false);
+              }}
+              size="small"
+            />
+          </div>
+
+          {toggle && (
+            <iframe
+              width="100%"
+              height="200px"
+              title="score-iframe"
+              src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
+            />
+          )}
+          {matchToggle && (
+            <iframe
+              width="100%"
+              className="live-iframe"
+              title="score-iframe"
+              src={`http://13.233.57.150/test.php?ChannelId=1029`}
+            />
+          )}
+        </>
       ) : (
         ""
       )}
