@@ -70,13 +70,13 @@ const Profile = ({ data }) => {
             >
               h
             </Avatar>
-            <h4>{showMore.username}</h4>
-            <p>demokoimoi</p>
+            <h4>{showMore?.username}</h4>
+            <p>{data?.userId}</p>
             <div className="footer">
-              <Tooltip placement="top" title={showMore.mobile}>
+              <Tooltip placement="top" title={showMore?.mobile}>
                 <BiPhoneCall />
               </Tooltip>
-              <Tooltip placement="top" title={showMore.city}>
+              <Tooltip placement="top" title={showMore?.city}>
                 <BsBuilding />
               </Tooltip>
             </div>
@@ -97,19 +97,19 @@ const Profile = ({ data }) => {
                   <th scope="row" className="br-0">
                     User Part:
                   </th>
-                  <td className="br-0">{showMore.userPartnership}</td>
+                  <td className="br-0">{showMore?.userPartnership}</td>
                 </tr>
                 <tr>
                   <th scope="row" className="br-0">
                     Our Part:
                   </th>
-                  <td className="br-0">{showMore.ourPartnirshp}</td>
+                  <td className="br-0">{showMore?.ourPartnirshp}</td>
                 </tr>
                 <tr>
                   <th scope="row" className="br-0">
                     Remark:
                   </th>
-                  <td className="br-0">{showMore.username}</td>
+                  <td className="br-0">{showMore?.username}</td>
                 </tr>
               </tbody>
             </table>
@@ -125,46 +125,46 @@ const Profile = ({ data }) => {
                 <th scope="row" className="br-0">
                   User Name:
                 </th>
-                <td className="br-0">{showMore.username}</td>
+                <td className="br-0">{showMore?.username}</td>
               </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Mobile Number:
                 </th>
-                <td className="br-0">{showMore.mobile}</td>
+                <td className="br-0">{showMore?.mobile}</td>
               </tr>
               <tr>
                 <th scope="row" className="br-0">
                   City:
                 </th>
-                <td className="br-0">{showMore.city}</td>
+                <td className="br-0">{showMore?.city}</td>
               </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Credit pts:
                 </th>
-                <td className="br-0">{showMore.creidtReference}</td>
+                <td className="br-0">{showMore?.creidtReference}</td>
               </tr>
               <tr>
                 <th scope="row" className="br-0">
                   pts:
                 </th>
                 <td className="br-0">
-                  <span>{showMore.availableBalance}</span>
+                  <span>{showMore?.availableBalance}</span>
                 </td>
               </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Client P/L:
                 </th>
-                <td className="br-0">{showMore.clientPL}</td>
+                <td className="br-0">{showMore?.clientPL}</td>
               </tr>
               <tr>
                 <th scope="row" className="br-0">
                   Created Date :
                 </th>
                 <td className="br-0">
-                  <span>{showMore.createdDate}</span>
+                  <span>{showMore?.createdDate}</span>
                 </td>
               </tr>
             </tbody>
