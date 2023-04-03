@@ -220,10 +220,10 @@ const DownList = () => {
       title: "Account Type",
       dataIndex: "AccountType",
     },
-    {
-      title: "Action",
-      dataIndex: "Action",
-    },
+    // {
+    //   title: "Action",
+    //   dataIndex: "Action",
+    // },
   ];
 
   const data = DataList?.map((res) => {
@@ -259,21 +259,21 @@ const DownList = () => {
       ),
       PPhone: res?.pname,
       AccountType: res?.accountType,
-      Action: (
-        <div style={{ paddingRight: "10px" }}>
-          <Button
-            style={{
-              background: "#50a5f1",
-              color: "white",
-              borderColor: "#50a5f1",
-              borderRadius: "5px",
-            }}
-            onClick={() => showModalProfile(res?.id)}
-          >
-            P
-          </Button>
-        </div>
-      ),
+      //   Action: (
+      //     <div style={{ paddingRight: "10px" }}>
+      //       <Button
+      //         style={{
+      //           background: "#50a5f1",
+      //           color: "white",
+      //           borderColor: "#50a5f1",
+      //           borderRadius: "5px",
+      //         }}
+      //         onClick={() => showModalProfile(res?.id)}
+      //       >
+      //         P
+      //       </Button>
+      //     </div>
+      //   ),
     };
   });
 
