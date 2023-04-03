@@ -13,10 +13,10 @@ import { useOutletContext } from "react-router-dom";
 const defaultData = {
   username: "",
   city: "",
-  fancyLossCommission: "",
+  // fancyLossCommission: 0,
   lupassword: "",
   mobile: "",
-  oddLossCommission: "",
+  // oddLossCommission: 0,
   userRole: "",
   appId: "",
   sportPartnership: "",
@@ -39,9 +39,9 @@ const Accountform = () => {
     lupassword: false,
     appId: currentUserROle === 2 ? false : undefined,
     // city: false,
-    fancyLossCommission: name ? 0 : false,
-    // mobile: false,
-    oddLossCommission: name ? 0 : false,
+    // fancyLossCommission: 0,
+    // // mobile: false,
+    // oddLossCommission: 0,
     sportPartnership: currentUserROle === 2 ? false : undefined,
     userRole: false,
   });
@@ -117,7 +117,6 @@ const Accountform = () => {
       };
     });
   };
-  console.log(data, "data");
   const onFinish = async () => {
     let isError = false;
     if (data)
@@ -126,7 +125,6 @@ const Accountform = () => {
       }
 
     Object.keys(data).forEach((key) => {
-      console.log(key);
       if (["", 0, null, undefined, NaN].includes(data[key])) {
         if (arr.includes(key)) {
         } else {
@@ -144,19 +142,7 @@ const Accountform = () => {
                 [key]: false,
               };
             });
-          }
-          // else if (
-          //   name &&
-          //   (key === "fancyLossCommission" || key === "oddLossCommission")
-          // ) {
-          //   setErrorData((prev) => {
-          //     return {
-          //       ...prev,
-          //       [key]: false,
-          //     };
-          //   });
-          // }
-          else {
+          } else {
             isError = true;
             setErrorData((prev) => {
               return {
@@ -177,22 +163,25 @@ const Accountform = () => {
     });
     if (isError) return false;
     else {
-      Object.assign(data, { sportPartnership: Number(data.sportPartnership) });
-      Object.assign(data, {
-        oddLossCommission: Number(data.oddLossCommission),
+      const dataInner = { ...data };
+      Object.assign(dataInner, {
+        sportPartnership: Number(dataInner.sportPartnership),
       });
-      Object.assign(data, {
-        fancyLossCommission: Number(data.fancyLossCommission),
+      Object.assign(dataInner, {
+        oddLossCommission: Number(0),
       });
-      Object.assign(data, {
-        appId: Number(data.appId),
+      Object.assign(dataInner, {
+        fancyLossCommission: Number(0),
+      });
+      Object.assign(dataInner, {
+        appId: Number(dataInner.appId),
       });
       setLoading((prev) => ({ ...prev, CreateUserAccount: true }));
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Create_Admin}`,
 
-          data,
+          dataInner,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -210,10 +199,6 @@ const Accountform = () => {
               username: false,
               lupassword: false,
               appId: currentUserROle === "2" ? false : false,
-              // city: false,
-              fancyLossCommission: false,
-              // mobile: false,
-              oddLossCommission: false,
               sportPartnership: currentUserROle === "2" ? false : "",
               userRole: false,
             });
@@ -221,7 +206,10 @@ const Accountform = () => {
             notifyToast().error(res.data.message);
           }
         })
-        .catch((error) => {});
+        .catch((error) => {
+          // delete data.oddLossCommission;
+          // delete data.fancyLossCommission;
+        });
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     }
   };
@@ -331,28 +319,28 @@ const Accountform = () => {
     };
   }, [setLoading]);
 
-  const oddLossCommissionOption = [
-    {
-      value: "0",
-      label: "0",
-    },
-    {
-      value: "1",
-      label: "1",
-    },
-    {
-      value: "2",
-      label: "2",
-    },
-    {
-      value: "2.5",
-      label: "2.5",
-    },
-    {
-      value: "3",
-      label: "3",
-    },
-  ];
+  // const oddLossCommissionOption = [
+  //   {
+  //     value: "0",
+  //     label: "0",
+  //   },
+  //   {
+  //     value: "1",
+  //     label: "1",
+  //   },
+  //   {
+  //     value: "2",
+  //     label: "2",
+  //   },
+  //   {
+  //     value: "2.5",
+  //     label: "2.5",
+  //   },
+  //   {
+  //     value: "3",
+  //     label: "3",
+  //   },
+  // ];
   return (
     <>
       <Modal
@@ -464,70 +452,6 @@ const Accountform = () => {
               />
             </div>
           </Form.Item>
-
-          <Form.Item label="Match Commission:">
-            <div
-              className={
-                errorData?.oddLossCommission ? "col-input2" : "col-input"
-              }
-            >
-              <Select
-                // defaultValue={"Select App Url"}
-                value={data.oddLossCommission || "Select Match Commission"}
-                name="oddLossCommission"
-                onChange={(e) => {
-                  handleSelectChange(e, "oddLossCommission");
-                }}
-                options={oddLossCommissionOption}
-              ></Select>
-              {/* <Input
-                placeholder="Match Commission:"
-                type="number"
-                name="oddLossCommission"
-                disabled={name}
-                value={name ? 0 : data?.oddLossCommission || ""}
-                onChange={handleChange}
-              /> */}
-              {errorData?.oddLossCommission ? (
-                <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
-              ) : (
-                ""
-              )}
-            </div>
-          </Form.Item>
-
-          <Form.Item label="Session Commission:">
-            <div
-              className={
-                errorData?.fancyLossCommission ? "col-input2" : "col-input"
-              }
-            >
-              <Select
-                // defaultValue={"Select App Url"}
-                value={data.fancyLossCommission || "Select Session Commission"}
-                name="fancyLossCommission"
-                onChange={(e) => {
-                  handleSelectChange(e, "fancyLossCommission");
-                }}
-                options={oddLossCommissionOption}
-              ></Select>
-              {/* <Input
-                placeholder=""
-                type="number"
-                name="fancyLossCommission"
-                disabled={name}
-                value={name ? 0 : data?.fancyLossCommission || ""}
-                onChange={handleChange}
-              /> */}
-              {errorData?.fancyLossCommission ? (
-                <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
-              ) : (
-                ""
-              )}
-            </div>
-          </Form.Item>
-        </div>
-        <div className="right-col-section">
           {userType === "4" ? (
             <Form.Item label="App Url:">
               <div className={errorData?.appId ? "col-input2" : "col-input"}>
@@ -569,6 +493,8 @@ const Accountform = () => {
               )}
             </div>
           </Form.Item>
+        </div>
+        <div className="right-col-section">
           {data.userRole !== 2 ? (
             <>
               <p>Partnership Information</p>

@@ -3,23 +3,23 @@ import { Button, Input, Switch, Table, Modal, Tooltip } from "antd";
 import React, { createContext, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
-import "./styles.scss";
-import { Link, NavLink } from "react-router-dom";
-import DepositForm from "../../components/modalForm/DepositForm";
-import MoreCard from "../../components/moreCard/MoreCard";
-import Widrawal from "../../components/modalForm/Widrawal";
-import CreditModal from "../../components/creditActivityModal/CreditModal";
+// import "./styles.scss";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
+
 import axios from "axios";
-import { Down_Line, Table_ActiveUser } from "../../routes/Routes";
-import { useMediaQuery } from "../../components/modalForm/UseMedia";
+import { Table_ActiveUser } from "../../routes/Routes";
+
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
+import Profile from "../../components/moreCard/components/profile/Profile";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
-const ActiveUser = () => {
-  const isMobile = useMediaQuery("(min-width: 768px)");
+const DownList = () => {
+  const [searchparam] = useSearchParams();
+
+  const id = searchparam.get("downLine-id");
 
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
@@ -98,14 +98,13 @@ const ActiveUser = () => {
     setcredit(false);
     // setInputBlank(!false);
   };
-
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
         {
-          id: "",
+          id: id,
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
         },
@@ -232,19 +231,13 @@ const ActiveUser = () => {
       key: res?.id,
 
       username: (
-        <Link
-          to={`${Down_Line}/?downLine-id=${res?.id}`}
-          style={{ color: "black" }}
-        >
+        <p>
           {res?.username} <br />
           {res?.userId}
-        </Link>
+        </p>
       ),
       CR: (
-        <span
-          style={{ color: "#f1b44c", cursor: "pointer" }}
-          onClick={() => showCredit(res.id)}
-        >
+        <span style={{ color: "#f1b44c", cursor: "pointer" }}>
           {res?.chips}
         </span>
       ),
@@ -268,55 +261,16 @@ const ActiveUser = () => {
       AccountType: res?.accountType,
       Action: (
         <div style={{ paddingRight: "10px" }}>
-          <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
-            <Button
-              style={{
-                background: "#f1b44c",
-                color: "white",
-                borderColor: "#f1b44c",
-                borderRadius: "5px 0px 0px 5px",
-              }}
-              onClick={() => showCredit(res.id)}
-            >
-              CR
-            </Button>
-          </Tooltip>
-          <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
-            <Button
-              style={{
-                background: "#34c38f",
-                color: "white",
-                borderColor: "#34c38f",
-                borderRadius: "0px 0px 0px 0px",
-              }}
-              onClick={() => showModal(res?.id)}
-            >
-              D
-            </Button>
-          </Tooltip>
-          <Tooltip placement="top" title={isMobile ? "withdrawal" : ""}>
-            <Button
-              style={{
-                background: "#f46a6a",
-                color: "white",
-                borderColor: "#f46a6a",
-                borderRadius: "0px 0px 0px 0px",
-              }}
-              onClick={() => showModals(res?.id)}
-            >
-              w
-            </Button>
-          </Tooltip>
           <Button
             style={{
               background: "#50a5f1",
               color: "white",
               borderColor: "#50a5f1",
-              borderRadius: "0px 5px 5px 0px",
+              borderRadius: "5px",
             }}
             onClick={() => showModalProfile(res?.id)}
           >
-            more
+            P
           </Button>
         </div>
       ),
@@ -356,35 +310,6 @@ const ActiveUser = () => {
       }}
     >
       <Modal
-        title="Deposit"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        okText="Submit"
-        className="deposite"
-        destroyOnClose
-      >
-        <DepositForm
-          handleCancel={handleCancel}
-          data={userId}
-          gettableData={tabledata}
-        />
-      </Modal>
-      <Modal
-        title="WITHDRAW"
-        open={open}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className="widrwal"
-        destroyOnClose
-      >
-        <Widrawal
-          handleCancel={handleCancel}
-          data={userId}
-          gettableData={tabledata}
-        />
-      </Modal>
-      <Modal
         // title={DataList.find((item) => item.id == userData)?.username}
         title={userId.username}
         open={profileModal}
@@ -393,32 +318,15 @@ const ActiveUser = () => {
         className="more card-header"
         destroyOnClose
       >
-        <MoreCard
-          data={userId}
-          handleCancelfunction={handleCancel}
-          Apifun={tabledata}
-        />
+        <Profile data={userId} />
       </Modal>
-      <Modal
-        title="CREDIT ACTIVITY"
-        open={credit}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className="CREDI-ACTIVITY"
-        destroyOnClose="true"
-      >
-        <CreditModal
-          data={userId}
-          gettableData={tabledata}
-          handleCancelfunction={handleCancel}
-        />
-      </Modal>
+
       <div className="hading-create-accounts">
-        <h4>ACCOUNT LIST FOR ACTIVE USERS</h4>
+        <h4>ACCOUNT LIST </h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
           <NavLink to="/activeUser" style={{ color: "#74788d" }}>
-            Active Users
+            Active List
           </NavLink>
         </p>
       </div>
@@ -575,4 +483,4 @@ const ActiveUser = () => {
   );
 };
 
-export default ActiveUser;
+export default DownList;
