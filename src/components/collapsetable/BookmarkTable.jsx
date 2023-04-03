@@ -11,7 +11,7 @@ export const intToString = (num) => {
   let si = [
     { v: 1e3, s: "K" },
     { v: 1e5, s: "L" },
-    { v: 1e6, s: "M" },
+    // { v: 1e6, s: "M" },
     { v: 1e9, s: "B" },
     { v: 1e12, s: "T" },
     { v: 1e15, s: "P" },

@@ -1,8 +1,10 @@
-import { Table } from "antd";
+import { Table, Typography } from "antd";
 import React from "react";
 import "./styles.scss";
 
 const UserBook = ({ data }) => {
+  const { Text } = Typography;
+
   const dataSource = data?.dataList?.map((res) => {
     return {
       key: res.userId + res.pnl2 + 2,
@@ -13,6 +15,7 @@ const UserBook = ({ data }) => {
       selectionName2: (
         <p style={{ color: res?.pnl2 > 0 ? "green" : "red" }}>{res?.pnl2}</p>
       ),
+
       selectionName3: data?.selectionName3 ? (
         <p style={{ color: res?.pnl2 > 0 ? "green" : "red" }}>{res?.pnl3}</p>
       ) : (
@@ -42,6 +45,7 @@ const UserBook = ({ data }) => {
       key: "address",
       width: "369px",
     },
+
     data?.selectionName3 !== null
       ? {
           title: data?.selectionName3,
@@ -57,6 +61,31 @@ const UserBook = ({ data }) => {
       <Table
         dataSource={data?.dataList?.length ? dataSource : ""}
         columns={data?.dataList?.length ? columns : ""}
+        summary={(pageData) => {
+          let totalBorrow = 0;
+          let totalRepayment = 0;
+          pageData.forEach(({ selectionName1, selectionName2 }) => {
+            totalBorrow += selectionName1.props.children;
+            totalRepayment += selectionName2.props.children;
+          });
+          return (
+            <>
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                <Table.Summary.Cell index={1}>
+                  <Text style={{ color: totalBorrow > 0 ? "green" : "red" }}>
+                    {totalBorrow.toFixed(1)}
+                  </Text>
+                </Table.Summary.Cell>
+                <Table.Summary.Cell index={2}>
+                  <Text style={{ color: totalRepayment > 0 ? "green" : "red" }}>
+                    {totalRepayment.toFixed(1)}
+                  </Text>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            </>
+          );
+        }}
       />
     </div>
   );
