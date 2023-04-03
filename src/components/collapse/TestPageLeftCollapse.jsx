@@ -554,7 +554,8 @@ const TestPageLeftCollapse = () => {
         {/* fancyOdds.Odds?.filter( (item) => !["Match Odds", "Tied
         Match"].includes(item.Name) */}
         {odddata?.Odds?.filter(
-          (item) => !["Match Odds", "Tied Match"].includes(item.Name)
+          (item) =>
+            !["Match Odds", "Tied Match", "Completed Match"].includes(item.Name)
         ).map((item, index) => {
           if (!(item?.runners?.length > 0)) return <></>;
 

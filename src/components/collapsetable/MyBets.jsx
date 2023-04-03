@@ -47,13 +47,7 @@ const MyBets = () => {
       "token"
     )}`,
     {
-      onError: (err) => {
-        // console.log(JSON.stringify(err) + "error");
-      },
-      onOpen: () => {
-        // console.log("connected");
-      },
-      // onMessage: (event) => console.log(event.data),
+      shouldReconnect: () => true,
     }
   );
 
