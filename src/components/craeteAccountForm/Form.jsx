@@ -23,8 +23,6 @@ const defaultData = {
 };
 const arr = ["city", "mobile"];
 const Accountform = () => {
-  const [name] = useOutletContext();
-
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
   const [userPass, setUserPass] = useState("");

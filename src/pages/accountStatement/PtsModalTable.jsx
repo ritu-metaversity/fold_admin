@@ -67,6 +67,11 @@ const PtsModaltable = ({ data }) => {
         rowClassName={(record) => {
           return record.isback ? "blue" : "pink";
         }}
+        pagination={{ pageSize: 500 }}
+        scroll={{
+          y: 450,
+          x: "auto",
+        }}
       />
     </div>
   );
