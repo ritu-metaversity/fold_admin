@@ -18,6 +18,7 @@ import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
 import { notifyToast } from "../toast/Tost";
 import UserBook from "../userBook/UserBook";
+import { MdOutlineLiveTv, MdScoreboard } from "react-icons/md";
 ///styles
 import "./styles.scss";
 
@@ -351,6 +352,7 @@ const TestPageLeftCollapse = () => {
       >
         <UserBook data={userBook} />
       </Modal>
+
       {odddata?.Odds[0]?.runners[0]?.name ? (
         <>
           <div className="heading">
@@ -360,22 +362,28 @@ const TestPageLeftCollapse = () => {
             <h4>{odddata?.Odds[0]?.eventTime}</h4>
           </div>
           <div className="switch-clas">
-            <Switch
-              checked={matchToggle}
-              onChange={() => {
-                setmatchToggle(!matchToggle);
-                toggle && setToggle(false);
-              }}
-              size="small"
-            />
-            <Switch
-              checked={toggle}
-              onChange={() => {
-                setToggle(!toggle);
-                matchToggle && setmatchToggle(false);
-              }}
-              size="small"
-            />
+            <div className="switch-left-col">
+              <Switch
+                checked={matchToggle}
+                onChange={() => {
+                  setmatchToggle(!matchToggle);
+                  toggle && setToggle(false);
+                }}
+                size="small"
+              />
+              <MdOutlineLiveTv />
+            </div>
+            <div className="switch-right-col">
+              <MdScoreboard />
+              <Switch
+                checked={toggle}
+                onChange={() => {
+                  setToggle(!toggle);
+                  matchToggle && setmatchToggle(false);
+                }}
+                size="small"
+              />
+            </div>
           </div>
 
           {toggle && (
@@ -391,14 +399,14 @@ const TestPageLeftCollapse = () => {
               width="100%"
               className="live-iframe"
               title="score-iframe"
-              src={`http://13.233.57.150/test.php?ChannelId=1029`}
+              src={`https://luckybet.one/?eventId=${id}`}
             />
           )}
         </>
       ) : (
         ""
       )}
-
+      {/* <ScoreComponent /> */}
       <Collapse
         bordered={false}
         defaultActiveKey={[

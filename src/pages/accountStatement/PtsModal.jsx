@@ -51,9 +51,9 @@ const PtsModal = ({ id, remark }) => {
           <Radio value={3}>Lay</Radio>
         </Radio.Group>
         <p>
-          Total Soda: <span style={{ color: "green" }}>{soda}</span> Total
+          Total Soda: <span style={{ color: "green" }}>{bets}</span> Total
           Amount:
-          <span style={{ color: "green" }}>{bets}</span>
+          <span style={{ color: "green" }}>{soda}</span>
         </p>
       </div>
       <div className="table-col">

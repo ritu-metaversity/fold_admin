@@ -13,6 +13,7 @@ import { Tab_MoreData } from "../../../../routes/Routes";
 import "./styles.scss";
 
 const Profile = ({ data }) => {
+  console.log(data);
   const [showMore, setShowMore] = useState([]);
   const { setLoading } = useContext(LoaderContext);
 

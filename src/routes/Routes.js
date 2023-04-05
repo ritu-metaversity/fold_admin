@@ -25,6 +25,7 @@ export const Profite_Loss = "Profite-loss";
 // export const Party_Win_Lose = "Party-win-lose";
 export const Setting_Screen = "Setting";
 export const Socila_Media_Manager_Screen = "Socila-Media-Manager";
+export const Down_Line = "/down-line";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";

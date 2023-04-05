@@ -28,6 +28,11 @@ $breakpoint-tablet: 870px;
   .ant-row {
     width: 100%;
   }
+  .ant-select-selector {
+    border: none;
+    border-radius: 0px !important;
+    outline: none;
+  }
   // ant-form-item-control-input-content
   .col-input {
     border: 1px solid gray;
@@ -157,6 +162,6 @@ $breakpoint-tablet: 870px;
     outline: none;
   }
 }
-.ant-select-selector {
-  border: 1px solid transparent !important;
-}
+// .ant-select-selector {
+//   border: 1px solid transparent !important;
+// }

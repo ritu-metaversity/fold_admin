@@ -127,3 +127,14 @@ $breakpoint-medium: 1370px;
   aspect-ratio: 16/9;
   /* height: 400px; */
 }
+
+.switch-right-col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.switch-left-col {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

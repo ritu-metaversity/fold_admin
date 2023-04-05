@@ -1,25 +1,54 @@
-
 $breakpoint-specific: 1218px;
 $breakpoint-tablet: 870px;
 $breakpoint-mobile: 600px;
 $breakpoint-medium: 1370px;
 $breakpoint-common: 1280px;
-.user-book{
-    tr{
-        height: 30px;
+.user-book {
+  tr {
+    height: 30px;
+  }
+  .ant-table-tbody > tr > td {
+    font-size: 12px;
+    // font-weight: 600;
+    padding: 0px 2px 0px 5px !important;
+  }
+  .ant-table-thead > tr > th {
+    font-size: 12px;
+    padding: 2px 2px 2px 5px !important;
+    font-weight: bolder !important;
+    @media (max-width: $breakpoint-mobile) {
+      font-size: 14px;
     }
-    .ant-table-tbody>tr>td{
-        font-size: 12px;
-        // font-weight: 600;
-        padding: 0px 2px 0px 5px !important;
-    
+  }
+}
+.sum-div {
+  display: flex;
+  //   justify-content: space-between;
+  p {
+    // width: 262px;
+    &:nth-child(1) {
+      width: 64%;
+      background-color: aqua;
     }
-    .ant-table-thead >tr>th{
-        font-size: 12px;
-        padding: 2px 2px 2px 5px!important;
-        font-weight: bolder!important;
-        @media (max-width: $breakpoint-mobile) {
-            font-size: 14px;
-              }
+    &:nth-child(2) {
+      width: 15%;
+      background-color: red;
+      text-align: left;
     }
+    &:nth-child(3) {
+      width: 15%;
+      text-align: right;
+    }
+  }
+}
+
+.ant-table-summary {
+  .ant-table-cell {
+    &:nth-child(2) {
+      text-align: right;
+    }
+    &:nth-child(3) {
+      text-align: right;
+    }
+  }
 }

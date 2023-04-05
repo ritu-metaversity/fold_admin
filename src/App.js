@@ -24,6 +24,7 @@ import {
   CreateDomain_Screen,
   currentsBets_Screen,
   Deposit_Pending_Request,
+  Down_Line,
   Home_Screen,
   MarketAnalysis_Screen,
   // Party_Win_Lose,
@@ -67,6 +68,7 @@ import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
 import { ToastContainer } from "react-toastify";
 import Setting from "./pages/settingPage/Setting";
 import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
+import DownList from "./pages/downLine/DownLine";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -222,6 +224,8 @@ function App() {
             <Route path={Upi_Method} element={<Upi />}></Route>
             <Route path={Qr_Method} element={<QR />}></Route>
             <Route path={Power_List_Screen} element={<PoerList />}></Route>
+            <Route path={Down_Line} element={<DownList />}></Route>
+
             <Route
               path={Account_Statement}
               element={<AccountStatement />}

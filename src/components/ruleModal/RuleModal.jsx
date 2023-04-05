@@ -37,7 +37,7 @@ const RuleModal = ({ ruleModal, handleOk, handleCancel }) => {
           <img src={flag} alt="" /> English
         </p>
         {["Football", "Horse Racing", "Tennis", "Cricket", "Table Tennis"].map(
-          (res) => {
+          (res, index) => {
             return (
               <Collapse
                 //   defaultActiveKey={["1"]}
@@ -51,8 +51,9 @@ const RuleModal = ({ ruleModal, handleOk, handleCancel }) => {
                 }
                 activeKey={[collapseKey]}
                 destroyInactivePanel
+                key={res + index}
               >
-                <Panel header={res} key={res}>
+                <Panel header={res} key={res + index}>
                   <Collapse
                     expandIcon={({ isActive }) =>
                       isActive ? (

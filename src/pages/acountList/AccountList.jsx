@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 import DepositForm from "../../components/modalForm/DepositForm";
 import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
-import { Account_List } from "../../routes/Routes";
+import { Account_List, Down_Line } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { UserModalContext } from "../activeUser/ActiveUser";
 import { useContext } from "react";
@@ -46,6 +46,7 @@ const Activelist = () => {
     setMessage(event.target.value);
     // console.log(event);
   };
+
   const handleClick = () => {
     // 👇 "message" stores input field value
     setSearchText(message);
