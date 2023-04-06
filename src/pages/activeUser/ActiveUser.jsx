@@ -232,10 +232,7 @@ const ActiveUser = () => {
       key: res?.id,
 
       username: (
-        <Link
-          to={`${Down_Line}/?downLine-id=${res?.id}`}
-          style={{ color: "black" }}
-        >
+        <Link to={`${Down_Line}${res?.id}`} style={{ color: "black" }}>
           {res?.username} <br />
           {res?.userId}
         </Link>

@@ -2,16 +2,15 @@
 import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Fancy_Pnl } from "../../routes/Routes";
 import FancyRow from "./FancyRow";
 ////
 import "./styles.scss";
 
 const FancyTable = ({ data, prev, maxbet }) => {
-  const [searchparam] = useSearchParams();
   const [fancyPnldata, setFancyPnldata] = useState([]);
-  const id = searchparam.get("event-id");
+  const { id } = useParams();
   const getfancyPnl = async () => {
     const data = { matchId: id };
     await axios

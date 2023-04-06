@@ -3,7 +3,7 @@
 import { Button, Collapse, Modal, Switch } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import {
   bets_Lock_Status,
@@ -43,10 +43,11 @@ const TestPageLeftCollapse = () => {
   const [oddSocketConnected, setOddSocketConnected] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [matchToggle, setmatchToggle] = useState(false);
+  const [matchScore, setMatchScore] = useState(false);
   const navigate = useNavigate();
 
-  const id = searchparam.get("event-id");
-  const sportId = searchparam.get("id");
+  // const id = searchparam.get("event-id");
+  const { id, sportId } = useParams();
   // console.log(, "odddata");
   useEffect(() => {
     if (!id) {
@@ -367,31 +368,45 @@ const TestPageLeftCollapse = () => {
                 checked={matchToggle}
                 onChange={() => {
                   setmatchToggle(!matchToggle);
-                  toggle && setToggle(false);
+                  setToggle(false);
+                  setMatchScore(false);
                 }}
                 size="small"
               />
               <MdOutlineLiveTv />
             </div>
             <div className="switch-right-col">
-              <MdScoreboard />
-              <Switch
-                checked={toggle}
-                onChange={() => {
-                  setToggle(!toggle);
-                  matchToggle && setmatchToggle(false);
-                }}
-                size="small"
-              />
+              <div className="switch-1">
+                <MdScoreboard />
+                <Switch
+                  checked={toggle}
+                  onChange={() => {
+                    setToggle(!toggle);
+                    setmatchToggle(false);
+                    setMatchScore(false);
+                  }}
+                  size="small"
+                />
+                <MdScoreboard />
+                <Switch
+                  checked={matchScore}
+                  onChange={() => {
+                    setMatchScore(!matchScore);
+                    setmatchToggle(false);
+                    setToggle(false);
+                  }}
+                  size="small"
+                />
+              </div>
             </div>
           </div>
-
           {toggle && (
             <iframe
               width="100%"
               height="200px"
               title="score-iframe"
-              src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
+              src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
+              // src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
             />
           )}
           {matchToggle && (
@@ -400,6 +415,15 @@ const TestPageLeftCollapse = () => {
               className="live-iframe"
               title="score-iframe"
               src={`https://luckybet.one/?eventId=${id}`}
+            />
+          )}{" "}
+          {matchScore && (
+            <iframe
+              width="100%"
+              height="200px"
+              title="score-iframe"
+              // src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
+              src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
             />
           )}
         </>

@@ -12,6 +12,7 @@ import {
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
+import moment from "moment";
 ///styles
 // import "./styles.scss";
 // import PtsModal from "./PtsModal";
@@ -48,6 +49,7 @@ const CasinoProfiteLossTable = () => {
       matchId: "",
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
+
       userId: "",
       pageNumber: 0,
       pageSize: 25,
@@ -103,8 +105,9 @@ const CasinoProfiteLossTable = () => {
         {
           sportId: String(valueDropDown),
           matchId: String(sportChangeId),
-          fromDate: dateFrom.toISOString().split("T")[0],
-          toDate: dateTo.toISOString().split("T")[0],
+
+          fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD"),
+          toDate: moment(dateTo.toString()).format("YYYY-MM-DD"),
           userId: id,
           pageNumber: paginationData.index,
           pageSize: paginationData.noOfRecords,

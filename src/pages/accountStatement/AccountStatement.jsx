@@ -2,7 +2,7 @@
 import { Button, Input, Table, DatePicker, Select, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import moment from "moment";
 import axios from "axios";
 import {
   Account_Statement,
@@ -34,6 +34,7 @@ const AccountStatement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ptsId, setPtsId] = useState("");
   const [remark, setRemark] = useState("");
+  const [ptsdata, setPtsdata] = useState([]);
   const handleChangeTable = (sorter) => {
     setSortedInfo(sorter);
   };
@@ -112,8 +113,8 @@ const AccountStatement = () => {
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
-          fromDate: dateFrom.toISOString().split("T")[0],
-          toDate: dateTo.toISOString().split("T")[0],
+          fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD"),
+          toDate: moment(dateTo.toString()).format("YYYY-MM-DD"),
           userid: id,
           type: selectValue,
           ...DateFrom,
@@ -303,11 +304,10 @@ const AccountStatement = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
   return (
     <UserModalContext.Provider value={{}}>
       <Modal
-        title="Result"
+        title={ptsdata[0]?.userid}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -315,7 +315,12 @@ const AccountStatement = () => {
         footer={null}
         width={700}
       >
-        <PtsModal id={ptsId} remark={remark} />
+        <PtsModal
+          id={ptsId}
+          remark={remark}
+          setPtsdata={setPtsdata}
+          ptsdata={ptsdata}
+        />
       </Modal>
       <div className="hading-create-accounts">
         <h4>Account Statement</h4>

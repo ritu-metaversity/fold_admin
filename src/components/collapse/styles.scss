@@ -132,6 +132,10 @@ $breakpoint-medium: 1370px;
   display: flex;
   align-items: center;
   gap: 10px;
+  .switch-1 {
+    display: flex;
+    gap: 5px;
+  }
 }
 .switch-left-col {
   display: flex;

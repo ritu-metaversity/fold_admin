@@ -8,7 +8,7 @@ export const CreatAaccounts_Screen = "createAccounts";
 export const currentsBets_Screen = "currentsBets";
 export const BetHistory_Screen = "betHistory";
 export const CreateDomain_Screen = "createdomain";
-export const TestMatch_Screen = "Detail";
+export const TestMatch_Screen = "/Detail";
 export const Change_Password = "change-password";
 export const Payment_Method = "Payment-method";
 export const Banner_Update = "Update-Banner";
@@ -25,7 +25,7 @@ export const Profite_Loss = "Profite-loss";
 // export const Party_Win_Lose = "Party-win-lose";
 export const Setting_Screen = "Setting";
 export const Socila_Media_Manager_Screen = "Socila-Media-Manager";
-export const Down_Line = "/down-line";
+export const Down_Line = "/down-line/";
 
 // API-Endpoints
 export const DASHBOARD = "market-analysis/dashboard";

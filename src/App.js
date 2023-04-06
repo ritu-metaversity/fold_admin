@@ -69,6 +69,8 @@ import { ToastContainer } from "react-toastify";
 import Setting from "./pages/settingPage/Setting";
 import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
 import DownList from "./pages/downLine/DownLine";
+import dayjs from "dayjs";
+
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -78,7 +80,7 @@ export const LoaderContext = createContext({
   refershNow: () => {},
   keyNew: 0,
 });
-
+dayjs.locale("hi");
 function App() {
   const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
@@ -162,6 +164,7 @@ function App() {
   const handle = useFullScreenHandle();
 
   return (
+    // <ConfigProvider locale={locale}>
     <LoaderContext.Provider
       value={{
         userBalance,
@@ -212,7 +215,10 @@ function App() {
               path={CreateDomain_Screen}
               element={<CreateDomain />}
             ></Route>
-            <Route path={TestMatch_Screen} element={<Testmatch />}></Route>
+            <Route
+              path={TestMatch_Screen + "/:sportId/:id"}
+              element={<Testmatch />}
+            ></Route>
             <Route path={User_History} element={<UserHistory />}></Route>
 
             <Route
@@ -224,7 +230,7 @@ function App() {
             <Route path={Upi_Method} element={<Upi />}></Route>
             <Route path={Qr_Method} element={<QR />}></Route>
             <Route path={Power_List_Screen} element={<PoerList />}></Route>
-            <Route path={Down_Line} element={<DownList />}></Route>
+            <Route path={Down_Line + ":id"} element={<DownList />}></Route>
 
             <Route
               path={Account_Statement}
@@ -240,7 +246,7 @@ function App() {
               element={<DepositPendingRequest />}
             ></Route>
 
-            <Route path={Casino_Screen} element={<Casion />}></Route>
+            <Route path={Casino_Screen + "/:id"} element={<Casion />}></Route>
             {/* <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route> */}
           </Route>
 
@@ -248,6 +254,7 @@ function App() {
         </Routes>
       </FullScreen>
     </LoaderContext.Provider>
+    // </ConfigProvider>
   );
 }
 

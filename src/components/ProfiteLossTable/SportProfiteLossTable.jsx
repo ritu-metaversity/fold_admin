@@ -15,6 +15,7 @@ import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 ///styles
 import "./styles.scss";
+import moment from "moment";
 // import PtsModal from "./PtsModal";
 const SportProfiteLossTable = () => {
   const [searchText, setSearchText] = useState("");
@@ -118,8 +119,8 @@ const SportProfiteLossTable = () => {
         {
           sportId: String(valueDropDown),
           matchId: String(sportChangeId),
-          fromDate: dateFrom.toISOString().split("T")[0],
-          toDate: dateTo.toISOString().split("T")[0],
+          fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD"),
+          toDate: moment(dateTo.toString()).format("YYYY-MM-DD"),
           userId: id,
           pageNumber: paginationData.index,
           pageSize: paginationData.noOfRecords,
