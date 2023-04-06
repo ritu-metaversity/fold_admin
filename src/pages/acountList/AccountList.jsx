@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 import "./styles.scss";
-import { Link, NavLink, useSearchParams } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import DepositForm from "../../components/modalForm/DepositForm";
 import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
@@ -195,9 +195,9 @@ const Activelist = () => {
     return {
       key: res?.username + res.id,
       username: (
-        <p>
+        <Link to={`${Down_Line}${res?.id}`} style={{ color: "black" }}>
           {res?.username} <br />({res.userId})
-        </p>
+        </Link>
       ),
       CR: (
         <span

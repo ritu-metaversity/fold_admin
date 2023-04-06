@@ -1,7 +1,7 @@
 import { Button, Empty, Modal, Tabs } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import { Market_Name_MatchId } from "../../routes/Routes";
 import ModalViewMore from "../myBetsModal/Modal-View-More";
@@ -23,7 +23,7 @@ const TestPageRightCollapse = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const id = searchparam.get("event-id");
+  const { id } = useParams();
   const getViewMoreTabData = async () => {
     setLoading((prev) => ({ ...prev, getViewMoreTabData: true }));
     await axios

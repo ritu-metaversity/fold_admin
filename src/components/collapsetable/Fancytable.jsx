@@ -2,40 +2,39 @@
 import { Button } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Fancy_Pnl } from "../../routes/Routes";
 import FancyRow from "./FancyRow";
 ////
 import "./styles.scss";
 
-const FancyTable = ({ data, prev, maxbet }) => {
-  const [searchparam] = useSearchParams();
-  const [fancyPnldata, setFancyPnldata] = useState([]);
-  const id = searchparam.get("event-id");
-  const getfancyPnl = async () => {
-    const data = { matchId: id };
-    await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Fancy_Pnl}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setFancyPnldata(res?.data?.data);
-      })
-      .catch((error) => {});
-  };
+const FancyTable = ({ data, prev, maxbet, fancyPnldata }) => {
+  const { id } = useParams();
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      // console.log("getfancy pnl");
-      getfancyPnl();
-    }, 500);
+  // const getfancyPnl = async () => {
+  //   const data = { matchId: id };
+  //   await axios
+  //     .post(`${process.env.REACT_APP_BASE_URL}/${Fancy_Pnl}`, data, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setFancyPnldata(res?.data?.data);
+  //     })
+  //     .catch((error) => {});
+  // };
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     // console.log("getfancy pnl");
+  //     getfancyPnl();
+  //   }, 500);
+
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
   return (
     <div>
       <div className="collapse-table-container">

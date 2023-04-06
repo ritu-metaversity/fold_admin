@@ -2,8 +2,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const notifyToast = () => {
-  // Set to 10sec
-
   const succes = (string) =>
     toast.success(string, {
       autoClose: 3000,

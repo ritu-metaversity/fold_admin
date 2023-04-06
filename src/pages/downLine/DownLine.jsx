@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Switch, Table, Modal, Tooltip } from "antd";
+import { Button, Input, Switch, Table, Modal } from "antd";
 import React, { createContext, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
-import { Link, NavLink, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 
 import axios from "axios";
 import { Table_ActiveUser } from "../../routes/Routes";
@@ -17,10 +17,8 @@ export const UserModalContext = createContext({
 });
 
 const DownList = () => {
-  const [searchparam] = useSearchParams();
-
-  const id = searchparam.get("downLine-id");
-
+  // const id = searchparam.get("downLine-id");
+  const { id } = useParams();
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
   const { setLoading } = useContext(LoaderContext);
@@ -61,30 +59,30 @@ const DownList = () => {
   const [credit, setcredit] = useState(false);
 
   //////deposit Modal
-  const showModal = (obj) => {
-    setIsModalOpen(true);
-    const data = DataList?.find((item) => item?.id === obj);
-    setUserId(data);
-  };
+  // const showModal = (obj) => {
+  //   setIsModalOpen(true);
+  //   const data = DataList?.find((item) => item?.id === obj);
+  //   setUserId(data);
+  // };
   //////withdrawal Modal
-  const showModals = (obj) => {
-    setOpen(true);
-    const data = DataList?.find((item) => item?.id === obj);
-    setUserId(data);
-  };
+  // const showModals = (obj) => {
+  //   setOpen(true);
+  //   const data = DataList?.find((item) => item?.id === obj);
+  //   setUserId(data);
+  // };
 
-  ///show profile modal
-  const showModalProfile = (obj) => {
-    setprofileModal(true);
-    const data = DataList?.find((item) => item?.id === obj);
-    setUserId(data);
-  };
-  /////show credit Activity Modal
-  const showCredit = (obj) => {
-    setcredit(true);
-    const data = DataList?.find((item) => item?.id === obj);
-    setUserId(data);
-  };
+  // ///show profile modal
+  // const showModalProfile = (obj) => {
+  //   setprofileModal(true);
+  //   const data = DataList?.find((item) => item?.id === obj);
+  //   setUserId(data);
+  // };
+  // /////show credit Activity Modal
+  // const showCredit = (obj) => {
+  //   setcredit(true);
+  //   const data = DataList?.find((item) => item?.id === obj);
+  //   setUserId(data);
+  // };
   const handleOk = () => {
     setIsModalOpen(false);
     setOpen(false);

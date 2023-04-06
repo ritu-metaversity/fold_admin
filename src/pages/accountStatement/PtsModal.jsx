@@ -6,10 +6,10 @@ import { LoaderContext } from "../../App";
 import { Get_Pts_Data } from "../../routes/Routes";
 import PtsModaltable from "./PtsModalTable";
 
-const PtsModal = ({ id, remark }) => {
+const PtsModal = ({ id, remark, setPtsdata, ptsdata }) => {
   const [value, setValue] = useState(1);
   const { setLoading } = useContext(LoaderContext);
-  const [ptsdata, setPtsdata] = useState([]);
+
   const [soda, setSoda] = useState("");
   const [bets, setBets] = useState("");
 

@@ -2,7 +2,7 @@
 import { Button, Radio } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import { Bet_Search } from "../../routes/Routes";
 import "./styles.scss";
@@ -11,10 +11,9 @@ const ModalViewMore = ({ keyName }) => {
   const [activeClass, setActiveClass] = useState(false);
   const [viewMoreTable, setViewMoreTable] = useState([]);
   const [search, setSearch] = useState({});
-  const [searchparam] = useSearchParams();
   const [totalAmount, setTotalAmount] = useState("");
   const [totalSoda, setTotalSoda] = useState("");
-  const id = searchparam.get("event-id");
+  const { id } = useParams();
   const { setLoading } = useContext(LoaderContext);
   const [value, setValue] = useState(1);
   const [paginationData, setPaginationData] = useState({

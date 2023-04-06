@@ -535,7 +535,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       refershNow();
                       setSidebar();
                     }}
-                    to={`/Detail/?event-id=${list?.matchId}&id=${res?.sportId}`}
+                    to={`/Detail/${res?.sportId}/${list?.matchId}`}
                   >
                     <p style={{ margin: "0px" }}>
                       {list.matchName}
@@ -564,7 +564,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   refershNow();
                   setSidebar();
                 }}
-                to={`${Casino_Screen}/?casino-id=${res?.id}`}
+                to={`${Casino_Screen}/${res?.id}`}
                 // reloadDocument={pathname === "/account-Statement"}
               >
                 {res.name}

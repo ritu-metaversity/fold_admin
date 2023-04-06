@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { AiFillEye } from "react-icons/ai";
 ///styles
 import "./styles.scss";
+import moment from "moment";
 const LoginHistory = ({ url }) => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
@@ -107,8 +108,8 @@ const LoginHistory = ({ url }) => {
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
-          fromDate: dateFrom.toISOString().split("T")[0],
-          toDate: dateTo.toISOString().split("T")[0],
+          fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD"),
+          toDate: moment(dateTo.toString()).format("YYYY-MM-DD"),
           userId: id,
           type: selectValue,
           ...DateFrom,
