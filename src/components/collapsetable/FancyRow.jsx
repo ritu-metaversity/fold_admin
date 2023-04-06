@@ -1,7 +1,7 @@
 import { Button, Modal, Spin } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { Fancy_Book } from "../../routes/Routes";
 import "./styles.scss";
 import { intToString } from "./BookmarkTable";
@@ -13,8 +13,8 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pnl, setPnl] = useState([]);
-  const id = searchparam.get("event-id");
-
+  // const id = searchparam.get("event-id");
+  const { id } = useParams();
   const fancyBook = async (sid) => {
     const data = { matchId: id, fancyId: sid };
     await axios

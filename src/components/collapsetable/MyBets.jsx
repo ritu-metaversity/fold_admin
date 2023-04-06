@@ -1,18 +1,12 @@
 /* eslint-disable array-callback-return */
 import { Table, Tabs } from "antd";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
-import { Bet_List } from "../../routes/Routes";
-import { notifyToast } from "../toast/Tost";
 
 const MyBets = () => {
   const [betData, setBetData] = useState([]);
-  const [searchparam] = useSearchParams();
 
-  const id = searchparam.get("event-id");
-  const navigate = useNavigate();
   // useEffect(() => {
   //   const getBetsData = async () => {
   //     await axios
@@ -41,9 +35,10 @@ const MyBets = () => {
   //   }, 500);
   //   return () => clearInterval(timer);
   // }, [id, navigate]);
+  const { id } = useParams();
 
   const { lastMessage } = useWebSocket(
-    `${process.env.REACT_APP_ANKIT_SOCKET}/${id}/${localStorage.getItem(
+    `${process.env.REACT_APP_ANKIT_SOCKET}admin/${id}/${localStorage.getItem(
       "token"
     )}`,
     {

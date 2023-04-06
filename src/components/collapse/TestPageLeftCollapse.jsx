@@ -10,6 +10,7 @@ import {
   Bets_Odds_Pnl,
   Bet_Lock,
   Bet_User_Book,
+  Completed_match,
   Odds_List,
 } from "../../routes/Routes";
 import { socket } from "../../webSocket/Socket";
@@ -21,6 +22,8 @@ import UserBook from "../userBook/UserBook";
 import { MdOutlineLiveTv, MdScoreboard } from "react-icons/md";
 ///styles
 import "./styles.scss";
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import CompletedMatchTable from "../completedMatch/CompletedMatchTable";
 
 const { Panel } = Collapse;
 
@@ -44,10 +47,14 @@ const TestPageLeftCollapse = () => {
   const [toggle, setToggle] = useState(false);
   const [matchToggle, setmatchToggle] = useState(false);
   const [matchScore, setMatchScore] = useState(false);
+  const [fancyPnldata, setFancyPnldata] = useState([]);
+  const [completedModal, setIsCompletedModal] = useState(false);
+  const [completedMatch, setCompletedMatch] = useState([]);
   const navigate = useNavigate();
 
   // const id = searchparam.get("event-id");
   const { id, sportId } = useParams();
+  console.log(id);
   // console.log(, "odddata");
   useEffect(() => {
     if (!id) {
@@ -62,10 +69,12 @@ const TestPageLeftCollapse = () => {
   };
   const handleOk = () => {
     setIsModalOpen(false);
+    setIsCompletedModal(false);
   };
   const handleCancel = () => {
     setUserBook([]);
     setIsModalOpen(false);
+    setIsCompletedModal(false);
   };
 
   useEffect(() => {
@@ -129,26 +138,38 @@ const TestPageLeftCollapse = () => {
     oddSocketConnected && setOddSocketConnected(false);
   }, [id]);
 
-  const getOddPnl = async () => {
-    // setLoading(true);
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Bets_Odds_Pnl}`,
-        { matchId: id },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setOddPnl(res.data.data);
+  // const getOddPnl = async () => {
+  //   // setLoading(true);
+  //   await axios
+  //     .post(
+  //       `${process.env.REACT_APP_BASE_URL}/${Bets_Odds_Pnl}`,
+  //       { matchId: id },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       // setLoading(false);
+  //     })
+  //     .catch((error) => {});
+  //   // setLoading(false);
+  // };
 
-        // setLoading(false);
-      })
-      .catch((error) => {});
-    // setLoading(false);
-  };
+  const { lastMessage: oddPnlLastMessage } = useWebSocket(
+    `${process.env.REACT_APP_ANKIT_SOCKET}adminodd/${id}/${localStorage.getItem(
+      "token"
+    )}`,
+    {
+      shouldReconnect: () => true,
+    }
+  );
+
+  useEffect(() => {
+    if (oddPnlLastMessage?.data && JSON.parse(oddPnlLastMessage?.data)?.data)
+      setOddPnl(JSON.parse(oddPnlLastMessage?.data).data);
+  }, [oddPnlLastMessage]);
 
   // const maxBetMinBetData = async () => {
   //   setLoading((prev) => ({ ...prev, maxBetMinBetData: true }));
@@ -221,13 +242,13 @@ const TestPageLeftCollapse = () => {
     return () => clearInterval(timer);
   }, [odddata]);
 
-  useEffect(() => {
-    getOddPnl();
-    const timer = setInterval(() => {
-      getOddPnl();
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+  // useEffect(() => {
+  //   getOddPnl();
+  //   const timer = setInterval(() => {
+  //     getOddPnl();
+  //   }, 5000);
+  //   return () => clearInterval(timer);
+  // }, []);
 
   const getBetLock = async (marketNameid) => {
     setLoading((prev) => ({ ...prev, marketNameid: true }));
@@ -276,6 +297,44 @@ const TestPageLeftCollapse = () => {
       }));
     };
   }, []);
+
+  const { lastMessage: fancyPnlLastMessage } = useWebSocket(
+    `${
+      process.env.REACT_APP_ANKIT_SOCKET
+    }adminfancy/${id}/${localStorage.getItem("token")}`,
+    {
+      shouldReconnect: () => true,
+    }
+  );
+  useEffect(() => {
+    if (
+      fancyPnlLastMessage?.data &&
+      JSON.parse(fancyPnlLastMessage?.data)?.data
+    )
+      setFancyPnldata(JSON.parse(fancyPnlLastMessage?.data).data);
+  }, [fancyPnlLastMessage]);
+
+  const getCompletedMatch = async () => {
+    const data = { matchId: id, markettype: "Fancy2Market" };
+    setLoading((prev) => ({ ...prev, getUserBook: true }));
+    await axios
+      .post(`${process.env.REACT_APP_BASE_URL}/${Completed_match}`, data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setCompletedMatch(res.data.data);
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, getUserBook: false }));
+  };
+
+  const showModalCompletedMatch = () => {
+    setIsCompletedModal(true);
+    getCompletedMatch();
+  };
+
   if (!odddata || !prevState) {
     return;
   }
@@ -331,6 +390,7 @@ const TestPageLeftCollapse = () => {
                 data={odddata[keyName]}
                 prev={prevState[keyName]}
                 maxbet={maxBetData[keyName]}
+                fancyPnldata={fancyPnldata}
               />
             </div>
           </Panel>
@@ -341,6 +401,17 @@ const TestPageLeftCollapse = () => {
 
   return (
     <div>
+      <Modal
+        title="Completed Session"
+        open={completedModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        destroyOnClose
+        footer={null}
+        className="completed-match-modal"
+      >
+        <CompletedMatchTable data={completedMatch} />
+      </Modal>
       <Modal
         title="User Book"
         open={isModalOpen}
@@ -375,6 +446,16 @@ const TestPageLeftCollapse = () => {
               />
               <MdOutlineLiveTv />
             </div>
+            <Button
+              onClick={showModalCompletedMatch}
+              style={{
+                background: "rgb(241, 133, 33)",
+                color: "white",
+                border: "none",
+              }}
+            >
+              Completed Match
+            </Button>
             <div className="switch-right-col">
               <div className="switch-1">
                 <MdScoreboard />

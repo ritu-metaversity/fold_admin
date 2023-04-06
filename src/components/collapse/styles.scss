@@ -142,3 +142,9 @@ $breakpoint-medium: 1370px;
   align-items: center;
   gap: 10px;
 }
+.completed-match-modal {
+  .ant-modal-body {
+    // height: 300px;
+    // overflow-y: scroll;
+  }
+}

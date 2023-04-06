@@ -8,33 +8,33 @@ import FancyRow from "./FancyRow";
 ////
 import "./styles.scss";
 
-const FancyTable = ({ data, prev, maxbet }) => {
-  const [fancyPnldata, setFancyPnldata] = useState([]);
+const FancyTable = ({ data, prev, maxbet, fancyPnldata }) => {
   const { id } = useParams();
-  const getfancyPnl = async () => {
-    const data = { matchId: id };
-    await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Fancy_Pnl}`, data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-      .then((res) => {
-        setFancyPnldata(res?.data?.data);
-      })
-      .catch((error) => {});
-  };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      // console.log("getfancy pnl");
-      getfancyPnl();
-    }, 500);
+  // const getfancyPnl = async () => {
+  //   const data = { matchId: id };
+  //   await axios
+  //     .post(`${process.env.REACT_APP_BASE_URL}/${Fancy_Pnl}`, data, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setFancyPnldata(res?.data?.data);
+  //     })
+  //     .catch((error) => {});
+  // };
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     // console.log("getfancy pnl");
+  //     getfancyPnl();
+  //   }, 500);
+
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, []);
   return (
     <div>
       <div className="collapse-table-container">
