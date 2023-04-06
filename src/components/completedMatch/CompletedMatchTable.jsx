@@ -1,8 +1,9 @@
-import { Table } from "antd";
+import { Table, Typography } from "antd";
 import React from "react";
 import "./styles.scss";
 
 const CompletedMatchTable = ({ data }) => {
+  const { Text } = Typography;
   const dataSource = data?.map((completedData) => {
     return {
       name: completedData?.marketName,
@@ -35,7 +36,26 @@ const CompletedMatchTable = ({ data }) => {
         dataSource={dataSource}
         columns={columns}
         scroll={{
-          y: 350,
+          y: 450,
+        }}
+        summary={(pageData) => {
+          let totalBorrow = 0;
+
+          pageData.forEach(({ pnl }) => {
+            totalBorrow += pnl.props.children;
+          });
+          return (
+            <>
+              <Table.Summary.Row>
+                <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                <Table.Summary.Cell index={1}>
+                  <Text style={{ color: totalBorrow > 0 ? "green" : "red" }}>
+                    {totalBorrow.toFixed(1)}
+                  </Text>
+                </Table.Summary.Cell>
+              </Table.Summary.Row>
+            </>
+          );
         }}
       />
     </div>
