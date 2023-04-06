@@ -43,6 +43,7 @@ $breakpoint-common: 1280px;
 }
 
 .ant-table-summary {
+  border-top: 2px solid rgb(198, 198, 198);
   .ant-table-cell {
     &:nth-child(2) {
       text-align: right;
