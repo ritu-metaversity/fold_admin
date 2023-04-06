@@ -307,7 +307,7 @@ const AccountStatement = () => {
   return (
     <UserModalContext.Provider value={{}}>
       <Modal
-        title={ptsdata[0]?.userid}
+        title="Bet List"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
