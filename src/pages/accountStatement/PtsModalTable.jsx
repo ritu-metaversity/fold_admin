@@ -6,6 +6,7 @@ const PtsModaltable = ({ data }) => {
   data?.map((res, index) =>
     dataSource?.push({
       key: res?.userid + index + res?.pricevalue,
+      userId: res.userid,
       Nation: res?.marketname,
       Rate: res?.pricevalue,
       Amount: res?.stack,
@@ -22,6 +23,11 @@ const PtsModaltable = ({ data }) => {
     })
   );
   const columns = [
+    {
+      title: "userId",
+      dataIndex: "userId",
+      key: "userId",
+    },
     {
       title: "Nation",
       dataIndex: "Nation",
@@ -70,7 +76,7 @@ const PtsModaltable = ({ data }) => {
         pagination={{ pageSize: 500 }}
         scroll={{
           y: 450,
-          x: "auto",
+          // x: "auto",
         }}
       />
     </div>

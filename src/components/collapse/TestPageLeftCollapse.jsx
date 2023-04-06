@@ -454,7 +454,7 @@ const TestPageLeftCollapse = () => {
                 border: "none",
               }}
             >
-              Completed Match
+              Completed Session
             </Button>
             <div className="switch-right-col">
               <div className="switch-1">

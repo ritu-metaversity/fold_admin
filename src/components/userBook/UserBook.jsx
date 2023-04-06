@@ -64,10 +64,14 @@ const UserBook = ({ data }) => {
         summary={(pageData) => {
           let totalBorrow = 0;
           let totalRepayment = 0;
-          pageData.forEach(({ selectionName1, selectionName2 }) => {
-            totalBorrow += selectionName1.props.children;
-            totalRepayment += selectionName2.props.children;
-          });
+          let totalselectionName = 0;
+          pageData.forEach(
+            ({ selectionName1, selectionName2, selectionName3 }) => {
+              totalBorrow += selectionName1.props.children;
+              totalRepayment += selectionName2.props.children;
+              totalselectionName += selectionName3.props.children;
+            }
+          );
           return (
             <>
               <Table.Summary.Row>
@@ -82,6 +86,19 @@ const UserBook = ({ data }) => {
                     {totalRepayment.toFixed(1)}
                   </Text>
                 </Table.Summary.Cell>
+                {data?.selectionName3 !== null ? (
+                  <Table.Summary.Cell index={2}>
+                    <Text
+                      style={{
+                        color: totalselectionName > 0 ? "green" : "red",
+                      }}
+                    >
+                      {totalselectionName.toFixed(1)}
+                    </Text>
+                  </Table.Summary.Cell>
+                ) : (
+                  ""
+                )}
               </Table.Summary.Row>
             </>
           );
