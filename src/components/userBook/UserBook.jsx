@@ -69,7 +69,9 @@ const UserBook = ({ data }) => {
             ({ selectionName1, selectionName2, selectionName3 }) => {
               totalBorrow += selectionName1.props.children;
               totalRepayment += selectionName2.props.children;
-              totalselectionName += selectionName3.props.children;
+              totalselectionName += selectionName3
+                ? selectionName3.props.children
+                : "";
             }
           );
           return (
