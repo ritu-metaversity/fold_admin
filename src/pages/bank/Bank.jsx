@@ -180,6 +180,10 @@ const Bank = () => {
       title: "Client (P/L)",
       dataIndex: "Client",
     },
+    {
+      title: "Client (P/L)%",
+      dataIndex: "Client",
+    },
 
     {
       title: "Exposure",

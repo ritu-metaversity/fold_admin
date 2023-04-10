@@ -24,7 +24,6 @@ import {
   CreateDomain_Screen,
   currentsBets_Screen,
   Deposit_Pending_Request,
-  Down_Line,
   Home_Screen,
   MarketAnalysis_Screen,
   // Party_Win_Lose,
@@ -40,6 +39,8 @@ import {
   User_Balance,
   User_History,
   Widrwal_Pending_Request,
+  Down_Line_ActiveUser,
+  Down_Line_ActiveList,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -230,8 +231,14 @@ function App() {
             <Route path={Upi_Method} element={<Upi />}></Route>
             <Route path={Qr_Method} element={<QR />}></Route>
             <Route path={Power_List_Screen} element={<PoerList />}></Route>
-            <Route path={Down_Line + ":id"} element={<DownList />}></Route>
-
+            <Route
+              path={Down_Line_ActiveUser + ":id"}
+              element={<DownList apiState={true} />}
+            ></Route>
+            <Route
+              path={Down_Line_ActiveList + ":id"}
+              element={<DownList apiState={false} />}
+            ></Route>
             <Route
               path={Account_Statement}
               element={<AccountStatement />}
