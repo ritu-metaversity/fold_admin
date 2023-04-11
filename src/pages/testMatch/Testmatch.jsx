@@ -1,17 +1,21 @@
-import React from "react";
-import TestPageLeftCollapse from "../../components/collapse/TestPageLeftCollapse";
+import React, { Suspense } from "react";
 import TestPageRightCollapse from "../../components/collapse/TestPageRightCollapse";
 import MyBets from "../../components/collapsetable/MyBets";
 
-///styles
 import "./styles.scss";
+const TestPageLeftCollapse = React.lazy(() =>
+  import("../../components/collapse/TestPageLeftCollapse")
+);
+///styles
 const Testmatch = () => {
   return (
     <>
       <div className="container-test-match">
         <div className="left-body-container">
           <div className="Collapse">
-            <TestPageLeftCollapse />
+            <Suspense fallback={""}>
+              <TestPageLeftCollapse />
+            </Suspense>
           </div>
         </div>
         <div className="right-body-container">
