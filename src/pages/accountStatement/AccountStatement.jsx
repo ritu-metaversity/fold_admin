@@ -314,6 +314,7 @@ const AccountStatement = () => {
         destroyOnClose
         footer={null}
         width={700}
+        // style={{ height: "500px", overflow: "scroll" }}
       >
         <PtsModal
           id={ptsId}

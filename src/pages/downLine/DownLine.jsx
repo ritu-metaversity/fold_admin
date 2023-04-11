@@ -7,7 +7,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { Link, NavLink, useParams } from "react-router-dom";
 
 import axios from "axios";
-import { Table_ActiveUser } from "../../routes/Routes";
+import { Account_List, Table_ActiveUser } from "../../routes/Routes";
 
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
@@ -16,7 +16,7 @@ export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
-const DownList = () => {
+const DownList = ({ apiState }) => {
   // const id = searchparam.get("downLine-id");
   const { id } = useParams();
   const [searchText, setSearchText] = useState("");
@@ -100,7 +100,9 @@ const DownList = () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
+        `${process.env.REACT_APP_BASE_URL}/${
+          apiState ? Table_ActiveUser : Account_List
+        }`,
         {
           id: id,
           index: paginationData.index,

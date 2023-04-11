@@ -66,9 +66,7 @@ const TableComponent = ({ data }) => {
         rowClassName={(record) => {
           return record.isback ? "blue" : "pink";
         }}
-        pagination={{
-          pageSize: 100,
-        }}
+        pagination={false}
         scroll={{
           y: 300,
           x: "auto",

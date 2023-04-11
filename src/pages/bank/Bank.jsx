@@ -180,6 +180,10 @@ const Bank = () => {
       title: "Client (P/L)",
       dataIndex: "Client",
     },
+    {
+      title: "Client (P/L)%",
+      dataIndex: "ClientPercentage",
+    },
 
     {
       title: "Exposure",
@@ -209,6 +213,11 @@ const Bank = () => {
       Client: (
         <p style={{ color: res?.clientPl >= 0 ? "green" : "red" }}>
           {res?.clientPl}
+        </p>
+      ),
+      ClientPercentage: (
+        <p style={{ color: res?.clientPlPercentage >= 0 ? "green" : "red" }}>
+          {res?.clientPlPercentage}
         </p>
       ),
       Exposer: res?.exposure,

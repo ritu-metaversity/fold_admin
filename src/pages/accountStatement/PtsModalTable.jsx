@@ -1,6 +1,6 @@
 import { Table, Tooltip } from "antd";
 import React from "react";
-
+import "./styles.scss";
 const PtsModaltable = ({ data }) => {
   const dataSource = [];
   data?.map((res, index) =>
@@ -66,17 +66,20 @@ const PtsModaltable = ({ data }) => {
     },
   ];
   return (
-    <div className="table-container">
+    <div
+      className="table-container"
+      // style={{ height: "300px", overflow: "scroll" }}
+    >
       <Table
         dataSource={dataSource}
         columns={columns}
         rowClassName={(record) => {
           return record.isback ? "blue" : "pink";
         }}
-        pagination={{ pageSize: 500 }}
+        pagination={false}
         scroll={{
           y: 450,
-          // x: "auto",
+          x: "auto",
         }}
       />
     </div>

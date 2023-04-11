@@ -13,7 +13,7 @@ import {
   Completed_match,
   Odds_List,
 } from "../../routes/Routes";
-import { socket } from "../../webSocket/Socket";
+// import { socket } from "../../webSocket/Socket";
 import Bookmarktable from "../collapsetable/BookmarkTable";
 import FancyTable from "../collapsetable/Fancytable";
 import MatchOddTable from "../collapsetable/MatchOddPanel";
@@ -24,6 +24,7 @@ import { MdOutlineLiveTv, MdScoreboard } from "react-icons/md";
 import "./styles.scss";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import CompletedMatchTable from "../completedMatch/CompletedMatchTable";
+import { io } from "socket.io-client";
 
 const { Panel } = Collapse;
 
@@ -33,6 +34,8 @@ const oddAbbrev = {
   OddEven: "OE",
 };
 
+const URL = process.env.REACT_APP_ANISH_SOCKET || "";
+const socket = io(URL);
 const TestPageLeftCollapse = () => {
   const userType = localStorage.getItem("userType");
   const [searchparam] = useSearchParams();

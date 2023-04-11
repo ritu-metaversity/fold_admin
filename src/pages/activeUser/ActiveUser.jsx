@@ -10,7 +10,7 @@ import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
-import { Down_Line, Table_ActiveUser } from "../../routes/Routes";
+import { Down_Line_ActiveUser, Table_ActiveUser } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
@@ -232,7 +232,10 @@ const ActiveUser = () => {
       key: res?.id,
 
       username: (
-        <Link to={`${Down_Line}${res?.id}`} style={{ color: "black" }}>
+        <Link
+          to={`${Down_Line_ActiveUser}${res?.id}`}
+          style={{ color: "black" }}
+        >
           {res?.username} <br />
           {res?.userId}
         </Link>
@@ -265,19 +268,17 @@ const ActiveUser = () => {
       AccountType: res?.accountType,
       Action: (
         <div style={{ paddingRight: "10px" }}>
-          <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
-            <Button
-              style={{
-                background: "#f1b44c",
-                color: "white",
-                borderColor: "#f1b44c",
-                borderRadius: "5px 0px 0px 5px",
-              }}
-              onClick={() => showCredit(res.id)}
-            >
-              CR
-            </Button>
-          </Tooltip>
+          <Button
+            style={{
+              background: "#f1b44c",
+              color: "white",
+              borderColor: "#f1b44c",
+              borderRadius: "5px 0px 0px 5px",
+            }}
+            onClick={() => showCredit(res.id)}
+          >
+            CR
+          </Button>
           <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
             <Button
               style={{
