@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table, DatePicker, Select, Modal } from "antd";
+import { Button, Input, Table, DatePicker, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import moment from "moment";
@@ -15,7 +15,7 @@ import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 ///styles
 import "./styles.scss";
-import PtsModal from "./PtsModal";
+import BetListModal from "../../components/modal/betListModal";
 const AccountStatement = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
@@ -34,7 +34,7 @@ const AccountStatement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [ptsId, setPtsId] = useState("");
   const [remark, setRemark] = useState("");
-  const [ptsdata, setPtsdata] = useState([]);
+
   const handleChangeTable = (sorter) => {
     setSortedInfo(sorter);
   };
@@ -298,31 +298,15 @@ const AccountStatement = () => {
     setIsModalOpen(true);
     setPtsId(id);
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+
   return (
     <UserModalContext.Provider value={{}}>
-      <Modal
-        title="Bet List"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        destroyOnClose
-        footer={null}
-        width={700}
-        // style={{ height: "500px", overflow: "scroll" }}
-      >
-        <PtsModal
-          id={ptsId}
-          remark={remark}
-          setPtsdata={setPtsdata}
-          ptsdata={ptsdata}
-        />
-      </Modal>
+      <BetListModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        ptsId={ptsId}
+        remark={remark}
+      />
       <div className="hading-create-accounts">
         <h4>Account Statement</h4>
         <p>

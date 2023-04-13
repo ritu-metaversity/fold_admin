@@ -3,7 +3,7 @@
 import { Button, Collapse, Modal, Switch } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import {
   bets_Lock_Status,
@@ -12,6 +12,7 @@ import {
   Bet_User_Book,
   Completed_match,
   Odds_List,
+  Fancy_Pnl,
 } from "../../routes/Routes";
 // import { socket } from "../../webSocket/Socket";
 import Bookmarktable from "../collapsetable/BookmarkTable";
@@ -22,7 +23,7 @@ import UserBook from "../userBook/UserBook";
 import { MdOutlineLiveTv, MdScoreboard } from "react-icons/md";
 ///styles
 import "./styles.scss";
-import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+// import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import CompletedMatchTable from "../completedMatch/CompletedMatchTable";
 import { io } from "socket.io-client";
 
@@ -38,7 +39,7 @@ const URL = process.env.REACT_APP_ANISH_SOCKET || "";
 const socket = io(URL);
 const TestPageLeftCollapse = () => {
   const userType = localStorage.getItem("userType");
-  const [searchparam] = useSearchParams();
+  // const [searchparam] = useSearchParams();
   const { loading, setLoading } = useContext(LoaderContext);
   const [odddata, setOdddata] = useState();
   const [prevState, setPrevState] = useState();
@@ -57,7 +58,6 @@ const TestPageLeftCollapse = () => {
 
   // const id = searchparam.get("event-id");
   const { id, sportId } = useParams();
-  console.log(id);
   // console.log(, "odddata");
   useEffect(() => {
     if (!id) {
@@ -141,38 +141,39 @@ const TestPageLeftCollapse = () => {
     oddSocketConnected && setOddSocketConnected(false);
   }, [id]);
 
-  // const getOddPnl = async () => {
-  //   // setLoading(true);
-  //   await axios
-  //     .post(
-  //       `${process.env.REACT_APP_BASE_URL}/${Bets_Odds_Pnl}`,
-  //       { matchId: id },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       // setLoading(false);
-  //     })
-  //     .catch((error) => {});
-  //   // setLoading(false);
-  // };
+  const getOddPnl = async () => {
+    // setLoading(true);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Bets_Odds_Pnl}`,
+        { matchId: id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setOddPnl(res.data.data);
+        // setLoading(false);
+      })
+      .catch((error) => {});
+    // setLoading(false);
+  };
 
-  const { lastMessage: oddPnlLastMessage } = useWebSocket(
-    `${process.env.REACT_APP_ANKIT_SOCKET}adminodd/${id}/${localStorage.getItem(
-      "token"
-    )}`,
-    {
-      shouldReconnect: () => true,
-    }
-  );
+  // const { lastMessage: oddPnlLastMessage } = useWebSocket(
+  //   `${process.env.REACT_APP_ANKIT_SOCKET}adminodd/${id}/${localStorage.getItem(
+  //     "token"
+  //   )}`,
+  //   {
+  //     shouldReconnect: () => true,
+  //   }
+  // );
 
-  useEffect(() => {
-    if (oddPnlLastMessage?.data && JSON.parse(oddPnlLastMessage?.data)?.data)
-      setOddPnl(JSON.parse(oddPnlLastMessage?.data).data);
-  }, [oddPnlLastMessage]);
+  // useEffect(() => {
+  //   if (oddPnlLastMessage?.data && JSON.parse(oddPnlLastMessage?.data)?.data)
+  //     setOddPnl(JSON.parse(oddPnlLastMessage?.data).data);
+  // }, [oddPnlLastMessage]);
 
   // const maxBetMinBetData = async () => {
   //   setLoading((prev) => ({ ...prev, maxBetMinBetData: true }));
@@ -245,13 +246,13 @@ const TestPageLeftCollapse = () => {
     return () => clearInterval(timer);
   }, [odddata]);
 
-  // useEffect(() => {
-  //   getOddPnl();
-  //   const timer = setInterval(() => {
-  //     getOddPnl();
-  //   }, 5000);
-  //   return () => clearInterval(timer);
-  // }, []);
+  useEffect(() => {
+    getOddPnl();
+    const timer = setInterval(() => {
+      getOddPnl();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const getBetLock = async (marketNameid) => {
     setLoading((prev) => ({ ...prev, marketNameid: true }));
@@ -301,21 +302,47 @@ const TestPageLeftCollapse = () => {
     };
   }, []);
 
-  const { lastMessage: fancyPnlLastMessage } = useWebSocket(
-    `${
-      process.env.REACT_APP_ANKIT_SOCKET
-    }adminfancy/${id}/${localStorage.getItem("token")}`,
-    {
-      shouldReconnect: () => true,
-    }
-  );
+  // const { lastMessage: fancyPnlLastMessage } = useWebSocket(
+  //   `${
+  //     process.env.REACT_APP_ANKIT_SOCKET
+  //   }adminfancy/${id}/${localStorage.getItem("token")}`,
+  //   {
+  //     shouldReconnect: () => true,
+  //   }
+  // );
+  // useEffect(() => {
+  //   if (
+  //     fancyPnlLastMessage?.data &&
+  //     JSON.parse(fancyPnlLastMessage?.data)?.data
+  //   )
+  //     setFancyPnldata(JSON.parse(fancyPnlLastMessage?.data).data);
+  // }, [fancyPnlLastMessage]);
+
+  const getfancyPnl = async () => {
+    const data = { matchId: id };
+    await axios
+      .post(`${process.env.REACT_APP_BASE_URL}/${Fancy_Pnl}`, data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        setFancyPnldata(res?.data?.data);
+      })
+      .catch((error) => {});
+  };
+
   useEffect(() => {
-    if (
-      fancyPnlLastMessage?.data &&
-      JSON.parse(fancyPnlLastMessage?.data)?.data
-    )
-      setFancyPnldata(JSON.parse(fancyPnlLastMessage?.data).data);
-  }, [fancyPnlLastMessage]);
+    getfancyPnl();
+    const timer = setInterval(() => {
+      // console.log("getfancy pnl");
+      getfancyPnl();
+    }, 5000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
 
   const getCompletedMatch = async () => {
     const data = { matchId: id, markettype: "Fancy2Market" };

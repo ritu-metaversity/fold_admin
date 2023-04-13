@@ -158,7 +158,7 @@ function App() {
       } else {
         // setIsSignedIn(false);
       }
-    }, 5000);
+    }, 500);
     return () => clearInterval(timer);
   }, [loc.pathname]);
 
