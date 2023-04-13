@@ -9,6 +9,7 @@ import { notifyToast } from "../toast/Tost";
 const DomainCard = () => {
   const { setLoading } = useContext(LoaderContext);
   const [fileList, setFileList] = useState([]);
+  const [fileList2, setFileList2] = useState([]);
   const [type, setType] = useState("");
 
   const [data, setData] = useState({
@@ -24,6 +25,7 @@ const DomainCard = () => {
     transactionCode: false,
     isSelfAllowed: false,
     image: false,
+    image2: false,
   });
   const fileSize = fileList[0]?.size / 1024;
   ////////image
@@ -33,6 +35,15 @@ const DomainCard = () => {
       return {
         ...prev,
         image: !Boolean(fileList),
+      };
+    });
+  };
+  const onChange2 = ({ fileList: newFileList }) => {
+    setFileList2(newFileList);
+    setError((prev) => {
+      return {
+        ...prev,
+        image2: !Boolean(fileList2),
       };
     });
   };
@@ -57,6 +68,20 @@ const DomainCard = () => {
     },
   ];
   const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow?.document.write(image.outerHTML);
+  };
+  const onPreview2 = async (file) => {
     let src = file.url;
     if (!src) {
       src = await new Promise((resolve) => {
@@ -124,9 +149,10 @@ const DomainCard = () => {
         return {
           ...prev,
           image: true,
+          image2: true,
         };
       });
-      console.log("not hit");
+      // console.log("not hit");
       return notifyToast().error("image size should be less then 512kb");
     }
 
@@ -134,6 +160,7 @@ const DomainCard = () => {
     formData.append("appurl", data.appUrl);
     formData.append("logo", fileList[0].originFileObj);
     formData.append("lupassword", data.transactionCode);
+    formData.append("favicon", fileList2[0].originFileObj);
     formData.append(
       "isSelfAllowed",
       type === "live" ? true : type === "admin" ? false : false
@@ -147,7 +174,7 @@ const DomainCard = () => {
     ) {
       return;
     } else {
-      console.log("hit");
+      // console.log("hit");
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
@@ -163,6 +190,7 @@ const DomainCard = () => {
         .then((res) => {
           notifyToast().succes(res.data.message);
           setFileList([]);
+          setFileList2([]);
           setData({
             appName: "",
             appUrl: "",
@@ -228,16 +256,48 @@ const DomainCard = () => {
           options={options}
         />
         <div className="img-div">
-          <Upload
-            listType="picture-card"
-            fileList={fileList}
-            onChange={onChange}
-            onPreview={onPreview}
-            className={error.image ? "image-upload" : ""}
-            accept="image/png, image/jpeg,image/jpg ,image/webp,image/svg"
+          <label>logo</label>
+          <p
+            style={{
+              // width: "calc(100% - 10px)",
+              border: error.image ? "1px solid red" : "1px solid #c6bdbd",
+              padding: fileList.length > 0 ? "0px" : "10px",
+              borderRadius: "5px",
+            }}
           >
-            {fileList.length < 1 && "+ Upload"}
-          </Upload>
+            <Upload
+              listType="picture"
+              fileList={fileList}
+              onChange={onChange}
+              onPreview={onPreview}
+              // className={error.image ? "image-upload" : ""}
+              accept="image/png, image/jpeg,image/jpg ,image/webp,image/svg"
+            >
+              {fileList.length < 1 && "+ Upload"}
+            </Upload>
+          </p>
+        </div>
+        <div className="img-div">
+          <label>Favicon</label>
+          <p
+            style={{
+              // width: "calc(96% - 10px)",
+              borderRadius: "5px",
+              border: error.image2 ? "1px solid red" : "1px solid #c6bdbd",
+              padding: fileList2.length > 0 ? "0px" : "10px",
+            }}
+          >
+            <Upload
+              listType="picture"
+              fileList={fileList2}
+              onChange={onChange2}
+              onPreview={onPreview2}
+              // className={error.image2 ? "image-upload" : ""}
+              accept="image/png, image/jpeg,image/jpg ,image/webp,image/svg"
+            >
+              {fileList2.length < 1 && "+ Upload"}
+            </Upload>
+          </p>
         </div>
         <label>Transaction Code:</label>
         <input
