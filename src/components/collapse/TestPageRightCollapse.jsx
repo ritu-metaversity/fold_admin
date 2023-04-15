@@ -12,7 +12,6 @@ const TestPageRightCollapse = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tabData, setTabData] = useState([]);
   const { setLoading } = useContext(LoaderContext);
-  const [searchparam] = useSearchParams();
   const showModal = () => {
     setIsModalOpen(true);
     getViewMoreTabData();

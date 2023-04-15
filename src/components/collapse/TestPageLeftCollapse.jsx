@@ -26,6 +26,7 @@ import "./styles.scss";
 // import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import CompletedMatchTable from "../completedMatch/CompletedMatchTable";
 import { io } from "socket.io-client";
+import moment from "moment";
 
 const { Panel } = Collapse;
 
@@ -461,6 +462,11 @@ const TestPageLeftCollapse = () => {
             <h4>
               {`${odddata?.Odds[0]?.Series} > ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
             </h4>
+            <p style={{ color: "white" }}>
+              {moment(odddata?.Odds[0]?.lastMatchTime).format(
+                "YYYY-MM-DD HH:mm:ss"
+              )}
+            </p>
             <h4>{odddata?.Odds[0]?.eventTime}</h4>
           </div>
           <div className="switch-clas">
@@ -476,6 +482,15 @@ const TestPageLeftCollapse = () => {
               />
               <MdOutlineLiveTv />
             </div>
+            {/* <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "5px",
+                paddingLeft: "10px",
+              }}
+            > */}
             <Button
               onClick={showModalCompletedMatch}
               style={{
@@ -486,6 +501,8 @@ const TestPageLeftCollapse = () => {
             >
               Completed Session
             </Button>
+
+            {/* </div> */}
             <div className="switch-right-col">
               <div className="switch-1">
                 <MdScoreboard />

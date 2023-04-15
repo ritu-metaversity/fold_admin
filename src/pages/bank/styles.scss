@@ -23,11 +23,20 @@ $breakpoint-common: 1280px;
 .search-header {
   display: flex;
   align-items: center;
+  @media (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+    justify-content: space-between;
+  }
   .search-left-col {
     width: 50%;
     display: flex;
     align-items: center;
     gap: 10px;
+    // flex-wrap: wrap;
+    @media (max-width: $breakpoint-mobile) {
+      width: 100%;
+      // justify-content: space-between;
+    }
     .input-col {
       width: 200px;
       position: relative;
@@ -61,5 +70,9 @@ $breakpoint-common: 1280px;
   .search-right-col {
     width: 50%;
     text-align: right;
+    @media (max-width: $breakpoint-mobile) {
+      text-align: right;
+      width: 90%;
+    }
   }
 }

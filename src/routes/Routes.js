@@ -93,6 +93,7 @@ export const Tab_Deposit = "dwc/depositwithdrawdata";
 export const Tab_Widrawal = "dwc/depositwithdrawdata";
 export const User_Lock_Api = "user/update-bet-account-status";
 export const Completed_match = "bets/completed-fancy-pnl";
+export const Casino_Status = "user/get-user-casino-lock-status";
 /////curent bets Api
 export const Tab_CurrentBet = "report/current-bets";
 ///bet history api
