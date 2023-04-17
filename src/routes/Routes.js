@@ -1,5 +1,6 @@
 // Pages-routes-dashboard
 export const Home_Screen = "/";
+export const Dashboard_Screen = "dashBoard";
 export const Bank_Screen = "/bank";
 export const MarketAnalysis_Screen = "marketAnalysis";
 export const AccountList_Screen = "accountList";
@@ -29,7 +30,8 @@ export const Down_Line_ActiveUser = "/down-line/active-user";
 export const Down_Line_ActiveList = "/down-line/active-list";
 
 // API-Endpoints
-export const DASHBOARD = "market-analysis/dashboard";
+export const Dashboard_Api = "dashboard/default";
+export const MarketAnalysisApi = "market-analysis/dashboard";
 export const Account_List = "user/child-list";
 export const Active_Sport_List = "sport/active-sport-list";
 export const Bets_Odds_Pnl = "bets/odds-pnl";

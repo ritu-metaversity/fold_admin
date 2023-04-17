@@ -1,0 +1,43 @@
+$breakpoint-tablet: 870px;
+$breakpoint-mobile: 600px;
+$breakpoint-specific: 1218px;
+$breakpoint-medium: 1370px;
+
+.counter_section {
+  display: flex;
+  width: 18%;
+  background-color: aquamarine;
+  justify-content: center;
+  order: 0px solid #e7e7e7;
+  padding: 30px 35px;
+  background: #fff;
+  box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+  @media (max-width: $breakpoint-mobile) {
+    width: 30%;
+  }
+  .counter-section-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .couter_icon {
+      svg {
+        color: #ff9800 !important;
+        font-size: 50px;
+      }
+    }
+    .counter_no {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .total_no {
+        font-size: 24px;
+        margin-top: 5px;
+        margin-bottom: 0px;
+      }
+      .head_couter {
+        margin-top: 5px;
+        color: #99abb4;
+      }
+    }
+  }
+}

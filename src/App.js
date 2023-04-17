@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.scss";
-import Dashboard from "./pages/dashboard/Dashboard";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ActiveUser from "./pages/activeUser/ActiveUser";
 import CreateAccount from "./pages/createAccounts/CreateAccount";
@@ -41,6 +40,7 @@ import {
   Widrwal_Pending_Request,
   Down_Line_ActiveUser,
   Down_Line_ActiveList,
+  Dashboard_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -71,6 +71,8 @@ import Setting from "./pages/settingPage/Setting";
 import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
 import DownList from "./pages/downLine/DownLine";
 import dayjs from "dayjs";
+import MarketAnalysis from "./pages/marketAnalyisis/MarketAnalysis";
+import Dashboard from "./pages/dashboard/Dashboard";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -139,7 +141,7 @@ function App() {
     const x = localStorage.getItem("token");
     if (x) {
       if (loc.pathname === "/") {
-        nav("/marketAnalysis");
+        nav("/dashBoard");
       }
     } else {
       nav("/");
@@ -193,13 +195,18 @@ function App() {
             element={<ChangePasswordLogin />}
           ></Route>
           <Route path="/" element={<Mainlayout view={tokenState} />}>
+            <Route exact path={Dashboard_Screen} element={<Dashboard />} />
+
             <Route
               exact
               path={CreatAaccounts_Screen}
               element={<CreateAccount />}
             />
 
-            <Route path={MarketAnalysis_Screen} element={<Dashboard />}></Route>
+            <Route
+              path={MarketAnalysis_Screen}
+              element={<MarketAnalysis />}
+            ></Route>
             <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
             <Route path={Setting_Screen} element={<Setting />}></Route>
 

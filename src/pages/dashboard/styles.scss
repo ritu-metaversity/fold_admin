@@ -1,18 +1,10 @@
-.markettable{
-padding-top: 5px;
-    .ant-tabs-tab{
-        border-radius: 4px 4px 0px 0px!important;
-    }
-    .ant-tabs-tab-active{
-        background-color: black!important;
-    }
-    .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-        color: white;
-        text-shadow: 0 0 0.25px currentcolor;
-    }
+.dashboard-card-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  //   padding: 20px;
+  flex-wrap: wrap;
 }
-.winner-table{
-    th{
-        padding-left: 10px;
-    }
+.dashboard-heading {
+  margin-top: 5px;
 }
