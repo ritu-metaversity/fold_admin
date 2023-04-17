@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, Modal, Select } from "antd";
+import { Button, Form, Input, Modal, Select, Switch } from "antd";
 ///styles
 import "./styles.scss";
 import axios from "axios";
 import { RxCross2 } from "react-icons/rx";
-import { Create_Admin, get_Sport_List } from "../../routes/Routes";
+import {
+  Casino_Status,
+  Create_Admin,
+  get_Sport_List,
+} from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
-import { useOutletContext } from "react-router-dom";
 
+const arr = ["city", "mobile"];
 const defaultData = {
   username: "",
   city: "",
@@ -20,8 +24,8 @@ const defaultData = {
   userRole: "",
   appId: "",
   sportPartnership: "",
+  liveCasinoLock: false,
 };
-const arr = ["city", "mobile"];
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
@@ -30,8 +34,11 @@ const Accountform = () => {
   const { setLoading } = useContext(LoaderContext);
   const userType = localStorage.getItem("userType");
   const partnership = localStorage.getItem("partnership");
+  const [casinoStatus, setCasinoStatus] = useState(false);
+  // const [casinoSwitchState, setCasinoSwitchState] = useState(true);
   // console.log(currentUserROle, "currentUserROle");
   const [data, setData] = useState(defaultData);
+
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
@@ -161,7 +168,10 @@ const Accountform = () => {
     });
     if (isError) return false;
     else {
-      const dataInner = { ...data };
+      const dataInner = {
+        ...data,
+        liveCasinoLock: casinoStatus || data.liveCasinoLock,
+      };
       Object.assign(dataInner, {
         sportPartnership: Number(dataInner.sportPartnership),
       });
@@ -292,6 +302,27 @@ const Accountform = () => {
     }
   }, [userType]);
 
+  const getCasinoStatus = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Casino_Status}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setCasinoStatus(res?.data?.data?.liveCasinoLock);
+        // setSportsList(res.data.data);
+      })
+      .catch((error) => {});
+  };
+
+  useEffect(() => {
+    getCasinoStatus();
+  }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
@@ -339,6 +370,17 @@ const Accountform = () => {
   //     label: "3",
   //   },
   // ];
+  const swtchChangeHandle = (checked) => {
+    // setCasinoSwitchState(checked);
+
+    const value = checked;
+    setData((prev) => {
+      return {
+        ...prev,
+        liveCasinoLock: value,
+      };
+    });
+  };
   return (
     <>
       <Modal
@@ -532,15 +574,19 @@ const Accountform = () => {
           ) : (
             ""
           )}
-          {/* <Form.Item name="Remark" label="Remark:">
-            <Input
-              placeholder="Remark"
-              name="sportPartnership"
-              value={data.sportPartnership}
-              onChange={handleChange}
+          <Form.Item
+            name="liveCasinoLock"
+            label="LiveCasino"
+            style={{ marginTop: "10px" }}
+          >
+            <Switch
+              size="small"
+              disabled={casinoStatus}
+              value={data.liveCasinoLock}
+              onChange={swtchChangeHandle}
+              style={{ marginTop: "-10px" }}
             />
-            <RxCross2 style={{ paddingRight: "10px" ,color:"red" }} />
-          </Form.Item> */}
+          </Form.Item>
 
           <Form.Item name="TransactionPassword" label="Transaction Password">
             <div className={errorData.lupassword ? "col-input2" : "col-input"}>
@@ -560,7 +606,7 @@ const Accountform = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="btnu">
               Submit
             </Button>
           </Form.Item>

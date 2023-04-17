@@ -1,55 +1,59 @@
 /* eslint-disable array-callback-return */
 import { Table, Tabs } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import { useNavigate, useParams } from "react-router-dom";
+// import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
+import { Bet_List } from "../../routes/Routes";
+import { notifyToast } from "../toast/Tost";
 
 const MyBets = () => {
   const [betData, setBetData] = useState([]);
+  const navigate = useNavigate();
+  const { id } = useParams();
+  useEffect(() => {
+    const getBetsData = async () => {
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Bet_List}`,
+          { matchId: id },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          setBetData(res?.data?.data);
+        })
+        .catch((error) => {
+          notifyToast().error(error.response.data.message);
+          if (error.response.data.status === 401) {
+            navigate("/");
+            localStorage.clear();
+          }
+        });
+    };
+    getBetsData();
+    const timer = setInterval(() => {
+      getBetsData();
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [id, navigate]);
+
+  // const { lastMessage } = useWebSocket(
+  //   `${process.env.REACT_APP_ANKIT_SOCKET}admin/${id}/${localStorage.getItem(
+  //     "token"
+  //   )}`,
+  //   {
+  //     shouldReconnect: () => true,
+  //   }
+  // );
 
   // useEffect(() => {
-  //   const getBetsData = async () => {
-  //     await axios
-  //       .post(
-  //         `${process.env.REACT_APP_BASE_URL}/${Bet_List}`,
-  //         { matchId: id },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         setBetData(res?.data?.data);
-  //       })
-  //       .catch((error) => {
-  //         notifyToast().error(error.response.data.message);
-  //         if (error.response.data.status === 401) {
-  //           navigate("/");
-  //           localStorage.clear();
-  //         }
-  //       });
-  //   };
-  //   const timer = setInterval(() => {
-  //     getBetsData();
-  //   }, 500);
-  //   return () => clearInterval(timer);
-  // }, [id, navigate]);
-  const { id } = useParams();
-
-  const { lastMessage } = useWebSocket(
-    `${process.env.REACT_APP_ANKIT_SOCKET}admin/${id}/${localStorage.getItem(
-      "token"
-    )}`,
-    {
-      shouldReconnect: () => true,
-    }
-  );
-
-  useEffect(() => {
-    if (lastMessage?.data && JSON.parse(lastMessage?.data)?.data)
-      setBetData(JSON.parse(lastMessage?.data).data);
-  }, [lastMessage]);
+  //   if (lastMessage?.data && JSON.parse(lastMessage?.data)?.data)
+  //     setBetData(JSON.parse(lastMessage?.data).data);
+  // }, [lastMessage]);
 
   const dataSource = [];
   betData?.map((res, index) => {

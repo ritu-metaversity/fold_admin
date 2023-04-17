@@ -11,6 +11,7 @@ import {
   Casino_Screen,
   Casiono,
   Create_Power_user,
+  Dashboard_Screen,
   Left_Event_Menu,
   Log_Out,
   Payment_List,
@@ -22,7 +23,7 @@ import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
-import { AiFillFacebook } from "react-icons/ai";
+import { AiFillDashboard, AiFillFacebook } from "react-icons/ai";
 import LogoutModal from "../logoutModal/LogoutModal";
 
 const SiderBar = ({ IsSelfState, setSidebar }) => {
@@ -179,16 +180,22 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   };
   const item = useMemo(
     () => [
-      // {
-      //   key: "1",
-      //   icon: <AiFillDashboard />,
-      //   label: (
-      //     <Link onClick={refershNow}
-      // to="" style={{ color: "white" }}>
-      //       Dashboard
-      //     </Link>
-      //   ),
-      // },
+      {
+        key: "1",
+        icon: <AiFillDashboard />,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to={Dashboard_Screen}
+            // reloadDocument={pathname === "/marketanalysis"}
+          >
+            Dashboard
+          </Link>
+        ),
+      },
       {
         key: 2,
         icon: <TbBrandGoogleAnalytics />,
@@ -198,7 +205,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               refershNow();
               setSidebar();
             }}
-            to="/marketanalysis"
+            to="/marketAnalysis"
             // reloadDocument={pathname === "/marketanalysis"}
           >
             Market Analysis

@@ -4,9 +4,14 @@
       text-align: right;
     }
   }
+  .ant-table-cell-row-hover {
+    background-color: transparent !important;
+  }
   .ant-table-tbody {
     .ant-table-cell {
-      text-align: right;
+      text-overflow: ellipsis;
+      white-space: break-spaces;
+      // text-align: right;
       padding-top: 0px;
       padding-bottom: 0px;
     }

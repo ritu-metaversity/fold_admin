@@ -1,6 +1,12 @@
 import { Button, Input, Table, Tooltip, Radio, Select } from "antd";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
 import { AiFillEye } from "react-icons/ai";
 ///styles
@@ -203,28 +209,32 @@ const BetHistorytable = ({ id }) => {
     },
   ];
 
-  const data = DataList?.map((res, index) => {
-    return {
-      key: res?.rate + res?.time + res?.amount + index,
-      isBack: res?.isback,
-      EventType: res?.eventType,
-      EventName: res?.eventNamem,
-      UserName: res?.username,
-      MName: res?.marketname,
-      Nation: res?.nation,
-      URate: res?.rate,
-      Amount: res?.amount,
-      PlaceDate: res?.time,
+  const data = useMemo(
+    () =>
+      DataList?.map((res, index) => {
+        return {
+          key: res?.rate + res?.time + res?.amount + index,
+          isBack: res?.isback,
+          EventType: res?.eventType,
+          EventName: res?.eventNamem,
+          UserName: res?.username,
+          MName: res?.marketname,
+          Nation: res?.nation,
+          URate: res?.rate,
+          Amount: res?.amount,
+          PlaceDate: res?.time,
 
-      Detail: (
-        <>
-          <Tooltip title={res?.deviceInfo}>
-            <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-          </Tooltip>
-        </>
-      ),
-    };
-  });
+          Detail: (
+            <>
+              <Tooltip title={res?.deviceInfo}>
+                <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+              </Tooltip>
+            </>
+          ),
+        };
+      }),
+    [DataList]
+  );
 
   const Increment = () => {
     if (paginationData?.index < paginationData?.totalPages) {

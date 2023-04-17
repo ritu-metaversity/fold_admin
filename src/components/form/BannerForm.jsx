@@ -1,4 +1,4 @@
-import { Button, Image, Select, Table, Tooltip, Upload } from "antd";
+import { Button, Image, Input, Select, Table, Tooltip, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import axios from "axios";
@@ -21,10 +21,12 @@ const BannerFormComponent = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [deleteRowId, setdeleteRowId] = useState("");
   const [apiCall, setApiCall] = useState(0);
+  const [url, setUrl] = useState("");
   const [error, setError] = useState({
     priority: false,
     type: false,
     image: false,
+    url: false,
   });
   ////////image
   const fileSize = fileList[0]?.size / 1024;
@@ -95,6 +97,7 @@ const BannerFormComponent = () => {
       priority: !Boolean(priority),
       type: !Boolean(type),
       image: !Boolean(fileList),
+      url: !Boolean(url),
     };
     setError(currentError);
     let formData = new FormData();
@@ -110,6 +113,7 @@ const BannerFormComponent = () => {
     formData.append("type", type);
     formData.append("priority", priority);
     formData.append("image", fileList[0].originFileObj);
+    formData.append("clickUrl", url);
 
     if (currentError.priority || currentError.type) {
       setError((prev) => {
@@ -117,6 +121,7 @@ const BannerFormComponent = () => {
           ...prev,
           priority: !Boolean(priority),
           type: !Boolean(type),
+          utl: !Boolean(url),
         };
       });
       return;
@@ -136,6 +141,7 @@ const BannerFormComponent = () => {
           setFileList([]);
           setType();
           setPriority();
+          setUrl("");
           notifyToast().succes(res.data.message);
         })
         .catch((error) => {});
@@ -285,6 +291,16 @@ const BannerFormComponent = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setUrl(value);
+    setError((prev) => {
+      return {
+        ...prev,
+        url: !Boolean(value),
+      };
+    });
+  };
   return (
     <>
       <DeleteModal
@@ -355,6 +371,21 @@ const BannerFormComponent = () => {
                 }}
                 onChange={handleChangeSelctPriority}
                 options={options}
+              />
+            </div>
+            <div
+              className="img-div"
+              style={{ display: "flex", gap: "20px", alignItems: "center" }}
+            >
+              <label style={{ width: "60px" }}>Link</label>
+              <Input
+                type="text"
+                value={url}
+                onChange={handleChange}
+                name="clickUrl"
+                style={{
+                  border: `${error.url ? "1px solid red" : ""}`,
+                }}
               />
             </div>
             <div className="btn" style={{ textAlign: "right" }}>

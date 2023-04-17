@@ -36,8 +36,7 @@ const CasionCard = ({ data, count }) => {
         }
       )
       .then((res) => {
-        // console.log(res.data);
-        setViewMoreData(res.data.data);
+        setViewMoreData(res.data.data.dataList);
       })
       .catch((error) => {});
     setLoading((prev) => ({ ...prev, viewmorebets: false }));

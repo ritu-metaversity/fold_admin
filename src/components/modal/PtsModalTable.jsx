@@ -1,6 +1,6 @@
 import { Table, Tooltip } from "antd";
 import React from "react";
-import "./styles.scss";
+// import "./styles.scss";
 const PtsModaltable = ({ data }) => {
   const dataSource = [];
   data?.map((res, index) =>
