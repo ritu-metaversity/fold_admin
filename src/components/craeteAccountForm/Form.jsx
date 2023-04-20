@@ -577,15 +577,18 @@ const Accountform = () => {
           <Form.Item
             name="liveCasinoLock"
             label="LiveCasino"
-            style={{ marginTop: "10px" }}
+            style={{ marginTop: "0px" }}
           >
             <Switch
               size="small"
               disabled={casinoStatus}
               value={data.liveCasinoLock}
               onChange={swtchChangeHandle}
-              style={{ marginTop: "-10px" }}
+              style={{ marginTop: "-2px" }}
             />
+            <span style={{ paddingLeft: "10px" }}>
+              {data.liveCasinoLock ? "On" : "Off"}
+            </span>
           </Form.Item>
 
           <Form.Item name="TransactionPassword" label="Transaction Password">
