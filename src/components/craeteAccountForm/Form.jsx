@@ -21,7 +21,7 @@ const defaultData = {
   // fancyLossCommission: 0,
   lupassword: "",
   mobile: "",
-  Password: "",
+  password: "",
   // oddLossCommission: 0,
   userRole: "",
   appId: "",
@@ -47,7 +47,7 @@ const Accountform = () => {
     username: false,
     lupassword: false,
     userId: false,
-    Password: false,
+    password: false,
     appId: currentUserROle === 2 ? false : undefined,
     // city: false,
     // fancyLossCommission: 0,
@@ -453,22 +453,13 @@ const Accountform = () => {
         <div className="left-col-section">
           <p>General Information</p>
 
-          <Form.Item
-            name="username"
-            label={
-              <div style={{ display: "flex", gap: "20px" }}>
-                <p>User Name:</p>
-                <span style={{ color: "red" }}>{useraChecker}</span>
-              </div>
-            }
-          >
+          <Form.Item name="username" label="User Name">
             <div className={errorData?.username ? "col-input2" : "col-input"}>
               <Input
                 placeholder="User Name"
                 name="username"
                 value={data.username}
                 onChange={handleChange}
-                onKeyUp={(e) => userChecker({ userId: e.target.value })}
               />
               {errorData?.username ? (
                 <RxCross2
@@ -483,7 +474,14 @@ const Accountform = () => {
               )}
             </div>
           </Form.Item>
-          <Form.Item label="User ID:">
+          <Form.Item
+            label={
+              <div style={{ display: "flex", gap: "20px" }}>
+                <p>User ID:</p>
+                <span style={{ color: "red" }}>{useraChecker}</span>
+              </div>
+            }
+          >
             <div className={errorData?.userId ? "col-input2" : "col-input"}>
               <Input
                 placeholder="User ID"
@@ -491,6 +489,7 @@ const Accountform = () => {
                 name="userId"
                 value={data.userId}
                 onChange={handleChange}
+                onKeyUp={(e) => userChecker({ userId: e.target.value })}
               />
               {errorData?.userId ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
@@ -504,11 +503,11 @@ const Accountform = () => {
               <Input
                 placeholder="Password"
                 type="text"
-                name="Password"
-                value={data.Password}
+                name="password"
+                value={data.password}
                 onChange={handleChange}
               />
-              {errorData?.Password ? (
+              {errorData?.password ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
               ) : (
                 ""
