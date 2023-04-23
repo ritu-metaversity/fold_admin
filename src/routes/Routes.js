@@ -81,6 +81,7 @@ export const Active_Sport_list = "sport/active-sport-list";
 export const isSelf = "login/is-self-by-app-url";
 export const Sport_Profite = "report/profit-loss-match-wise";
 export const Bet_User_Book = "bets/user-book";
+export const User_Check = "user/is-userid-available";
 // export const Event_Detail_SportWise = event-detail-sport-wise
 export const Token_Checker = "util/validate-jwt-token";
 export const Max_Bet_Min_Bet = "http://43.205.50.127:9000/betfair_api/fancy";
@@ -118,7 +119,8 @@ export const Tab_EditProfileForm = "user/update-user-info";
 export const Bet_List = "bets/bet-list-by-matchid";
 
 ///Odds
-export const Odds_List = "http://89.39.105.69:9001/fancy/";
+// export const Odds_List = "http://89.39.105.69:9001/fancy/";¸
+export const Odds_List = "http://142.132.159.166:9001/fancy/";
 
 // export const Odds_List = "enduser/get-fancy-odds";
 

@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import {
   Casino_Status,
   Create_Admin,
+  User_Check,
   get_Sport_List,
 } from "../../routes/Routes";
 import { useContext } from "react";
@@ -20,9 +21,11 @@ const defaultData = {
   // fancyLossCommission: 0,
   lupassword: "",
   mobile: "",
+  password: "",
   // oddLossCommission: 0,
   userRole: "",
   appId: "",
+  userId: "",
   sportPartnership: "",
   liveCasinoLock: false,
 };
@@ -34,6 +37,7 @@ const Accountform = () => {
   const { setLoading } = useContext(LoaderContext);
   const userType = localStorage.getItem("userType");
   const partnership = localStorage.getItem("partnership");
+  const [useraChecker, setUserChecker] = useState("");
   const [casinoStatus, setCasinoStatus] = useState(false);
   // const [casinoSwitchState, setCasinoSwitchState] = useState(true);
   // console.log(currentUserROle, "currentUserROle");
@@ -42,6 +46,8 @@ const Accountform = () => {
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
+    userId: false,
+    password: false,
     appId: currentUserROle === 2 ? false : undefined,
     // city: false,
     // fancyLossCommission: 0,
@@ -70,6 +76,15 @@ const Accountform = () => {
         };
       });
     }
+    // if (name === "username") {
+    //   userChecker({ userId: value });
+    //   setData((prev) => {
+    //     return {
+    //       ...prev,
+    //       [name]: value,
+    //     };
+    //   });
+    // }
     if (name === "city") {
       const result = value.replace(/[^a-z]/gi, "");
       setData((prev) => {
@@ -115,6 +130,7 @@ const Accountform = () => {
         };
       });
     }
+
     setData((prev) => {
       return {
         ...prev,
@@ -225,6 +241,25 @@ const Accountform = () => {
   //   console.log("Failed:", errorInfo);
   // };
 
+  const userChecker = async (userId) => {
+    const res = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/${User_Check}`,
+      userId,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    try {
+      if (!res.data.status) {
+        setUserChecker(res.data.message);
+        // notifyToast().error(res.data.message);
+      } else {
+        setUserChecker("");
+      }
+    } catch (error) {}
+  };
   const usertypeArray = {
     0: [
       <Select.Option value={""} key="empty">
@@ -418,25 +453,13 @@ const Accountform = () => {
         <div className="left-col-section">
           <p>General Information</p>
 
-          <Form.Item
-            name="username"
-            label="User Name:"
-            // bordered={false}
-            // style={{ border: "1px solid red" }}
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Please input your username!",
-            //   },
-            // ]}
-          >
+          <Form.Item name="username" label="User Name">
             <div className={errorData?.username ? "col-input2" : "col-input"}>
               <Input
                 placeholder="User Name"
                 name="username"
                 value={data.username}
                 onChange={handleChange}
-                // style={{ border: "1px solid blue" }}
               />
               {errorData?.username ? (
                 <RxCross2
@@ -451,7 +474,46 @@ const Accountform = () => {
               )}
             </div>
           </Form.Item>
-
+          <Form.Item
+            label={
+              <div style={{ display: "flex", gap: "20px" }}>
+                <p>User ID:</p>
+                <span style={{ color: "red" }}>{useraChecker}</span>
+              </div>
+            }
+          >
+            <div className={errorData?.userId ? "col-input2" : "col-input"}>
+              <Input
+                placeholder="User ID"
+                type="text"
+                name="userId"
+                value={data.userId}
+                onChange={handleChange}
+                onKeyUp={(e) => userChecker({ userId: e.target.value })}
+              />
+              {errorData?.userId ? (
+                <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
+              ) : (
+                ""
+              )}
+            </div>
+          </Form.Item>
+          <Form.Item label="Password" name="Password">
+            <div className={errorData?.userId ? "col-input2" : "col-input"}>
+              <Input
+                placeholder="Password"
+                type="text"
+                name="password"
+                value={data.password}
+                onChange={handleChange}
+              />
+              {errorData?.password ? (
+                <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
+              ) : (
+                ""
+              )}
+            </div>
+          </Form.Item>
           <Form.Item name="city" label="City:">
             <div
               className={
@@ -577,15 +639,18 @@ const Accountform = () => {
           <Form.Item
             name="liveCasinoLock"
             label="LiveCasino"
-            style={{ marginTop: "10px" }}
+            style={{ marginTop: "0px" }}
           >
             <Switch
               size="small"
               disabled={casinoStatus}
               value={data.liveCasinoLock}
               onChange={swtchChangeHandle}
-              style={{ marginTop: "-10px" }}
+              style={{ marginTop: "-2px" }}
             />
+            <span style={{ paddingLeft: "10px" }}>
+              {data.liveCasinoLock ? "On" : "Off"}
+            </span>
           </Form.Item>
 
           <Form.Item name="TransactionPassword" label="Transaction Password">

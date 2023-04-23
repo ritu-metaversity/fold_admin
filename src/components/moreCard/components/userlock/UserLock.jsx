@@ -35,20 +35,27 @@ const UserLock = ({ Apifun, data, handleCancelfunction }) => {
       )
       .then((res) => {
         if (res.data.status) {
-          console.log("this ran");
-          handleCancelfunction();
           Apifun();
-          return notifyToast().succes(res.data.message);
+          notifyToast().succes(res.data.message);
+          handleCancelfunction();
         }
       })
       .catch((error) => {
         setUserLockData((prev) => {
           return {
             ...prev,
+            liveCasinoLock: false,
             betLock: data.betLock,
             accountLock: data?.accountLock,
           };
         });
+        // setUserLockData((prev) => {
+        //   return {
+        //     ...prev,
+        //     betLock:,
+        //     accountLock: ,
+        //   };
+        // });
       });
   };
   const onChange = (checked) => {
@@ -63,6 +70,13 @@ const UserLock = ({ Apifun, data, handleCancelfunction }) => {
       });
     }
     if (name === "accountLock")
+      setUserLockData((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+    if (name === "liveCasinoLock")
       setUserLockData((prev) => {
         return {
           ...prev,
@@ -92,6 +106,17 @@ const UserLock = ({ Apifun, data, handleCancelfunction }) => {
               name="accountLock"
               checked={userLockData.accountLock}
               onChange={(e) => onChange({ value: e, name: "accountLock" })}
+            />
+          </div>
+        </div>
+        <div className="row-1">
+          <label>Live Casino Lock</label>
+          <div className="input">
+            <Switch
+              size="small"
+              name="liveCasinoLock"
+              checked={userLockData.liveCasinoLock}
+              onChange={(e) => onChange({ value: e, name: "liveCasinoLock" })}
             />
           </div>
         </div>

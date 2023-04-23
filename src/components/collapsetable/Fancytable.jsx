@@ -68,7 +68,10 @@ const FancyTable = ({ data, prev, maxbet, fancyPnldata }) => {
                 data={item}
                 prev={prev[rowIndex]}
                 bet={bet}
-                maxbet={maxbet?.length && maxbet[rowIndex]}
+                maxbet={
+                  maxbet?.length && maxbet.find((id) => id.sid == item.sid)
+                }
+                // maxbet={maxbet?.length && maxbet[rowIndex]}
               />
             </React.Fragment>
           );
