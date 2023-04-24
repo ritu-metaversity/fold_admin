@@ -4,12 +4,14 @@ import "./styles.scss";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import { Create_app_detail } from "../../routes/Routes";
+import { Create_app_detail, getCasinoTypeImageData } from "../../routes/Routes";
 import { notifyToast } from "../toast/Tost";
 const DomainCard = () => {
   const { setLoading } = useContext(LoaderContext);
   const [fileList, setFileList] = useState([]);
   const [fileList2, setFileList2] = useState([]);
+  const [casionTypeImageData, setCasionTypeImageData] = useState([]);
+  const [casinoType, setCasinoType] = useState("");
   const [type, setType] = useState("");
 
   const [data, setData] = useState({
@@ -48,6 +50,9 @@ const DomainCard = () => {
     });
   };
   // console.log(fileList[0].name, "outer");
+  const handleSelect2 = (value) => {
+    setCasinoType(value);
+  };
   const handleChangeSelct = (value) => {
     setType(value);
     setError((prev) => {
@@ -57,6 +62,13 @@ const DomainCard = () => {
       };
     });
   };
+  // console.log(casionTypeImageData);
+  const casinoOption = casionTypeImageData?.map((res) => {
+    return {
+      value: res.id,
+      label: res.casinoImageGroupName,
+    };
+  });
   const options = [
     {
       value: "live",
@@ -161,6 +173,7 @@ const DomainCard = () => {
     formData.append("logo", fileList[0].originFileObj);
     formData.append("lupassword", data.transactionCode);
     formData.append("favicon", fileList2[0].originFileObj);
+    formData.append("casinoImageType", casinoType);
     formData.append(
       "isSelfAllowed",
       type === "live" ? true : type === "admin" ? false : false
@@ -209,6 +222,29 @@ const DomainCard = () => {
       setLoading((prev) => ({ ...prev, createDomain: false }));
     };
   }, [setLoading]);
+
+  useEffect(() => {
+    const getCasinoTypeImag = async () => {
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${getCasinoTypeImageData}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          setCasionTypeImageData(res.data.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getCasinoTypeImag();
+  }, []);
   return (
     <div className="form-domain-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>
@@ -230,6 +266,7 @@ const DomainCard = () => {
           }}
           onChange={handleChange}
         />
+
         <label>App Url:</label>
         <input
           type="text"
@@ -299,6 +336,17 @@ const DomainCard = () => {
             </Upload>
           </p>
         </div>
+        <label>Casino Image Type</label>
+        <Select
+          // defaultValue="please select Type"
+          style={{
+            width: "100%",
+            border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
+          }}
+          value={type || "Select Casino Image Type"}
+          onChange={handleSelect2}
+          options={casinoOption}
+        />
         <label>Transaction Code:</label>
         <input
           type="password"

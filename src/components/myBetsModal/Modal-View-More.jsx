@@ -219,7 +219,7 @@ const ModalViewMore = ({ keyName }) => {
         </div>
         <div className="radio-filter">
           <Radio.Group onChange={onChange} value={value}>
-            <Radio value={1}>All</Radio>
+            <Radio value={1}>All3</Radio>
             <Radio value={2}>Back</Radio>
             <Radio value={3}>Lay</Radio>
           </Radio.Group>
@@ -336,8 +336,6 @@ const ModalViewMore = ({ keyName }) => {
               className="page-item disabled"
             >
               <span
-                role="menuitem"
-                aria-label="Go to last page"
                 aria-disabled="true"
                 onClick={LastCounter}
                 style={{ cursor: "pointer" }}

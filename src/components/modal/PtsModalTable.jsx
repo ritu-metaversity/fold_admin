@@ -8,7 +8,7 @@ const PtsModaltable = ({ data }) => {
       key: res?.userid + index + res?.pricevalue,
       userId: res.userid,
       Nation: res?.marketname,
-      Rate: res?.pricevalue,
+      Rate: `${res.odds}(${res?.pricevalue}) `,
       Amount: res?.stack,
       win: res.netpnl,
       Date: res?.matchedtime,
