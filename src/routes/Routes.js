@@ -31,6 +31,7 @@ export const Down_Line_ActiveUser = "/down-line/active-user";
 export const Down_Line_ActiveList = "/down-line/active-list";
 
 // API-Endpoints
+export const updateUserDetail = "admin/update-app-detail";
 export const Dashboard_Api = "dashboard/default";
 export const MarketAnalysisApi = "market-analysis/dashboard";
 export const Account_List = "user/child-list";
@@ -85,6 +86,8 @@ export const Bet_User_Book = "bets/user-book";
 export const User_Check = "user/is-userid-available";
 export const Casino_Type_Image = "admin/add-casino-image-group-type";
 export const getCasinoTypeImageData = "admin/get-casino-image-group-type";
+export const getAppDetail = "admin/app-detail";
+export const getAppDetailById = "admin/app-detail-byid";
 // export const Event_Detail_SportWise = event-detail-sport-wise
 export const Token_Checker = "util/validate-jwt-token";
 export const Max_Bet_Min_Bet = "http://43.205.50.127:9000/betfair_api/fancy";

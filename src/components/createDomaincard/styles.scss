@@ -1,13 +1,31 @@
 $breakpoint-tablet: 870px;
 .form-domain-card {
-  background-color: #fff;
-  border: 1px solid #c6bdbd;
   border-radius: 5px;
-  width: 400px;
-  padding: 20px;
-  @media (max-width: $breakpoint-tablet) {
-    width: 98%;
-    padding: 5px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  // align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  .left-form-domain-card-col {
+    background-color: #fff;
+    width: 40%;
+    border: 1px solid #c6bdbd;
+    padding: 20px;
+    @media (max-width: $breakpoint-tablet) {
+      width: 100%;
+      padding: 5px;
+    }
+  }
+
+  .right-form-domain-card-col {
+    // width: 400px;
+    // height: 300px;
+    width: 55%;
+    @media (max-width: $breakpoint-tablet) {
+      width: 100%;
+      padding: 5px;
+    }
   }
 }
 
