@@ -25,11 +25,13 @@ export const Casino_Screen = "/Casino";
 export const Profite_Loss = "Profite-loss";
 // export const Party_Win_Lose = "Party-win-lose";
 export const Setting_Screen = "Setting";
+export const Casino_Type_Screen = "/Casino-image-type";
 export const Socila_Media_Manager_Screen = "Socila-Media-Manager";
 export const Down_Line_ActiveUser = "/down-line/active-user";
 export const Down_Line_ActiveList = "/down-line/active-list";
 
 // API-Endpoints
+export const updateUserDetail = "admin/update-app-detail";
 export const Dashboard_Api = "dashboard/default";
 export const MarketAnalysisApi = "market-analysis/dashboard";
 export const Account_List = "user/child-list";
@@ -82,6 +84,10 @@ export const isSelf = "login/is-self-by-app-url";
 export const Sport_Profite = "report/profit-loss-match-wise";
 export const Bet_User_Book = "bets/user-book";
 export const User_Check = "user/is-userid-available";
+export const Casino_Type_Image = "admin/add-casino-image-group-type";
+export const getCasinoTypeImageData = "admin/get-casino-image-group-type";
+export const getAppDetail = "admin/app-detail";
+export const getAppDetailById = "admin/app-detail-byid";
 // export const Event_Detail_SportWise = event-detail-sport-wise
 export const Token_Checker = "util/validate-jwt-token";
 export const Max_Bet_Min_Bet = "http://43.205.50.127:9000/betfair_api/fancy";
@@ -119,8 +125,10 @@ export const Tab_EditProfileForm = "user/update-user-info";
 export const Bet_List = "bets/bet-list-by-matchid";
 
 ///Odds
+
 // export const Odds_List = "http://89.39.105.69:9001/fancy/";¸
-export const Odds_List = "http://142.132.159.166:9001/fancy/";
+// export const Odds_List = "http://142.132.159.166:9001/fancy/";
+export const Odds_List = "http://43.205.50.127:9000/betfair_api/fancy/";
 
 // export const Odds_List = "enduser/get-fancy-odds";
 

@@ -8,7 +8,7 @@ const TableComponent = ({ data }) => {
       key: res?.userid + index + res?.pricevalue,
       UserName: res?.userid,
       Nation: res?.selectionname,
-      Rate: res?.pricevalue,
+      Rate: `${res.odds} (${res?.pricevalue})`,
       Amount: res?.stack,
       Date: res?.matchedtime,
       IP: res?.userIp,

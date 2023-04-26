@@ -11,14 +11,15 @@ const Casion = () => {
   const [countData, setCountData] = useState([]);
   const { id } = useParams();
   const { setLoading } = useContext(LoaderContext);
-
+  const host = window.location.hostname;
   const CasinoData = async () => {
     setLoading((prev) => ({ ...prev, CasinoData: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
         {
-          id,
+          id: id,
+          appUrl: host,
         },
         {
           headers: {

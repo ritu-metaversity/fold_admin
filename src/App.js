@@ -41,6 +41,7 @@ import {
   Down_Line_ActiveUser,
   Down_Line_ActiveList,
   Dashboard_Screen,
+  Casino_Type_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -73,6 +74,7 @@ import DownList from "./pages/downLine/DownLine";
 import dayjs from "dayjs";
 import MarketAnalysis from "./pages/marketAnalyisis/MarketAnalysis";
 import Dashboard from "./pages/dashboard/Dashboard";
+import CasinoType from "./pages/casionType/CasinoType";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -259,6 +261,7 @@ function App() {
               path={Deposit_Pending_Request}
               element={<DepositPendingRequest />}
             ></Route>
+            <Route path={Casino_Type_Screen} element={<CasinoType />}></Route>
 
             <Route path={Casino_Screen + "/:id"} element={<Casion />}></Route>
             {/* <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route> */}

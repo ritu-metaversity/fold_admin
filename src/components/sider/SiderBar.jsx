@@ -9,6 +9,7 @@ import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
 import {
   Casino_Screen,
+  Casino_Type_Screen,
   Casiono,
   Create_Power_user,
   Dashboard_Screen,
@@ -399,18 +400,39 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
             {
               key: 9,
               icon: <RiBankFill />,
-              label: (
-                <Link
-                  onClick={() => {
-                    refershNow();
-                    setSidebar();
-                  }}
-                  to={Setting_Screen}
-                  // reloadDocument={pathname === "/Update-Banner"}
-                >
-                  Setting
-                </Link>
-              ),
+              label: "Setting",
+              children: [
+                {
+                  key: "565656",
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to={Setting_Screen}
+                      // reloadDocument={pathname === "/Update-Banner"}
+                    >
+                      Social Media Icon Uplaod
+                    </Link>
+                  ),
+                },
+                {
+                  key: "5656",
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to={Casino_Type_Screen}
+                      // reloadDocument={pathname === "/Update-Banner"}
+                    >
+                      Casino Image type
+                    </Link>
+                  ),
+                },
+              ],
             },
           ]
         : []),

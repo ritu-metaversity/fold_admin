@@ -27,7 +27,7 @@ const defaultData = {
   appId: "",
   userId: "",
   sportPartnership: "",
-  liveCasinoLock: false,
+  liveCasinoLock: true,
 };
 const Accountform = () => {
   const [sportsList, setSportsList] = useState([]);
@@ -644,7 +644,7 @@ const Accountform = () => {
             <Switch
               size="small"
               disabled={casinoStatus}
-              value={data.liveCasinoLock}
+              checked={data.liveCasinoLock}
               onChange={swtchChangeHandle}
               style={{ marginTop: "-2px" }}
             />
