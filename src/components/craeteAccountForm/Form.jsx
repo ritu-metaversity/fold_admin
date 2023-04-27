@@ -38,7 +38,7 @@ const Accountform = () => {
   const userType = localStorage.getItem("userType");
   const partnership = localStorage.getItem("partnership");
   const [useraChecker, setUserChecker] = useState("");
-  const [casinoStatus, setCasinoStatus] = useState(false);
+  const [casinoStatus, setCasinoStatus] = useState(true);
   // const [casinoSwitchState, setCasinoSwitchState] = useState(true);
   // console.log(currentUserROle, "currentUserROle");
   const [data, setData] = useState(defaultData);
@@ -350,6 +350,10 @@ const Accountform = () => {
       )
       .then((res) => {
         setCasinoStatus(res?.data?.data?.liveCasinoLock);
+        setData((o) => ({
+          ...o,
+          liveCasinoLock: res?.data?.data?.liveCasinoLock,
+        }));
         // setSportsList(res.data.data);
       })
       .catch((error) => {});
@@ -502,7 +506,7 @@ const Accountform = () => {
             <div className={errorData?.userId ? "col-input2" : "col-input"}>
               <Input
                 placeholder="Password"
-                type="text"
+                type="password"
                 name="password"
                 value={data.password}
                 onChange={handleChange}
