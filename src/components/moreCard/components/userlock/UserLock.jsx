@@ -8,14 +8,15 @@ import { notifyToast } from "../../../toast/Tost";
 // import './styles.scss'
 
 const UserLock = ({ Apifun, data, handleCancelfunction }) => {
+  console.log(data);
   const [error, setError] = useState(false);
   const [userLockData, setUserLockData] = useState({
     userId: data?.userId,
     betLock: data?.betLock,
     accountLock: data?.accountLock,
     isactive: true,
-    liveCasinoLock: false,
-    virtualCasinoLock: false,
+    liveCasinoLock: data.lcLock,
+    virtualCasinoLock: data.vcLock,
     lupassword: "",
   });
   const submitUserLockData = async () => {

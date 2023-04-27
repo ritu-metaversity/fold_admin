@@ -17,7 +17,7 @@ const UserBook = ({ data }) => {
       ),
 
       selectionName3: data?.selectionName3 ? (
-        <p style={{ color: res?.pnl2 > 0 ? "green" : "red" }}>{res?.pnl3}</p>
+        <p style={{ color: res?.pnl3 > 0 ? "green" : "red" }}>{res?.pnl3}</p>
       ) : (
         ""
       ),
