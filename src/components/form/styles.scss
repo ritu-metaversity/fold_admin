@@ -3,81 +3,97 @@ $breakpoint-mobile: 600px;
 $breakpoint-specific: 1218px;
 $breakpoint-medium: 1370px;
 $breakpoint-common: 1280px;
-.input-tag{
-    height: 50px;
-    background-color: #2e3439;
-    outline: none;
+.input-tag {
+  height: 50px;
+  background-color: #2e3439;
+  outline: none;
+  border: none;
+  color: white;
+  &:focus {
     border: none;
+    outline: none;
+    border-color: transparent;
+  }
+  &::placeholder {
+    color: #6c757d;
+  }
+}
+.login-form-button {
+  height: 40px;
+  width: 100%;
+  background-color: #fdcf13;
+  color: black;
+  font-size: 15px;
+  line-height: 1.75;
+  text-transform: uppercase;
+  font-weight: 500;
+  &:hover {
+    background-color: #fdcf13 !important;
     color: white;
-    &:focus{
-        border: none;
-        outline: none;
-        border-color: transparent;
-    }
-    &::placeholder{
-        color: #6c757d;
-    }
+    transition: 0.4s;
+  }
 }
-.login-form-button{
-    height: 40px;
-    width: 100%;
-    background-color: #fdcf13;
-    color: black;
-    font-size: 15px;
-    line-height: 1.75;
-    text-transform: uppercase;
-    font-weight: 500;
-    &:hover{
-        background-color: #fdcf13!important;
-        color: white;
-        transition: 0.4s;
+.banner-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 30px;
+  .form-domain-card1 {
+    background-color: #fff;
+    border: 1px solid #c6bdbd;
+    border-radius: 5px;
+    width: 530px;
+    padding: 10px;
+    padding-top: 25px;
+    // height: 300px;
+    @media (max-width: $breakpoint-tablet) {
+      width: 98%;
+      padding: 5px;
+      padding-top: 25px;
     }
+  }
+  .form-domain-card2 {
+    background-color: #fff;
+    border: 1px solid #c6bdbd;
+    border-radius: 5px;
+    width: 530px;
+    padding: 10px;
+    height: 320px;
+    overflow-y: scroll;
+    @media (max-width: $breakpoint-tablet) {
+      width: 98%;
+      padding: 5px;
+    }
+  }
 }
-.banner-container{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 30px;
-    .form-domain-card1{
-        background-color: #fff;
-        border: 1px solid #c6bdbd;
-        border-radius: 5px;
-        width: 530px;
-        padding: 10px;
-        padding-top: 25px;
-        // height: 300px;
-        @media (max-width: $breakpoint-tablet) {
-           width: 98%;
-           padding: 5px;
-           padding-top: 25px;
-             }
-    }
-    .form-domain-card2{
-        background-color: #fff;
-        border: 1px solid #c6bdbd;
-        border-radius: 5px;
-        width: 530px;
-        padding: 10px;
-        height: 320px;
-        overflow-y: scroll;
-        @media (max-width: $breakpoint-tablet) {
-           width: 98%;
-           padding: 5px;
-             }
-    }
+.table {
+  .ant-table-tbody > tr > td {
+    padding: 3px;
+  }
 }
-.table{
-    .ant-table-tbody>tr>td{
-        padding: 3px;
-    }
+.image-upload {
+  .ant-upload.ant-upload-select {
+    border: 1px dashed red !important;
+  }
 }
-.image-upload{
+.ant-upload-list-item-error {
+  border-color: #e6dbdb !important;
+}
 
-    .ant-upload.ant-upload-select{
-    
-        border: 1px dashed red !important;
-    }
-}
-.ant-upload-list-item-error{
-    border-color: #e6dbdb !important;
+.form-div {
+  margin-top: 10%;
+  h3 {
+    width: 100%;
+    text-align: center;
+    font-size: 1.421875rem;
+    color: #74788d;
+    margin-bottom: 4px;
+  }
+  p {
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+    // font-size: 1.75rem;
+    color: #74788d;
+  }
 }

@@ -1,0 +1,68 @@
+.game-image-container {
+  width: 100%;
+  height: auto;
+  .heading-game-image {
+    margin-left: 15px;
+    h4 {
+      color: #fdcf13;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-top: 20px;
+      text-align: left;
+      display: inline-block;
+      font-weight: 800;
+      margin-bottom: 15px;
+      font-size: 1.21875rem;
+      border-bottom: 1px solid #fdcf13;
+    }
+  }
+  .img-div-col {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding: 10px;
+    padding-right: 0px;
+    .image-card-div {
+      margin: auto;
+      box-shadow: 0 0 10px #2b2366;
+      width: calc(12.5% - 10px);
+      margin-right: 10px;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-left: 0;
+      margin-bottom: 10px;
+      position: relative;
+
+      @media (max-width: 1279px) {
+        width: calc(49.5% - 8.75px);
+      }
+      .login-overlay {
+        background-color: transparent;
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: transparent;
+        font-weight: 500;
+        font-size: 20px;
+        transition: 0.2s ease-in-out;
+        cursor: pointer;
+        &:hover {
+          font-size: 20px;
+          color: white;
+          font-weight: 500;
+          background-color: rgba(0, 0, 0, 0.5);
+        }
+      }
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
