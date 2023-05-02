@@ -18,7 +18,6 @@ const GameImageComponent = ({ setOpen }) => {
       await axios
         .get(CasinoImage)
         .then((res) => {
-          console.log(res.data);
           setCasinoImage(res.data.data);
         })
         .catch((error) => {});
