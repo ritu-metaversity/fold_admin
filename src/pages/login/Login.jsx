@@ -36,7 +36,6 @@ const Login = ({logo}) => {
 
           <Slider />
           <GameImageComponent setOpen={setOpen} open={open} />
-          <GameImageComponent setOpen={setOpen} open={open} />
           {/* <TopWinnerSlider /> */}
           <Footer style={{ background: "transparent" }}>
             <LoginFooter />
