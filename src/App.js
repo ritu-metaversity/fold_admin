@@ -43,6 +43,7 @@ import {
   Dashboard_Screen,
   Casino_Type_Screen,
   isSelf,
+  get_msg,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -94,6 +95,7 @@ function App() {
   const [tokenState, setTokenState] = useState(false);
   const [IsSelfState, setIsSelf] = useState("");
   const [logo, setlogo] = useState("");
+  const [message, setmessage] = useState("");
   const nav = useNavigate();
   const loc = useLocation();
   const host = window.location.hostname;
@@ -189,10 +191,26 @@ function App() {
       .catch((error) => {});
   };
 
+  const getMsg = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${get_msg}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setmessage(res?.data?.message);
+      });
+  };
+
   useEffect(() => {
     isSelfData();
+    getMsg();
   }, []);
-
   return (
     // <ConfigProvider locale={locale}>
     <LoaderContext.Provider
@@ -215,7 +233,10 @@ function App() {
       <FullScreen handle={handle}>
         <OfflineAlert />
         <Routes>
-          <Route path={Home_Screen} element={<Login logo={logo}/>}></Route>
+          <Route
+            path={Home_Screen}
+            element={<Login logo={logo} message={message} />}
+          ></Route>
 
           <Route
             path={Change_Password}
@@ -228,6 +249,7 @@ function App() {
                 view={tokenState}
                 IsSelfState={IsSelfState}
                 logo={logo}
+                message={message}
               />
             }
           >

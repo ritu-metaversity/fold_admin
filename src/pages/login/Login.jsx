@@ -10,30 +10,24 @@ import { useState } from "react";
 import TopWinnerSlider from "../../components/topWinnerSlider/TopWinnerSlider";
 import { Footer } from "antd/es/layout/layout";
 import LoginFooter from "../../components/loginFooter/LoginFooter";
+import { useMediaQuery } from "../../components/modalForm/UseMedia";
+import HeaderSliderComponent from "../../components/headerSlider/HeaderSliderComponent";
+
 const { Header, Content } = Layout;
-const Login = ({logo}) => {
+const Login = ({ logo, message }) => {
   const [open, setOpen] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 1275px)");
+  console.log(isMobile);
   return (
     <div className="layout-body">
-      {/* <Layout style={{ height: "100vh", backgroundColor: "#16191c" }}>
-        <Header className="login-header">
-          <h3>ADMIN LOGIN</h3>
-        </Header>
-        <Layout style={{ height: "100vh", backgroundColor: "#16191c" }}>
-          <Content className="login-container">
-            <div className="center-div"> */}
-
-      {/* </div>
-          </Content>
-        </Layout>
-      </Layout> */}
+    
       <Layout className="layout-comp">
         <Header className="header-div">
-          <LoginHeader setOpen={setOpen} open={open} logo={logo}/>
+          <LoginHeader setOpen={setOpen} open={open} logo={logo} />
         </Header>
         <Content className="login-content">
-          <UpComingComponent />
-
+          <UpComingComponent message={message} />
+          {isMobile && <HeaderSliderComponent  />}
           <Slider />
           <GameImageComponent setOpen={setOpen} open={open} />
           {/* <TopWinnerSlider /> */}

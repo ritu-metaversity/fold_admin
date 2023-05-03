@@ -1,0 +1,32 @@
+.marquee-col {
+  height: 100%;
+  .icon-div {
+    padding: 10px 5px 5px 5px;
+    width: auto;
+    margin-right: 10px;
+    margin-bottom: 0;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.8s;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-white);
+    img {
+      height: 32px;
+      max-width: 52px;
+    }
+    p {
+      margin-top: 0.95rem;
+      color: white;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 1px;
+
+      margin-bottom: 2px;
+    }
+  }
+}
