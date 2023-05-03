@@ -66,7 +66,7 @@ const Loginform = () => {
     };
   }, [setLoading]);
   return (
-    <div>
+    <div className="form-div">
       <h3>Welcome to Admin Panel</h3>
       <p>Enter your Username and Password</p>
       <Form
@@ -116,13 +116,13 @@ const Loginform = () => {
         <span style={{ color: "#fdcf13" }}>Terms of Serviceapply</span> .
       </p>
       <p>© Copyright 2021. All Rights Reserved.</p>
-      <p>
+      {/* <p>
         The website is operated by Ecofun Services NV registered in Curaçao
         under the registration number 152307, with address at Heelsumstraat 51,
         Curaçao, authorized by Antillephone under license number 8048/JAZ2020 -
         025. The transactions are processed by Ecofun Services NV which own and
         operates world777.com
-      </p>
+      </p> */}
     </div>
   );
 };

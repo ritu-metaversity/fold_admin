@@ -1,0 +1,70 @@
+.sample-slider {
+  .swiper-wrapper {
+    transition-timing-function: linear;
+  }
+}
+
+._card {
+  background-color: #000;
+  border-radius: 10px;
+  padding: 10px;
+  width: 200px;
+  margin: 10px;
+  height: auto;
+  box-shadow: 0 0 10px #2b2366;
+  ._playerImg {
+    height: 100px;
+    width: 104px;
+    margin: auto auto 10px auto;
+  }
+
+  .playerholder {
+    color: #fff;
+
+    .playername {
+      margin-block: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      p {
+        margin-block: 0;
+      }
+    }
+
+    .time {
+      margin-block: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      p {
+        margin-block: 0;
+      }
+    }
+
+    .playername {
+      margin-block: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      p {
+        margin-block: 0;
+      }
+    }
+  }
+}
+.top-winner-heading {
+  padding-left: 10px;
+  h4 {
+    color: #fdcf13;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 20px;
+    text-align: left;
+    display: inline-block;
+    font-weight: 800;
+    margin-bottom: 15px;
+    font-size: 1.21875rem;
+    border-bottom: 1px solid #fdcf13;
+  }
+}

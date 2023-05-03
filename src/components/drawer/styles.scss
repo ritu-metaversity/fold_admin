@@ -1,0 +1,25 @@
+.ant-drawer-header-title {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.ant-drawer-wrapper-body {
+  background: black !important;
+}
+.ant-drawer-header {
+  color: white;
+  padding: 16px 14px;
+  .ant-drawer-header-title {
+    .ant-drawer-title {
+      color: white;
+      font-size: 1.421875rem;
+    }
+  }
+  .ant-drawer-close {
+    color: white;
+    font-size: 34px;
+    &:hover {
+      color: white;
+    }
+  }
+}

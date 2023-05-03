@@ -455,12 +455,11 @@ const TestPageLeftCollapse = () => {
       >
         <UserBook data={userBook} />
       </Modal>
-
       {odddata?.Odds[0]?.runners[0]?.name ? (
         <>
           <div className="heading">
             <h4>
-              {`${odddata?.Odds[0]?.Series} > ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
+              {` ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
             </h4>
             <p style={{ color: "white" }}>
               {moment(odddata?.Odds[0]?.lastMatchTime).format(

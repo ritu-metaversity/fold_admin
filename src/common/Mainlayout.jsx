@@ -6,18 +6,17 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
 import axios from "axios";
-import { get_msg, isSelf } from "../routes/Routes";
+import { get_msg } from "../routes/Routes";
 import Marquee from "react-fast-marquee";
 import { Outlet } from "react-router-dom";
 import { LoaderContext } from "../App";
 
-const Mainlayout = ({ view }) => {
+const Mainlayout = ({ view ,IsSelfState,logo}) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
   const [message, setmessage] = useState("");
-  const [IsSelfState, setIsSelf] = useState("");
-  const [logo, setlogo] = useState("");
-  const host = window.location.hostname;
+ 
+ 
 
   const { keyNew } = useContext(LoaderContext);
 
@@ -47,29 +46,12 @@ const Mainlayout = ({ view }) => {
       });
   };
 
-  const isSelfData = async () => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${isSelf}`,
-        { appUrl: host === "localhost" ? "admin.localhost" : host },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setIsSelf(res.data?.data?.selfAllowed);
-        setlogo(res.data?.data?.logo);
-      })
-      .catch((error) => {});
-  };
+
+
 
   useEffect(() => {
     getMsg();
-    isSelfData();
   }, []);
-
   return (
     <>
       {display ? (

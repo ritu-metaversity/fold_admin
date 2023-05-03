@@ -42,6 +42,7 @@ import {
   Down_Line_ActiveList,
   Dashboard_Screen,
   Casino_Type_Screen,
+  isSelf,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -91,9 +92,11 @@ function App() {
   const [loading, setLoading] = useState({});
   const [keyNew, setKeyNew] = useState(0);
   const [tokenState, setTokenState] = useState(false);
+  const [IsSelfState, setIsSelf] = useState("");
+  const [logo, setlogo] = useState("");
   const nav = useNavigate();
   const loc = useLocation();
-
+  const host = window.location.hostname;
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };
@@ -168,6 +171,28 @@ function App() {
 
   const handle = useFullScreenHandle();
 
+  const isSelfData = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${isSelf}`,
+        { appUrl: host === "localhost" ? "admin.localhost" : host },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setIsSelf(res.data?.data?.selfAllowed);
+        setlogo(res.data?.data?.logo);
+      })
+      .catch((error) => {});
+  };
+
+  useEffect(() => {
+    isSelfData();
+  }, []);
+
   return (
     // <ConfigProvider locale={locale}>
     <LoaderContext.Provider
@@ -190,13 +215,22 @@ function App() {
       <FullScreen handle={handle}>
         <OfflineAlert />
         <Routes>
-          <Route path={Home_Screen} element={<Login />}></Route>
+          <Route path={Home_Screen} element={<Login logo={logo}/>}></Route>
 
           <Route
             path={Change_Password}
             element={<ChangePasswordLogin />}
           ></Route>
-          <Route path="/" element={<Mainlayout view={tokenState} />}>
+          <Route
+            path="/"
+            element={
+              <Mainlayout
+                view={tokenState}
+                IsSelfState={IsSelfState}
+                logo={logo}
+              />
+            }
+          >
             <Route exact path={Dashboard_Screen} element={<Dashboard />} />
 
             <Route
