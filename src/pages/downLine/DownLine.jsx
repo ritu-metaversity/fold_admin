@@ -4,10 +4,14 @@ import React, { createContext, useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
-import { Link, NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 
 import axios from "axios";
-import { Account_List, Table_ActiveUser } from "../../routes/Routes";
+import {
+  Account_List,
+  Down_Line_ActiveUser,
+  Table_ActiveUser,
+} from "../../routes/Routes";
 
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
@@ -148,6 +152,7 @@ const DownList = ({ apiState }) => {
       }));
     };
   }, [setLoading]);
+  const { pathname } = useLocation();
   const columns = [
     {
       title: "User Name",
@@ -231,10 +236,17 @@ const DownList = ({ apiState }) => {
       key: res?.id,
 
       username: (
-        <p>
+        <Link
+          to={
+            res.accountType === "User"
+              ? pathname
+              : `${Down_Line_ActiveUser}${res?.id}`
+          }
+          style={{ color: "black" }}
+        >
           {res?.username} <br />
           {res?.userId}
-        </p>
+        </Link>
       ),
       CR: (
         <span style={{ color: "#f1b44c", cursor: "pointer" }}>
