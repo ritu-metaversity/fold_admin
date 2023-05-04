@@ -1,3 +1,5 @@
+$breakpoint-tablet: 870px;
+
 .game-image-container {
   width: 100%;
   height: auto;
@@ -29,12 +31,15 @@
       box-shadow: 0 0 10px #2b2366;
       width: calc(12.5% - 10px);
       margin-right: 10px;
-      border-radius: 3px;
+      border-radius: 5px;
       overflow: hidden;
       margin-left: 0;
       margin-bottom: 10px;
       position: relative;
-
+      @media (max-width: $breakpoint-tablet) {
+        margin-right: 5px;
+        margin-bottom: 3px;
+      }
       @media (max-width: 1279px) {
         width: calc(49.5% - 8.75px);
       }

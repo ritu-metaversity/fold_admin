@@ -1,9 +1,13 @@
+$breakpoint-tablet: 870px;
 .login-header-container {
   display: flex;
   align-items: center;
   height: 100%;
   width: 100%;
   justify-content: space-between;
+  @media (max-width: $breakpoint-tablet) {
+    padding: 5px;
+  }
   .login-header-left-col {
     height: 100%;
     display: flex;
@@ -21,48 +25,22 @@
     @media (max-width: 1275px) {
       display: none;
     }
-    .marquee-col {
-      height: 100%;
-      .icon-div {
-        padding: 10px 5px 5px 5px;
-        width: auto;
-        margin-right: 10px;
-        margin-bottom: 0;
-        text-align: center;
-        cursor: pointer;
-        transition: 0.8s;
-        font-size: 12px;
-        display: flex;
-        flex-direction: column;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        color: var(--text-white);
-        img {
-          height: 30px;
-          max-width: 50px;
-        }
-        p {
-          margin-top: 0.95rem;
-          color: white;
-          font-weight: 500;
-        }
-      }
-    }
   }
   .login-header-right-col {
     background-color: #fdcf13;
     width: auto;
     height: 100%;
+
     .login-btn {
+      background-color: #fdcf13;
       height: 100%;
       border: none;
       color: black;
       padding: 10px 50px;
       text-transform: uppercase;
-      font-size: 18px;
-      font-weight: 500;
-      background-color: transparent;
+      font-size: 22px;
+      font-weight: 400;
+      // background-color: transparent;
       border-radius: 0px;
     }
   }

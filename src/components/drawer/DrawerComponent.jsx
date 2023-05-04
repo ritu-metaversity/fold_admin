@@ -13,7 +13,7 @@ const DrawerComponent = ({ open, setOpen }) => {
         placement="right"
         onClose={onClose}
         open={open}
-        width={500}
+       
         className="drawer"
       >
         <Loginform />

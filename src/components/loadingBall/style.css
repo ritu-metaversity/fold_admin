@@ -1,0 +1,101 @@
+#soccer_ball,
+#baseball {
+  /* transition: transform 2s; */
+  /* ease-in-out infinite; */
+  animation: rotateAni 0.8s infinite linear, showAndHide 1.6s 0s infinite;
+  transform-origin: 45% 45%;
+}
+#soccer_ball2 {
+  animation: rotateAni2 8s infinite linear, showAndHide 16s 0s infinite;
+  transform: translate(250px, 250px);
+  /* transform-origin: 45% 45%; */
+}
+
+#dotted_ball {
+  animation: rotateAni 0.8s infinite linear, showAndHide 1.6s 0.8s infinite;
+  transform-origin: 45% 45%;
+}
+.loading-ball-container-full {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(36, 40, 44);
+}
+@media (max-width: 768px) {
+  .loading-ball-container-full svg {
+    width: 70%;
+    height: 70%;
+  }
+}
+@keyframes showAndHide {
+  0% {
+    visibility: visible;
+  }
+
+  49% {
+    visibility: visible;
+  }
+  50% {
+    visibility: hidden;
+  }
+  99% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: visible;
+  }
+}
+
+@keyframes rotateAni {
+  0% {
+    transform: translateY(900px) rotate(0deg);
+  }
+  15% {
+    transform: translateY(200px) rotate(120deg);
+  }
+  25% {
+    transform: translateY(50px) rotate(170deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(180deg);
+  }
+
+  75% {
+    transform: translateY(50px) rotate(190deg);
+  }
+  85% {
+    transform: translateY(200px) rotate(240deg);
+  }
+
+  100% {
+    transform: translateY(900px) rotate(360deg);
+  }
+}
+
+@keyframes rotateAni2 {
+  0% {
+    transform: translateX(50%) translateY(550px) rotate(0deg);
+  }
+  15% {
+    transform: translateX(50%) translateY(350px) rotate(120deg);
+  }
+  25% {
+    transform: translateX(50%) translateY(250px) rotate(170deg);
+  }
+  50% {
+    transform: translateX(50%) translateY(250px) rotate(180deg);
+  }
+
+  75% {
+    transform: translateX(50%) translateY(250px) rotate(190deg);
+  }
+  85% {
+    transform: translateX(50%) translateY(350px) rotate(240deg);
+  }
+
+  100% {
+    transform: translateX(50%) translateY(550px) rotate(360deg);
+  }
+}
