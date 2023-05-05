@@ -193,14 +193,14 @@ const SportProfiteLossTable = () => {
       title: "uplineAmount",
       dataIndex: "uplineAmount",
     },
-    {
-      title: "commssionMila",
-      dataIndex: "commssionMila",
-    },
-    {
-      title: "commssionDiya",
-      dataIndex: "commssionDiya",
-    },
+    // {
+    //   title: "commssionMila",
+    //   dataIndex: "commssionMila",
+    // },
+    // {
+    //   title: "commssionDiya",
+    //   dataIndex: "commssionDiya",
+    // },
   ];
 
   const data = DataList?.map((res, index) => {
@@ -216,14 +216,14 @@ const SportProfiteLossTable = () => {
           {res.uplineAmount}
         </span>
       ),
-      commssionMila: (
-        <span style={{ color: res.commssionMila >= 0 ? "green" : "red" }}>
-          {res.commssionMila}
-        </span>
-      ),
-      commssionDiya: (
-        <span style={{ cursor: "pointer" }}>{res?.commssionDiya}</span>
-      ),
+      // commssionMila: (
+      //   <span style={{ color: res.commssionMila >= 0 ? "green" : "red" }}>
+      //     {res.commssionMila}
+      //   </span>
+      // ),
+      // commssionDiya: (
+      //   <span style={{ cursor: "pointer" }}>{res?.commssionDiya}</span>
+      // ),
     };
   });
 

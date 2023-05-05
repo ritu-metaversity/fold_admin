@@ -34,7 +34,11 @@ const Loginform = () => {
             // notifyToast().succes("Login success!!");
             localStorage.setItem("token", res.data.token);
             setLoading((prev) => ({ ...prev, LoginUser: false }));
-            navigate("/marketAnalysis");
+            if (res.data.userType === "7") {
+              navigate("Deposit-Pending-Request");
+            } else {
+              navigate("/marketAnalysis");
+            }
             // message.success("Success");
           }
         } else {

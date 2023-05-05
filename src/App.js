@@ -211,6 +211,7 @@ function App() {
     isSelfData();
     getMsg();
   }, []);
+  const userType = localStorage.getItem("userType");
   return (
     // <ConfigProvider locale={locale}>
     <LoaderContext.Provider
@@ -253,61 +254,88 @@ function App() {
               />
             }
           >
-            <Route exact path={Dashboard_Screen} element={<Dashboard />} />
+            {userType !== "7" && (
+              <>
+                <Route exact path={Dashboard_Screen} element={<Dashboard />} />
 
-            <Route
-              exact
-              path={CreatAaccounts_Screen}
-              element={<CreateAccount />}
-            />
+                <Route
+                  exact
+                  path={CreatAaccounts_Screen}
+                  element={<CreateAccount />}
+                />
 
-            <Route
-              path={MarketAnalysis_Screen}
-              element={<MarketAnalysis />}
-            ></Route>
-            <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
-            <Route path={Setting_Screen} element={<Setting />}></Route>
+                <Route
+                  path={MarketAnalysis_Screen}
+                  element={<MarketAnalysis />}
+                ></Route>
+                <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
+                <Route path={Setting_Screen} element={<Setting />}></Route>
 
-            <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
-            <Route path={AccountList_Screen} element={<AccountsList />}></Route>
-            <Route path={Bank_Screen} element={<Bank />}></Route>
-            <Route path={currentsBets_Screen} element={<CurrentBets />}></Route>
-            <Route path={BetHistory_Screen} element={<BetHistory />}></Route>
-            <Route
-              path={Socila_Media_Manager_Screen}
-              element={<SocialMediaManager />}
-            ></Route>
-            <Route
-              path={CreateDomain_Screen}
-              element={<CreateDomain />}
-            ></Route>
-            <Route
-              path={TestMatch_Screen + "/:sportId/:id"}
-              element={<Testmatch />}
-            ></Route>
-            <Route path={User_History} element={<UserHistory />}></Route>
+                <Route
+                  path={ActiveUser_Screen}
+                  element={<ActiveUser />}
+                ></Route>
+                <Route
+                  path={AccountList_Screen}
+                  element={<AccountsList />}
+                ></Route>
+                <Route path={Bank_Screen} element={<Bank />}></Route>
+                <Route
+                  path={currentsBets_Screen}
+                  element={<CurrentBets />}
+                ></Route>
+                <Route
+                  path={BetHistory_Screen}
+                  element={<BetHistory />}
+                ></Route>
+                <Route
+                  path={Socila_Media_Manager_Screen}
+                  element={<SocialMediaManager />}
+                ></Route>
+                <Route
+                  path={CreateDomain_Screen}
+                  element={<CreateDomain />}
+                ></Route>
+                <Route
+                  path={TestMatch_Screen + "/:sportId/:id"}
+                  element={<Testmatch />}
+                ></Route>
+                <Route path={User_History} element={<UserHistory />}></Route>
 
-            <Route
-              path={Payment_Method}
-              element={<PaymentMethodPage />}
-            ></Route>
-            <Route path={Banner_Update} element={<Banner />}></Route>
-            <Route path={Bank_Method} element={<BankPage />}></Route>
-            <Route path={Upi_Method} element={<Upi />}></Route>
-            <Route path={Qr_Method} element={<QR />}></Route>
-            <Route path={Power_List_Screen} element={<PoerList />}></Route>
-            <Route
-              path={Down_Line_ActiveUser + ":id"}
-              element={<DownList apiState={true} />}
-            ></Route>
-            <Route
-              path={Down_Line_ActiveList + ":id"}
-              element={<DownList apiState={false} />}
-            ></Route>
-            <Route
-              path={Account_Statement}
-              element={<AccountStatement />}
-            ></Route>
+                <Route path={Banner_Update} element={<Banner />}></Route>
+                <Route path={Bank_Method} element={<BankPage />}></Route>
+                <Route path={Upi_Method} element={<Upi />}></Route>
+                <Route path={Qr_Method} element={<QR />}></Route>
+                <Route path={Power_List_Screen} element={<PoerList />}></Route>
+                <Route
+                  path={Down_Line_ActiveUser + ":id"}
+                  element={<DownList apiState={true} />}
+                ></Route>
+                <Route
+                  path={Down_Line_ActiveList + ":id"}
+                  element={<DownList apiState={false} />}
+                ></Route>
+                <Route
+                  path={Account_Statement}
+                  element={<AccountStatement />}
+                ></Route>
+
+                <Route
+                  path={Casino_Type_Screen}
+                  element={<CasinoType />}
+                ></Route>
+
+                <Route
+                  path={Casino_Screen + "/:id"}
+                  element={<Casion />}
+                ></Route>
+                <Route
+                  path={Payment_Method}
+                  element={<PaymentMethodPage />}
+                ></Route>
+              </>
+            )}
+            {/* <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route> */}
             <Route
               path={Widrwal_Pending_Request}
               element={<WidrwalPendingRequest />}
@@ -317,12 +345,7 @@ function App() {
               path={Deposit_Pending_Request}
               element={<DepositPendingRequest />}
             ></Route>
-            <Route path={Casino_Type_Screen} element={<CasinoType />}></Route>
-
-            <Route path={Casino_Screen + "/:id"} element={<Casion />}></Route>
-            {/* <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route> */}
           </Route>
-
           <Route path="*" element={<NoteFound />} />
         </Routes>
       </FullScreen>
