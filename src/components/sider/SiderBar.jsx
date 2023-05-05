@@ -30,6 +30,7 @@ import LogoutModal from "../logoutModal/LogoutModal";
 const SiderBar = ({ IsSelfState, setSidebar }) => {
   const navigate = useNavigate();
   const userType = localStorage.getItem("userType");
+
   const { setLoading, refershNow } = useContext(LoaderContext);
   const [paymentListData, setPaymentListData] = useState([]);
   const [eventData, setEventData] = useState([]);
@@ -179,152 +180,10 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const item = useMemo(
-    () => [
-      {
-        key: "1",
-        icon: <AiFillDashboard />,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to={Dashboard_Screen}
-            // reloadDocument={pathname === "/marketanalysis"}
-          >
-            Dashboard
-          </Link>
-        ),
-      },
-      {
-        key: 2,
-        icon: <TbBrandGoogleAnalytics />,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/marketAnalysis"
-            // reloadDocument={pathname === "/marketanalysis"}
-          >
-            Market Analysis
-          </Link>
-        ),
-      },
-      {
-        key: 3,
-        icon: <RiAccountCircleFill />,
-        label: "Account",
-        children: [
-          {
-            key: 4,
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to="/activeUser"
-                // reloadDocument={pathname === "/activeUser"}
-                // onChange={() => handleChangeLink(4)}
-              >
-                <p className="acount-list">Account List for Active Users</p>
-              </Link>
-            ),
-          },
-          userType === "5" && IsSelfState
-            ? {
-                key: 5,
-                label: (
-                  <Link
-                    onClick={() => {
-                      refershNow();
-                      setSidebar();
-                    }}
-                    to="/Power_List_Screen"
-                    // reloadDocument={pathname === "/Power_List_Screen"}
-                  >
-                    Helper List
-                  </Link>
-                ),
-              }
-            : "",
-          {
-            key: 67,
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to="/accountList"
-                // reloadDocument={pathname === "/accountList"}
-              >
-                Account List
-              </Link>
-            ),
-          },
-
-          {
-            key: 6,
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to="/createAccounts"
-                // reloadDocument={pathname === "/createAccounts"}
-              >
-                Create Account
-              </Link>
-            ),
-          },
-          userType === "5" && IsSelfState
-            ? {
-                key: 23,
-                label: <span onClick={CreatePowerUser}>Create Helper</span>,
-              }
-            : "",
-          userType === "4"
-            ? {
-                key: 7,
-                label: (
-                  <Link
-                    onClick={() => {
-                      refershNow();
-                      setSidebar();
-                    }}
-                    to="/createdomain"
-                    // reloadDocument={pathname === "/createdomain"}
-                  >
-                    Create Domain
-                  </Link>
-                ),
-              }
-            : "",
-        ],
-      },
-      {
-        key: 8,
-        icon: <RiBankFill />,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/bank"
-            // reloadDocument={pathname === "/bank"}
-          >
-            Bank
-          </Link>
-        ),
-      },
-
-      ...(IsSelfState && (userType === "5" || userType === "7")
+    () =>
+      userType === "7"
         ? [
             {
               key: 76,
@@ -368,279 +227,473 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               ],
             },
           ]
-        : []),
-      ...(userType === "5" && IsSelfState
-        ? [
+        : [
             {
-              key: 9,
-              icon: <RiBankFill />,
-              label: "Add Payment Method",
-              children: payment_list,
-            },
-          ]
-        : []),
-      ...(userType === "4"
-        ? [
-            {
-              key: 10,
-              icon: <FaImage />,
+              key: "1",
+              icon: <AiFillDashboard />,
               label: (
                 <Link
                   onClick={() => {
                     refershNow();
                     setSidebar();
                   }}
-                  to="/Update-Banner"
-                  // reloadDocument={pathname === "/Update-Banner"}
+                  to={Dashboard_Screen}
+                  // reloadDocument={pathname === "/marketanalysis"}
                 >
-                  Banner
+                  Dashboard
                 </Link>
               ),
             },
             {
-              key: 9,
-              icon: <RiBankFill />,
-              label: "Setting",
+              key: 2,
+              icon: <TbBrandGoogleAnalytics />,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to="/marketAnalysis"
+                  // reloadDocument={pathname === "/marketanalysis"}
+                >
+                  Market Analysis
+                </Link>
+              ),
+            },
+            {
+              key: 3,
+              icon: <RiAccountCircleFill />,
+              label: "Account",
               children: [
                 {
-                  key: "565656",
+                  key: 4,
                   label: (
                     <Link
                       onClick={() => {
                         refershNow();
                         setSidebar();
                       }}
-                      to={Setting_Screen}
-                      // reloadDocument={pathname === "/Update-Banner"}
+                      to="/activeUser"
+                      // reloadDocument={pathname === "/activeUser"}
+                      // onChange={() => handleChangeLink(4)}
                     >
-                      Social Media Icon Uplaod
+                      <p className="acount-list">
+                        Account List for Active Users
+                      </p>
+                    </Link>
+                  ),
+                },
+                userType === "5" && IsSelfState
+                  ? {
+                      key: 5,
+                      label: (
+                        <Link
+                          onClick={() => {
+                            refershNow();
+                            setSidebar();
+                          }}
+                          to="/Power_List_Screen"
+                          // reloadDocument={pathname === "/Power_List_Screen"}
+                        >
+                          Helper List
+                        </Link>
+                      ),
+                    }
+                  : "",
+                {
+                  key: 67,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/accountList"
+                      // reloadDocument={pathname === "/accountList"}
+                    >
+                      Account List
+                    </Link>
+                  ),
+                },
+
+                {
+                  key: 6,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/createAccounts"
+                      // reloadDocument={pathname === "/createAccounts"}
+                    >
+                      Create Account
+                    </Link>
+                  ),
+                },
+                userType === "5" && IsSelfState
+                  ? {
+                      key: 23,
+                      label: (
+                        <span onClick={CreatePowerUser}>Create Helper</span>
+                      ),
+                    }
+                  : "",
+                userType === "4"
+                  ? {
+                      key: 7,
+                      label: (
+                        <Link
+                          onClick={() => {
+                            refershNow();
+                            setSidebar();
+                          }}
+                          to="/createdomain"
+                          // reloadDocument={pathname === "/createdomain"}
+                        >
+                          Create Domain
+                        </Link>
+                      ),
+                    }
+                  : "",
+              ],
+            },
+            {
+              key: 8,
+              icon: <RiBankFill />,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to="/bank"
+                  // reloadDocument={pathname === "/bank"}
+                >
+                  Bank
+                </Link>
+              ),
+            },
+
+            ...(IsSelfState && (userType === "5" || userType === "7")
+              ? [
+                  {
+                    key: 76,
+                    icon: <RiAccountCircleFill />,
+                    label: "Payment",
+                    children: [
+                      {
+                        key: 79,
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to="/Deposit-Pending-Request"
+                            // reloadDocument={pathname === "/Deposit-Pending-Request"}
+                          >
+                            <span style={{ fontSize: "14px" }}>
+                              Pending deposit request
+                            </span>
+                          </Link>
+                        ),
+                      },
+                      {
+                        key: 90,
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to="/Widrwal-Pending-Request"
+                            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                          >
+                            <span style={{ fontSize: "14px" }}>
+                              Pending Withdraw request
+                            </span>
+                          </Link>
+                        ),
+                      },
+                    ],
+                  },
+                ]
+              : []),
+            ...(userType === "5" && IsSelfState
+              ? [
+                  {
+                    key: 9,
+                    icon: <RiBankFill />,
+                    label: "Add Payment Method",
+                    children: payment_list,
+                  },
+                ]
+              : []),
+            ...(userType === "4"
+              ? [
+                  {
+                    key: 10,
+                    icon: <FaImage />,
+                    label: (
+                      <Link
+                        onClick={() => {
+                          refershNow();
+                          setSidebar();
+                        }}
+                        to="/Update-Banner"
+                        // reloadDocument={pathname === "/Update-Banner"}
+                      >
+                        Banner
+                      </Link>
+                    ),
+                  },
+                  {
+                    key: 9,
+                    icon: <RiBankFill />,
+                    label: "Setting",
+                    children: [
+                      {
+                        key: "565656",
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to={Setting_Screen}
+                            // reloadDocument={pathname === "/Update-Banner"}
+                          >
+                            Social Media Icon Uplaod
+                          </Link>
+                        ),
+                      },
+                      {
+                        key: "5656",
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to={Casino_Type_Screen}
+                            // reloadDocument={pathname === "/Update-Banner"}
+                          >
+                            Casino Image type
+                          </Link>
+                        ),
+                      },
+                    ],
+                  },
+                ]
+              : []),
+
+            {
+              key: 11,
+              icon: <TbFileReport />,
+              label: "Report",
+              children: [
+                {
+                  key: 45,
+
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/account-Statement"
+                      // reloadDocument={pathname === "/account-Statement"}
+                    >
+                      Account Statement
                     </Link>
                   ),
                 },
                 {
-                  key: "5656",
+                  key: 12,
+
                   label: (
                     <Link
                       onClick={() => {
                         refershNow();
                         setSidebar();
                       }}
-                      to={Casino_Type_Screen}
-                      // reloadDocument={pathname === "/Update-Banner"}
+                      to="/currentsBets"
+                      // reloadDocument={pathname === "/currentsBets"}
                     >
-                      Casino Image type
+                      Current Bets
                     </Link>
                   ),
                 },
+                {
+                  key: 13,
+
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/betHistory"
+                      // eloadDocument={pathname === "/betHistory"}
+                    >
+                      Bets History
+                    </Link>
+                  ),
+                },
+                {
+                  key: 35,
+
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/User-History"
+                      // eloadDocument={pathname === "/betHistory"}
+                    >
+                      User History
+                    </Link>
+                  ),
+                },
+                {
+                  key: 52,
+
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to={Profite_Loss}
+                      // eloadDocument={pathname === "/betHistory"}
+                    >
+                      Profite & Loss
+                    </Link>
+                  ),
+                },
+                // {
+                //   key: 523,
+
+                //   label: (
+                //     <Link
+                //       onClick={refershNow}
+                //       to={Party_Win_Lose}
+                //       // eloadDocument={pathname === "/betHistory"}
+                //     >
+                //       Party Win Lose
+                //     </Link>
+                //   ),
+                // },
               ],
             },
-          ]
-        : []),
+            {
+              key: 174,
+              icon: <FaCalendarDay />,
+              label: <span>Event </span>,
+              children: eventData?.map((res) => {
+                return {
+                  key: res.sportName + res.sportId + res.totalMatch,
 
-      {
-        key: 11,
-        icon: <TbFileReport />,
-        label: "Report",
-        children: [
-          {
-            key: 45,
+                  label: (
+                    <span
+                      // onClick={refershNow}
+                      // to=""
+                      // reloadDocument={pathname === "/account-Statement"}
+                      style={{ color: "white" }}
+                    >
+                      {res?.sportName} ({res?.totalMatch})
+                    </span>
+                  ),
+                  children: res.matchList?.map((list) => {
+                    return {
+                      key: list.date + list.matchId + list.matchName,
+                      label: (
+                        <Link
+                          onClick={() => {
+                            refershNow();
+                            setSidebar();
+                          }}
+                          to={`/Detail/${res?.sportId}/${list?.matchId}`}
+                        >
+                          <p style={{ margin: "0px" }}>
+                            {list.matchName}
 
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to="/account-Statement"
-                // reloadDocument={pathname === "/account-Statement"}
-              >
-                Account Statement
-              </Link>
-            ),
-          },
-          {
-            key: 12,
+                            <span style={{ fontSize: "12px" }}>
+                              ({list.date})
+                            </span>
+                          </p>
+                        </Link>
+                      ),
+                    };
+                  }),
+                };
+              }),
+            },
 
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to="/currentsBets"
-                // reloadDocument={pathname === "/currentsBets"}
-              >
-                Current Bets
-              </Link>
-            ),
-          },
-          {
-            key: 13,
+            {
+              key: 687,
+              icon: <ImDice />,
+              label: "Casino",
+              children: casionDataState?.map((res, index) => {
+                // console.log(casionData);
+                return {
+                  key: 458 + index,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to={`${Casino_Screen}/${res?.id}`}
+                      // reloadDocument={pathname === "/account-Statement"}
+                    >
+                      {res.name}
+                    </Link>
+                  ),
+                };
+              }),
+            },
 
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to="/betHistory"
-                // eloadDocument={pathname === "/betHistory"}
-              >
-                Bets History
-              </Link>
-            ),
-          },
-          {
-            key: 35,
-
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to="/User-History"
-                // eloadDocument={pathname === "/betHistory"}
-              >
-                User History
-              </Link>
-            ),
-          },
-          {
-            key: 52,
-
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to={Profite_Loss}
-                // eloadDocument={pathname === "/betHistory"}
-              >
-                Profite & Loss
-              </Link>
-            ),
-          },
-          // {
-          //   key: 523,
-
-          //   label: (
-          //     <Link
-          //       onClick={refershNow}
-          //       to={Party_Win_Lose}
-          //       // eloadDocument={pathname === "/betHistory"}
-          //     >
-          //       Party Win Lose
-          //     </Link>
-          //   ),
-          // },
-        ],
-      },
-      {
-        key: 174,
-        icon: <FaCalendarDay />,
-        label: <span>Event </span>,
-        children: eventData?.map((res) => {
-          return {
-            key: res.sportName + res.sportId + res.totalMatch,
-
-            label: (
-              <span
-                // onClick={refershNow}
-                // to=""
-                // reloadDocument={pathname === "/account-Statement"}
-                style={{ color: "white" }}
-              >
-                {res?.sportName} ({res?.totalMatch})
-              </span>
-            ),
-            children: res.matchList?.map((list) => {
-              return {
-                key: list.date + list.matchId + list.matchName,
-                label: (
-                  <Link
-                    onClick={() => {
-                      refershNow();
-                      setSidebar();
-                    }}
-                    to={`/Detail/${res?.sportId}/${list?.matchId}`}
-                  >
-                    <p style={{ margin: "0px" }}>
-                      {list.matchName}
-
-                      <span style={{ fontSize: "12px" }}>({list.date})</span>
-                    </p>
-                  </Link>
-                ),
-              };
-            }),
-          };
-        }),
-      },
-
-      {
-        key: 687,
-        icon: <ImDice />,
-        label: "Casino",
-        children: casionDataState?.map((res, index) => {
-          // console.log(casionData);
-          return {
-            key: 458 + index,
-            label: (
-              <Link
-                onClick={() => {
-                  refershNow();
-                  setSidebar();
-                }}
-                to={`${Casino_Screen}/${res?.id}`}
-                // reloadDocument={pathname === "/account-Statement"}
-              >
-                {res.name}
-              </Link>
-            ),
-          };
-        }),
-      },
-
-      userType === "5" && {
-        key: 172,
-        icon: <AiFillFacebook />,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to={Socila_Media_Manager_Screen}
-            // reloadDocument={pathname === "/account-Statement"}
-          >
-            Social Media Manager
-          </Link>
-        ),
-      },
-      {
-        style: { aligItems: "flex-start" },
-        key: 17,
-        icon: <CiLogout style={{ marginBottom: "200px" }} />,
-        label: (
-          <span
-            style={{
-              display: "block",
-              textAlign: "left",
-              marginBottom: "200px",
-            }}
-            onClick={showModal}
-            // onClick={logout}
-          >
-            Log Out
-          </span>
-        ),
-      },
-    ],
+            userType === "5" && {
+              key: 172,
+              icon: <AiFillFacebook />,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to={Socila_Media_Manager_Screen}
+                  // reloadDocument={pathname === "/account-Statement"}
+                >
+                  Social Media Manager
+                </Link>
+              ),
+            },
+            {
+              style: { aligItems: "flex-start" },
+              key: 17,
+              icon: <CiLogout style={{ marginBottom: "200px" }} />,
+              label: (
+                <span
+                  style={{
+                    display: "block",
+                    textAlign: "left",
+                    marginBottom: "200px",
+                  }}
+                  onClick={showModal}
+                  // onClick={logout}
+                >
+                  Log Out
+                </span>
+              ),
+            },
+          ],
     [eventData, CasionData]
   );
-
+  console.log(item);
   const handleClick = (key) => {
     if (key) {
       if (key[2]) {

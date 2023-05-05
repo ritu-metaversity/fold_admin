@@ -7,6 +7,7 @@ import Datatable from "../../components/table/marketAnalysis/MarketAnalysis";
 import "./styles.scss";
 import { Active_Sport_List, MarketAnalysisApi } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
+
 const MarketAnalysis = () => {
   const [tab1, settab1] = useState(4);
   const [cricket, setCricket] = useState([]);
@@ -74,7 +75,7 @@ const MarketAnalysis = () => {
     1: 62,
     2: 2,
     3: 5,
-    1477: 54,
+    14: 14,
     6: 3,
     7: 10,
     8: 16,
