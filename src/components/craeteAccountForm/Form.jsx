@@ -186,7 +186,7 @@ const Accountform = () => {
     else {
       const dataInner = {
         ...data,
-        liveCasinoLock: casinoStatus || data.liveCasinoLock,
+        liveCasinoLock: !data.liveCasinoLock,
       };
       Object.assign(dataInner, {
         sportPartnership: Number(dataInner.sportPartnership),
@@ -217,7 +217,10 @@ const Accountform = () => {
             notifyToast().succes(res.data.message);
             setuserId(res?.data?.username);
             setUserPass(res?.data?.password);
-            setData(defaultData);
+            setData({
+              ...defaultData,
+              liveCasinoLock: userType === "4" ? false : !casinoStatus,
+            });
             showModal();
             setErrorData({
               username: false,
@@ -350,9 +353,11 @@ const Accountform = () => {
       )
       .then((res) => {
         setCasinoStatus(res?.data?.data?.liveCasinoLock);
+        console.log(res.data.data.liveCasinoLock, "==========");
         setData((o) => ({
           ...o,
-          liveCasinoLock: res?.data?.data?.liveCasinoLock,
+          liveCasinoLock:
+            userType === "4" ? true : !Boolean(res.data.data.liveCasinoLock),
         }));
         // setSportsList(res.data.data);
       })
@@ -642,12 +647,12 @@ const Accountform = () => {
           )}
           <Form.Item
             name="liveCasinoLock"
-            label="LiveCasino"
+            label="Casino Lock"
             style={{ marginTop: "0px" }}
           >
             <Switch
               size="small"
-              disabled={casinoStatus}
+              disabled={userType === "4" ? false : casinoStatus}
               checked={data.liveCasinoLock}
               onChange={swtchChangeHandle}
               style={{ marginTop: "-2px" }}
