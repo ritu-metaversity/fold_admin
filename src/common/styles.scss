@@ -44,7 +44,9 @@ $breakpoint-common: 1280px;
       height: 100%;
       background-color: #16191c;
       top: 70px;
-
+      &::-webkit-scrollbar {
+        display: none;
+      }
       @media (max-width: $breakpoint-tablet) {
         position: fixed;
 

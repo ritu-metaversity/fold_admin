@@ -25,6 +25,18 @@
 }
 .drawer {
   width: 500;
+  .ant-drawer-body {
+    h3 {
+      color: white;
+      text-align: center;
+      width: 100%;
+    }
+    p {
+      color: white;
+      text-align: center;
+      width: 100%;
+    }
+  }
   @media (max-width: 767.98px) {
     width: 90%;
   }

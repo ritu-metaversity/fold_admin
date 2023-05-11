@@ -168,6 +168,14 @@ const Activelist = () => {
       title: "CR",
       dataIndex: "CR",
     },
+    {
+      title: "Domain",
+      dataIndex: "Domain",
+    },
+    {
+      title: "lcLock",
+      dataIndex: "lcLock",
+    },
 
     {
       title: "B st",
@@ -221,7 +229,11 @@ const Activelist = () => {
       ) : (
         <Switch size="small" disabled={true} defaultunchecked="true" />
       ),
+
       PName: res?.pname,
+      Domain: res?.appUrl,
+      lcLock: res?.lcLock ? "true" : "false",
+
       AccountType: res?.accountType,
       Action: (
         <div style={{ paddingRight: "10px" }}>

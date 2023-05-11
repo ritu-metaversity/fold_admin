@@ -72,10 +72,10 @@ const Widrawal = ({ data, gettableData }) => {
         )
         .then((res) => {
           notifyToast().succes(res.data.message);
-          handleCancel();
-          setformData({});
           gettableData();
           userBalance();
+          handleCancel();
+          setformData({});
         })
         .catch((error) => {
           // message.error(error.response.data.message);

@@ -206,6 +206,15 @@ const ActiveUser = () => {
       sortOrder: sortedInfo.field === "Available" ? sortedInfo.order : null,
     },
     {
+      title: "Domain",
+      dataIndex: "Domain",
+    },
+    {
+      title: "lcLock",
+      dataIndex: "lcLock",
+    },
+
+    {
       title: "B st",
       dataIndex: "bst",
     },
@@ -248,6 +257,9 @@ const ActiveUser = () => {
           {res?.chips}
         </span>
       ),
+
+      Domain: res?.appUrl,
+      lcLock: res?.lcLock ? "true" : "false",
       PTS: res?.pts,
       Client: res?.clientPl,
       Clientp: res?.clientPlPercentage,
