@@ -13,7 +13,7 @@ import { notifyToast } from "../toast/Tost";
 const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
-  const { setLoading } = useContext(LoaderContext);
+  const { setLoading, userBalance } = useContext(LoaderContext);
   const [depositActivity, setDepositActivity] = useState([]);
 
   const handleChange = (e) => {
@@ -92,9 +92,10 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
         )
         .then((res) => {
           notifyToast().succes(res.data.message);
+          gettableData();
+          userBalance();
           handleCancelfunction();
           setformData({});
-          gettableData();
         })
         .catch((error) => {});
       setLoading((prev) => ({ ...prev, submitActivityDeposit: false }));

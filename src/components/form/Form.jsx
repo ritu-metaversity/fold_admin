@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
-const Loginform = () => {
+const Loginform = ( ) => {
   const navigate = useNavigate();
   const { setLoading } = useContext(LoaderContext);
   const host = window.location.hostname;
@@ -26,10 +26,11 @@ const Loginform = () => {
           localStorage.setItem("userType", res.data.userType);
           localStorage.setItem("partnership", res.data.partnership);
           if (res.data.passwordtype === "old") {
+            localStorage.setItem("passwordtype", res?.data?.passwordtype);
             localStorage.setItem("refresh-token", res.data.token);
             setLoading((prev) => ({ ...prev, LoginUser: false }));
 
-            navigate("/change-password");
+            // navigate("/change-password");
           } else {
             // notifyToast().succes("Login success!!");
             localStorage.setItem("token", res.data.token);

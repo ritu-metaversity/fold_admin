@@ -12,7 +12,7 @@ import { notifyToast } from "../toast/Tost";
 
 const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [depositActivity, setDepositActivity] = useState([]);
-  const { setLoading } = useContext(LoaderContext);
+  const { setLoading,userBalance } = useContext(LoaderContext);
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
 
@@ -103,9 +103,10 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
         )
         .then((res) => {
           notifyToast().succes(res.data.message);
+          gettableData();
+          userBalance()
           handleCancelfunction();
           setformData({});
-          gettableData();
         })
         .catch((error) => {
           // message.error(error.response.data.message);

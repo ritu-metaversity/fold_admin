@@ -36,6 +36,7 @@ const ChangePasswordLoginForm = () => {
       .then((res) => {
         if (res.data?.status === true) {
           notifyToast().succes(res.data?.message);
+          localStorage.removeItem("passwordtype");
           setLoading((prev) => ({ ...prev, LoginUserChange: false }));
           navigate("/");
         } else if (res.data?.message) {
@@ -57,7 +58,7 @@ const ChangePasswordLoginForm = () => {
   return (
     <div>
       <h3>Welcome to Admin Panel</h3>
-      <p>Enter your Username and Password</p>
+      <p className="change-heading">Enter your Username and Password</p>
       <Form
         name="normal_login"
         className="login-form"
@@ -77,7 +78,7 @@ const ChangePasswordLoginForm = () => {
         >
           <Input
             type="password"
-            placeholder="OldPassword"
+            placeholder="Old Password"
             className="input-tag"
           />
         </Form.Item>
@@ -107,19 +108,19 @@ const ChangePasswordLoginForm = () => {
           </Button>
         </Form.Item>
       </Form>
-      <p>
+      <p className="privacy-policy">
         This site is protected by reCAPTCHA and the Google{" "}
         <span style={{ color: "#fdcf13" }}>Privacy Policy</span> and{" "}
         <span style={{ color: "#fdcf13" }}>Terms of Serviceapply</span> .
       </p>
-      <p>© Copyright 2021. All Rights Reserved.</p>
-      <p>
+      <p className="copyright">© Copyright 2021. All Rights Reserved.</p>
+      {/* <p className="info">
         The website is operated by Ecofun Services NV registered in Curaçao
         under the registration number 152307, with address at Heelsumstraat 51,
         Curaçao, authorized by Antillephone under license number 8048/JAZ2020 -
         025. The transactions are processed by Ecofun Services NV which own and
         operates world777.com.
-      </p>
+      </p> */}
     </div>
   );
 };

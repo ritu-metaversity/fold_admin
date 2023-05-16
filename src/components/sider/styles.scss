@@ -67,6 +67,9 @@ $breakpoint-common: 1280px;
   // li{
   //     padding-left: 24px !important;
   // }
+  &::-webkit-scrollbar {
+    display: none;
+  }
   .ant-menu-item {
     &:active {
       background-color: transparent !important;
