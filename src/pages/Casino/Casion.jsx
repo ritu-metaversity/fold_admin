@@ -4,28 +4,28 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import CasionCard from "../../components/casionCard/CasionCard";
-import { Bet_Casino, Casino_Card_Data } from "../../routes/Routes";
+import { Bet_Casino, CasinoImage } from "../../routes/Routes";
 
 const Casion = () => {
   const [CasionCardData, setCasionCardData] = useState([]);
   const [countData, setCountData] = useState([]);
   const { id } = useParams();
   const { setLoading } = useContext(LoaderContext);
-  const host = window.location.hostname;
+  // const host = window.location.hostname;
   const CasinoData = async () => {
     setLoading((prev) => ({ ...prev, CasinoData: true }));
     await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
-        {
-          id: id,
-          appUrl: host,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
+      .get(
+        `${CasinoImage}`
+        // {
+        //   id: id,
+        //   appUrl: host,
+        // }
+        // {
+        //   headers: {
+        //     Authorization: `Bearer ${localStorage.getItem("token")}`,
+        //   },
+        // }
       )
       .then((res) => {
         setCasionCardData(res.data.data);

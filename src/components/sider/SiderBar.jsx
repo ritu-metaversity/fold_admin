@@ -26,6 +26,7 @@ import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
 import { AiFillDashboard, AiFillFacebook } from "react-icons/ai";
 import LogoutModal from "../logoutModal/LogoutModal";
+import { tableDataRef } from "../../pages/powerList/PowerList";
 
 const SiderBar = ({ IsSelfState, setSidebar }) => {
   const navigate = useNavigate();
@@ -75,7 +76,10 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
         }
       )
       .then((res) => {
-        notifyToast().succes(res.data.message);
+        if (res.data.status) {
+          tableDataRef();
+          notifyToast().succes(res.data.message);
+        }
       })
       .catch((error) => {});
     setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
@@ -220,6 +224,40 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                     >
                       <span style={{ fontSize: "14px" }}>
                         Pending Withdraw request
+                      </span>
+                    </Link>
+                  ),
+                },
+                {
+                  key: 93,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/Widrwal-Rejected"
+                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Withdraw Rejected
+                      </span>
+                    </Link>
+                  ),
+                },
+                {
+                  key: 95,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/deposit-Rejected"
+                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Deposite Rejected
                       </span>
                     </Link>
                   ),
@@ -693,7 +731,6 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
           ],
     [eventData, CasionData]
   );
-  console.log(item);
   const handleClick = (key) => {
     if (key) {
       if (key[2]) {

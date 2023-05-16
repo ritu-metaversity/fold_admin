@@ -23,6 +23,9 @@ export const Widrwal_Pending_Request = "Widrwal-Pending-Request";
 export const User_History = "User-History";
 export const Casino_Screen = "/Casino";
 export const Profite_Loss = "Profite-loss";
+export const withdraw_Rejected = "/Widrwal-Rejected";
+export const deposite_Rejected = "/deposit-Rejected";
+
 // export const Party_Win_Lose = "Party-win-lose";
 export const Setting_Screen = "Setting";
 export const Casino_Type_Screen = "/Casino-image-type";

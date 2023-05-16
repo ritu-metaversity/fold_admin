@@ -267,7 +267,7 @@ const CasinoProfiteLossTable = () => {
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
-        { id: id },
+        { id: id, appUrl: window.location.hostname },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

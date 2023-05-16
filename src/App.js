@@ -44,6 +44,8 @@ import {
   Casino_Type_Screen,
   isSelf,
   get_msg,
+  withdraw_Rejected,
+  deposite_Rejected,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -77,6 +79,8 @@ import dayjs from "dayjs";
 import MarketAnalysis from "./pages/marketAnalyisis/MarketAnalysis";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CasinoType from "./pages/casionType/CasinoType";
+import WithdrawalRejected from "./pages/withdrawalRejected/WithdrawalRejected";
+import DepositeRejected from "./pages/depositeRejected/DepositeRejected";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -307,6 +311,7 @@ function App() {
                 <Route path={Upi_Method} element={<Upi />}></Route>
                 <Route path={Qr_Method} element={<QR />}></Route>
                 <Route path={Power_List_Screen} element={<PoerList />}></Route>
+
                 <Route
                   path={Down_Line_ActiveUser + ":id"}
                   element={<DownList apiState={true} />}
@@ -340,7 +345,14 @@ function App() {
               path={Widrwal_Pending_Request}
               element={<WidrwalPendingRequest />}
             ></Route>
-
+            <Route
+              path={withdraw_Rejected}
+              element={<WithdrawalRejected />}
+            ></Route>
+            <Route
+              path={deposite_Rejected}
+              element={<DepositeRejected />}
+            ></Route>
             <Route
               path={Deposit_Pending_Request}
               element={<DepositPendingRequest />}
