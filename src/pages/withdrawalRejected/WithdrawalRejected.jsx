@@ -137,7 +137,11 @@ const WithdrawalRejected = () => {
 
       amount: curElem.amount,
       time: moment(curElem.time).format("DD-MM-YYYY , HH-MM-SS"),
-      status: curElem.status,
+      status: (
+        <p style={{ color: curElem.status === "Rejected" ? "red" : "green" }}>
+          {curElem.status}
+        </p>
+      ),
     };
   });
   const filterAll = (value) => {
