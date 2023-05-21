@@ -112,7 +112,7 @@ const QrForm = () => {
     };
   }, [setLoading]);
   return (
-    <div className="form-domain-card">
+    <div className="form-qr-card">
       <form style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         <label>Display Name</label>
         <input

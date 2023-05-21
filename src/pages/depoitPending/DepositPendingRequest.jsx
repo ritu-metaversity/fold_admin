@@ -48,7 +48,11 @@ const DepositPendingRequest = () => {
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Deposit_Pending_Request_Api}`,
-        {},
+        {
+          index: paginationData.index,
+          noOfRecords: paginationData.noOfRecords,
+          userId: "",
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,7 +61,11 @@ const DepositPendingRequest = () => {
       )
       .then((res) => {
         if (res?.data?.data) {
-          setDataList(res?.data?.data);
+          setPaginationData({
+            ...paginationData,
+            totalPages: res?.data?.data?.totalPages || 1,
+          });
+          setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
         }
@@ -70,7 +78,7 @@ const DepositPendingRequest = () => {
 
   useEffect(() => {
     tabledata();
-  }, []);
+  }, [paginationData.index, paginationData.noOfRecords]);
 
   const columns = [
     {
@@ -214,6 +222,28 @@ const DepositPendingRequest = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const Increment = () => {
+    if (paginationData.index < paginationData.totalPages) {
+      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
+    }
+
+    // setPageIndex(PageIndex + 1);
+  };
+  const Decrement = () => {
+    if (paginationData.index > 0) {
+      setPaginationData({ ...paginationData, index: paginationData.index - 1 });
+    }
+    // setPageIndex(PageIndex - 1);
+  };
+  const ResetCounter = () => {
+    setPaginationData({ ...paginationData, index: 0 });
+  };
+  const LastCounter = () => {
+    setPaginationData({
+      ...paginationData,
+      index: paginationData.totalPages - 1,
+    });
+  };
   return (
     <>
       <DeleteModal
@@ -280,6 +310,91 @@ const DepositPendingRequest = () => {
           className="accountTable"
           pagination={{ pageSize: paginationData.noOfRecords }}
         />
+        <div className="pagination">
+          <ul className="pagination-rounded mb-0">
+            <ul
+              role="menubar"
+              aria-disabled="false"
+              aria-label="Pagination"
+              className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
+            >
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to first page"
+                  aria-disabled="true"
+                  style={{ cursor: "pointer" }}
+                  onClick={ResetCounter}
+                >
+                  «
+                </span>
+              </li>
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to previous page"
+                  aria-disabled="true"
+                  style={{ cursor: "pointer" }}
+                  onClick={Decrement}
+                >
+                  ‹
+                </span>
+              </li>
+              <li role="presentation" className="page-item active">
+                <button
+                  role="menuitemradio"
+                  type="button"
+                  aria-label="Go to page 1"
+                  aria-checked="true"
+                  aria-posinset="1"
+                  aria-setsize="1"
+                  tabIndex="0"
+                  className="page-link"
+                >
+                  {paginationData.index + 1}
+                </button>
+              </li>
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to next page"
+                  aria-disabled="true"
+                  style={{ cursor: "pointer" }}
+                  onClick={Increment}
+                >
+                  ›
+                </span>
+              </li>
+              <li
+                role="presentation"
+                aria-hidden="true"
+                className="page-item disabled"
+              >
+                <span
+                  role="menuitem"
+                  aria-label="Go to last page"
+                  aria-disabled="true"
+                  onClick={LastCounter}
+                  style={{ cursor: "pointer" }}
+                >
+                  »
+                </span>
+              </li>
+            </ul>
+          </ul>
+        </div>
       </div>
     </>
   );

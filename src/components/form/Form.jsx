@@ -6,10 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
-const Loginform = ( ) => {
+const Loginform = () => {
   const navigate = useNavigate();
   const { setLoading } = useContext(LoaderContext);
   const host = window.location.hostname;
+
+  const redirect = {
+    DEPOSIT: "Deposit-Pending-Request",
+    WITHDRAW: "Widrwal-Pending-Request",
+    ALL: "Deposit-Pending-Request",
+  };
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
     const value = {
@@ -25,6 +31,10 @@ const Loginform = ( ) => {
           localStorage.setItem("userid", res.data.userId);
           localStorage.setItem("userType", res.data.userType);
           localStorage.setItem("partnership", res.data.partnership);
+          localStorage.setItem(
+            "poweruser_permisions",
+            res.data.poweruser_permisions
+          );
           if (res.data.passwordtype === "old") {
             localStorage.setItem("passwordtype", res?.data?.passwordtype);
             localStorage.setItem("refresh-token", res.data.token);
@@ -36,7 +46,7 @@ const Loginform = ( ) => {
             localStorage.setItem("token", res.data.token);
             setLoading((prev) => ({ ...prev, LoginUser: false }));
             if (res.data.userType === "7") {
-              navigate("Deposit-Pending-Request");
+              navigate(redirect[res.data.poweruser_permisions]);
             } else {
               navigate("/marketAnalysis");
             }

@@ -45,7 +45,7 @@ const WidrwalPendingRequest = () => {
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Widrwal_Pending_Request_Api}`,
         {
-          id: "",
+          userId: "",
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
         },
@@ -61,7 +61,7 @@ const WidrwalPendingRequest = () => {
             ...paginationData,
             totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res?.data?.data);
+          setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
         }

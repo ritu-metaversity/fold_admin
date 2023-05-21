@@ -46,6 +46,7 @@ import {
   get_msg,
   withdraw_Rejected,
   deposite_Rejected,
+  create_Helper,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -81,6 +82,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import CasinoType from "./pages/casionType/CasinoType";
 import WithdrawalRejected from "./pages/withdrawalRejected/WithdrawalRejected";
 import DepositeRejected from "./pages/depositeRejected/DepositeRejected";
+import CreateHelper from "./pages/createHelper/CreateHelper";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -266,6 +268,11 @@ function App() {
                   exact
                   path={CreatAaccounts_Screen}
                   element={<CreateAccount />}
+                />
+                 <Route
+                  exact
+                  path={create_Helper}
+                  element={<CreateHelper />}
                 />
 
                 <Route
