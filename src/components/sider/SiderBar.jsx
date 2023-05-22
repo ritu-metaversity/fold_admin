@@ -11,7 +11,6 @@ import {
   Casino_Screen,
   Casino_Type_Screen,
   Casiono,
-  Create_Power_user,
   Dashboard_Screen,
   Left_Event_Menu,
   Log_Out,
@@ -61,25 +60,158 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
     setLoading((prev) => ({ ...prev, logout: false }));
     //
   };
+  const findPermission = localStorage.getItem("poweruser_permisions");
+  const siderPaymentItem = {
+    WITHDRAW: [
+      {
+        key: 90,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/Widrwal-Pending-Request"
+            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+          >
+            <span style={{ fontSize: "14px" }}>Pending Withdraw request</span>
+          </Link>
+        ),
+      },
+      {
+        key: 93,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/Widrwal-Rejected"
+            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+          >
+            <span style={{ fontSize: "13px" }}>Withdraw Rejected/Success</span>
+          </Link>
+        ),
+      },
+    ],
+    DEPOSIT: [
+      {
+        key: 79,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/Deposit-Pending-Request"
+            // reloadDocument={pathname === "/Deposit-Pending-Request"}
+          >
+            <span style={{ fontSize: "14px" }}>Pending deposit request</span>
+          </Link>
+        ),
+      },
+      {
+        key: 95,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/deposit-Rejected"
+            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+          >
+            <span style={{ fontSize: "13px" }}>Deposite Rejected/ Success</span>
+          </Link>
+        ),
+      },
+    ],
 
-  const CreatePowerUser = async () => {
-    setLoading((prev) => ({ ...prev, CreatePowerUser: true }));
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Create_Power_user}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        notifyToast().succes(res.data.message);
-      })
-      .catch((error) => {});
-    setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+    ALL: [
+      {
+        key: 79,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/Deposit-Pending-Request"
+            // reloadDocument={pathname === "/Deposit-Pending-Request"}
+          >
+            <span style={{ fontSize: "14px" }}>Pending deposit request</span>
+          </Link>
+        ),
+      },
+      {
+        key: 90,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/Widrwal-Pending-Request"
+            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+          >
+            <span style={{ fontSize: "14px" }}>Pending Withdraw request</span>
+          </Link>
+        ),
+      },
+      {
+        key: 95,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/deposit-Rejected"
+            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+          >
+            <span style={{ fontSize: "13px" }}>Deposite Rejected/ Success</span>
+          </Link>
+        ),
+      },
+      {
+        key: 93,
+        label: (
+          <Link
+            onClick={() => {
+              refershNow();
+              setSidebar();
+            }}
+            to="/Widrwal-Rejected"
+            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+          >
+            <span style={{ fontSize: "13px" }}>Withdraw Rejected/ Success</span>
+          </Link>
+        ),
+      },
+    ],
   };
+
+  // const CreatePowerUser = async () => {
+  //   setLoading((prev) => ({ ...prev, CreatePowerUser: true }));
+  //   await axios
+  //     .post(
+  //       `${process.env.REACT_APP_BASE_URL}/${Create_Power_user}`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       if (res.data.status) {
+  //         tableDataRef();
+  //         notifyToast().succes(res.data.message);
+  //       }
+  //     })
+  //     .catch((error) => {});
+  //   setLoading((prev) => ({ ...prev, CreatePowerUser: false }));
+  // };
 
   const paymentMethod = async () => {
     await axios
@@ -189,42 +321,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               key: 76,
               icon: <RiAccountCircleFill />,
               label: "Payment",
-              children: [
-                {
-                  key: 79,
-                  label: (
-                    <Link
-                      onClick={() => {
-                        refershNow();
-                        setSidebar();
-                      }}
-                      to="/Deposit-Pending-Request"
-                      // reloadDocument={pathname === "/Deposit-Pending-Request"}
-                    >
-                      <span style={{ fontSize: "14px" }}>
-                        Pending deposit request
-                      </span>
-                    </Link>
-                  ),
-                },
-                {
-                  key: 90,
-                  label: (
-                    <Link
-                      onClick={() => {
-                        refershNow();
-                        setSidebar();
-                      }}
-                      to="/Widrwal-Pending-Request"
-                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-                    >
-                      <span style={{ fontSize: "14px" }}>
-                        Pending Withdraw request
-                      </span>
-                    </Link>
-                  ),
-                },
-              ],
+              children: siderPaymentItem[findPermission],
             },
           ]
         : [
@@ -335,7 +432,16 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   ? {
                       key: 23,
                       label: (
-                        <span onClick={CreatePowerUser}>Create Helper</span>
+                        <Link
+                          onClick={() => {
+                            refershNow();
+                            setSidebar();
+                          }}
+                          to="/create-helper"
+                          // reloadDocument={pathname === "/createdomain"}
+                        >
+                          Create Helper
+                        </Link>
                       ),
                     }
                   : "",
@@ -375,48 +481,13 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               ),
             },
 
-            ...(IsSelfState && (userType === "5" || userType === "7")
+            ...(IsSelfState && userType === "7"
               ? [
                   {
                     key: 76,
                     icon: <RiAccountCircleFill />,
                     label: "Payment",
-                    children: [
-                      {
-                        key: 79,
-                        label: (
-                          <Link
-                            onClick={() => {
-                              refershNow();
-                              setSidebar();
-                            }}
-                            to="/Deposit-Pending-Request"
-                            // reloadDocument={pathname === "/Deposit-Pending-Request"}
-                          >
-                            <span style={{ fontSize: "14px" }}>
-                              Pending deposit request
-                            </span>
-                          </Link>
-                        ),
-                      },
-                      {
-                        key: 90,
-                        label: (
-                          <Link
-                            onClick={() => {
-                              refershNow();
-                              setSidebar();
-                            }}
-                            to="/Widrwal-Pending-Request"
-                            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-                          >
-                            <span style={{ fontSize: "14px" }}>
-                              Pending Withdraw request
-                            </span>
-                          </Link>
-                        ),
-                      },
-                    ],
+                    children: siderPaymentItem[findPermission],
                   },
                 ]
               : []),
@@ -693,7 +764,6 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
           ],
     [eventData, CasionData]
   );
-  console.log(item);
   const handleClick = (key) => {
     if (key) {
       if (key[2]) {

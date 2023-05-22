@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, message } from "antd";
+import { Button } from "antd";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
@@ -120,7 +120,7 @@ const BankForm = () => {
     };
   }, [setLoading]);
   return (
-    <div className="form-domain-card">
+    <div className="form-bank-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>
         ADD BANK
       </p>

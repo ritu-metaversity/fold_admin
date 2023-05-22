@@ -4,6 +4,13 @@ import { NavLink } from "react-router-dom";
 
 const NoteFound = () => {
   const userType = localStorage.getItem("userType");
+  const poweruser_permisions = localStorage.getItem("poweruser_permisions");
+
+  const redirect = {
+    DEPOSIT: "Deposit-Pending-Request",
+    WITHDRAW: "Widrwal-Pending-Request",
+    ALL: "Deposit-Pending-Request",
+  };
   return (
     <div>
       <Result
@@ -15,7 +22,7 @@ const NoteFound = () => {
             <NavLink
               to={
                 userType === "7"
-                  ? "/Deposit-Pending-Request"
+                  ? redirect[poweruser_permisions]
                   : "/marketAnalysis} "
               }
               style={{ color: "white" }}

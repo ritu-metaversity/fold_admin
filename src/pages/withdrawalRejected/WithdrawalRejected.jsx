@@ -1,29 +1,32 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table, Tooltip } from "antd";
-import React, { useEffect, useState } from "react";
+import { Button, Input, Select, Table } from "antd";
+import React, { createContext, useEffect, useState } from "react";
 ///styles
-// import "./styles.scss";
 import { NavLink } from "react-router-dom";
 
 import axios from "axios";
-import { Delete_Power_List, Power_list } from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import DeleteModal from "../../components/deleteModal/DeleteModal";
-import { GoTrashcan } from "react-icons/go";
-import { notifyToast } from "../../components/toast/Tost";
+import moment from "moment";
+import { columns } from "./WithdrawalRejectedColum";
+export const UserModalContext = createContext({
+  handleCancel: () => {},
+});
 
-export let tableDataRef = () => {};
-
-const PoerList = () => {
+const WithdrawalRejected = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
-  // const [loading, setLoading] = useState(false);
   const { setLoading } = useContext(LoaderContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteRowId, setdeleteRowId] = useState("");
+  const [filterValue, setFilterValue] = useState("ALL");
   const [DataList, setDataList] = useState([]);
-  const [apiCall, setApiCall] = useState(0);
+  const [optionValue, setOptionValue] = useState([]);
+  const [secondCity, setSecondCity] = useState("");
+  // const [sortedInfo, setSortedInfo] = useState({});
+  // const handleChangeTable = (sorter) => {
+  //   // console.log("Various parameters", pagination, filters, sorter);
+  //   setSortedInfo(sorter);
+  // };
+
   //////// change password
 
   ////edit profile State
@@ -39,24 +42,23 @@ const PoerList = () => {
   };
   const handleChange = (event) => {
     setMessage(event.target.value);
-    // console.log(event);
   };
   const handleClick = () => {
     // 👇 "message" stores input field value
     setSearchText(message);
   };
 
-  //////deposit Modal
-
   const tabledata = async () => {
-    setLoading((prev) => ({ ...prev, accountTableData: true }));
+    setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Power_list}`,
+        `${process.env.REACT_APP_BASE_URL}/pw/list-all-withdraw-request`,
         {
           id: "",
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
+          userId: secondCity,
+          type: filterValue,
         },
         {
           headers: {
@@ -65,95 +67,51 @@ const PoerList = () => {
         }
       )
       .then((res) => {
-        if (res?.data?.data) {
+        if (res?.data?.data?.dataList) {
           setPaginationData({
             ...paginationData,
-            totalPages: res?.data?.data || 1,
+            totalPages: res?.data?.data?.totalPages || 1,
           });
-          setDataList(res?.data?.data);
+          setDataList(res?.data?.data?.dataList);
         } else {
           setDataList();
         }
       })
-      .catch((error) => {});
-    setLoading((prev) => ({ ...prev, accountTableData: false }));
-
-    // setLoading(false);
+      .catch((error) => {
+        // message.error(error.response.data.message);
+        // if (error.response.status === 401) {
+        //   setLoading((prev) => ({ ...prev, activeUsertable: false }));
+        //   localStorage.removeItem("token");
+        //   navigate("/");
+        //   message.error(error.response.data.message);
+        // }
+      });
+    setLoading((prev) => ({ ...prev, activeUsertable: false }));
   };
 
-  tableDataRef = tabledata;
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords]);
-
-  const columns = [
-    {
-      title: "User ID",
-      dataIndex: "UserID",
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return String(record.UserID)
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      },
-    },
-    {
-      title: "Password",
-      dataIndex: "Password",
-    },
-    {
-      title: "Active",
-      dataIndex: "Active",
-    },
-    {
-      title: "Action",
-      dataIndex: "Action",
-    },
-  ];
-
-  const data = DataList?.map((res) => {
-    return {
-      UserID: res.userId,
-      Password: res.password,
-      Active: res.active ? "True" : "False",
-      Action: (
-        <Tooltip placement="top" title={"Delete"}>
-          <Button
-            onClick={() => {
-              showModal(res.userId);
-              setApiCall(2);
-            }}
-            style={{ border: "none" }}
-          >
-            <GoTrashcan style={{ color: "red" }} />
-          </Button>
-        </Tooltip>
-      ),
+  }, [
+    paginationData.index,
+    paginationData.noOfRecords,
+    filterValue,
+    secondCity,
+  ]);
+  useEffect(() => {
+    return () => {
+      setLoading((prev) => ({
+        ...prev,
+        activeUsertable: false,
+      }));
     };
-  });
-  const deletePoweList = async (userId) => {
-    setLoading((prev) => ({ ...prev, deletePoweList: true }));
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${Delete_Power_List}`,
-        { userId: userId },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        notifyToast().succes(res.data.message);
-        setDataList(DataList?.filter((row) => row.userId !== userId));
-        handleCancel();
-      })
-      .catch((error) => {});
-    setLoading((prev) => ({ ...prev, deletePoweList: false }));
-  };
+  }, [setLoading]);
+
   const Increment = () => {
-    if (paginationData.index < paginationData.totalPages) {
-      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
+    if (paginationData?.index < paginationData?.totalPages) {
+      setPaginationData({
+        ...paginationData,
+        index: paginationData?.index + 1,
+      });
     }
 
     // setPageIndex(PageIndex + 1);
@@ -173,52 +131,100 @@ const PoerList = () => {
       index: paginationData.totalPages - 1,
     });
   };
-  const showModal = (id) => {
-    setIsModalOpen(true);
-    setdeleteRowId(id);
-  };
-  const handleOk = () => {
-    // setIsModalOpen(false);
-    deletePoweList(deleteRowId);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+  const data = DataList?.map((curElem) => {
+    return {
+      key: curElem.byPowerUser + curElem.image + curElem.time,
+      accountHolderName: (
+        <p>
+          {curElem.accountHolderName}
+          <br />({curElem.userId})
+        </p>
+      ),
+      remark: curElem.remark,
+      accountNumber: curElem.accountNumber,
+      bankName: curElem.bankName,
+      ifsc: curElem.ifsc,
+      accountType: curElem.accountType,
 
+      amount: curElem.amount,
+      time: moment(curElem.time).format("DD-MM-YYYY , HH-MM-SS"),
+      status: (
+        <p style={{ color: curElem.status === "Rejected" ? "red" : "green" }}>
+          {curElem.status}
+        </p>
+      ),
+    };
+  });
+  const filterAll = (value) => {
+    setFilterValue(value);
+  };
+  const getOptionvalue = async (event) => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/pw/get-userlist-pw`,
+        { userId: "" },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res?.data.status) {
+          setOptionValue(res.data.data);
+        } else {
+          // setDataList();
+        }
+      });
+  };
+  useEffect(() => {
+    getOptionvalue();
+  }, []);
+  const onSelectValue = (value) => {
+    setSecondCity(value);
+  };
+  const options = optionValue.map((curElem) => {
+    return {
+      value: curElem,
+      label: curElem,
+    };
+  });
   return (
     <>
-      <DeleteModal
-        showModal={isModalOpen}
-        handleOk={handleOk}
-        handleCancel={handleCancel}
-        headerColor={apiCall}
-        remarkRender={1}
-      />
       <div className="hading-create-accounts">
-        <h4>Helper List</h4>
+        <h4>Withdrawal Rejected</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
-          <NavLink to="/Power_List_Screen" style={{ color: "#74788d" }}>
-            Helper List
+          <NavLink to="/activeUser" style={{ color: "#74788d" }}>
+            Active Users
           </NavLink>
         </p>
       </div>
+
       <div className="table">
         <div className="search">
           <div className="left-col">
-            <Input
+            <Select
+              defaultValue="Select"
+              style={{
+                width: 250,
+              }}
+              options={options}
+              onChange={onSelectValue}
+            />
+            {/* <Input
               placeholder="search here....."
               name="message"
               onChange={handleChange}
               value={message}
-            />
+            /> */}
             <div className="serch-btn">
-              <Button
+              {/* <Button
                 onClick={handleClick}
                 style={{ background: "#23292E", color: "white" }}
               >
                 Load
-              </Button>
+              </Button> */}
               <Button
                 onClick={reset}
                 style={{ background: "#eff2f7", color: "black" }}
@@ -228,12 +234,27 @@ const PoerList = () => {
             </div>
           </div>
           <div className="right-col">
-            {/* <Link to="/creatAaccounts">
-              <Button style={{ color: "white", border: "none" }}>
-                <AiOutlinePlus />
-                Create Account
-              </Button>
-            </Link> */}
+            <Select
+              defaultValue="ALL"
+              style={{
+                width: 120,
+              }}
+              onChange={filterAll}
+              options={[
+                {
+                  value: "ALL",
+                  label: "ALL",
+                },
+                {
+                  value: "WITHDRAW",
+                  label: "WITHDRAW",
+                },
+                {
+                  value: "REJECTED",
+                  label: "REJECTED",
+                },
+              ]}
+            />
           </div>
         </div>
         <div style={{ paddingLeft: "5px" }}>
@@ -261,6 +282,7 @@ const PoerList = () => {
         <Table
           columns={columns}
           dataSource={data}
+          // onChange={handleChangeTable}x
           className="accountTable"
           pagination={{ pageSize: paginationData.noOfRecords }}
         />
@@ -354,4 +376,4 @@ const PoerList = () => {
   );
 };
 
-export default PoerList;
+export default WithdrawalRejected;

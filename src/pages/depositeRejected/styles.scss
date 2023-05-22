@@ -1,0 +1,23 @@
+.input-search-list {
+  position: relative;
+  //   width: 400px;
+ 
+}
+.search-list-div {
+  top: 32px;
+  width: 55%;
+  max-height: 300px;
+  overflow-y: scroll;
+  background-color: rgb(200, 200, 200);
+  position: absolute;
+  border-radius: 10px;
+  z-index: 10;
+  //   padding-inline-start: 10px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  p {
+    border-bottom: 1px solid rgb(209, 205, 205);
+    padding-left: 10px;
+  }
+}

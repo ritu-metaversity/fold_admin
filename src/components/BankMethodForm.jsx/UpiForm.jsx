@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { Add_Upi } from "../../routes/Routes";
 import { notifyToast } from "../toast/Tost";
+import "./styles.scss";
 const UpiForm = () => {
   const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
@@ -85,7 +86,7 @@ const UpiForm = () => {
     };
   }, [setLoading]);
   return (
-    <div className="form-domain-card">
+    <div className="form-upi-card">
       <p style={{ color: "#555", marginTop: "0px", fontWeight: "600" }}>
         ADD UPI
       </p>

@@ -3,14 +3,19 @@ import React from "react";
 // import "./styles.scss";
 const PtsModaltable = ({ data }) => {
   const dataSource = [];
+
   data?.map((res, index) =>
     dataSource?.push({
       key: res?.userid + index + res?.pricevalue,
       userId: res.userid,
       Nation: res?.marketname,
       Rate: `${res.odds}(${res?.pricevalue}) `,
-      Amount: res?.stack,
-      win: res.netpnl,
+      Amount: (
+        <p style={{ color: res?.stack > 0 ? "green" : "red" }}>{res?.stack}</p>
+      ),
+      win: (
+        <p style={{ color: res.netpnl > 0 ? "green" : "red" }}>{res.netpnl}</p>
+      ),
       Date: res?.matchedtime,
       IP: res?.ipAddress,
       BDetails: (

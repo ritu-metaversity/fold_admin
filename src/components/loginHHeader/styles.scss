@@ -22,6 +22,9 @@ $breakpoint-tablet: 870px;
   .login-header-middle-col {
     width: 68%;
     height: 100%;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     @media (max-width: 1275px) {
       display: none;
     }

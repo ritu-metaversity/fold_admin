@@ -1,0 +1,44 @@
+.create-helper-form {
+  .ant-form-item-label {
+    label {
+      color: rgb(101 98 98 / 88%);
+      font-weight: 600;
+    }
+  }
+}
+.priviliges-div {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.8rem;
+  .ant-checkbox-wrapper {
+    margin-inline-start: 0px;
+  }
+}
+.check-box-block-div {
+  display: inline-block;
+  white-space: nowrap;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  .ant-checkbox-wrapper {
+    color: rgb(69 67 67 / 88%);
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+.create-helper-footer-div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  Button {
+    &:nth-child(2) {
+      background-color: #34c38f;
+      border: none;
+      color: white;
+    }
+    &:nth-child(3) {
+      background-color: rgb(235, 242, 244);
+      border: none;
+      color: black;
+    }
+  }
+}

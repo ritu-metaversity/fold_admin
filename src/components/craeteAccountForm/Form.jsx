@@ -647,7 +647,7 @@ const Accountform = () => {
           )}
           <Form.Item
             name="liveCasinoLock"
-            label="Casino Lock"
+            label="Live Casino"
             style={{ marginTop: "0px" }}
           >
             <Switch

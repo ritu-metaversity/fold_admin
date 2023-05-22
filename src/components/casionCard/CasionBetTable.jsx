@@ -48,8 +48,13 @@ const CasionBetTable = ({ data }) => {
       <Table
         dataSource={dataSource}
         columns={columns}
+        pagination={false}
         rowClassName={(record) => {
           return record?.isback ? "blue" : "pink";
+        }}
+        scroll={{
+          y: 450,
+          x: "auto",
         }}
       />
     </div>
