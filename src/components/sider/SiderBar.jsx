@@ -481,32 +481,13 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               ),
             },
 
-            ...(IsSelfState && (userType === "5" || userType === "7")
+            ...(IsSelfState && userType === "7"
               ? [
                   {
                     key: 76,
                     icon: <RiAccountCircleFill />,
                     label: "Payment",
-                    children: [
-                      {
-                        key: 79,
-                        label: (
-                          <Link
-                            onClick={() => {
-                              refershNow();
-                              setSidebar();
-                            }}
-                            to="/Deposit-Pending-Request"
-                            // reloadDocument={pathname === "/Deposit-Pending-Request"}
-                          >
-                            <span style={{ fontSize: "14px" }}>
-                              Pending deposit request
-                            </span>
-                          </Link>
-                        ),
-                      },
-                      // siderPaymentItem[findPermission],
-                    ],
+                    children: siderPaymentItem[findPermission],
                   },
                 ]
               : []),

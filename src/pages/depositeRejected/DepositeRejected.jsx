@@ -9,6 +9,7 @@ import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { columns } from "./depositeRejectedColumn";
 import moment from "moment";
+import "./styles.scss";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
@@ -19,12 +20,13 @@ const DepositeRejected = () => {
   const { setLoading } = useContext(LoaderContext);
   const [filterValue, setFilterValue] = useState("ALL");
   const [DataList, setDataList] = useState([]);
-
-  const [sortedInfo, setSortedInfo] = useState({});
-  const handleChangeTable = (sorter) => {
-    // console.log("Various parameters", pagination, filters, sorter);
-    setSortedInfo(sorter);
-  };
+  const [optionValue, setOptionValue] = useState([]);
+  const [secondCity, setSecondCity] = useState("");
+  // const [sortedInfo, setSortedInfo] = useState({});
+  // const handleChangeTable = (sorter) => {
+  //   // console.log("Various parameters", pagination, filters, sorter);
+  //   setSortedInfo(sorter);
+  // };
 
   //////// change password
 
@@ -36,16 +38,30 @@ const DepositeRejected = () => {
     totalPages: 1,
   });
   const reset = () => {
-    setSearchText("");
-    setMessage("");
+    setSecondCity("");
   };
-  const handleChange = (event) => {
-    setMessage(event.target.value);
+  const getOptionvalue = async (event) => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/pw/get-userlist-pw`,
+        { userId: "" },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res?.data.status) {
+          setOptionValue(res.data.data);
+        } else {
+          // setDataList();
+        }
+      });
   };
-  const handleClick = () => {
-    // 👇 "message" stores input field value
-    setSearchText(message);
-  };
+  useEffect(() => {
+    getOptionvalue();
+  }, []);
 
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
@@ -56,7 +72,7 @@ const DepositeRejected = () => {
           id: "",
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
-          userId: "",
+          userId: secondCity,
           type: filterValue,
         },
         {
@@ -90,7 +106,12 @@ const DepositeRejected = () => {
 
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords, filterValue]);
+  }, [
+    paginationData.index,
+    paginationData.noOfRecords,
+    filterValue,
+    secondCity,
+  ]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -128,7 +149,12 @@ const DepositeRejected = () => {
   const data = DataList?.map((curElem) => {
     return {
       key: curElem.byPowerUser + curElem.image + curElem.time,
-      byPowerUser: curElem.byPowerUser,
+      byPowerUser: (
+        <p>
+          {curElem.byPowerUser}
+          <br />({curElem.userId})
+        </p>
+      ),
       remark: curElem.remark,
       image: (
         <Image
@@ -150,6 +176,16 @@ const DepositeRejected = () => {
   const filterAll = (value) => {
     setFilterValue(value);
   };
+
+  const options = optionValue.map((curElem) => {
+    return {
+      value: curElem,
+      label: curElem,
+    };
+  });
+  const onSelectValue = (value) => {
+    setSecondCity(value);
+  };
   return (
     <>
       <div className="hading-create-accounts">
@@ -164,20 +200,39 @@ const DepositeRejected = () => {
 
       <div className="table">
         <div className="search">
-          <div className="left-col">
-            <Input
+          <div className="left-col input-search-list">
+            <Select
+              defaultValue="Select"
+              style={{
+                width: 250,
+              }}
+              options={options}
+              onChange={onSelectValue}
+            />
+            {/* <Input
               placeholder="search here....."
               name="message"
               onChange={handleChange}
               value={message}
-            />
+            /> */}
+            {/* <div className="search-list-div">
+              <p>find</p>
+              <p>find</p>
+              <p>find</p>
+              <p>find</p>
+              <p>find</p>
+              <p>find</p>
+              <p>find</p>
+              <p>find</p>
+              <p>find</p>
+            </div> */}
             <div className="serch-btn">
-              <Button
+              {/* <Button
                 onClick={handleClick}
                 style={{ background: "#23292E", color: "white" }}
               >
                 Load
-              </Button>
+              </Button> */}
               <Button
                 onClick={reset}
                 style={{ background: "#eff2f7", color: "black" }}
@@ -199,8 +254,8 @@ const DepositeRejected = () => {
                   label: "ALL",
                 },
                 {
-                  value: "APPROVED",
-                  label: "APPROVED",
+                  value: "DEPOSIT",
+                  label: "DEPOSIT",
                 },
                 {
                   value: "REJECTED",
@@ -235,7 +290,7 @@ const DepositeRejected = () => {
         <Table
           columns={columns}
           dataSource={data}
-          onChange={handleChangeTable}
+          // onChange={handleChangeTable}
           className="accountTable"
           pagination={{ pageSize: paginationData.noOfRecords }}
         />

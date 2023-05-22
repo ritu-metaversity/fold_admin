@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Image, Input, Select, Table } from "antd";
+import { Button, Input, Select, Table } from "antd";
 import React, { createContext, useEffect, useState } from "react";
 ///styles
 import { NavLink } from "react-router-dom";
@@ -19,12 +19,13 @@ const WithdrawalRejected = () => {
   const { setLoading } = useContext(LoaderContext);
   const [filterValue, setFilterValue] = useState("ALL");
   const [DataList, setDataList] = useState([]);
-
-  const [sortedInfo, setSortedInfo] = useState({});
-  const handleChangeTable = (sorter) => {
-    // console.log("Various parameters", pagination, filters, sorter);
-    setSortedInfo(sorter);
-  };
+  const [optionValue, setOptionValue] = useState([]);
+  const [secondCity, setSecondCity] = useState("");
+  // const [sortedInfo, setSortedInfo] = useState({});
+  // const handleChangeTable = (sorter) => {
+  //   // console.log("Various parameters", pagination, filters, sorter);
+  //   setSortedInfo(sorter);
+  // };
 
   //////// change password
 
@@ -56,7 +57,7 @@ const WithdrawalRejected = () => {
           id: "",
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
-          userId: "",
+          userId: secondCity,
           type: filterValue,
         },
         {
@@ -90,7 +91,12 @@ const WithdrawalRejected = () => {
 
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords, filterValue]);
+  }, [
+    paginationData.index,
+    paginationData.noOfRecords,
+    filterValue,
+    secondCity,
+  ]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -128,7 +134,12 @@ const WithdrawalRejected = () => {
   const data = DataList?.map((curElem) => {
     return {
       key: curElem.byPowerUser + curElem.image + curElem.time,
-      accountHolderName: curElem.accountHolderName,
+      accountHolderName: (
+        <p>
+          {curElem.accountHolderName}
+          <br />({curElem.userId})
+        </p>
+      ),
       remark: curElem.remark,
       accountNumber: curElem.accountNumber,
       bankName: curElem.bankName,
@@ -147,6 +158,37 @@ const WithdrawalRejected = () => {
   const filterAll = (value) => {
     setFilterValue(value);
   };
+  const getOptionvalue = async (event) => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/pw/get-userlist-pw`,
+        { userId: "" },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res?.data.status) {
+          setOptionValue(res.data.data);
+        } else {
+          // setDataList();
+        }
+      });
+  };
+  useEffect(() => {
+    getOptionvalue();
+  }, []);
+  const onSelectValue = (value) => {
+    setSecondCity(value);
+  };
+  const options = optionValue.map((curElem) => {
+    return {
+      value: curElem,
+      label: curElem,
+    };
+  });
   return (
     <>
       <div className="hading-create-accounts">
@@ -162,19 +204,27 @@ const WithdrawalRejected = () => {
       <div className="table">
         <div className="search">
           <div className="left-col">
-            <Input
+            <Select
+              defaultValue="Select"
+              style={{
+                width: 250,
+              }}
+              options={options}
+              onChange={onSelectValue}
+            />
+            {/* <Input
               placeholder="search here....."
               name="message"
               onChange={handleChange}
               value={message}
-            />
+            /> */}
             <div className="serch-btn">
-              <Button
+              {/* <Button
                 onClick={handleClick}
                 style={{ background: "#23292E", color: "white" }}
               >
                 Load
-              </Button>
+              </Button> */}
               <Button
                 onClick={reset}
                 style={{ background: "#eff2f7", color: "black" }}
@@ -196,8 +246,8 @@ const WithdrawalRejected = () => {
                   label: "ALL",
                 },
                 {
-                  value: "APPROVED",
-                  label: "APPROVED",
+                  value: "WITHDRAW",
+                  label: "WITHDRAW",
                 },
                 {
                   value: "REJECTED",
@@ -232,7 +282,7 @@ const WithdrawalRejected = () => {
         <Table
           columns={columns}
           dataSource={data}
-          onChange={handleChangeTable}
+          // onChange={handleChangeTable}x
           className="accountTable"
           pagination={{ pageSize: paginationData.noOfRecords }}
         />
