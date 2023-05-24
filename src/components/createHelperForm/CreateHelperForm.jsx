@@ -153,14 +153,26 @@ const CreateHelperForm = () => {
         </Row>
         <div className="priviliges-div">
           <Row gutter={30} style={style}>
-            <Col sm={12} xs={24} md={8} lg={6} xl={4}>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
               <CheckBoxComp name="ALL" fun={onChange} />
             </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={4}>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
               <CheckBoxComp name="DEPOSIT" fun={onChange} />
             </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={4}>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
               <CheckBoxComp name="WITHDRAW" fun={onChange} />
+            </Col>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
+              <CheckBoxComp name="userList" fun={onChange} />
+            </Col>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
+              <CheckBoxComp name="Bet lock" fun={onChange} />
+            </Col>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
+              <CheckBoxComp name="User password change" fun={onChange} />
+            </Col>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
+              <CheckBoxComp name="Account statement" fun={onChange} />
             </Col>
           </Row>
         </div>

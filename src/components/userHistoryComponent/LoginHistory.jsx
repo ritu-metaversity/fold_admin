@@ -42,8 +42,8 @@ const LoginHistory = ({ url }) => {
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
     tabledata({
-      index: paginationData.index,
-      noOfRecords: paginationData.noOfRecords,
+      // index: paginationData.index,
+      // noOfRecords: paginationData.noOfRecords,
       fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
       toDate: dayjs().toISOString().split("T")[0],
       userId: "",
@@ -106,12 +106,12 @@ const LoginHistory = ({ url }) => {
       .post(
         `${process.env.REACT_APP_BASE_URL}/${url}`,
         {
-          index: paginationData.index,
-          noOfRecords: paginationData.noOfRecords,
+          // index: paginationData.index,
+          // noOfRecords: paginationData.noOfRecords,
           fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD"),
           toDate: moment(dateTo.toString()).format("YYYY-MM-DD"),
           userId: id,
-          type: selectValue,
+          // type: selectValue,
           ...DateFrom,
         },
         {

@@ -219,20 +219,12 @@ const Activelist = () => {
         </span>
       ),
 
-      bst: res.betLock ? (
-        <Switch size="small" disabled={true} defaultChecked="true" />
-      ) : (
-        <Switch size="small" disabled={true} defaultunchecked="true" />
-      ),
-      ust: res.active ? (
-        <Switch size="small" disabled={true} defaultChecked="true" />
-      ) : (
-        <Switch size="small" disabled={true} defaultunchecked="true" />
-      ),
+      bst: <Switch size="small" disabled={true} checked={res.betLock} />,
+      ust: <Switch size="small" disabled={true} checked={res.active} />,
 
       PName: res?.pname,
       Domain: res?.appUrl,
-      lcLock: res?.lcLock ? "true" : "false",
+      lcLock: <Switch size="small" disabled={true} checked={res?.lcLock} />,
 
       AccountType: res?.accountType,
       Action: (

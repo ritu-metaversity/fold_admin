@@ -43,6 +43,8 @@ const BetHistorytable = ({ id }) => {
   const [sportChangeId, setSportChangeId] = useState("");
   const [sendEventId, setSendEventId] = useState("");
   const [sportsList, setSportsList] = useState([]);
+  const [userId, setUserId] = useState("");
+  
   //////// change password
 
   ////edit profile State
@@ -71,7 +73,7 @@ const BetHistorytable = ({ id }) => {
           noOfRecords: paginationData?.noOfRecords,
           sportId: sendSportId,
           matchId: sendEventId,
-          userId: "",
+          userId: userId,
           sportType: id,
         },
         {
@@ -111,6 +113,7 @@ const BetHistorytable = ({ id }) => {
   }, [
     sendSportId,
     sendEventId,
+    userId,
     paginationData?.index,
     paginationData?.noOfRecords,
   ]);
@@ -131,19 +134,19 @@ const BetHistorytable = ({ id }) => {
       title: "Event Name",
       dataIndex: "EventName",
       filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return (
-          String(record.EventName)
-            .toLowerCase()
-            .includes(value.toLowerCase()) ||
-          String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.MName).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.URate).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
-        );
-      },
+      // onFilter: (value, record) => {
+      //   return (
+      //     String(record.EventName)
+      //       .toLowerCase()
+      //       .includes(value.toLowerCase()) ||
+      //     String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.MName).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.URate).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
+      //   );
+      // },
 
       sorter: {
         compare: (a, b) => a.CR - b.CR,
@@ -316,6 +319,7 @@ const BetHistorytable = ({ id }) => {
   const getSportsid = () => {
     setSendSportId(valueDropDown);
     setSendEventId(sportChangeId);
+    setUserId(searchText);
   };
   const option1 = sportsList?.map((item, index) => ({
     key: item.sportId + item?.sportName + index,
