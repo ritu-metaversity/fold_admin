@@ -455,33 +455,32 @@ const TestPageLeftCollapse = () => {
       >
         <UserBook data={userBook} />
       </Modal>
-      {odddata?.Odds[0]?.runners[0]?.name ? (
-        <>
-          <div className="heading">
-            <h4>
-              {` ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
-            </h4>
-            <p style={{ color: "white" }}>
-              {moment(odddata?.Odds[0]?.lastMatchTime).format(
-                "YYYY-MM-DD HH:mm:ss"
-              )}
-            </p>
-            <h4>{odddata?.Odds[0]?.eventTime}</h4>
+      <>
+        <div className="heading">
+          <h4>
+            {` ${odddata?.Odds[0]?.runners[0]?.name} v ${odddata?.Odds[0]?.runners[1]?.name}`}
+          </h4>
+          <p style={{ color: "white" }}>
+            {moment(odddata?.Odds[0]?.lastMatchTime).format(
+              "YYYY-MM-DD HH:mm:ss"
+            )}
+          </p>
+          <h4>{odddata?.Odds[0]?.eventTime}</h4>
+        </div>
+        <div className="switch-clas">
+          <div className="switch-left-col">
+            <Switch
+              checked={matchToggle}
+              onChange={() => {
+                setmatchToggle(!matchToggle);
+                setToggle(false);
+                setMatchScore(false);
+              }}
+              size="small"
+            />
+            <MdOutlineLiveTv />
           </div>
-          <div className="switch-clas">
-            <div className="switch-left-col">
-              <Switch
-                checked={matchToggle}
-                onChange={() => {
-                  setmatchToggle(!matchToggle);
-                  setToggle(false);
-                  setMatchScore(false);
-                }}
-                size="small"
-              />
-              <MdOutlineLiveTv />
-            </div>
-            {/* <div
+          {/* <div
               style={{
                 display: "flex",
                 justifyContent: "center",
@@ -490,74 +489,71 @@ const TestPageLeftCollapse = () => {
                 paddingLeft: "10px",
               }}
             > */}
-            <Button
-              onClick={showModalCompletedMatch}
-              style={{
-                background: "rgb(241, 133, 33)",
-                color: "white",
-                border: "none",
-              }}
-            >
-              Completed Session
-            </Button>
+          <Button
+            onClick={showModalCompletedMatch}
+            style={{
+              background: "rgb(241, 133, 33)",
+              color: "white",
+              border: "none",
+            }}
+          >
+            Completed Session
+          </Button>
 
-            {/* </div> */}
-            <div className="switch-right-col">
-              <div className="switch-1">
-                <MdScoreboard />
-                <Switch
-                  checked={toggle}
-                  onChange={() => {
-                    setToggle(!toggle);
-                    setmatchToggle(false);
-                    setMatchScore(false);
-                  }}
-                  size="small"
-                />
-                <MdScoreboard />
-                <Switch
-                  checked={matchScore}
-                  onChange={() => {
-                    setMatchScore(!matchScore);
-                    setmatchToggle(false);
-                    setToggle(false);
-                  }}
-                  size="small"
-                />
-              </div>
+          {/* </div> */}
+          <div className="switch-right-col">
+            <div className="switch-1">
+              <MdScoreboard />
+              <Switch
+                checked={toggle}
+                onChange={() => {
+                  setToggle(!toggle);
+                  setmatchToggle(false);
+                  setMatchScore(false);
+                }}
+                size="small"
+              />
+              <MdScoreboard />
+              <Switch
+                checked={matchScore}
+                onChange={() => {
+                  setMatchScore(!matchScore);
+                  setmatchToggle(false);
+                  setToggle(false);
+                }}
+                size="small"
+              />
             </div>
           </div>
-          {toggle && (
-            <iframe
-              width="100%"
-              height="200px"
-              title="score-iframe"
-              src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
-              // src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
-            />
-          )}
-          {matchToggle && (
-            <iframe
-              width="100%"
-              className="live-iframe"
-              title="score-iframe"
-              src={`https://stream.openhomepageforapi.live/YGapp/play.html?name=ttfour&autoplay=true`}
-              // src={`https://luckybet.one/?eventId=${id}`}
-            />
-          )}{" "}
-          {matchScore && (
-            <iframe
-              width="100%"
-              height="200px"
-              title="score-iframe"
-              // src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
-              src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
-            />
-          )}
-        </>
-      ) : (
-        ""
-      )}
+        </div>
+        {toggle && (
+          <iframe
+            width="100%"
+            height="200px"
+            title="score-iframe"
+            src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
+            // src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
+          />
+        )}
+        {matchToggle && (
+          <iframe
+            width="100%"
+            className="live-iframe"
+            title="score-iframe"
+            src={`https://stream.openhomepageforapi.live/YGapp/play.html?name=ttfour&autoplay=true`}
+            // src={`https://luckybet.one/?eventId=${id}`}
+          />
+        )}{" "}
+        {matchScore && (
+          <iframe
+            width="100%"
+            height="200px"
+            title="score-iframe"
+            // src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
+            src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
+          />
+        )}
+      </>
       {/* <ScoreComponent /> */}
       <Collapse
         bordered={false}

@@ -244,25 +244,25 @@ const Accountform = () => {
   //   console.log("Failed:", errorInfo);
   // };
 
-  const userChecker = async (userId) => {
-    const res = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/${User_Check}`,
-      userId,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    try {
-      if (!res.data.status) {
-        setUserChecker(res.data.message);
-        // notifyToast().error(res.data.message);
-      } else {
-        setUserChecker("");
-      }
-    } catch (error) {}
-  };
+  // const userChecker = async (userId) => {
+  //   const res = await axios.post(
+  //     `${process.env.REACT_APP_BASE_URL}/${User_Check}`,
+  //     userId,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     }
+  //   );
+  //   try {
+  //     if (!res.data.status) {
+  //       setUserChecker(res.data.message);
+  //       // notifyToast().error(res.data.message);
+  //     } else {
+  //       setUserChecker("");
+  //     }
+  //   } catch (error) {}
+  // };
   const usertypeArray = {
     0: [
       <Select.Option value={""} key="empty">
@@ -498,7 +498,7 @@ const Accountform = () => {
                 name="userId"
                 value={data.userId}
                 onChange={handleChange}
-                onKeyUp={(e) => userChecker({ userId: e.target.value })}
+                // onKeyUp={(e) => userChecker({ userId: e.target.value })}
               />
               {errorData?.userId ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />

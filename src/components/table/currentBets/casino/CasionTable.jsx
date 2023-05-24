@@ -29,6 +29,7 @@ const Casinotable = ({ id }) => {
   const [totalAmount, setTotalAmount] = useState("");
   const [sada, setsada] = useState("");
   const [sportsId, setSportsId] = useState([]);
+  const [userId, setUserId] = useState("");
 
   ////get Sports Key
   const [valueDropDown, setvalueDropDown] = useState("");
@@ -65,7 +66,7 @@ const Casinotable = ({ id }) => {
           noOfRecords: paginationData?.noOfRecords,
           sportId: valueDropDown,
           matchId: sportChangeId,
-          userId: "",
+          userId: userId,
           sportType: id,
         },
         {
@@ -105,6 +106,7 @@ const Casinotable = ({ id }) => {
   }, [
     sendSportId,
     sendEventId,
+    userId,
     paginationData?.index,
     paginationData?.noOfRecords,
   ]);
@@ -125,19 +127,19 @@ const Casinotable = ({ id }) => {
       title: "Event Name",
       dataIndex: "EventName",
       filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return (
-          String(record.EventName)
-            .toLowerCase()
-            .includes(value.toLowerCase()) ||
-          String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.MName).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.URate).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
-          String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
-        );
-      },
+      // onFilter: (value, record) => {
+      //   return (
+      //     String(record.EventName)
+      //       .toLowerCase()
+      //       .includes(value.toLowerCase()) ||
+      //     String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.MName).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.URate).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
+      //     String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
+      //   );
+      // },
 
       sorter: {
         compare: (a, b) => a.CR - b.CR,
@@ -314,6 +316,7 @@ const Casinotable = ({ id }) => {
   const getSportsid = () => {
     setSendSportId(valueDropDown);
     setSendEventId(sportChangeId);
+    setUserId(searchText);
   };
   const option1 = sportsList?.map((item, index) => ({
     key: item.id + item?.name + index + index.logo,

@@ -259,23 +259,17 @@ const ActiveUser = () => {
       ),
 
       Domain: res?.appUrl,
-      lcLock: res?.lcLock ? "true" : "false",
+      lcLock: <Switch size="small" disabled={true} checked={res?.lcLock} />,
+
       PTS: res?.pts,
       Client: res?.clientPl,
       Clientp: res?.clientPlPercentage,
       Exposer: res?.exposure,
       Available: res?.availabePts,
-      bst: res?.betLock ? (
-        <Switch size="small" disabled={true} defaultChecked="true" />
-      ) : (
-        <Switch size="small" disabled={true} defaultunchecked="true" />
-      ),
+      bst: <Switch size="small" disabled={true} checked={res?.betLock} />,
 
-      ust: res.accountLock ? (
-        <Switch size="small" disabled={true} defaultChecked="true" />
-      ) : (
-        <Switch size="small" disabled={true} defaultunchecked="true" />
-      ),
+      ust: <Switch size="small" disabled={true} checked={res.accountLock} />,
+
       PPhone: res?.pname,
       AccountType: res?.accountType,
       Action: (
