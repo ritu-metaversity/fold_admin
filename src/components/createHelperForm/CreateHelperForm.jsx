@@ -163,16 +163,19 @@ const CreateHelperForm = () => {
               <CheckBoxComp name="WITHDRAW" fun={onChange} />
             </Col>
             <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="userList" fun={onChange} />
+              <CheckBoxComp name="USER_LIST" fun={onChange} />
             </Col>
             <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="Bet lock" fun={onChange} />
+              <CheckBoxComp name="USER_LOCK" fun={onChange} />
             </Col>
             <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="User password change" fun={onChange} />
+              <CheckBoxComp name="BET_LOCK" fun={onChange} />
             </Col>
             <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="Account statement" fun={onChange} />
+              <CheckBoxComp name="USER_PASSWORD_CHANGE" fun={onChange} />
+            </Col>
+            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
+              <CheckBoxComp name="ACTIVE_USER" fun={onChange} />
             </Col>
           </Row>
         </div>
