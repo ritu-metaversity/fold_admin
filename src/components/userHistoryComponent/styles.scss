@@ -63,6 +63,12 @@ $breakpoint-custom-header: 710px;
         }
       }
     }
+    .date-search1 {
+      width: 400px;
+      @media (max-width: $breakpoint-tablet) {
+        width: 100%;
+      }
+    }
   }
 }
 .table-user-history {

@@ -47,6 +47,7 @@ import {
   withdraw_Rejected,
   deposite_Rejected,
   create_Helper,
+  StatementPage,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -83,6 +84,7 @@ import CasinoType from "./pages/casionType/CasinoType";
 import WithdrawalRejected from "./pages/withdrawalRejected/WithdrawalRejected";
 import DepositeRejected from "./pages/depositeRejected/DepositeRejected";
 import CreateHelper from "./pages/createHelper/CreateHelper";
+import ApprovedByStatement from "./pages/statement/ApprovedByStatement";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -260,6 +262,21 @@ function App() {
               />
             }
           >
+            {userType === "5" && (
+              <>
+                <Route
+                  path={StatementPage}
+                  element={<ApprovedByStatement />}
+                ></Route>
+              </>
+            )}
+            <>
+              <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
+              <Route
+                path={AccountList_Screen}
+                element={<AccountsList />}
+              ></Route>
+            </>
             {userType !== "7" && (
               <>
                 <Route exact path={Dashboard_Screen} element={<Dashboard />} />
@@ -269,11 +286,7 @@ function App() {
                   path={CreatAaccounts_Screen}
                   element={<CreateAccount />}
                 />
-                 <Route
-                  exact
-                  path={create_Helper}
-                  element={<CreateHelper />}
-                />
+                <Route exact path={create_Helper} element={<CreateHelper />} />
 
                 <Route
                   path={MarketAnalysis_Screen}
@@ -282,14 +295,6 @@ function App() {
                 <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
                 <Route path={Setting_Screen} element={<Setting />}></Route>
 
-                <Route
-                  path={ActiveUser_Screen}
-                  element={<ActiveUser />}
-                ></Route>
-                <Route
-                  path={AccountList_Screen}
-                  element={<AccountsList />}
-                ></Route>
                 <Route path={Bank_Screen} element={<Bank />}></Route>
                 <Route
                   path={currentsBets_Screen}

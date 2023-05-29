@@ -347,7 +347,7 @@ const DomainCard = () => {
               width: "100%",
               border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
             }}
-            value={type || "Select Casino Image Type"}
+            defaultValue={"Select Casino Image Type"}
             onChange={handleSelect2}
             options={casinoOption}
           />

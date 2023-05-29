@@ -3,7 +3,7 @@ import { Button, Form, Input } from "antd";
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Login_Api } from "../../routes/Routes";
+import { ActiveUser_Screen, Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
 const Loginform = () => {
@@ -15,6 +15,7 @@ const Loginform = () => {
     DEPOSIT: "Deposit-Pending-Request",
     WITHDRAW: "Widrwal-Pending-Request",
     ALL: "Deposit-Pending-Request",
+    USER_LOCK: ActiveUser_Screen,
   };
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
@@ -31,10 +32,17 @@ const Loginform = () => {
           localStorage.setItem("userid", res.data.userId);
           localStorage.setItem("userType", res.data.userType);
           localStorage.setItem("partnership", res.data.partnership);
-          localStorage.setItem(
-            "poweruser_permisions",
-            res.data.poweruser_permisions
-          );
+          if (res?.data?.poweruser_permisions === undefined) {
+            localStorage.setItem(
+              "poweruser_permisions",
+              JSON.stringify(["ADMIN"])
+            );
+          } else {
+            localStorage.setItem(
+              "poweruser_permisions",
+              JSON.stringify(res.data.poweruser_permisions)
+            );
+          }
           if (res.data.passwordtype === "old") {
             localStorage.setItem("passwordtype", res?.data?.passwordtype);
             localStorage.setItem("refresh-token", res.data.token);
