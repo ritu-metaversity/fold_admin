@@ -95,8 +95,11 @@ export const LoaderContext = createContext({
   refershNow: () => {},
   keyNew: 0,
 });
-dayjs.locale("hi");
+// dayjs.locale("hi");
 function App() {
+  useEffect(() => {
+    window.localStorage.removeItem("passwordtype");
+  }, []);
   const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
   const [keyNew, setKeyNew] = useState(0);
