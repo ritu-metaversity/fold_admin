@@ -32,6 +32,7 @@ export const Casino_Type_Screen = "/Casino-image-type";
 export const Socila_Media_Manager_Screen = "Socila-Media-Manager";
 export const Down_Line_ActiveUser = "/down-line/active-user";
 export const Down_Line_ActiveList = "/down-line/active-list";
+export const StatementPage = "statement";
 
 // API-Endpoints
 export const updateUserDetail = "admin/update-app-detail";
@@ -64,7 +65,7 @@ export const Account_Statement_Api = "report/account-statement";
 export const Admin_Self_Deposit = "admin/admin-self-deposit";
 // export const Deposit_Pending_Request_Api = "pw/deposit-pending";
 export const Deposit_Pending_Request_Api = "pw/deposit-pending";
-
+export const Statement = "user/get-pw-sat-statement";
 // export const Widrwal_Pending_Request_Api = "pw/withdraw-pending";
 export const Widrwal_Pending_Request_Api = "pw/withdraw-pending";
 

@@ -18,6 +18,7 @@ import {
   Profite_Loss,
   Setting_Screen,
   Socila_Media_Manager_Screen,
+  StatementPage,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
@@ -25,6 +26,21 @@ import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
 import { AiFillDashboard, AiFillFacebook } from "react-icons/ai";
 import LogoutModal from "../logoutModal/LogoutModal";
+
+const filterPermission = (item, permissions) => {
+  let newItem = [];
+  newItem = item.filter((itemEle) => {
+    const isThere = Array.isArray(itemEle.permissions)
+      ? itemEle.permissions.some((element) => permissions.includes(element))
+      : false;
+    if (Array.isArray(itemEle.children)) {
+      itemEle.children = filterPermission(itemEle.children, permissions);
+    }
+    return isThere;
+  });
+
+  return newItem;
+};
 
 const SiderBar = ({ IsSelfState, setSidebar }) => {
   const navigate = useNavigate();
@@ -60,136 +76,9 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
     setLoading((prev) => ({ ...prev, logout: false }));
     //
   };
-  const findPermission = localStorage.getItem("poweruser_permisions");
-  const siderPaymentItem = {
-    WITHDRAW: [
-      {
-        key: 90,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/Widrwal-Pending-Request"
-            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-          >
-            <span style={{ fontSize: "14px" }}>Pending Withdraw request</span>
-          </Link>
-        ),
-      },
-      {
-        key: 93,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/Widrwal-Rejected"
-            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-          >
-            <span style={{ fontSize: "13px" }}>Withdraw Rejected/Success</span>
-          </Link>
-        ),
-      },
-    ],
-    DEPOSIT: [
-      {
-        key: 79,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/Deposit-Pending-Request"
-            // reloadDocument={pathname === "/Deposit-Pending-Request"}
-          >
-            <span style={{ fontSize: "14px" }}>Pending deposit request</span>
-          </Link>
-        ),
-      },
-      {
-        key: 95,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/deposit-Rejected"
-            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-          >
-            <span style={{ fontSize: "13px" }}>Deposite Rejected/ Success</span>
-          </Link>
-        ),
-      },
-    ],
-
-    ALL: [
-      {
-        key: 79,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/Deposit-Pending-Request"
-            // reloadDocument={pathname === "/Deposit-Pending-Request"}
-          >
-            <span style={{ fontSize: "14px" }}>Pending deposit request</span>
-          </Link>
-        ),
-      },
-      {
-        key: 90,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/Widrwal-Pending-Request"
-            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-          >
-            <span style={{ fontSize: "14px" }}>Pending Withdraw request</span>
-          </Link>
-        ),
-      },
-      {
-        key: 95,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/deposit-Rejected"
-            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-          >
-            <span style={{ fontSize: "13px" }}>Deposite Rejected/ Success</span>
-          </Link>
-        ),
-      },
-      {
-        key: 93,
-        label: (
-          <Link
-            onClick={() => {
-              refershNow();
-              setSidebar();
-            }}
-            to="/Widrwal-Rejected"
-            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
-          >
-            <span style={{ fontSize: "13px" }}>Withdraw Rejected/ Success</span>
-          </Link>
-        ),
-      },
-    ],
-  };
+  const findPermission = JSON.parse(
+    localStorage.getItem("poweruser_permisions") || "[]"
+  );
 
   // const CreatePowerUser = async () => {
   //   setLoading((prev) => ({ ...prev, CreatePowerUser: true }));
@@ -299,6 +188,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
           <span style={{ fontSize: "14px" }}>{res?.methodName}</span>
         </Link>
       ),
+      permissions: ["ADMIN"],
     };
   });
 
@@ -312,7 +202,121 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const accounts = useMemo(
+    () => ({
+      key: 3,
+      icon: <RiAccountCircleFill />,
+      label: "Account",
+      permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
+      children: [
+        {
+          key: 4,
+          label: (
+            <Link
+              onClick={() => {
+                refershNow();
+                setSidebar();
+              }}
+              to="/activeUser"
+              // reloadDocument={pathname === "/activeUser"}
+              // onChange={() => handleChangeLink(4)}
+            >
+              <p className="acount-list">Account List for Active Users</p>
+            </Link>
+          ),
+          permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
+        },
+        userType === "5" && IsSelfState
+          ? {
+              key: 5,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to="/Power_List_Screen"
+                  // reloadDocument={pathname === "/Power_List_Screen"}
+                >
+                  Helper List
+                </Link>
+              ),
+              permissions: ["ADMIN"],
+            }
+          : "",
+        {
+          key: 67,
+          label: (
+            <Link
+              onClick={() => {
+                refershNow();
+                setSidebar();
+              }}
+              to="/accountList"
+              // reloadDocument={pathname === "/accountList"}
+            >
+              Account List
+            </Link>
+          ),
+          permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
+        },
 
+        {
+          key: 6,
+          label: (
+            <Link
+              onClick={() => {
+                refershNow();
+                setSidebar();
+              }}
+              to="/createAccounts"
+              // reloadDocument={pathname === "/createAccounts"}
+            >
+              Create Account
+            </Link>
+          ),
+          permissions: ["ADMIN"],
+        },
+        userType === "5" && IsSelfState
+          ? {
+              key: 23,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to="/create-helper"
+                  // reloadDocument={pathname === "/createdomain"}
+                >
+                  Create Helper
+                </Link>
+              ),
+              permissions: ["ADMIN"],
+            }
+          : "",
+        userType === "4"
+          ? {
+              key: 7,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to="/createdomain"
+                  // reloadDocument={pathname === "/createdomain"}
+                >
+                  Create Domain
+                </Link>
+              ),
+              permissions: ["ADMIN"],
+            }
+          : "",
+      ],
+    }),
+    [eventData, CasionData]
+  );
   const item = useMemo(
     () =>
       userType === "7"
@@ -321,8 +325,83 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               key: 76,
               icon: <RiAccountCircleFill />,
               label: "Payment",
-              children: siderPaymentItem[findPermission],
+              permissions: ["ALL", "DEPOSIT", "WITHDRAW", "ADMIN"],
+              children: [
+                {
+                  key: 79,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/Deposit-Pending-Request"
+                      // reloadDocument={pathname === "/Deposit-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Pending deposit request
+                      </span>
+                    </Link>
+                  ),
+                  permissions: ["ALL", "DEPOSIT", "ADMIN"],
+                },
+                {
+                  key: 90,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/Widrwal-Pending-Request"
+                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "14px" }}>
+                        Pending Withdraw request
+                      </span>
+                    </Link>
+                  ),
+                  permissions: ["ALL", "WITHDRAW", "ADMIN"],
+                },
+                {
+                  key: 95,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/deposit-Rejected"
+                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "13px" }}>
+                        Deposite Rejected/ Success
+                      </span>
+                    </Link>
+                  ),
+                  permissions: ["ALL", "DEPOSIT", "ADMIN"],
+                },
+                {
+                  key: 93,
+                  label: (
+                    <Link
+                      onClick={() => {
+                        refershNow();
+                        setSidebar();
+                      }}
+                      to="/Widrwal-Rejected"
+                      // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                    >
+                      <span style={{ fontSize: "13px" }}>
+                        Withdraw Rejected/ Success
+                      </span>
+                    </Link>
+                  ),
+                  permissions: ["ALL", "WITHDRAW", "ADMIN"],
+                },
+              ],
             },
+            accounts,
           ]
         : [
             {
@@ -340,6 +419,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   Dashboard
                 </Link>
               ),
+              permissions: ["ADMIN"],
             },
             {
               key: 2,
@@ -356,114 +436,9 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   Market Analysis
                 </Link>
               ),
+              permissions: ["ADMIN"],
             },
-            {
-              key: 3,
-              icon: <RiAccountCircleFill />,
-              label: "Account",
-              children: [
-                {
-                  key: 4,
-                  label: (
-                    <Link
-                      onClick={() => {
-                        refershNow();
-                        setSidebar();
-                      }}
-                      to="/activeUser"
-                      // reloadDocument={pathname === "/activeUser"}
-                      // onChange={() => handleChangeLink(4)}
-                    >
-                      <p className="acount-list">
-                        Account List for Active Users
-                      </p>
-                    </Link>
-                  ),
-                },
-                userType === "5" && IsSelfState
-                  ? {
-                      key: 5,
-                      label: (
-                        <Link
-                          onClick={() => {
-                            refershNow();
-                            setSidebar();
-                          }}
-                          to="/Power_List_Screen"
-                          // reloadDocument={pathname === "/Power_List_Screen"}
-                        >
-                          Helper List
-                        </Link>
-                      ),
-                    }
-                  : "",
-                {
-                  key: 67,
-                  label: (
-                    <Link
-                      onClick={() => {
-                        refershNow();
-                        setSidebar();
-                      }}
-                      to="/accountList"
-                      // reloadDocument={pathname === "/accountList"}
-                    >
-                      Account List
-                    </Link>
-                  ),
-                },
-
-                {
-                  key: 6,
-                  label: (
-                    <Link
-                      onClick={() => {
-                        refershNow();
-                        setSidebar();
-                      }}
-                      to="/createAccounts"
-                      // reloadDocument={pathname === "/createAccounts"}
-                    >
-                      Create Account
-                    </Link>
-                  ),
-                },
-                userType === "5" && IsSelfState
-                  ? {
-                      key: 23,
-                      label: (
-                        <Link
-                          onClick={() => {
-                            refershNow();
-                            setSidebar();
-                          }}
-                          to="/create-helper"
-                          // reloadDocument={pathname === "/createdomain"}
-                        >
-                          Create Helper
-                        </Link>
-                      ),
-                    }
-                  : "",
-                userType === "4"
-                  ? {
-                      key: 7,
-                      label: (
-                        <Link
-                          onClick={() => {
-                            refershNow();
-                            setSidebar();
-                          }}
-                          to="/createdomain"
-                          // reloadDocument={pathname === "/createdomain"}
-                        >
-                          Create Domain
-                        </Link>
-                      ),
-                    }
-                  : "",
-              ],
-            },
+            accounts,
             {
               key: 8,
               icon: <RiBankFill />,
@@ -479,6 +454,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   Bank
                 </Link>
               ),
+              permissions: ["ADMIN"],
             },
 
             ...(IsSelfState && userType === "7"
@@ -487,7 +463,80 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                     key: 76,
                     icon: <RiAccountCircleFill />,
                     label: "Payment",
-                    children: siderPaymentItem[findPermission],
+                    children: [
+                      {
+                        key: 79,
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to="/Deposit-Pending-Request"
+                            // reloadDocument={pathname === "/Deposit-Pending-Request"}
+                          >
+                            <span style={{ fontSize: "14px" }}>
+                              Pending deposit request
+                            </span>
+                          </Link>
+                        ),
+                        permissions: ["ALL", "DEPOSIT", "ADMIN"],
+                      },
+                      {
+                        key: 90,
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to="/Widrwal-Pending-Request"
+                            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                          >
+                            <span style={{ fontSize: "14px" }}>
+                              Pending Withdraw request
+                            </span>
+                          </Link>
+                        ),
+                        permissions: ["ALL", "WITHDRAW", "ADMIN"],
+                      },
+                      {
+                        key: 95,
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to="/deposit-Rejected"
+                            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                          >
+                            <span style={{ fontSize: "13px" }}>
+                              Deposite Rejected/ Success
+                            </span>
+                          </Link>
+                        ),
+                        permissions: ["ALL", "DEPOSIT", "ADMIN"],
+                      },
+                      {
+                        key: 93,
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to="/Widrwal-Rejected"
+                            // reloadDocument={pathname === "/Widrwal-Pending-Request"}
+                          >
+                            <span style={{ fontSize: "13px" }}>
+                              Withdraw Rejected/ Success
+                            </span>
+                          </Link>
+                        ),
+                        permissions: ["ALL", "WITHDRAW", "ADMIN"],
+                      },
+                    ],
                   },
                 ]
               : []),
@@ -498,6 +547,24 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                     icon: <RiBankFill />,
                     label: "Add Payment Method",
                     children: payment_list,
+                    permissions: ["ADMIN"],
+                  },
+                  {
+                    key: 10,
+                    icon: <FaImage />,
+                    label: (
+                      <Link
+                        onClick={() => {
+                          refershNow();
+                          setSidebar();
+                        }}
+                        to={StatementPage}
+                        // reloadDocument={pathname === "/Update-Banner"}
+                      >
+                        Power Statement
+                      </Link>
+                    ),
+                    permissions: ["ADMIN"],
                   },
                 ]
               : []),
@@ -518,11 +585,13 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                         Banner
                       </Link>
                     ),
+                    permissions: ["ADMIN"],
                   },
                   {
                     key: 9,
                     icon: <RiBankFill />,
                     label: "Setting",
+                    permissions: ["ADMIN"],
                     children: [
                       {
                         key: "565656",
@@ -538,6 +607,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                             Social Media Icon Uplaod
                           </Link>
                         ),
+                        permissions: ["ADMIN"],
                       },
                       {
                         key: "5656",
@@ -553,6 +623,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                             Casino Image type
                           </Link>
                         ),
+                        permissions: ["ADMIN"],
                       },
                     ],
                   },
@@ -563,6 +634,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               key: 11,
               icon: <TbFileReport />,
               label: "Report",
+              permissions: ["ADMIN"],
               children: [
                 {
                   key: 45,
@@ -579,6 +651,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       Account Statement
                     </Link>
                   ),
+                  permissions: ["ADMIN"],
                 },
                 {
                   key: 12,
@@ -595,6 +668,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       Current Bets
                     </Link>
                   ),
+                  permissions: ["ADMIN"],
                 },
                 {
                   key: 13,
@@ -611,6 +685,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       Bets History
                     </Link>
                   ),
+                  permissions: ["ADMIN"],
                 },
                 {
                   key: 35,
@@ -627,6 +702,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       User History
                     </Link>
                   ),
+                  permissions: ["ADMIN"],
                 },
                 {
                   key: 52,
@@ -643,6 +719,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       Profite & Loss
                     </Link>
                   ),
+                  permissions: ["ADMIN"],
                 },
                 // {
                 //   key: 523,
@@ -658,11 +735,13 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                 //   ),
                 // },
               ],
+              // permissions: ["ADMIN"],
             },
             {
               key: 174,
               icon: <FaCalendarDay />,
-              label: <span>Event </span>,
+              label: <span>Event</span>,
+              permissions: ["ADMIN"],
               children: eventData?.map((res) => {
                 return {
                   key: res.sportName + res.sportId + res.totalMatch,
@@ -677,9 +756,13 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       {res?.sportName} ({res?.totalMatch})
                     </span>
                   ),
+                  permissions: ["ADMIN"],
+
                   children: res.matchList?.map((list) => {
                     return {
                       key: list.date + list.matchId + list.matchName,
+                      permissions: ["ADMIN"],
+
                       label: (
                         <Link
                           onClick={() => {
@@ -707,10 +790,14 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               key: 687,
               icon: <ImDice />,
               label: "Casino",
+              permissions: ["ADMIN"],
+
               children: casionDataState?.map((res, index) => {
                 // console.log(casionData);
+
                 return {
                   key: 458 + index,
+                  permissions: ["ADMIN"],
                   label: (
                     <Link
                       onClick={() => {
@@ -742,6 +829,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   Social Media Manager
                 </Link>
               ),
+              permissions: ["ADMIN"],
             },
             {
               style: { aligItems: "flex-start" },
@@ -760,6 +848,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   Log Out
                 </span>
               ),
+              permissions: ["ADMIN"],
             },
           ],
     [eventData, CasionData]
@@ -779,6 +868,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
       }
     }
   };
+  // console.log(filterPermission(item, findPermission), findPermission);
   return (
     <>
       <LogoutModal
@@ -789,7 +879,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
       <Menu
         theme="dark"
         style={{ width: 256 }}
-        items={item}
+        items={filterPermission(item, findPermission)}
         mode="inline"
         openKeys={[menuKey, nestedMenuKey]}
         // onChange={handleClick}

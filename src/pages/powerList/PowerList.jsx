@@ -12,6 +12,7 @@ import { LoaderContext } from "../../App";
 import DeleteModal from "../../components/deleteModal/DeleteModal";
 import { GoTrashcan } from "react-icons/go";
 import { notifyToast } from "../../components/toast/Tost";
+import { AiFillEye } from "react-icons/ai";
 
 export let tableDataRef = () => {};
 
@@ -106,6 +107,10 @@ const PoerList = () => {
       dataIndex: "Active",
     },
     {
+      title: "Permission",
+      dataIndex: "view",
+    },
+    {
       title: "Action",
       dataIndex: "Action",
     },
@@ -116,6 +121,11 @@ const PoerList = () => {
       UserID: res.userId,
       Password: res.password,
       Active: res.active ? "True" : "False",
+      view: (
+        <Tooltip placement="top" title={res?.permission}>
+          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+        </Tooltip>
+      ),
       Action: (
         <Tooltip placement="top" title={"Delete"}>
           <Button
