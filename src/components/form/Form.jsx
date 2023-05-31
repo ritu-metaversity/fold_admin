@@ -16,6 +16,8 @@ const Loginform = () => {
     WITHDRAW: "Widrwal-Pending-Request",
     ALL: "Deposit-Pending-Request",
     USER_LOCK: ActiveUser_Screen,
+    ACTIVE_USER:ActiveUser_Screen,
+    // BET_LOCK:""
   };
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
@@ -54,7 +56,7 @@ const Loginform = () => {
             localStorage.setItem("token", res.data.token);
             setLoading((prev) => ({ ...prev, LoginUser: false }));
             if (res.data.userType === "7") {
-              navigate(redirect[res.data.poweruser_permisions]);
+              navigate(redirect[res.data.poweruser_permisions[0]]);
             } else {
               navigate("/marketAnalysis");
             }

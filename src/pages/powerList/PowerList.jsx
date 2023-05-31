@@ -1,18 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table, Tooltip } from "antd";
+import { Button, Col, Input, Modal, Row, Switch, Table, Tooltip } from "antd";
 import React, { useEffect, useState } from "react";
 ///styles
 // import "./styles.scss";
 import { NavLink } from "react-router-dom";
 
 import axios from "axios";
-import { Delete_Power_List, Power_list } from "../../routes/Routes";
+import {
+  Delete_Power_List,
+  Power_list,
+  updatePermissionApi,
+} from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import DeleteModal from "../../components/deleteModal/DeleteModal";
 import { GoTrashcan } from "react-icons/go";
 import { notifyToast } from "../../components/toast/Tost";
 import { AiFillEye } from "react-icons/ai";
+import Privileges, {
+  permissionArray,
+} from "../../components/priveleges/Privileges";
+import { BiEdit } from "react-icons/bi";
 
 export let tableDataRef = () => {};
 
@@ -25,6 +33,9 @@ const PoerList = () => {
   const [deleteRowId, setdeleteRowId] = useState("");
   const [DataList, setDataList] = useState([]);
   const [apiCall, setApiCall] = useState(0);
+  const [checkValue, setcheckValue] = useState([]);
+  const [updatePermission, setUpdatePermissionModal] = useState(false);
+  const [passwordValue, setPasswordValue] = useState("");
   //////// change password
 
   ////edit profile State
@@ -120,24 +131,40 @@ const PoerList = () => {
     return {
       UserID: res.userId,
       Password: res.password,
-      Active: res.active ? "True" : "False",
+      Active: <Switch checked={res.active} disabled size="small" />,
       view: (
-        <Tooltip placement="top" title={res?.permission}>
+        <Tooltip placement="top" title={res?.permission.toString()}>
           <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
         </Tooltip>
       ),
+
       Action: (
-        <Tooltip placement="top" title={"Delete"}>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <Tooltip placement="top" title={"Delete"}>
+            <Button
+              onClick={() => {
+                showModal(res.userId);
+                setApiCall(2);
+              }}
+              style={{ border: "none" }}
+            >
+              <GoTrashcan style={{ color: "red" }} />
+            </Button>
+          </Tooltip>
           <Button
-            onClick={() => {
-              showModal(res.userId);
-              setApiCall(2);
+            style={{
+              border: "none",
             }}
-            style={{ border: "none" }}
+            onClick={() =>
+              updatePermissionModal({
+                id: res.userId,
+                permission: res.permission,
+              })
+            }
           >
-            <GoTrashcan style={{ color: "red" }} />
+            <BiEdit />
           </Button>
-        </Tooltip>
+        </div>
       ),
     };
   });
@@ -190,13 +217,104 @@ const PoerList = () => {
   const handleOk = () => {
     // setIsModalOpen(false);
     deletePoweList(deleteRowId);
+    setIsModalOpen(false);
+    setUpdatePermissionModal(false);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
+    setUpdatePermissionModal(false);
   };
-
+  const [userId, setUserId] = useState("");
+  const updatePermissionModal = (permissionData) => {
+    setUserId(permissionData.id);
+    setcheckValue(permissionData.permission);
+    setUpdatePermissionModal(true);
+  };
+  const onChangeCheckBox = (name, e) => {
+    if (name == "ALL") {
+      if (checkValue.find((i) => i == "ALL")) {
+        setcheckValue([]);
+      } else {
+        setcheckValue(["ALL"]);
+      }
+    } else {
+      const value = e.target.checked;
+      if (name && value) {
+        setcheckValue((prev) => {
+          return [...prev, name];
+        });
+      } else {
+        let valueRaay = checkValue.indexOf(name);
+        let newCheckvalue = [...checkValue];
+        newCheckvalue.splice(valueRaay, 1);
+        let AllvalueRaay = checkValue.indexOf("ALL");
+        if (AllvalueRaay >= 0) {
+          setcheckValue(
+            permissionArray.filter((i) => ![name, "ALL"].includes(i))
+          );
+        } else {
+          setcheckValue(newCheckvalue);
+        }
+      }
+    }
+  };
+  const upadtePermissionApi = async () => {
+    if (!checkValue.length > 0) {
+      return notifyToast().error("please Select any one Privilege");
+    } else if (!passwordValue) {
+      return notifyToast().error("please enter luPassword");
+    }
+    setLoading((prev) => ({ ...prev, upadtePermissionApi: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${updatePermissionApi}`,
+        {
+          userId: userId,
+          luPassword: passwordValue,
+          userPermissions: checkValue,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status) {
+          handleCancel();
+          tabledata();
+          return notifyToast().succes(res?.data?.message);
+        }
+      })
+      .catch((error) => {});
+    setLoading((prev) => ({ ...prev, upadtePermissionApi: false }));
+  };
   return (
     <>
+      <Modal
+        title="Update Permission"
+        open={updatePermission}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        width={900}
+      >
+        <Privileges checkValue={checkValue} onChange={onChangeCheckBox} />
+        <div className="update-permission-footer">
+          <Row>
+            <Col xl={16}></Col>
+            <Col xl={8} style={{ display: "flex", gap: "10px" }}>
+              <Input
+                style={{ width: "200px" }}
+                placeholder="Transaction Password..."
+                value={passwordValue}
+                onChange={(e) => setPasswordValue(e.target.value)}
+              />
+              <Button onClick={upadtePermissionApi}>Submit</Button>
+            </Col>
+          </Row>
+        </div>
+      </Modal>
       <DeleteModal
         showModal={isModalOpen}
         handleOk={handleOk}

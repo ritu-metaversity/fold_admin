@@ -29,7 +29,7 @@ const defaultData = {
   sportPartnership: "",
   liveCasinoLock: true,
 };
-const Accountform = () => {
+const Accountform = ({ IsSelfState }) => {
   const [sportsList, setSportsList] = useState([]);
   const [userId, setuserId] = useState("");
   const [userPass, setUserPass] = useState("");
@@ -306,9 +306,14 @@ const Accountform = () => {
       <Select.Option value={""} key="empty">
         Select
       </Select.Option>,
-      <Select.Option value={1} key="6">
-        Super Master
-      </Select.Option>,
+      !IsSelfState ? (
+        <Select.Option value={1} key="6">
+          Super Master
+        </Select.Option>
+      ) : (
+        ""
+      ),
+
       <Select.Option value={2} key="7">
         Client
       </Select.Option>,

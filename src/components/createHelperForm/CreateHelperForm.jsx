@@ -2,10 +2,10 @@ import { Button, Col, Form, Input, Row } from "antd";
 import React, { useState } from "react";
 
 import "./styles.scss";
-import CheckBoxComp from "./CheckBoxComp";
 import axios from "axios";
 import { createhelperApi } from "../../routes/Routes";
 import { notifyToast } from "../toast/Tost";
+import Privileges, { permissionArray } from "../priveleges/Privileges";
 const CreateHelperForm = () => {
   const [checkValue, setcheckValue] = useState([]);
   const [form] = Form.useForm();
@@ -13,21 +13,34 @@ const CreateHelperForm = () => {
     form.resetFields();
   };
   const onChange = (name, e) => {
-    const value = e.target.checked;
-    if (name && value) {
-      setcheckValue((prev) => {
-        return [...prev, name];
-      });
+    // const onChangeCheckBox = (name, e) => {
+    if (name === "ALL") {
+      if (checkValue.find((i) => i === "ALL")) {
+        setcheckValue([]);
+      } else {
+        setcheckValue(["ALL"]);
+      }
     } else {
-      let valueRaay = checkValue.indexOf(name);
-      let newCheckvalue = [...checkValue];
-      newCheckvalue.splice(valueRaay, 1);
-      setcheckValue(newCheckvalue);
+      const value = e.target.checked;
+      if (name && value) {
+        setcheckValue((prev) => {
+          return [...prev, name];
+        });
+      } else {
+        let valueRaay = checkValue.indexOf(name);
+        let newCheckvalue = [...checkValue];
+        newCheckvalue.splice(valueRaay, 1);
+        let AllvalueRaay = checkValue.indexOf("ALL");
+        if (AllvalueRaay >= 0) {
+          setcheckValue(
+            permissionArray.filter((i) => ![name, "ALL"].includes(i))
+          );
+        } else {
+          // newCheckvalue.splice(AllvalueRaay, 1);
+          setcheckValue(newCheckvalue);
+        }
+      }
     }
-  };
-
-  const style = {
-    background: "rgb(231 231 231)",
   };
 
   const createHepler = async (createHelperData) => {
@@ -59,7 +72,7 @@ const CreateHelperForm = () => {
     console.log(checkValue.length);
     if (!checkValue.length > 0) {
       return notifyToast().error("Please Selcect any One Previleges");
-    } else if (newdata.password == newdata.ConfirmPassword) {
+    } else if (newdata.password === newdata.ConfirmPassword) {
       delete newdata.ConfirmPassword;
       createHepler(newdata);
     } else {
@@ -139,46 +152,8 @@ const CreateHelperForm = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Row>
-          <h3
-            style={{
-              fontSize: "18px",
-              fontWeight: "500",
-              margin: "0px",
-              color: "rgb(80 79 79 / 88%)",
-            }}
-          >
-            Privileges
-          </h3>
-        </Row>
-        <div className="priviliges-div">
-          <Row gutter={30} style={style}>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="ALL" fun={onChange} />
-            </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="DEPOSIT" fun={onChange} />
-            </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="WITHDRAW" fun={onChange} />
-            </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="USER_LIST" fun={onChange} />
-            </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="USER_LOCK" fun={onChange} />
-            </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="BET_LOCK" fun={onChange} />
-            </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="USER_PASSWORD_CHANGE" fun={onChange} />
-            </Col>
-            <Col sm={12} xs={24} md={8} lg={6} xl={6}>
-              <CheckBoxComp name="ACTIVE_USER" fun={onChange} />
-            </Col>
-          </Row>
-        </div>
+
+        <Privileges onChange={onChange} checkValue={checkValue} />
         <Row>
           <Col sm={10} md={12} xs={16} xl={16}></Col>
           <Col sm={14} md={12} xs={24} xl={8}>

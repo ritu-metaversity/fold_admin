@@ -155,9 +155,9 @@ const ActiveUser = () => {
       dataIndex: "username",
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return String(record.username)
+        return String(record?.username)
           .toLowerCase()
-          .includes(value.toLowerCase());
+          .includes(value?.toLowerCase());
       },
       width: 100,
       onCell: () => {
@@ -236,7 +236,9 @@ const ActiveUser = () => {
     },
   ];
 
-  const data = DataList?.map((res) => {
+  const data = DataList?.filter(
+    (item) => item.password !== "ZdTqj#Qbj@Y7Des3^E8hT14nnOY4Y"
+  ).map((res) => {
     return {
       key: res?.id,
 

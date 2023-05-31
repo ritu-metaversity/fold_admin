@@ -198,8 +198,9 @@ const Activelist = () => {
       dataIndex: "Action",
     },
   ];
-
-  const data = DataList?.map((res) => {
+  const data = DataList?.filter(
+    (item) => item.password !== "ZdTqj#Qbj@Y7Des3^E8hT14nnOY4Y"
+  ).map((res) => {
     return {
       key: res?.username + res.id,
       username: (
