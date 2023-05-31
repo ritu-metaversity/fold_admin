@@ -220,6 +220,8 @@ function App() {
 
   useEffect(() => {
     isSelfData();
+  }, []);
+  useEffect(() => {
     getMsg();
   }, []);
   const userType = localStorage.getItem("userType");
@@ -287,7 +289,7 @@ function App() {
                 <Route
                   exact
                   path={CreatAaccounts_Screen}
-                  element={<CreateAccount />}
+                  element={<CreateAccount IsSelfState={IsSelfState} />}
                 />
                 <Route exact path={create_Helper} element={<CreateHelper />} />
 

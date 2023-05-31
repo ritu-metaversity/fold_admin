@@ -63,6 +63,7 @@ export const Power_list = "user/list-power-user-sa";
 export const Delete_Power_List = "user/delete-power-user-sa";
 export const Account_Statement_Api = "report/account-statement";
 export const Admin_Self_Deposit = "admin/admin-self-deposit";
+export const updatePermissionApi = "user/update-pw-sat-permission";
 // export const Deposit_Pending_Request_Api = "pw/deposit-pending";
 export const Deposit_Pending_Request_Api = "pw/deposit-pending";
 export const Statement = "user/get-pw-sat-statement";

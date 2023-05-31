@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import Accountform from "../../components/craeteAccountForm/Form";
 ///styles
 import "./styles.scss";
-const CreateAccount = () => {
+const CreateAccount = ({ IsSelfState }) => {
   return (
     <>
       <div className="hading-create-accounts">
@@ -17,7 +17,7 @@ const CreateAccount = () => {
         </p>
       </div>
       <div className="section">
-        <Accountform />
+        <Accountform IsSelfState={IsSelfState} />
       </div>
     </>
   );

@@ -4,13 +4,12 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
-import { Search_Api, Statement, StatementPage } from "../../routes/Routes";
-import { UserModalContext } from "../activeUser/ActiveUser";
+import { Statement, StatementPage } from "../../routes/Routes";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 ///styles
-import BetListModal from "../../components/modal/betListModal";
+
 const ApprovedByStatement = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
@@ -18,21 +17,19 @@ const ApprovedByStatement = () => {
   const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
-  const [selectValue, setSelectValue] = useState("");
+  const [selectValue, setSelectValue] = useState(false);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   ////edit profile State
-  const [sortedInfo, setSortedInfo] = useState({});
+  // const [sortedInfo, setSortedInfo] = useState({});
   const [searchData, setSearchData] = useState("");
   const [searchDataList, setSearchDataList] = useState([]);
   const [id, setId] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [ptsId, setPtsId] = useState("");
-  const [remark, setRemark] = useState("");
 
-  const handleChangeTable = (sorter) => {
-    setSortedInfo(sorter);
-  };
+  const [statusSelect, setStatusSelect] = useState(2);
+  // const handleChangeTable = (sorter) => {
+  //   setSortedInfo(sorter);
+  // };
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
@@ -42,16 +39,18 @@ const ApprovedByStatement = () => {
   const reset = () => {
     setSearchData("");
     setMessage("");
-    setSelectValue("1");
+    setSelectValue(false);
     setDateFrom(dayjs().subtract(7, "day"));
     setDateTo(dayjs());
     tabledata({
       index: paginationData.index,
+      isWithdraw: false,
       noOfRecords: paginationData.noOfRecords,
-      fromDate: dayjs().subtract(7, "day").toISOString().split("T")[0],
-      toDate: dayjs().toISOString().split("T")[0],
-      userid: "",
+      fromDate: dayjs().subtract(7, "day").format("YYYY-MM-DD hh:mm:ss"),
+      toDate: dayjs().format("YYYY-MM-DD hh:mm:ss"),
+      userId: "",
       type: "1",
+      status: 2,
     });
   };
 
@@ -61,6 +60,9 @@ const ApprovedByStatement = () => {
   };
   const handleChangeSelect = (value) => {
     setSelectValue(value);
+  };
+  const handleChangeSelectStatus = (value) => {
+    setStatusSelect(value);
   };
   const handleClick = () => {
     // 👇 "message" stores input field value
@@ -80,8 +82,9 @@ const ApprovedByStatement = () => {
     setSearchData(value);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
-        {},
+        // "http://192.168.68.101/user/test3",
+        `${process.env.REACT_APP_BASE_URL}/user/subadmin-poweruser-list`,
+        { userId: value },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -112,7 +115,7 @@ const ApprovedByStatement = () => {
           toDate: moment(dateTo.toString()).format("YYYY-MM-DD hh:mm:ss"),
           userId: id,
           isWithdraw: selectValue,
-          status: 2,
+          status: statusSelect,
           ...DateFrom,
         },
 
@@ -158,20 +161,17 @@ const ApprovedByStatement = () => {
     {
       title: "Approved Time",
       dataIndex: "approved_time",
-      //   filteredValue: [searchText],
-      //   onFilter: (value, record) => {
-      //     return (
-      //       String(record.Date).toLowerCase().includes(value.toLowerCase()) ||
-      //       String(record.SrNo).toLowerCase().includes(value.toLowerCase()) ||
-      //       String(record.Credit).toLowerCase().includes(value.toLowerCase()) ||
-      //       String(record.Debit).toLowerCase().includes(value.toLowerCase()) ||
-      //       String(record.pts)
-      //         .toLowerCase()
-      //         .includes(String(value).toLowerCase()) ||
-      //       String(record.Remark).toLowerCase().includes(value.toLowerCase()) ||
-      //       String(record.Fromto).toLowerCase().includes(value.toLowerCase())
-      //     );
-      //   },
+      filteredValue: [searchText],
+      onFilter: (value, record) => {
+        return (
+          String(record.userid).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.approvedby)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.amount).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Remark).toLowerCase().includes(value.toLowerCase())
+        );
+      },
     },
     {
       title: "approvedby",
@@ -269,8 +269,23 @@ const ApprovedByStatement = () => {
       label: "Deposit",
     },
   ];
+  const statusOption = [
+    {
+      value: 2,
+      label: "SUCCESS",
+    },
+    {
+      value: 1,
+      label: "PENDING",
+    },
+    {
+      value: 3,
+      label: "REJECT",
+    },
+  ];
 
   const [listDisplay, setListDisplay] = useState(false);
+
   const setIdText = (id, text) => {
     // console.log(id, text, "dtat");
     setSearchData(text);
@@ -278,19 +293,9 @@ const ApprovedByStatement = () => {
     setListDisplay(false);
     setSearchDataList([]);
   };
-  const showModal = (id) => {
-    setIsModalOpen(true);
-    setPtsId(id);
-  };
 
   return (
-    <UserModalContext.Provider value={{}}>
-      <BetListModal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        ptsId={ptsId}
-        remark={remark}
-      />
+    <>
       <div className="hading-create-accounts">
         <h4>Power Statement</h4>
         <p>
@@ -334,8 +339,8 @@ const ApprovedByStatement = () => {
                         style={{ borderBottom: "1px solid #e1dbdb" }}
                         key={res.id + res.text + index}
                       >
-                        <p onClick={() => setIdText(res.id, res.text)}>
-                          {res.text}
+                        <p onClick={() => setIdText(res.userId, res.userId)}>
+                          {res.userId}
                         </p>
                       </div>
                     );
@@ -386,6 +391,26 @@ const ApprovedByStatement = () => {
                 }}
                 onChange={handleChangeSelect}
                 options={option}
+              />
+            </div>
+            <div className="selct-account-statement">
+              <label
+                style={{
+                  color: "#495057",
+                  fontWeight: "500",
+                  fontSize: "14px",
+                }}
+              >
+                Status
+              </label>
+              <Select
+                defaultValue="Success"
+                style={{
+                  width: 120,
+                  margin: "7px 0px 7px 0px",
+                }}
+                onChange={handleChangeSelectStatus}
+                options={statusOption}
               />
             </div>
           </div>
@@ -448,20 +473,21 @@ const ApprovedByStatement = () => {
         </div>
         <Table
           columns={columns}
-          onRow={(record) => {
-            return {
-              onClick: (event) => {
-                if (record.marketid) {
-                  setRemark(record?.Remark);
-                  showModal(record.marketid);
-                }
-                return;
-              }, // click row
-            };
-          }}
+          //   onRow={(record) => {
+          //     return {
+          //       onClick: (event) => {
+          //         if (record.marketid) {
+          //           setRemark(record?.Remark);
+          //           showModal(record.marketid);
+          //         }
+          //         return;
+          //       }, // click row
+          //     };
+          //   }
+          // }
           dataSource={data}
           className="accountTable"
-          onChange={handleChangeTable}
+          // onChange={handleChangeTable}
           pagination={{ pageSize: paginationData.noOfRecords }}
         />
         <div className="pagination">
@@ -550,7 +576,7 @@ const ApprovedByStatement = () => {
           </ul>
         </div>
       </div>
-    </UserModalContext.Provider>
+    </>
   );
 };
 

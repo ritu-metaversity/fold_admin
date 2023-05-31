@@ -71,6 +71,11 @@ $breakpoint-custom-header: 710px;
     }
   }
 }
+.ant-picker-datetime-panel {
+  @media (max-width: 768px) {
+    display: block !important;
+  }
+}
 .table-user-history {
   .search-input-user-history {
     display: flex;
