@@ -95,8 +95,11 @@ export const LoaderContext = createContext({
   refershNow: () => {},
   keyNew: 0,
 });
-dayjs.locale("hi");
+// dayjs.locale("hi");
 function App() {
+  useEffect(() => {
+    window.localStorage.removeItem("passwordtype");
+  }, []);
   const [userBalanceamount, setUserBalance] = useState("");
   const [loading, setLoading] = useState({});
   const [keyNew, setKeyNew] = useState(0);
@@ -217,6 +220,8 @@ function App() {
 
   useEffect(() => {
     isSelfData();
+  }, []);
+  useEffect(() => {
     getMsg();
   }, []);
   const userType = localStorage.getItem("userType");
@@ -284,7 +289,7 @@ function App() {
                 <Route
                   exact
                   path={CreatAaccounts_Screen}
-                  element={<CreateAccount />}
+                  element={<CreateAccount IsSelfState={IsSelfState} />}
                 />
                 <Route exact path={create_Helper} element={<CreateHelper />} />
 

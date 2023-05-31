@@ -540,6 +540,32 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   },
                 ]
               : []),
+            userType === "5" && [
+              // {
+              //   key: 9,
+              //   icon: <RiBankFill />,
+              //   label: "Add Payment Method",
+              //   children: payment_list,
+              //   permissions: ["ADMIN"],
+              // },
+              {
+                key: 10,
+                icon: <FaImage />,
+                label: (
+                  <Link
+                    onClick={() => {
+                      refershNow();
+                      setSidebar();
+                    }}
+                    to={StatementPage}
+                    // reloadDocument={pathname === "/Update-Banner"}
+                  >
+                    Power Statement
+                  </Link>
+                ),
+                permissions: ["ADMIN"],
+              },
+            ],
             ...(userType === "5" && IsSelfState
               ? [
                   {
@@ -549,23 +575,23 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                     children: payment_list,
                     permissions: ["ADMIN"],
                   },
-                  {
-                    key: 10,
-                    icon: <FaImage />,
-                    label: (
-                      <Link
-                        onClick={() => {
-                          refershNow();
-                          setSidebar();
-                        }}
-                        to={StatementPage}
-                        // reloadDocument={pathname === "/Update-Banner"}
-                      >
-                        Power Statement
-                      </Link>
-                    ),
-                    permissions: ["ADMIN"],
-                  },
+                  // {
+                  //   key: 10,
+                  //   icon: <FaImage />,
+                  //   label: (
+                  //     <Link
+                  //       onClick={() => {
+                  //         refershNow();
+                  //         setSidebar();
+                  //       }}
+                  //       to={StatementPage}
+                  //       // reloadDocument={pathname === "/Update-Banner"}
+                  //     >
+                  //       Power Statement
+                  //     </Link>
+                  //   ),
+                  //   permissions: ["ADMIN"],
+                  // },
                 ]
               : []),
             ...(userType === "4"
