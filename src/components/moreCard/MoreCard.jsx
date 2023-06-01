@@ -8,9 +8,25 @@ import Transaction from "./components/transaction/Transaction";
 import UserLock from "./components/userlock/UserLock";
 ///styles
 import "./styles.scss";
-const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
+const MoreCard = ({ Apifun, data, handleCancelfunction, helper }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
+  const findPermission = JSON.parse(
+    localStorage.getItem("poweruser_permisions") || "[]"
+  );
+  const filterPermission = (item, permissions) => {
+    let newItem = [];
+    newItem = item.filter((itemEle) => {
+      const isThere = Array.isArray(itemEle.permissions)
+        ? itemEle.permissions.some((element) => permissions.includes(element))
+        : false;
+      if (Array.isArray(itemEle.children)) {
+        itemEle.children = filterPermission(itemEle.children, permissions);
+      }
+      return isThere;
+    });
 
+    return newItem;
+  };
   const items = [
     {
       key: "0",
@@ -18,6 +34,7 @@ const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
       children: (
         <Profile data={data} handleCancelfunction={handleCancelfunction} />
       ),
+      permissions: ["ADMIN"],
     },
     {
       key: "1",
@@ -26,8 +43,10 @@ const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
         <Changpassword
           data={data}
           handleCancelfunction={handleCancelfunction}
+          helper={helper}
         />
       ),
+      permissions: ["ALL", "ADMIN", "USER_PASSWORD_CHANGE"],
     },
     {
       key: "2",
@@ -37,8 +56,10 @@ const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
           data={data}
           handleCancelfunction={handleCancelfunction}
           Apifun={Apifun}
+          helper={helper}
         />
       ),
+      permissions: ["ALL", "USER_LOCK", "ADMIN", "BET_LOCK"],
     },
     {
       key: "3",
@@ -50,6 +71,7 @@ const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
           handleCancelfunction={handleCancelfunction}
         />
       ),
+      permissions: ["ADMIN"],
     },
     {
       key: "4",
@@ -57,6 +79,7 @@ const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
       children: (
         <EditProfile data={data} handleCancelfunction={handleCancelfunction} />
       ),
+      permissions: ["ADMIN"],
     },
   ];
 
@@ -65,7 +88,7 @@ const MoreCard = ({ Apifun, data, handleCancelfunction }) => {
       <Tabs
         defaultActiveKey="0"
         type="card"
-        items={items}
+        items={filterPermission(items, findPermission)}
         destroyInactiveTabPane
       ></Tabs>
     </div>

@@ -9,7 +9,7 @@ import { Tab_ChangePasword } from "../../../../routes/Routes";
 import { LoaderContext } from "../../../../App";
 import { notifyToast } from "../../../toast/Tost";
 
-const Changpassword = ({ data, handleCancelfunction }) => {
+const Changpassword = ({ data, handleCancelfunction, helper }) => {
   const { setLoading } = useContext(LoaderContext);
   const [formData, setformData] = useState({});
   const [error, setError] = useState({});
@@ -50,7 +50,7 @@ const Changpassword = ({ data, handleCancelfunction }) => {
       passwordNotMatch: false,
     };
     setError(newError);
-
+    console.log(helper);
     if (formData.lupassword && formData.newPassword && formData.password) {
       if (formData.password && formData.newPassword) {
         if (formData.password === formData.newPassword) {
@@ -58,7 +58,12 @@ const Changpassword = ({ data, handleCancelfunction }) => {
           setLoading((prev) => ({ ...prev, changePassword: true }));
           await axios
             .post(
-              `${process.env.REACT_APP_BASE_URL}/${Tab_ChangePasword}`,
+              // "http://192.168.68.101/pw/change-password-child-pw",
+              `${process.env.REACT_APP_BASE_URL}/${
+                helper === "update"
+                  ? "pw/change-password-child-pw"
+                  : Tab_ChangePasword
+              }`,
               { ...formData, userId: data.userId },
               {
                 headers: {

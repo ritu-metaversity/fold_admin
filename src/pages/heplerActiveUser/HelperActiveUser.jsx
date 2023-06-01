@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Switch, Table, Modal, Tooltip } from "antd";
+import { Button, Input, Switch, Table, Modal } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
+// import { AiOutlinePlus } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
 import { Link, NavLink } from "react-router-dom";
@@ -10,15 +10,15 @@ import MoreCard from "../../components/moreCard/MoreCard";
 import Widrawal from "../../components/modalForm/Widrawal";
 import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
-import { Down_Line_ActiveUser, Table_ActiveUser } from "../../routes/Routes";
-import { useMediaQuery } from "../../components/modalForm/UseMedia";
+import { Down_Line_ActiveUser } from "../../routes/Routes";
+// import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { LoaderContext } from "../../App";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
 const HelperActiveUser = () => {
-  const isMobile = useMediaQuery("(min-width: 768px)");
+  // const isMobile = useMediaQuery("(min-width: 768px)");
 
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
@@ -102,8 +102,8 @@ const HelperActiveUser = () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        "http://192.168.68.101/pw/powerUsertest",
-        // `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
+        // "http://192.168.68.101/pw/powerUsertest",
+        `${process.env.REACT_APP_BASE_URL}/${"pw/child-list-active-user-pw"}`,
         {
           id: "",
           index: paginationData.index,
@@ -254,7 +254,7 @@ const HelperActiveUser = () => {
       CR: (
         <span
           style={{ color: "#f1b44c", cursor: "pointer" }}
-          onClick={() => showCredit(res.id)}
+          // onClick={() => showCredit(res.id)}
         >
           {res?.chips}
         </span>
@@ -276,7 +276,7 @@ const HelperActiveUser = () => {
       AccountType: res?.accountType,
       Action: (
         <div style={{ paddingRight: "10px" }}>
-          <Button
+          {/* <Button
             style={{
               background: "#f1b44c",
               color: "white",
@@ -286,8 +286,8 @@ const HelperActiveUser = () => {
             onClick={() => showCredit(res.id)}
           >
             CR
-          </Button>
-          <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
+          </Button> */}
+          {/* <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
             <Button
               style={{
                 background: "#34c38f",
@@ -312,13 +312,13 @@ const HelperActiveUser = () => {
             >
               w
             </Button>
-          </Tooltip>
+          </Tooltip> */}
           <Button
             style={{
               background: "#50a5f1",
               color: "white",
               borderColor: "#50a5f1",
-              borderRadius: "0px 5px 5px 0px",
+              borderRadius: "5px 5px 5px 5px",
             }}
             onClick={() => showModalProfile(res?.id)}
           >
@@ -403,6 +403,7 @@ const HelperActiveUser = () => {
           data={userId}
           handleCancelfunction={handleCancel}
           Apifun={tabledata}
+          helper="update"
         />
       </Modal>
       <Modal
@@ -454,12 +455,12 @@ const HelperActiveUser = () => {
             </div>
           </div>
           <div className="right-col">
-            <Link to="/createAccounts">
+            {/* <Link to="/createAccounts">
               <Button style={{ color: "white", border: "none" }}>
                 <AiOutlinePlus />
                 Create Account
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div style={{ paddingLeft: "5px" }}>
