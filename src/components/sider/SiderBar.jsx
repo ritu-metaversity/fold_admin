@@ -8,7 +8,6 @@ import { ImDice } from "react-icons/im";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
 import {
-  ActiveUser_Screen,
   Casino_Screen,
   Casino_Type_Screen,
   Casiono,
@@ -210,7 +209,14 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
       key: 3,
       icon: <RiAccountCircleFill />,
       label: "Account",
-      permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
+      permissions: [
+        "ALL",
+        "ADMIN",
+        "USER_PASSWORD_CHANGE",
+        "USER_LOCK",
+        "BET_LOCK",
+        "ACTIVE_USER",
+      ],
       children: [
         {
           key: 4,
@@ -227,7 +233,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               <p className="acount-list">Account List for Active Users</p>
             </Link>
           ),
-          // permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
+          permissions: ["ADMIN"],
         },
         {
           key: 4,
@@ -244,7 +250,13 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               <p className="acount-list">Account List for Active Users</p>
             </Link>
           ),
-          permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
+          permissions: [
+            "ALL",
+            "USER_PASSWORD_CHANGE",
+            "BET_LOCK",
+            "USER_LOCK",
+            "ACTIVE_USER",
+          ],
         },
 
         userType === "5" && IsSelfState
