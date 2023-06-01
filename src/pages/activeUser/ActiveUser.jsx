@@ -403,6 +403,7 @@ const ActiveUser = () => {
           data={userId}
           handleCancelfunction={handleCancel}
           Apifun={tabledata}
+          helper="noUpdate"
         />
       </Modal>
       <Modal

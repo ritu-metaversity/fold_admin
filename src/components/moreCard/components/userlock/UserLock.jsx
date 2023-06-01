@@ -7,7 +7,7 @@ import { notifyToast } from "../../../toast/Tost";
 ///styles
 // import './styles.scss'
 
-const UserLock = ({ Apifun, data, handleCancelfunction }) => {
+const UserLock = ({ Apifun, data, handleCancelfunction, helper }) => {
   const [error, setError] = useState(false);
   const [userLockData, setUserLockData] = useState({
     userId: data?.userId,
@@ -25,7 +25,12 @@ const UserLock = ({ Apifun, data, handleCancelfunction }) => {
     }
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${User_Lock_Api}`,
+        // "http://192.168.68.101/pw/update-bet-account-status",
+        `${process.env.REACT_APP_BASE_URL}/${
+          helper === "update"
+            ? "pw/update-bet-account-status-pw"
+            : User_Lock_Api
+        }`,
         userLockData,
         {
           headers: {
