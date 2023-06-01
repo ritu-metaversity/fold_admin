@@ -17,7 +17,8 @@ const Loginform = () => {
     ALL: "Deposit-Pending-Request",
     USER_LOCK: HelperActiveUser_Screen,
     ACTIVE_USER: HelperActiveUser_Screen,
-    // BET_LOCK:""
+    USER_PASSWORD_CHANGE: HelperActiveUser_Screen,
+    BET_LOCK: HelperActiveUser_Screen,
   };
   const onFinish = async (values) => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));

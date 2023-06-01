@@ -37,6 +37,8 @@ const DepositeRejected = () => {
     noOfRecords: 25,
     totalPages: 1,
   });
+  let userType = localStorage.getItem("userType");
+
   const reset = () => {
     setSecondCity("");
   };
@@ -209,30 +211,8 @@ const DepositeRejected = () => {
               options={options}
               onChange={onSelectValue}
             />
-            {/* <Input
-              placeholder="search here....."
-              name="message"
-              onChange={handleChange}
-              value={message}
-            /> */}
-            {/* <div className="search-list-div">
-              <p>find</p>
-              <p>find</p>
-              <p>find</p>
-              <p>find</p>
-              <p>find</p>
-              <p>find</p>
-              <p>find</p>
-              <p>find</p>
-              <p>find</p>
-            </div> */}
+
             <div className="serch-btn">
-              {/* <Button
-                onClick={handleClick}
-                style={{ background: "#23292E", color: "white" }}
-              >
-                Load
-              </Button> */}
               <Button
                 onClick={reset}
                 style={{ background: "#eff2f7", color: "black" }}

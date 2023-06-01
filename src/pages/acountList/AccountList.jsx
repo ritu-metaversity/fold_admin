@@ -356,6 +356,7 @@ const Activelist = () => {
           data={userId}
           handleCancelfunction={handleCancel}
           Apifun={tabledata}
+          helper="noUpdate"
         />
       </Modal>
       {/* /////credit Activity modal */}

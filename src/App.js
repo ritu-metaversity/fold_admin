@@ -78,7 +78,7 @@ import { ToastContainer } from "react-toastify";
 import Setting from "./pages/settingPage/Setting";
 import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
 import DownList from "./pages/downLine/DownLine";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import MarketAnalysis from "./pages/marketAnalyisis/MarketAnalysis";
 import Dashboard from "./pages/dashboard/Dashboard";
 import CasinoType from "./pages/casionType/CasinoType";
@@ -165,12 +165,12 @@ function App() {
   };
   useEffect(() => {
     const x = localStorage.getItem("token");
-    const permission = JSON.parse(
+    const permission = JSON?.parse(
       localStorage.getItem("poweruser_permisions") || "[]"
     );
 
     if (x) {
-      if (loc.pathname === "/") {
+      if (loc?.pathname === "/") {
         nav(redirect[permission[0]]);
       }
     } else {
