@@ -112,7 +112,7 @@ const Widrawal = ({ data, gettableData }) => {
           if (res.data.data) {
             setWidrawal(res.data.data);
           } else {
-            navigate("/");
+            // navigate("/");
           }
         })
         .catch((error) => {

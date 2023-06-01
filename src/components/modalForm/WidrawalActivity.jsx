@@ -121,38 +121,38 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
   return (
     <div className="form" style={{ padding: "10px" }}>
       <div className="row-1">
-        <label>{depositActivity.parentName}</label>
+        <label>{depositActivity?.parentName}</label>
         <div className="input">
           <input
             type="text"
             disabled={true}
-            value={depositActivity.parentAmount || ""}
+            value={depositActivity?.parentAmount || ""}
           />
           <input
             type="text"
             disabled={true}
             value={
               formData.amount
-                ? Number(depositActivity.parentAmount) + Number(formData.amount)
+                ? Number(depositActivity?.parentAmount) + Number(formData?.amount)
                 : 0
             }
           />
         </div>
       </div>
       <div className="row-1">
-        <label>{depositActivity.childName}</label>
+        <label>{depositActivity?.childName}</label>
         <div className="input">
           <input
             type="text"
             disabled={true}
-            value={depositActivity.childAmount || ""}
+            value={depositActivity?.childAmount || ""}
           />
           <input
             type="text"
             disabled={true}
             value={
               formData.amount
-                ? Number(depositActivity.childAmount) - Number(formData.amount)
+                ? Number(depositActivity?.childAmount) - Number(formData?.amount)
                 : 0
             }
           />

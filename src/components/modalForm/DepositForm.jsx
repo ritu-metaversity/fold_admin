@@ -106,7 +106,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
           if (res.data.data) {
             setDeposit(res.data.data);
           } else {
-            navigate("/");
+            // navigate("/");
           }
         })
         .catch((error) => {});

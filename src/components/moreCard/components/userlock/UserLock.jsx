@@ -8,7 +8,6 @@ import { notifyToast } from "../../../toast/Tost";
 // import './styles.scss'
 
 const UserLock = ({ Apifun, data, handleCancelfunction }) => {
-  console.log(data);
   const [error, setError] = useState(false);
   const [userLockData, setUserLockData] = useState({
     userId: data?.userId,
