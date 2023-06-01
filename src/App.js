@@ -48,6 +48,7 @@ import {
   deposite_Rejected,
   create_Helper,
   StatementPage,
+  HelperActiveUser_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -85,6 +86,7 @@ import WithdrawalRejected from "./pages/withdrawalRejected/WithdrawalRejected";
 import DepositeRejected from "./pages/depositeRejected/DepositeRejected";
 import CreateHelper from "./pages/createHelper/CreateHelper";
 import ApprovedByStatement from "./pages/statement/ApprovedByStatement";
+import HelperActiveUser from "./pages/heplerActiveUser/HelperActiveUser";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -113,7 +115,6 @@ function App() {
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };
-
   const tokenChecker = async (state = false) => {
     if (state) setTokenState(false);
     await axios
@@ -154,12 +155,23 @@ function App() {
       })
       .catch((error) => {});
   };
-
+  const redirect = {
+    DEPOSIT: "Deposit-Pending-Request",
+    WITHDRAW: "Widrwal-Pending-Request",
+    ALL: "Deposit-Pending-Request",
+    USER_LOCK: HelperActiveUser_Screen,
+    ACTIVE_USER: HelperActiveUser_Screen,
+    // BET_LOCK:""
+  };
   useEffect(() => {
     const x = localStorage.getItem("token");
+    const permission = JSON.parse(
+      localStorage.getItem("poweruser_permisions") || "[]"
+    );
+
     if (x) {
       if (loc.pathname === "/") {
-        nav("/dashBoard");
+        nav(redirect[permission[0]]);
       }
     } else {
       nav("/");
@@ -282,6 +294,10 @@ function App() {
                 element={<AccountsList />}
               ></Route>
             </>
+            <Route
+              path={HelperActiveUser_Screen}
+              element={<HelperActiveUser />}
+            ></Route>
             {userType !== "7" && (
               <>
                 <Route exact path={Dashboard_Screen} element={<Dashboard />} />

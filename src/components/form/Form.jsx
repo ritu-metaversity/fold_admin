@@ -3,7 +3,7 @@ import { Button, Form, Input } from "antd";
 import "./styles.scss";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ActiveUser_Screen, Login_Api } from "../../routes/Routes";
+import { HelperActiveUser_Screen, Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
 const Loginform = () => {
@@ -15,8 +15,8 @@ const Loginform = () => {
     DEPOSIT: "Deposit-Pending-Request",
     WITHDRAW: "Widrwal-Pending-Request",
     ALL: "Deposit-Pending-Request",
-    USER_LOCK: ActiveUser_Screen,
-    ACTIVE_USER:ActiveUser_Screen,
+    USER_LOCK: HelperActiveUser_Screen,
+    ACTIVE_USER: HelperActiveUser_Screen,
     // BET_LOCK:""
   };
   const onFinish = async (values) => {

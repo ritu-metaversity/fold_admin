@@ -17,7 +17,7 @@ const ApprovedByStatement = () => {
   const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
-  const [selectValue, setSelectValue] = useState(false);
+  const [selectValue, setSelectValue] = useState(null);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   ////edit profile State
@@ -209,16 +209,42 @@ const ApprovedByStatement = () => {
       dataIndex: "deposit_type",
     },
   ];
-
+  const status = {
+    2: "APPROVED",
+    1: "PENDING",
+    3: "REJECT",
+  };
+  const colorStatus = {
+    2: "#00864e",
+    1: "white",
+    3: "white",
+  };
+  const bgcolorStatus = {
+    2: "#ccf6e4",
+    1: "orange",
+    3: "#DC3545",
+  };
   const data = DataList?.map((res, index) => {
     return {
       key: res?.date + res.credit + res.pts + index,
       Date: res?.date,
       userid: res.userid,
-      request_status: res.request_status,
+      request_status: (
+        <Button
+          style={{
+            fontWeight: 600,
+            background: bgcolorStatus[res.request_status],
+            border: "none",
+
+            color: colorStatus[res.request_status],
+          }}
+        >
+          {status[res.request_status]}
+        </Button>
+      ),
       approvedby: res.approvedby,
-      approved_time: moment(res.approved_time).format("DD-MM-YYYY hh:mm:ss"),
-      requestedtime: moment(res.requestedtime).format("DD-MM-YYYY hh:mm:ss"),
+      approved_time: res.approved_time,
+      requestedtime: res.requestedtime,
       amount: res?.amount,
       Remark: res?.remark,
       deposit_image: (
@@ -256,16 +282,16 @@ const ApprovedByStatement = () => {
     });
   };
   const option = [
+    // {
+    //   value: "",
+    //   label: "ALL",
+    // },
     {
-      value: "",
-      label: "ALL",
-    },
-    {
-      value: false,
+      value: true,
       label: "Withdraw",
     },
     {
-      value: true,
+      value: false,
       label: "Deposit",
     },
   ];
@@ -489,6 +515,31 @@ const ApprovedByStatement = () => {
           className="accountTable"
           // onChange={handleChangeTable}
           pagination={{ pageSize: paginationData.noOfRecords }}
+          summary={(pageData) => {
+            let totalRepayment = 0;
+
+            pageData.forEach(({ amount }) => {
+              totalRepayment += amount;
+            });
+            return (
+              <>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
+                  <Table.Summary.Cell></Table.Summary.Cell>
+                  <Table.Summary.Cell></Table.Summary.Cell>
+                  <Table.Summary.Cell></Table.Summary.Cell>
+                  <Table.Summary.Cell></Table.Summary.Cell>
+                  <Table.Summary.Cell index={3}>
+                    <div
+                      style={{ color: totalRepayment > 0 ? "green" : "red" }}
+                    >
+                      {totalRepayment.toFixed(1)}
+                    </div>
+                  </Table.Summary.Cell>
+                </Table.Summary.Row>
+              </>
+            );
+          }}
         />
         <div className="pagination">
           <ul className="pagination-rounded mb-0">

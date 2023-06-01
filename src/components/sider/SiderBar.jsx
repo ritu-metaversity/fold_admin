@@ -8,10 +8,12 @@ import { ImDice } from "react-icons/im";
 import { CiLogout } from "react-icons/ci";
 import "./styles.scss";
 import {
+  ActiveUser_Screen,
   Casino_Screen,
   Casino_Type_Screen,
   Casiono,
   Dashboard_Screen,
+  HelperActiveUser_Screen,
   Left_Event_Menu,
   Log_Out,
   Payment_List,
@@ -19,6 +21,7 @@ import {
   Setting_Screen,
   Socila_Media_Manager_Screen,
   StatementPage,
+  isSelf,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
@@ -224,8 +227,26 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               <p className="acount-list">Account List for Active Users</p>
             </Link>
           ),
+          // permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
+        },
+        {
+          key: 4,
+          label: (
+            <Link
+              onClick={() => {
+                refershNow();
+                setSidebar();
+              }}
+              to={HelperActiveUser_Screen}
+              // reloadDocument={pathname === "/activeUser"}
+              // onChange={() => handleChangeLink(4)}
+            >
+              <p className="acount-list">Account List for Active Users</p>
+            </Link>
+          ),
           permissions: ["ALL", "ADMIN", "USER_LOCK", "BET_LOCK"],
         },
+
         userType === "5" && IsSelfState
           ? {
               key: 5,
@@ -540,32 +561,32 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   },
                 ]
               : []),
-            userType === "5" && [
-              // {
-              //   key: 9,
-              //   icon: <RiBankFill />,
-              //   label: "Add Payment Method",
-              //   children: payment_list,
-              //   permissions: ["ADMIN"],
-              // },
-              {
-                key: 10,
-                icon: <FaImage />,
-                label: (
-                  <Link
-                    onClick={() => {
-                      refershNow();
-                      setSidebar();
-                    }}
-                    to={StatementPage}
-                    // reloadDocument={pathname === "/Update-Banner"}
-                  >
-                    Power Statement
-                  </Link>
-                ),
-                permissions: ["ADMIN"],
-              },
-            ],
+            // userType === "5" && [
+            //   // {
+            //   //   key: 9,
+            //   //   icon: <RiBankFill />,
+            //   //   label: "Add Payment Method",
+            //   //   children: payment_list,
+            //   //   permissions: ["ADMIN"],
+            //   // },
+            //   {
+            //     key: 10,
+            //     icon: <FaImage />,
+            //     label: (
+            //       <Link
+            //         onClick={() => {
+            //           refershNow();
+            //           setSidebar();
+            //         }}
+            //         to={StatementPage}
+            //         // reloadDocument={pathname === "/Update-Banner"}
+            //       >
+            //         Power Statement
+            //       </Link>
+            //     ),
+            //     permissions: ["ADMIN"],
+            //   },
+            // ],
             ...(userType === "5" && IsSelfState
               ? [
                   {
@@ -575,23 +596,6 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                     children: payment_list,
                     permissions: ["ADMIN"],
                   },
-                  // {
-                  //   key: 10,
-                  //   icon: <FaImage />,
-                  //   label: (
-                  //     <Link
-                  //       onClick={() => {
-                  //         refershNow();
-                  //         setSidebar();
-                  //       }}
-                  //       to={StatementPage}
-                  //       // reloadDocument={pathname === "/Update-Banner"}
-                  //     >
-                  //       Power Statement
-                  //     </Link>
-                  //   ),
-                  //   permissions: ["ADMIN"],
-                  // },
                 ]
               : []),
             ...(userType === "4"
@@ -662,6 +666,26 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               label: "Report",
               permissions: ["ADMIN"],
               children: [
+                userType === "5" && isSelf
+                  ? {
+                      key: 10,
+                      // icon: <FaImage />,
+                      label: (
+                        <Link
+                          onClick={() => {
+                            refershNow();
+                            setSidebar();
+                          }}
+                          to={StatementPage}
+                          // reloadDocument={pathname === "/Update-Banner"}
+                        >
+                          Helper Statement
+                        </Link>
+                      ),
+                      permissions: ["ADMIN"],
+                    }
+                  : "",
+
                 {
                   key: 45,
 

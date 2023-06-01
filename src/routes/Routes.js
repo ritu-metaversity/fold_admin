@@ -4,6 +4,8 @@ export const Dashboard_Screen = "dashBoard";
 export const Bank_Screen = "/bank";
 export const MarketAnalysis_Screen = "marketAnalysis";
 export const AccountList_Screen = "accountList";
+export const HelperActiveUser_Screen = "helper-active-user";
+
 export const ActiveUser_Screen = "activeUser";
 export const CreatAaccounts_Screen = "createAccounts";
 export const currentsBets_Screen = "currentsBets";
