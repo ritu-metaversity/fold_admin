@@ -2,13 +2,11 @@ import { Table, Tooltip } from "antd";
 import React from "react";
 // import "./styles.scss";
 const PtsModaltable = ({ data }) => {
-  const dataSource = [];
-
-  data?.map((res, index) =>
-    dataSource?.push({
+  const dataSource = data?.map((res, index) => {
+    return {
       key: res?.userid + index + res?.pricevalue,
       userId: res.userid,
-      Nation: res?.marketname,
+      Nation: res?.selectionname,
       Rate: `${res.odds}(${res?.pricevalue}) `,
       Amount: (
         <p style={{ color: res?.stack > 0 ? "green" : "red" }}>{res?.stack}</p>
@@ -25,8 +23,8 @@ const PtsModaltable = ({ data }) => {
       ),
 
       isback: res?.isback,
-    })
-  );
+    };
+  });
   const columns = [
     {
       title: "userId",

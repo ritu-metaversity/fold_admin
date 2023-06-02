@@ -473,7 +473,10 @@ const Accountform = ({ IsSelfState }) => {
                 placeholder="User Name"
                 name="username"
                 value={data.username}
-                onChange={handleChange}
+                // onChange={handleChange}
+                onChange={(e) =>
+                  !e.target.value.includes(" ") && handleChange(e)
+                }
               />
               {errorData?.username ? (
                 <RxCross2
@@ -502,7 +505,9 @@ const Accountform = ({ IsSelfState }) => {
                 type="text"
                 name="userId"
                 value={data.userId}
-                onChange={handleChange}
+                onChange={(e) =>
+                  !e.target.value.includes(" ") && handleChange(e)
+                }
                 onKeyUp={(e) => userChecker({ userId: e.target.value })}
               />
               {errorData?.userId ? (
