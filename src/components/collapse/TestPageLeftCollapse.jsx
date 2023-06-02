@@ -540,7 +540,8 @@ const TestPageLeftCollapse = () => {
             width="100%"
             className="live-iframe"
             title="score-iframe"
-            src={`https://stream.openhomepageforapi.live/YGapp/play.html?name=ttfour&autoplay=true`}
+            src={`http://43.205.116.130/tv.php?eventId=${id}`}
+            // src={`https://stream.openhomepageforapi.live/YGapp/play.html?name=ttfour&autoplay=true`}
             // src={`https://luckybet.one/?eventId=${id}`}
           />
         )}{" "}

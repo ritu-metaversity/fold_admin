@@ -50,7 +50,6 @@ const Changpassword = ({ data, handleCancelfunction, helper }) => {
       passwordNotMatch: false,
     };
     setError(newError);
-    console.log(helper);
     if (formData.lupassword && formData.newPassword && formData.password) {
       if (formData.password && formData.newPassword) {
         if (formData.password === formData.newPassword) {

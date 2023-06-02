@@ -1,31 +1,31 @@
 export const columns = [
   {
-    title: "byPowerUser",
+    title: "By Power User",
     dataIndex: "byPowerUser",
     key: "byPowerUser",
   },
   {
-    title: "remark",
+    title: "Remark",
     dataIndex: "remark",
     key: "remark",
   },
   {
-    title: "image",
+    title: "Image",
     dataIndex: "image",
     key: "image",
   },
   {
-    title: "amount",
+    title: "Amount",
     dataIndex: "amount",
     key: "amount",
   },
   {
-    title: "time",
+    title: "Time",
     dataIndex: "time",
     key: "time",
   },
   {
-    title: "status",
+    title: "Status",
     dataIndex: "status",
     key: "status",
   },

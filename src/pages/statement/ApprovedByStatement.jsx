@@ -17,7 +17,7 @@ const ApprovedByStatement = () => {
   const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
   const [DataList, setDataList] = useState([]);
-  const [selectValue, setSelectValue] = useState(null);
+  const [selectValue, setSelectValue] = useState(false);
   const [dateTo, setDateTo] = useState(dayjs());
   const [dateFrom, setDateFrom] = useState(dayjs().subtract(7, "day"));
   ////edit profile State
@@ -107,6 +107,7 @@ const ApprovedByStatement = () => {
     // console.log(dateTo, dateTo.toISOString());
     await axios
       .post(
+        // "http://192.168.68.105/user/get-pw-sat-statement",
         `${process.env.REACT_APP_BASE_URL}/${Statement}`,
         {
           index: paginationData.index,
@@ -142,7 +143,7 @@ const ApprovedByStatement = () => {
 
   useEffect(() => {
     tabledata({});
-  }, [paginationData.index, paginationData.noOfRecords, selectValue]);
+  }, [paginationData.index, paginationData.noOfRecords]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -153,7 +154,7 @@ const ApprovedByStatement = () => {
   }, [setLoading]);
   const columns = [
     {
-      title: "userid",
+      title: "User Id",
       dataIndex: "userid",
       //   sorter: (a, b) => a.SrNo - b.SrNo,
       //   sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
@@ -174,14 +175,14 @@ const ApprovedByStatement = () => {
       },
     },
     {
-      title: "approvedby",
+      title: "Approved By",
       dataIndex: "approvedby",
       //   sorter: (a, b) => a.SrNo - b.SrNo,
       //   sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
     },
 
     {
-      title: "requestedtime",
+      title: "Requested Time",
       dataIndex: "requestedtime",
       //   sorter: {
       //     compare: (a, b) => a.Credit - b.Credit,
@@ -193,7 +194,7 @@ const ApprovedByStatement = () => {
       dataIndex: "request_status",
     },
     {
-      title: "amount",
+      title: "Amount",
       dataIndex: "amount",
     },
     {
@@ -204,10 +205,10 @@ const ApprovedByStatement = () => {
       title: "Deposit Image",
       dataIndex: "deposit_image",
     },
-    {
-      title: "Deposit Type",
-      dataIndex: "deposit_type",
-    },
+    // {
+    //   title: "Deposit Type",
+    //   dataIndex: "deposit_type",
+    // },
   ];
   const status = {
     2: "APPROVED",
@@ -255,7 +256,7 @@ const ApprovedByStatement = () => {
           src={`https://admin-api-banners-new.s3.ap-south-1.amazonaws.com/${res.deposit_image}`}
         />
       ),
-      deposit_type: res?.deposit_type,
+      // deposit_type: res?.deposit_type,
     };
   });
 
@@ -287,12 +288,12 @@ const ApprovedByStatement = () => {
     //   label: "ALL",
     // },
     {
-      value: true,
-      label: "Withdraw",
-    },
-    {
       value: false,
       label: "Deposit",
+    },
+    {
+      value: true,
+      label: "Withdraw",
     },
   ];
   const statusOption = [
@@ -323,11 +324,11 @@ const ApprovedByStatement = () => {
   return (
     <>
       <div className="hading-create-accounts">
-        <h4>Power Statement</h4>
+        <h4>HELPER Statement</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
           <NavLink to={StatementPage} style={{ color: "#74788d" }}>
-            Power Statement
+            HELPER Statement
           </NavLink>
         </p>
       </div>
@@ -410,7 +411,7 @@ const ApprovedByStatement = () => {
                 Type
               </label>
               <Select
-                defaultValue="All"
+                defaultValue="Deposit"
                 style={{
                   width: 120,
                   margin: "7px 0px 7px 0px",
