@@ -40,13 +40,7 @@ const WithdrawalRejected = () => {
     setSearchText("");
     setMessage("");
   };
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-  };
-  const handleClick = () => {
-    // 👇 "message" stores input field value
-    setSearchText(message);
-  };
+
 
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
@@ -131,6 +125,15 @@ const WithdrawalRejected = () => {
       index: paginationData.totalPages - 1,
     });
   };
+
+  const colorStatus = {
+    APPROVED: "#00864e",
+    Rejected: "white",
+  };
+  const bgcolorStatus = {
+    APPROVED: "#ccf6e4",
+    Rejected: "#DC3545",
+  };
   const data = DataList?.map((curElem) => {
     return {
       key: curElem.byPowerUser + curElem.image + curElem.time,
@@ -149,9 +152,18 @@ const WithdrawalRejected = () => {
       amount: curElem.amount,
       time: moment(curElem.time).format("DD-MM-YYYY , HH-MM-SS"),
       status: (
-        <p style={{ color: curElem.status === "Rejected" ? "red" : "green" }}>
+        <Button
+          style={{
+            fontWeight: 600,
+            background: bgcolorStatus[curElem.status],
+            border: "none",
+
+            color: colorStatus[curElem.status],
+            textTransform: "uppercase",
+          }}
+        >
           {curElem.status}
-        </p>
+        </Button>
       ),
     };
   });

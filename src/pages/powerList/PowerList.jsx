@@ -64,6 +64,8 @@ const PoerList = () => {
     setLoading((prev) => ({ ...prev, accountTableData: true }));
     await axios
       .post(
+        //
+        // "http://192.168.68.105/user/list-power-user-sa",
         `${process.env.REACT_APP_BASE_URL}/${Power_list}`,
         {
           id: "",
@@ -96,6 +98,7 @@ const PoerList = () => {
   tableDataRef = tabledata;
   useEffect(() => {
     tabledata();
+    console.log("enter");
   }, [paginationData.index, paginationData.noOfRecords]);
 
   const columns = [

@@ -1,49 +1,49 @@
 export const columns = [
   {
-    title: "accountHolderName",
+    title: "Account Holder Name",
     dataIndex: "accountHolderName",
     key: "accountHolderName",
   },
 
   {
-    title: "accountNumber",
+    title: "Account Number",
     dataIndex: "accountNumber",
     key: "accountNumber",
   },
   {
-    title: "bankName",
+    title: "Bank Name",
     dataIndex: "bankName",
     key: "bankName",
   },
   {
-    title: "ifsc",
+    title: "IFSC",
     dataIndex: "ifsc",
     key: "ifsc",
   },
   {
-    title: "accountType",
+    title: "Account Type",
     dataIndex: "accountType",
     key: "accountType",
   },
 
   {
-    title: "remark",
+    title: "Remark",
     dataIndex: "remark",
     key: "remark",
   },
- 
+
   {
-    title: "amount",
+    title: "Amount",
     dataIndex: "amount",
     key: "amount",
   },
   {
-    title: "time",
+    title: "Time",
     dataIndex: "time",
     key: "time",
   },
   {
-    title: "status",
+    title: "Status",
     dataIndex: "status",
     key: "status",
   },

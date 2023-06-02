@@ -58,18 +58,19 @@ const CreateHelperForm = () => {
         if (res.data.status) {
           clearForm();
           notifyToast().succes(res.data.message);
+          setcheckValue([]);
         } else {
           notifyToast().error(res.data.message);
         }
         console.log(res.data);
       })
       .catch((error) => {
-        console.log(error.response.data);
+        // console.log(error.response.data);
       });
   };
   const onFinish = (values) => {
     const newdata = { ...values, userPermissions: checkValue };
-    console.log(checkValue.length);
+    // console.log(checkValue.length);
     if (!checkValue.length > 0) {
       return notifyToast().error("Please Selcect any One Previleges");
     } else if (newdata.password === newdata.ConfirmPassword) {
