@@ -35,9 +35,16 @@ const DashBoardPage = () => {
     <>
       <h3 className="dashboard-heading">Dashboard</h3>
       <div className="dashboard-card-container">
-        {Object.keys(dashBoardDataState).map((curElem) => {
+        {Object.keys(dashBoardDataState).map((curElem, index) => {
           return (
-            <DashBoardCard keys={curElem} value={dashBoardDataState[curElem]} />
+            <React.Fragment
+              key={curElem + index + dashBoardDataState[curElem] + "ere"}
+            >
+              <DashBoardCard
+                keys={curElem}
+                value={dashBoardDataState[curElem]}
+              />
+            </React.Fragment>
           );
         })}
       </div>

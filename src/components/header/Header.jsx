@@ -194,6 +194,15 @@ const Header = ({ overlayState, setDisplay, logo }) => {
     getMsg();
   }, []);
 
+  const poweruser_permisions = JSON.parse(
+    localStorage.getItem("poweruser_permisions") || "[]"
+  );
+
+  const redirect = {
+    DEPOSIT: "Deposit-Pending-Request",
+    WITHDRAW: "Widrwal-Pending-Request",
+    ALL: "Deposit-Pending-Request",
+  };
   return (
     <>
       <RuleModal
@@ -236,7 +245,13 @@ const Header = ({ overlayState, setDisplay, logo }) => {
       </Modal>
       <div className="header-col">
         <div className="logo">
-          <Link to={MarketAnalysis_Screen}>
+          <Link
+            to={
+              userType === "7"
+                ? redirect[poweruser_permisions[0]]
+                : "/marketAnalysis}"
+            }
+          >
             <img src={logo} alt="" style={{ paddingTop: "5px" }} />
           </Link>
         </div>

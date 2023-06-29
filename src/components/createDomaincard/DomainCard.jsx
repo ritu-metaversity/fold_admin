@@ -1,4 +1,4 @@
-import { Button, Select, Upload } from "antd";
+import { Button, Select, Switch, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import axios from "axios";
@@ -13,6 +13,7 @@ const DomainCard = () => {
   const [fileList2, setFileList2] = useState([]);
   const [casionTypeImageData, setCasionTypeImageData] = useState([]);
   const [casinoType, setCasinoType] = useState("");
+
   const [type, setType] = useState("");
 
   const [data, setData] = useState({
@@ -20,6 +21,7 @@ const DomainCard = () => {
     appUrl: "",
     transactionCode: "",
     isSelfAllowed: "",
+    isDemoIdLoginAllowed: false,
   });
 
   const [error, setError] = useState({
@@ -350,6 +352,20 @@ const DomainCard = () => {
             defaultValue={"Select Casino Image Type"}
             onChange={handleSelect2}
             options={casinoOption}
+          />
+          <label>Demo Id Allowed:</label>
+          <Switch
+            value={data.isDemoIdLoginAllowed}
+            style={{ width: "20px" }}
+            size="small"
+            onChange={(checked) =>
+              setData((prev) => {
+                return {
+                  ...prev,
+                  isDemoIdLoginAllowed: checked,
+                };
+              })
+            }
           />
           <label>Transaction Code:</label>
           <input

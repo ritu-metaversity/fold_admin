@@ -39,7 +39,9 @@ const Datatable = (props) => {
         <Link to={`/Detail/${res?.sportId}/${res?.matchId}`}>
           <div
             className="tabledata"
-            key={res?.matchId + "marketAnalysis" + 1 + res.sportName}
+            key={
+              res?.matchId + "marketAnalysis" + 1 + res.sportName + res.sportId
+            }
           >
             <table className="table table-bordered">
               <thead className="table-head">
@@ -81,7 +83,13 @@ const Datatable = (props) => {
                   ) {
                     return (
                       <React.Fragment
-                        key={market?.marketName + "marketName" + index}
+                        key={
+                          market?.marketName +
+                          "marketName" +
+                          index +
+                          market.selectionName1 +
+                          market.selectionAmount1
+                        }
                       >
                         <tr className="winner-table">
                           <td>

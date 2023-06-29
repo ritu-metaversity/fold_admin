@@ -75,34 +75,44 @@ const UserBook = ({ data }) => {
             }
           );
           return (
-            <>
-              <Table.Summary.Row>
-                <Table.Summary.Cell index={0}>Total</Table.Summary.Cell>
-                <Table.Summary.Cell index={1}>
-                  <Text style={{ color: totalBorrow > 0 ? "green" : "red" }}>
-                    {totalBorrow.toFixed(1)}
-                  </Text>
-                </Table.Summary.Cell>
-                <Table.Summary.Cell index={2}>
-                  <Text style={{ color: totalRepayment > 0 ? "green" : "red" }}>
-                    {totalRepayment.toFixed(1)}
-                  </Text>
-                </Table.Summary.Cell>
-                {data?.selectionName3 !== null ? (
-                  <Table.Summary.Cell index={2}>
-                    <Text
-                      style={{
-                        color: totalselectionName > 0 ? "green" : "red",
-                      }}
-                    >
-                      {totalselectionName.toFixed(1)}
+            data?.dataList?.length && (
+              <>
+                <Table.Summary.Row>
+                  <Table.Summary.Cell
+                    index={0}
+                    style={{ textAlign: "left !important" }}
+                  >
+                    Total
+                  </Table.Summary.Cell>
+
+                  <Table.Summary.Cell index={1}>
+                    <Text style={{ color: totalBorrow > 0 ? "green" : "red" }}>
+                      {totalBorrow.toFixed(1)}
                     </Text>
                   </Table.Summary.Cell>
-                ) : (
-                  ""
-                )}
-              </Table.Summary.Row>
-            </>
+                  <Table.Summary.Cell index={2}>
+                    <Text
+                      style={{ color: totalRepayment > 0 ? "green" : "red" }}
+                    >
+                      {totalRepayment.toFixed(1)}
+                    </Text>
+                  </Table.Summary.Cell>
+                  {data?.selectionName3 !== null ? (
+                    <Table.Summary.Cell index={2}>
+                      <Text
+                        style={{
+                          color: totalselectionName > 0 ? "green" : "red",
+                        }}
+                      >
+                        {totalselectionName.toFixed(1)}
+                      </Text>
+                    </Table.Summary.Cell>
+                  ) : (
+                    ""
+                  )}
+                </Table.Summary.Row>
+              </>
+            )
           );
         }}
       />
