@@ -301,6 +301,7 @@ const PoerList = () => {
         onCancel={handleCancel}
         footer={null}
         width={900}
+        destroyOnClose={true}
       >
         <Privileges checkValue={checkValue} onChange={onChangeCheckBox} />
         <div className="update-permission-footer">

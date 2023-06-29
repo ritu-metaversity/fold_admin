@@ -19,7 +19,7 @@ const DropDownHeader = ({ pts, logout, showRuleModal }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  const userType = localStorage.getItem("userType");
   return (
     <div>
       <Modal
@@ -52,15 +52,18 @@ const DropDownHeader = ({ pts, logout, showRuleModal }) => {
             </span>
           </div>
         </div>
-        <Link
-          className="dropdown-item"
-          onClick={() => {
-            showModal();
-            setModalKey(0);
-          }}
-        >
-          Self Deposit
-        </Link>
+        {userType == 4 && (
+          <Link
+            className="dropdown-item"
+            onClick={() => {
+              showModal();
+              setModalKey(0);
+            }}
+          >
+            Self Deposit
+          </Link>
+        )}
+
         <span
           className="dropdown-item"
           style={{ display: "flex", alignItems: "center", gap: "10px" }}

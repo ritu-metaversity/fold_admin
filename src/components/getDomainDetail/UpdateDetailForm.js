@@ -1,4 +1,4 @@
-import { Button, Select, Upload } from "antd";
+import { Button, Select, Switch, Upload } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -45,9 +45,21 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
 
   const { setLoading } = useContext(LoaderContext);
   const [fileList, setFileList] = useState([]);
+  const [fileListCheck, setFileListCheck] = useState([]);
+
   const [userDetail, setUserDetail] = useState({});
+  // const [isDemoIdLoginAllowed, setIsDemoIdLoginAllowed] = useState(false);
   const [casionImageTypeDefaut, setCasionImageTypeDefaut] = useState("");
   const [fileList2, setFileList2] = useState([
+    // {
+    //   url: img,
+    //   uid: "-1",
+    //   name: "image.png",
+    //   status: "done",
+    // },
+  ]);
+
+  const [fileList2Check, setFileList2Check] = useState([
     // {
     //   url: img,
     //   uid: "-1",
@@ -64,8 +76,16 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     appUrl: "",
     transactionCode: "",
     isSelfAllowed: "",
+    isDemoIdLoginAllowed: false,
   });
 
+  const [data2, setData2] = useState({
+    appName: "",
+    appUrl: "",
+    transactionCode: "",
+    isSelfAllowed: "",
+    isDemoIdLoginAllowed: false,
+  });
   const [error, setError] = useState({
     appName: false,
     appUrl: false,
@@ -74,23 +94,23 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     image: false,
     image2: false,
   });
-  const fileSize = fileList[0]?.size / 1024;
+  const fileSize = fileListCheck[0]?.size / 1024;
   ////////image
   const onChange = ({ fileList: newFileList }) => {
-    setFileList(newFileList);
+    setFileListCheck(newFileList);
     setError((prev) => {
       return {
         ...prev,
-        image: !Boolean(fileList),
+        image: !Boolean(fileListCheck ? fileList2Check : fileList),
       };
     });
   };
   const onChange2 = ({ fileList: newFileList }) => {
-    setFileList2(newFileList);
+    setFileList2Check(newFileList);
     setError((prev) => {
       return {
         ...prev,
-        image2: !Boolean(fileList2),
+        image2: !Boolean(fileList2Check ? fileList2Check : fileList2),
       };
     });
   };
@@ -159,7 +179,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     let name = event.target.name;
     let value = event.target.value;
 
-    setData((prev) => {
+    setData2((prev) => {
       return {
         ...prev,
         [name]: value,
@@ -187,13 +207,15 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
 
   const onSubmit = async () => {
     const newError = { ...error };
-    newError.appName = !Boolean(data.appName);
-    newError.appUrl = !Boolean(data.appUrl);
-    newError.transactionCode = !Boolean(data.transactionCode);
-    newError.isSelfAllowed = !Boolean(data.isSelfAllowed);
-
+    const newData = { ...data2 };
+    Object.keys(data).forEach((key) => {
+      if (data[key] === newData[key]) {
+        delete newData[key];
+      }
+    });
+    newError.transactionCode = !Boolean(newData.transactionCode);
     let formData = new FormData();
-    if (!fileList.length || fileSize > 512) {
+    if (fileSize > 512) {
       newError.image = true;
       newError.image2 = true;
       setError((prev) => {
@@ -211,26 +233,42 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
 
     formData.append("appId", id);
     // formData.append("appurl", data.appUrl);
-    if (fileList[0] && !fileList[0].originFileObj) {
-      formData.append("logo", blobCreationFromURL(fileList[0].url));
-    } else {
-      formData.append("logo", fileList[0].originFileObj);
+    if (fileListCheck[0]) {
+      if (!fileListCheck[0].originFileObj) {
+        formData.append("logo", blobCreationFromURL(fileListCheck[0].url));
+      } else {
+        formData.append("logo", fileListCheck[0].originFileObj);
+      }
     }
-    formData.append("lupassword", data.transactionCode);
-    if (fileList2[0] && !fileList2[0].originFileObj) {
-      formData.append("favicon", blobCreationFromURL(fileList2[0].url));
-    } else {
-      formData.append("favicon", fileList2[0].originFileObj);
+    if (newData.transactionCode) {
+      formData.append("lupassword", newData.transactionCode);
+    }
+    if (newData.appName) {
+      formData.append("appName", newData.appName);
+    }
+    if (fileList2Check[0]) {
+      if (!fileList2Check[0].originFileObj) {
+        formData.append("favicon", blobCreationFromURL(fileList2Check[0].url));
+      } else {
+        formData.append("favicon", fileList2Check[0].originFileObj);
+      }
     }
     // formData.append("favicon", fileList2[0].originFileObj);
-    formData.append(
-      "casinoImageType",
-      getValueFromApi() && !casinoType ? getValueFromApi() : casinoType
-    );
-    formData.append(
-      "isSelfAllowed",
-      type === "live" ? true : type === "admin" ? false : false
-    );
+    if (newData.casinoImageType) {
+      formData.append(
+        "casinoImageType",
+        getValueFromApi() && !casinoType ? getValueFromApi() : casinoType
+      );
+    }
+    if (newData.isSelfAllowed) {
+      formData.append(
+        "isSelfAllowed",
+        type === "live" ? true : type === "admin" ? false : false
+      );
+    }
+    if (newData.isDemoIdLoginAllowed) {
+      formData.append("isDemoIdLoginAllowed", newData.isDemoIdLoginAllowed);
+    }
 
     console.log(Object.values(newError).some((item) => item));
     if (Object.values(newError).some((item) => item)) {
@@ -240,6 +278,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
+          // "http://192.168.68.114/admin/update-app-detail",
           `${process.env.REACT_APP_BASE_URL}/${updateUserDetail}`,
           formData,
           {
@@ -274,13 +313,10 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
   }, [setLoading]);
 
   const getData = async () => {
-    // if (!fileList2?.length) {
-
-    // //
-    // }
     const userId = id;
     await axios
       .post(
+        // "http://192.168.68.114/admin/app-detail-byid",
         `${process.env.REACT_APP_BASE_URL}/${getAppDetailById}`,
         { id: userId },
         {
@@ -302,6 +338,16 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
             //   transactionCode: "",
             // casinoType: "",
             isSelfAllowed: res?.data?.data?.selfAllowed ? "live" : "admin",
+            isDemoIdLoginAllowed: res.data.data.isDemoIdLoginAllowed,
+          };
+        });
+        setData2((prev) => {
+          return {
+            ...prev,
+            appName: res?.data?.data?.appName,
+            appUrl: res?.data?.data?.appUrl,
+            isSelfAllowed: res?.data?.data?.selfAllowed ? "live" : "admin",
+            isDemoIdLoginAllowed: res.data.data.isDemoIdLoginAllowed,
           };
         });
 
@@ -323,7 +369,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
         ]);
       });
   };
-
+  console.log(data);
   const getCasinoTypeImag = async () => {
     await axios
       .post(
@@ -371,7 +417,14 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
       }
     }
   }, [casinoOption, userDetail]);
-
+  const onRemove = () => {
+    setFileList([]);
+    setFileListCheck([]);
+  };
+  const onRemove2 = () => {
+    setFileList2([]);
+    setFileList2Check([]);
+  };
   return (
     <div>
       <form style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -380,7 +433,8 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
           type="text"
           placeholder="App Name"
           name="appName"
-          value={data.appName}
+          defaultValue={data.appName}
+          value={data2.appName}
           style={{
             padding: "0.375rem 0.75rem",
             lineHeight: "1.5",
@@ -395,7 +449,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
         <input
           type="text"
           placeholder="App"
-          value={data.appUrl}
+          value={data2.appUrl ? data2.appUrl : data.appUrl}
           name="appUrl"
           style={{
             padding: "0.375rem 0.75rem",
@@ -413,7 +467,11 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
             border: `${error.isSelfAllowed ? "1px solid red" : ""}`,
           }}
           //   defaultValue={type}
-          value={type || data.isSelfAllowed}
+          value={
+            type || data2.isSelfAllowed
+              ? data2.isSelfAllowed
+              : data.isSelfAllowed
+          }
           onChange={handleChangeSelct}
           options={options}
         />
@@ -428,8 +486,9 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
             }}
           >
             <Upload
+              onRemove={onRemove}
               listType="picture"
-              fileList={fileList}
+              fileList={fileListCheck.length ? fileListCheck : fileList}
               onChange={onChange}
               onPreview={onPreview}
               // className={error.image ? "image-upload" : ""}
@@ -450,14 +509,15 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
             }}
           >
             <Upload
+              onRemove={onRemove2}
               listType="picture"
-              fileList={fileList2}
+              fileList={fileList2Check.length ? fileList2Check : fileList2}
               onChange={onChange2}
               onPreview={onPreview2}
               // className={error.image2 ? "image-upload" : ""}
               accept="image/png, image/jpeg,image/jpg ,image/webp,image/svg"
             >
-              {fileList2.length < 1 && "+ Upload"}
+              {fileList2Check.length < 1 && fileList2.length < 1 && "+ Upload"}
             </Upload>
           </p>
         </div>
@@ -476,11 +536,31 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
           options={casinoOption}
           // defaultValue={"Dimond"}
         />
+        <label>Demo Id Allowed:</label>
+        <Switch
+          style={{ width: "20px" }}
+          size="small"
+          checked={
+            data2.isDemoIdLoginAllowed
+              ? data2.isDemoIdLoginAllowed
+              : data.isDemoIdLoginAllowed
+          }
+          onChange={(checked) => {
+            setData2((prev) => {
+              return {
+                ...prev,
+                isDemoIdLoginAllowed: checked,
+              };
+            });
+          }}
+        />
         <label>Transaction Code:</label>
         <input
           type="password"
           placeholder="Transaction Code"
-          value={data.transactionCode}
+          value={
+            data2.transactionCode ? data2.transactionCode : data.transactionCode
+          }
           name="transactionCode"
           style={{
             padding: "0.375rem 0.75rem",

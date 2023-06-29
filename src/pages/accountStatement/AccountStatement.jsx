@@ -156,8 +156,8 @@ const AccountStatement = () => {
     {
       title: "Sr.No",
       dataIndex: "SrNo",
-      sorter: (a, b) => a.SrNo - b.SrNo,
-      sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
+      // sorter: (a, b) => a.SrNo - b.SrNo,
+      // sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
     },
     {
       title: "Date",
@@ -180,49 +180,51 @@ const AccountStatement = () => {
     {
       title: "Sr.No",
       dataIndex: "SrNo",
-      sorter: (a, b) => a.SrNo - b.SrNo,
-      sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
+      // sorter: (a, b) => a.SrNo - b.SrNo,
+      // sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
     },
 
     {
       title: "Credit",
       dataIndex: "Credit",
-      sorter: {
-        compare: (a, b) => a.Credit - b.Credit,
-        sortOrder: sortedInfo.field === "Credit" ? sortedInfo.order : null,
-      },
+      defaultSortOrder: "descend",
+      // sorter: (a, b) => a.Credit - b.Credit,
+      // sorter: {
+      //   compare: (a, b) => a. - b.Credit,
+      //   // sortOrder: sortedInfo.field === "Credit" ? sortedInfo.order : null,
+      // },
     },
     {
       title: "Debit",
       dataIndex: "Debit",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
+      // sorter: {
+      //   compare: (a, b) => a.ust - b.ust,
+      //   multiple: 1,
+      // },
     },
     {
       title: "Pts",
       dataIndex: "pts",
-      sorter: {
-        compare: (a, b) => a.PPhone - b.PPhone,
-        multiple: 1,
-      },
+      // sorter: {
+      //   compare: (a, b) => a.PPhone - b.PPhone,
+      //   multiple: 1,
+      // },
     },
     {
       title: "Remark",
       dataIndex: "Remark",
-      sorter: {
-        compare: (a, b) => a.AccountType - b.AccountType,
-        multiple: 1,
-      },
+      // sorter: {
+      //   compare: (a, b) => a.AccountType - b.AccountType,
+      //   multiple: 1,
+      // },
     },
     {
       title: "From To",
       dataIndex: "Fromto",
-      sorter: {
-        compare: (a, b) => a.Action - b.Action,
-        multiple: 1,
-      },
+      // sorter: {
+      //   compare: (a, b) => a.Action - b.Action,
+      //   multiple: 1,
+      // },
     },
   ];
 

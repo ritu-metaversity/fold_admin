@@ -49,6 +49,8 @@ import {
   create_Helper,
   StatementPage,
   HelperActiveUser_Screen,
+  add_withdrawal_Screen,
+  add_withdrawal_SubAdmin_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -87,6 +89,8 @@ import DepositeRejected from "./pages/depositeRejected/DepositeRejected";
 import CreateHelper from "./pages/createHelper/CreateHelper";
 import ApprovedByStatement from "./pages/statement/ApprovedByStatement";
 import HelperActiveUser from "./pages/heplerActiveUser/HelperActiveUser";
+import AddWithdrawal from "./pages/addWithdrawal";
+import AddWithdrawalSub from "./pages/addWithdrawalSub";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -301,21 +305,26 @@ function App() {
             {userType !== "7" && (
               <>
                 <Route exact path={Dashboard_Screen} element={<Dashboard />} />
-
                 <Route
                   exact
                   path={CreatAaccounts_Screen}
                   element={<CreateAccount IsSelfState={IsSelfState} />}
                 />
                 <Route exact path={create_Helper} element={<CreateHelper />} />
-
                 <Route
                   path={MarketAnalysis_Screen}
                   element={<MarketAnalysis />}
                 ></Route>
                 <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
                 <Route path={Setting_Screen} element={<Setting />}></Route>
-
+                <Route
+                  path={add_withdrawal_Screen}
+                  element={<AddWithdrawal />}
+                ></Route>
+                <Route
+                  path={add_withdrawal_SubAdmin_Screen}
+                  element={<AddWithdrawalSub />}
+                ></Route>
                 <Route path={Bank_Screen} element={<Bank />}></Route>
                 <Route
                   path={currentsBets_Screen}
@@ -338,13 +347,11 @@ function App() {
                   element={<Testmatch />}
                 ></Route>
                 <Route path={User_History} element={<UserHistory />}></Route>
-
                 <Route path={Banner_Update} element={<Banner />}></Route>
                 <Route path={Bank_Method} element={<BankPage />}></Route>
                 <Route path={Upi_Method} element={<Upi />}></Route>
                 <Route path={Qr_Method} element={<QR />}></Route>
                 <Route path={Power_List_Screen} element={<PoerList />}></Route>
-
                 <Route
                   path={Down_Line_ActiveUser + ":id"}
                   element={<DownList apiState={true} />}
@@ -357,12 +364,10 @@ function App() {
                   path={Account_Statement}
                   element={<AccountStatement />}
                 ></Route>
-
                 <Route
                   path={Casino_Type_Screen}
                   element={<CasinoType />}
                 ></Route>
-
                 <Route
                   path={Casino_Screen + "/:id"}
                   element={<Casion />}

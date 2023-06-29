@@ -20,6 +20,8 @@ import {
   Setting_Screen,
   Socila_Media_Manager_Screen,
   StatementPage,
+  add_withdrawal_Screen,
+  add_withdrawal_SubAdmin_Screen,
   isSelf,
 } from "../../routes/Routes";
 import axios from "axios";
@@ -604,8 +606,26 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   {
                     key: 9,
                     icon: <RiBankFill />,
-                    label: "Add Payment Method",
+                    label: "Add Deposit Method",
                     children: payment_list,
+                    permissions: ["ADMIN"],
+                  },
+                  {
+                    key: 9678,
+                    icon: <RiBankFill />,
+                    label: (
+                      <Link
+                        onClick={() => {
+                          refershNow();
+                          setSidebar();
+                        }}
+                        to={add_withdrawal_SubAdmin_Screen}
+                        // reloadDocument={pathname === "/Update-Banner"}
+                      >
+                        Add Withdrawal Method
+                      </Link>
+                    ),
+                    // children: payment_list,
                     permissions: ["ADMIN"],
                   },
                 ]
@@ -630,7 +650,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                     permissions: ["ADMIN"],
                   },
                   {
-                    key: 9,
+                    key: 92324,
                     icon: <RiBankFill />,
                     label: "Setting",
                     permissions: ["ADMIN"],
@@ -663,6 +683,22 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                             // reloadDocument={pathname === "/Update-Banner"}
                           >
                             Casino Image type
+                          </Link>
+                        ),
+                        permissions: ["ADMIN"],
+                      },
+                      {
+                        key: "566",
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to={add_withdrawal_Screen}
+                            // reloadDocument={pathname === "/Update-Banner"}
+                          >
+                            Add Withdrawal Method
                           </Link>
                         ),
                         permissions: ["ADMIN"],

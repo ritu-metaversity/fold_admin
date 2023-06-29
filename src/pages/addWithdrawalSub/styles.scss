@@ -1,0 +1,33 @@
+.addWithdrawalSub-conatiner {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+  .addWithdrawalSub-left-col {
+    width: 50%;
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
+  .addWithdrawalSub-right-col {
+    width: 50%;
+    background-color: white;
+    .save-heading {
+      display: flex;
+      padding: 10px;
+      justify-content: end;
+      align-items: center;
+      padding-inline: 10px;
+      Button {
+        color: white;
+        border: none;
+        background-color: rgb(80, 165, 241);
+      }
+    }
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
+}

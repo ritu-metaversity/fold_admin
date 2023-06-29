@@ -31,10 +31,12 @@ export const create_Helper = "/create-helper";
 // export const Party_Win_Lose = "Party-win-lose";
 export const Setting_Screen = "Setting";
 export const Casino_Type_Screen = "/Casino-image-type";
+export const add_withdrawal_Screen = "add-withdrawal"
 export const Socila_Media_Manager_Screen = "Socila-Media-Manager";
 export const Down_Line_ActiveUser = "/down-line/active-user";
 export const Down_Line_ActiveList = "/down-line/active-list";
 export const StatementPage = "statement";
+export const add_withdrawal_SubAdmin_Screen = "add-sub-withdrawal"
 
 // API-Endpoints
 export const updateUserDetail = "admin/update-app-detail";

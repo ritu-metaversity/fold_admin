@@ -319,7 +319,7 @@ const Accountform = ({ IsSelfState }) => {
       </Select.Option>,
     ],
   };
-
+  console.log(IsSelfState, "IsSelfState");
   const getSpotsList = async () => {
     await axios
       .post(
