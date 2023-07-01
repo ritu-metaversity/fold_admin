@@ -20,7 +20,12 @@ import Changpasswordheader from "../moreCard/components/changepassword/headercha
 import DropDownHeader from "../dropDownMobileView/DropDownHeader";
 import { useMediaQuery } from "../modalForm/UseMedia";
 import { LoaderContext } from "../../App";
-import { get_msg, Log_Out, MarketAnalysis_Screen } from "../../routes/Routes";
+import {
+  get_msg,
+  HelperActiveUser_Screen,
+  Log_Out,
+  MarketAnalysis_Screen,
+} from "../../routes/Routes";
 import axios from "axios";
 import Marquee from "react-fast-marquee";
 import LogoutModal from "../logoutModal/LogoutModal";
@@ -202,6 +207,10 @@ const Header = ({ overlayState, setDisplay, logo }) => {
     DEPOSIT: "Deposit-Pending-Request",
     WITHDRAW: "Widrwal-Pending-Request",
     ALL: "Deposit-Pending-Request",
+    USER_LOCK: HelperActiveUser_Screen,
+    ACTIVE_USER: HelperActiveUser_Screen,
+    USER_PASSWORD_CHANGE: HelperActiveUser_Screen,
+    BET_LOCK: HelperActiveUser_Screen,
   };
   return (
     <>
@@ -249,7 +258,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
             to={
               userType === "7"
                 ? redirect[poweruser_permisions[0]]
-                : "/marketAnalysis}"
+                : "/marketAnalysis"
             }
           >
             <img src={logo} alt="" style={{ paddingTop: "5px" }} />
