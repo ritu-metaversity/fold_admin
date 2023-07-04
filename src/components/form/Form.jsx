@@ -24,6 +24,8 @@ const Loginform = () => {
     setLoading((prev) => ({ ...prev, LoginUser: true }));
     const value = {
       ...values,
+      // appUrl:"admin.sm_097.com",
+      // appUrl: "admin.247diamondexch.com",
       appUrl: host === "localhost" ? "admin.localhost" : host,
     };
     await axios
