@@ -173,7 +173,7 @@ const AddWithdrawalSub = () => {
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${"withTypeSub/Save"}`,
-          // "http://192.168.68.131/withTypeSub/Save",
+          // "http://192.168.68.133/withTypeSub/Save",
           {
             withdrawType: checkBoxArray,
           },

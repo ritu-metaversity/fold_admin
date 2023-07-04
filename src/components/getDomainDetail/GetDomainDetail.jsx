@@ -1,4 +1,4 @@
-import { Button, Image, Modal, Table } from "antd";
+import { Image, Modal, Table } from "antd";
 import React, { useEffect, useState } from "react";
 import "./styles.scss";
 import { columns } from "./tableData";

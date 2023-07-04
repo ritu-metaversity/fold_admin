@@ -31,12 +31,12 @@ export const create_Helper = "/create-helper";
 // export const Party_Win_Lose = "Party-win-lose";
 export const Setting_Screen = "Setting";
 export const Casino_Type_Screen = "/Casino-image-type";
-export const add_withdrawal_Screen = "add-withdrawal"
+export const add_withdrawal_Screen = "add-withdrawal";
 export const Socila_Media_Manager_Screen = "Socila-Media-Manager";
 export const Down_Line_ActiveUser = "/down-line/active-user";
 export const Down_Line_ActiveList = "/down-line/active-list";
 export const StatementPage = "statement";
-export const add_withdrawal_SubAdmin_Screen = "add-sub-withdrawal"
+export const add_withdrawal_SubAdmin_Screen = "add-sub-withdrawal";
 
 // API-Endpoints
 export const updateUserDetail = "admin/update-app-detail";
@@ -99,7 +99,9 @@ export const Bet_User_Book = "bets/user-book";
 export const User_Check = "user/is-userid-available";
 export const Casino_Type_Image = "admin/add-casino-image-group-type";
 export const getCasinoTypeImageData = "admin/get-casino-image-group-type";
-export const getAppDetail = "admin/app-detail";
+// export const getAppDetail = "admin/app-detail";
+export const getAppDetail = "admin/app-detail-all";
+
 export const getAppDetailById = "admin/app-detail-byid";
 export const createhelperApi = "user/create-power-user-sa-sat";
 // export const Event_Detail_SportWise = event-detail-sport-wise
