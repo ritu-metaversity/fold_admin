@@ -21,11 +21,6 @@ function blobCreationFromURL(inputURI) {
   // Decoding of base64 encoded string
   else binaryVal = unescape(inputURI.split(",")[1]);
 
-  // Computation of new string in which hexadecimal
-  // escape sequences are replaced by the character
-  // it represents
-
-  // Store the bytes of the string to a typed array
   var blobArray = [];
   for (var index = 0; index < binaryVal.length; index++) {
     blobArray.push(binaryVal.charCodeAt(index));
@@ -252,7 +247,6 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     if (Object.values(newError).some((item) => item)) {
       return;
     } else {
-     
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
