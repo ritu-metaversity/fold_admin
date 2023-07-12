@@ -9,7 +9,7 @@ import {
 import { notifyToast } from "../toast/Tost";
 import { LoaderContext } from "../../App";
 
-function blobCreationFromURL(inputURI) {
+export function blobCreationFromURL(inputURI) {
   var binaryVal;
 
   // mime extension extraction
@@ -46,7 +46,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     //   url: img,
     //   uid: "-1",
     //   name: "image.png",
-    //   status: "done",
+    //   status: "don
     // },
   ]);
   const [casionTypeImageData, setCasionTypeImageData] = useState([]);

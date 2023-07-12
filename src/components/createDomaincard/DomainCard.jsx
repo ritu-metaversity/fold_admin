@@ -93,7 +93,7 @@ const DomainCard = () => {
     }
     const image = new Image();
     image.src = src;
-    const imgWindow = window.open(src);
+    const imgWindow = window.open(src)
     imgWindow?.document.write(image.outerHTML);
   };
   const onPreview2 = async (file) => {

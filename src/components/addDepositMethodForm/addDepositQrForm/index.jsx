@@ -24,6 +24,14 @@ const AddDepositQrForm = ({ id, userData, endingPoint }) => {
           accountHolderName: userData?.accountHolderName,
         };
       });
+      setFileList([
+        {
+          url: userData.accountNumber,
+          uid: "-1",
+          name: "image.png",
+          status: "done",
+        },
+      ]);
     }
     // setFileList()
     // accountNumber: userData.accountNumber,
