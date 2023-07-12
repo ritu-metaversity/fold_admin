@@ -79,9 +79,8 @@ const AddDepositMethodAdmin = () => {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
-          "http://18.143.24.35/admin-new-apis/deposit-type/save",
-          // "http://192.168.68.131/withType/save",
-          //   `${process.env.REACT_APP_BASE_URL}/${"withType/save"}`,
+          `${process.env.REACT_APP_BASE_URL}/deposit-type/save`,
+
           formData,
           {
             headers: {
@@ -137,8 +136,7 @@ const AddDepositMethodAdmin = () => {
 
     await axios
       .post(
-        "http://18.143.24.35/admin-new-apis/deposit-type/get",
-        // `${process.env.REACT_APP_BASE_URL}/${"deposit-type/get"}`,
+        `${process.env.REACT_APP_BASE_URL}/${"deposit-type/get"}`,
         {},
         {
           headers: {
@@ -157,8 +155,8 @@ const AddDepositMethodAdmin = () => {
   const update = async (id) => {
     await axios
       .post(
+        `${process.env.REACT_APP_BASE_URL}/deposit-type/update`,
         // `${process.env.REACT_APP_BASE_URL}/${"withType/update"}`,
-        "http://18.143.24.35/admin-new-apis/deposit-type/update",
 
         id,
 

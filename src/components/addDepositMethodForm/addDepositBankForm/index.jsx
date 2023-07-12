@@ -114,8 +114,7 @@ const AddDepositBankForm = ({ id, userData, endingPoint }) => {
       await axios
 
         .post(
-          `http://18.143.24.35/admin-new-apis/deposit-type/${endingPoint}`,
-          //   `${process.env.REACT_APP_BASE_URL}/${"deposit-type/save-sub"}`,
+          `${process.env.REACT_APP_BASE_URL}/${`deposit-type/${endingPoint}`}`,
           formData,
           {
             headers: {

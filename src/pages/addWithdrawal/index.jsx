@@ -4,12 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import {
-  Add_banner,
-  Banner_Delete,
-  Banner_List,
-  add_withdrawal_Screen,
-} from "../../routes/Routes";
+import { add_withdrawal_Screen } from "../../routes/Routes";
 import { NavLink } from "react-router-dom";
 import { notifyToast } from "../../components/toast/Tost";
 

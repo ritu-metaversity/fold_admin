@@ -121,7 +121,6 @@ const AddWithdrawalSub = () => {
 
     await axios
       .post(
-        // "http://18.143.24.35/admin-new-apis/withtype-subadmin/get",
         `${process.env.REACT_APP_BASE_URL}/${"withtype-subadmin/get"}`,
         {},
         {
@@ -143,7 +142,6 @@ const AddWithdrawalSub = () => {
 
     await axios
       .post(
-        // "http://18.143.24.35/admin-new-apis/withType/get",
         `${process.env.REACT_APP_BASE_URL}/${"withType/get"}`,
         {},
         {

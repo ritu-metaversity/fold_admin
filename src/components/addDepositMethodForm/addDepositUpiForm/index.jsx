@@ -80,7 +80,8 @@ const AddDepositUpiForm = ({ id, userData, endingPoint }) => {
       await axios
 
         .post(
-          `http://18.143.24.35/admin-new-apis/deposit-type/${endingPoint}`,
+          `${process.env.REACT_APP_BASE_URL}/${`deposit-type/${endingPoint}`}`,
+
           // ` ${process.env.REACT_APP_BASE_URL}/${""}`,
           formData,
           {

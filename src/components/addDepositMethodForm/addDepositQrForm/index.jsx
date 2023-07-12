@@ -33,10 +33,7 @@ const AddDepositQrForm = ({ id, userData, endingPoint }) => {
         },
       ]);
     }
-    // setFileList()
-    // accountNumber: userData.accountNumber,
   }, [userData]);
-  console.log(userData);
   const [fileList, setFileList] = useState([]);
   const fileSize = fileList[0]?.size / 1024;
   // const [type, setType] = useState("");
@@ -100,7 +97,6 @@ const AddDepositQrForm = ({ id, userData, endingPoint }) => {
       };
     });
 
-    let formData = new FormData();
     if (!fileList.length || fileSize > 512) {
       setError((prev) => {
         return {
@@ -116,7 +112,6 @@ const AddDepositQrForm = ({ id, userData, endingPoint }) => {
 
     if (error.accountHolderName) {
     } else {
-      setFileList([]);
       const formData = new FormData();
       formData.append("data", JSON.stringify(data));
       formData.append("file", fileList[0].originFileObj);
@@ -124,7 +119,8 @@ const AddDepositQrForm = ({ id, userData, endingPoint }) => {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
-          `http://18.143.24.35/admin-new-apis/deposit-type/${endingPoint}`,
+          `${process.env.REACT_APP_BASE_URL}/${`deposit-type/${endingPoint}`}`,
+
           // `${process.env.REACT_APP_BASE_URL}/${Add_QR}`,
           formData,
           {

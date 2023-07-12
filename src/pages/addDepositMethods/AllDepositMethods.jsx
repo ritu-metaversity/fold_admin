@@ -92,7 +92,7 @@ const AllDepositMethods = () => {
 
     await axios
       .post(
-        "http://18.143.24.35/admin-new-apis/deposit-type/get",
+        `${process.env.REACT_APP_BASE_URL}/deposit-type/get`,
         // `${process.env.REACT_APP_BASE_URL}/${"withType/get"}`,
         {},
         {

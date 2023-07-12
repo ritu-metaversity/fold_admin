@@ -243,7 +243,6 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     );
     formData.append("isDemoIdLoginAllowed", data.isDemoIdLoginAllowed);
 
-    console.log(Object.values(newError).some((item) => item));
     if (Object.values(newError).some((item) => item)) {
       return;
     } else {

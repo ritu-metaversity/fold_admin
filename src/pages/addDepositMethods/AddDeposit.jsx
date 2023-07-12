@@ -53,7 +53,7 @@ const AddDeposit = () => {
 
     await axios
       .post(
-        "http://18.143.24.35/admin-new-apis/deposit-type/get_sub",
+        `${process.env.REACT_APP_BASE_URL}/deposit-type/get_sub`,
         // `${process.env.REACT_APP_BASE_URL}/${"withtype-subadmin/get"}`,
         {},
         {
@@ -115,8 +115,7 @@ const AddDeposit = () => {
     setLoading((prev) => ({ ...prev, subAdminupdate: true }));
     await axios
       .post(
-        // `${process.env.REACT_APP_BASE_URL}/${"withdraw-subadmin/update"}`,
-        "http://18.143.24.35/admin-new-apis/deposit-type/update_sub",
+        `${process.env.REACT_APP_BASE_URL}/${"deposit-type/update_sub"}`,
 
         id,
 
