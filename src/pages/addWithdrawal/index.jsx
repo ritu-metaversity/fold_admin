@@ -79,7 +79,7 @@ const AddWithdrawal = () => {
       await axios
         .post(
           // "http://192.168.68.131/withType/save",
-          `${process.env.REACT_APP_BASE_URL}/${"withType/save"}`,
+          `${process.env.REACT_APP_BASE_URL}/withType/save`,
           formData,
           {
             headers: {
@@ -136,7 +136,7 @@ const AddWithdrawal = () => {
     await axios
       .post(
         // "http://192.168.68.131/withType/get",
-        `${process.env.REACT_APP_BASE_URL}/${"withType/get"}`,
+        `${process.env.REACT_APP_BASE_URL}/withType/get`,
         {},
         {
           headers: {
