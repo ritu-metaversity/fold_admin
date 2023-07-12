@@ -1,0 +1,106 @@
+@keyframes twinkling {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.navigation-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: linear-gradient(180deg, #ffcc2e 0%, #ffbd14 100%);
+  padding-inline: 10px;
+  .left-col-navigation-header {
+    .active {
+      background: #ffdc7a;
+      box-shadow: inset 0 0px 5px 0 rgba(83, 33, 33, 0.5);
+    }
+    ul {
+      display: flex;
+      align-items: center;
+      margin: 0%;
+      padding: 0%;
+      .li-list {
+        position: relative;
+      }
+      li {
+        list-style: none;
+        border-right: 1px solid #383838;
+        border-right-color: rgba(0, 0, 0, 0.2);
+        display: flex;
+        line-height: 30px;
+        align-items: center;
+        padding-left: 8px;
+        padding-right: 8px;
+        color: black;
+        font-weight: bold;
+      }
+    }
+  }
+  .right-col-navigation-header {
+    ul {
+      display: flex;
+      //   align-items: center;
+      margin: 0%;
+      padding: 0%;
+      li {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        line-height: 30px;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+
+      .click-bet {
+        color: #ffc828;
+        // height: 100%;
+        border-top: 3px solid #ffb600;
+        margin-top: -3px;
+        display: flex;
+        // padding: 5px;
+        gap: 5px;
+        background-image: linear-gradient(180deg, #4b4b4b 0%, #1e1e1e 100%);
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.2);
+          background-image: linear-gradient(0deg, #4b4b4b 0%, #1e1e1e 100%);
+        }
+        .click-bet-check-box {
+          width: 15px;
+          height: 15px;
+          border-radius: 3px;
+          background: rgba(255, 255, 255, 0.2);
+        }
+        // .ant-checkbox-inner {
+        //   background: rgba(255, 255, 255, 0.2);
+        //   //   border: 1px solid black;
+        //   outline: none;
+        //   border: none;
+        // }
+        // .click-bet-check-box {
+        //   color: #ffc828;
+        //   font-weight: bold;
+        //   //   line-height: 0px;
+        // }
+      }
+      .time-zone {
+        color: rgba(0, 0, 0, 0.6);
+        .span-gmt {
+          color: black;
+          font-weight: bold;
+        }
+      }
+      .setting {
+        display: flex;
+
+        align-items: center;
+        font-weight: bold;
+      }
+    }
+  }
+}

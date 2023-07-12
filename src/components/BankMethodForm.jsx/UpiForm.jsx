@@ -13,6 +13,12 @@ const UpiForm = () => {
     upiDisplayName: "",
   });
 
+  const url = {
+    0: "admin-new-apis/deposit-type/save-sub",
+
+    2: "admin-new-apis/deposit-type/update_sub",
+    3: "admin-new-apis/deposit-type/update_bank",
+  };
   const [error, setError] = useState({
     upiId: false,
     upiDisplayName: false,
@@ -57,6 +63,7 @@ const UpiForm = () => {
     } else {
       setLoading((prev) => ({ ...prev, CreateQr: true }));
       await axios
+
         .post(`${process.env.REACT_APP_BASE_URL}/${Add_Upi}`, data, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

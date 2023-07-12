@@ -1,0 +1,84 @@
+.bookmaker-header {
+  width: 100%;
+  height: 8.5333333333vw;
+  background-color: #3b5160;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 10px;
+  ul {
+    display: flex;
+    align-items: center;
+    margin: 0%;
+    height: 100%;
+    padding-left: 5px;
+    li {
+      list-style: none;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      &:nth-child(2) {
+        font-size: 3.4666666667vw;
+        margin: 0px 10px 0px 10px;
+        font-weight: 800;
+      }
+      &:nth-child(3) {
+        opacity: 0.7;
+        font-weight: 600;
+      }
+    }
+  }
+}
+.back-lay-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #7e97a7;
+  background-color: #f8f6e1;
+  .back-lay-heading-left-col {
+    width: 259px;
+    height: 24px;
+  }
+  .back-lay-heading-right-col {
+    display: flex;
+    align-items: center;
+    button {
+      color: #1e1e1e;
+      padding: 0vw 4.6vw 0px 4.6vw;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      font-size: 3.4666666667vw;
+      font-weight: bolder;
+      text-transform: capitalize;
+      background-color: transparent;
+    }
+  }
+}
+
+.bookamker-row {
+  width: 100%;
+  height: 47px;
+  border-bottom: 1px solid #7e97a7;
+  display: flex;
+  background-color: #f8f6e1;
+  justify-content: space-between;
+  .bookamker-left-col {
+    width: 259px;
+    font-size: 4vw;
+    height: 100%;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 1.3333333333vw 1.8666666667vw;
+    align-items: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+  .bookamker-right-col {
+    display: flex;
+  }
+}

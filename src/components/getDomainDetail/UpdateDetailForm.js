@@ -241,6 +241,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
       "casinoImageType",
       getValueFromApi() && !casinoType ? getValueFromApi() : casinoType
     );
+    formData.append("appUrl", data.appUrl);
     formData.append(
       "isSelfAllowed",
       data.isSelfAllowed === "admin" ? false : true
@@ -251,11 +252,11 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     if (Object.values(newError).some((item) => item)) {
       return;
     } else {
-      // console.log("hit");
+     
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
-          // "http://192.168.68.114/admin/update-app-detail",
+          // "http://18.143.24.35/admin/update-app-detail",
           `${process.env.REACT_APP_BASE_URL}/${updateUserDetail}`,
           formData,
           {
@@ -298,7 +299,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     const userId = id;
     await axios
       .post(
-        // "http://192.168.68.114/admin/app-detail-byid",
+        // "http://18.143.24.35/admin/app-detail-byid",
         `${process.env.REACT_APP_BASE_URL}/${getAppDetailById}`,
         { id: userId },
         {

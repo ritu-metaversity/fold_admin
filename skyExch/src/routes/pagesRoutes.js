@@ -1,0 +1,9 @@
+export const home_Screen = "/";
+export const login_Screen = "login";
+export const binary_Screen = "/binary";
+export const sports_Screen = "/sports";
+export const game_Detail = "/game-detail";
+export const in_Play_Mobile = "/in-play-m";
+export const in_Play_Web = "/in-play-w";
+export const multi_Market = "/multi-market";
+export const cricket_Screen = "/cricket";

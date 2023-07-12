@@ -1,0 +1,24 @@
+.home-page-container {
+  width: 100%;
+  height: auto;
+  .home-page-center-col {
+    height: auto;
+    overflow: initial;
+    margin: 0 auto;
+    width: 100%;
+    padding: 2px;
+    // margin-bottom: 20px;
+    @media screen and (min-width: 1280px) {
+      width: 72.3888888889%;
+    }
+    .card-col {
+      margin-top: 10px;
+
+      // padding-bottom: 5px;
+      @media screen and (min-width: 780px) {
+        // padding-bottom: 10px;
+        margin-top: 10px;
+      }
+    }
+  }
+}

@@ -20,6 +20,8 @@ import {
   Setting_Screen,
   Socila_Media_Manager_Screen,
   StatementPage,
+  add_Deposit_Methods,
+  add_Deposit_Screen,
   add_withdrawal_Screen,
   add_withdrawal_SubAdmin_Screen,
   isSelf,
@@ -628,6 +630,24 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                     // children: payment_list,
                     permissions: ["ADMIN"],
                   },
+                  {
+                    key: 968,
+                    icon: <RiBankFill />,
+                    label: (
+                      <Link
+                        onClick={() => {
+                          refershNow();
+                          setSidebar();
+                        }}
+                        to={add_Deposit_Methods}
+                        // reloadDocument={pathname === "/Update-Banner"}
+                      >
+                        Add Deposit Methods
+                      </Link>
+                    ),
+                    // children: payment_list,
+                    permissions: ["ADMIN"],
+                  },
                 ]
               : []),
             ...(userType === "4"
@@ -699,6 +719,22 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                             // reloadDocument={pathname === "/Update-Banner"}
                           >
                             Add Withdrawal Method
+                          </Link>
+                        ),
+                        permissions: ["ADMIN"],
+                      },
+                      {
+                        key: "5676",
+                        label: (
+                          <Link
+                            onClick={() => {
+                              refershNow();
+                              setSidebar();
+                            }}
+                            to={add_Deposit_Screen}
+                            // reloadDocument={pathname === "/Update-Banner"}
+                          >
+                            Add Deposit Method
                           </Link>
                         ),
                         permissions: ["ADMIN"],

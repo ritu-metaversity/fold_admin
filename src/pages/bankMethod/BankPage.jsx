@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import BankForm from "../../components/BankMethodForm.jsx/BankForm";
+import { Add_Bank } from "../../routes/Routes";
 
 const BankPage = () => {
   return (
@@ -15,7 +16,7 @@ const BankPage = () => {
           </NavLink>
         </p>
       </div>
-      <BankForm />
+      <BankForm endingPoint={1} />
     </>
   );
 };

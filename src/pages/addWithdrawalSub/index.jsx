@@ -3,10 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import "./styles.scss";
 import { Button, Checkbox, Image, Switch, Table } from "antd";
 import { NavLink } from "react-router-dom";
-import {
-  Banner_List,
-  add_withdrawal_SubAdmin_Screen,
-} from "../../routes/Routes";
+import { add_withdrawal_SubAdmin_Screen } from "../../routes/Routes";
 import axios from "axios";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../../components/toast/Tost";
@@ -124,7 +121,7 @@ const AddWithdrawalSub = () => {
 
     await axios
       .post(
-        // "http://192.168.68.111/admin-new-apis/withtype-subadmin/get",
+        // "http://18.143.24.35/admin-new-apis/withtype-subadmin/get",
         `${process.env.REACT_APP_BASE_URL}/${"withtype-subadmin/get"}`,
         {},
         {
@@ -146,7 +143,7 @@ const AddWithdrawalSub = () => {
 
     await axios
       .post(
-        // "http://192.168.68.111/admin-new-apis/withType/get",
+        // "http://18.143.24.35/admin-new-apis/withType/get",
         `${process.env.REACT_APP_BASE_URL}/${"withType/get"}`,
         {},
         {
