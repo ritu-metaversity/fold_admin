@@ -1,0 +1,44 @@
+.game-detail-tabs {
+  width: 100%;
+  background-color: #e0e6e6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 0.4px solid #c6c2c2;
+  ul {
+    display: flex;
+    align-items: center;
+    margin: 0%;
+    padding-left: 0px;
+    li {
+      //   width: 0.5333333333vw;
+      width: 26.6666666667vw;
+      height: 7.4666666667vw;
+      //   background: rgba(22, 40, 49, 0.9);
+      display: flex;
+      list-style: none;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      img {
+        width: 3.7333333333vw;
+        height: 3.7333333333vw;
+        margin-right: 0.5333333333vw;
+      }
+      &:nth-child(1) {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url("../../../assets/img/tabs.png");
+      }
+      &:nth-child(2) {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-image: url("../../../assets/img/tabs2.png");
+        svg {
+          font-weight: 800;
+          font-size: 22px;
+        }
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ const icon = {
   ourPartnership: <FaUsers />,
   uplinePartnership: <FcCollaboration />,
 };
+const partnerShip = localStorage.getItem("partnership");
 const DashBoardCard = ({ keys, value }) => {
   return (
     <>
@@ -23,8 +24,17 @@ const DashBoardCard = ({ keys, value }) => {
         <div className="counter-section-col">
           <div class="couter_icon">{icon[keys]}</div>
           <div class="counter_no">
-            <p class="total_no">{value}</p>
-            <p class="head_couter">{keys}</p>
+            <p class="total_no">
+              {value}
+              {keys === "clientPnl" && (
+                <span style={{ paddingLeft: "10px" }}>
+                  ({(value * (100 - partnerShip)) / 100}%)
+                </span>
+              )}
+            </p>
+            <p class="head_couter">
+              {keys === "clientPnl" ? "Upline Amount" : keys}
+            </p>
           </div>
         </div>
       </div>

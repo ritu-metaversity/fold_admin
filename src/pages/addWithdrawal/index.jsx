@@ -4,12 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import {
-  Add_banner,
-  Banner_Delete,
-  Banner_List,
-  add_withdrawal_Screen,
-} from "../../routes/Routes";
+import { add_withdrawal_Screen } from "../../routes/Routes";
 import { NavLink } from "react-router-dom";
 import { notifyToast } from "../../components/toast/Tost";
 
@@ -79,7 +74,7 @@ const AddWithdrawal = () => {
       await axios
         .post(
           // "http://192.168.68.131/withType/save",
-          `${process.env.REACT_APP_BASE_URL}/${Add_banner}`,
+          `${process.env.REACT_APP_BASE_URL}/withType/save`,
           formData,
           {
             headers: {
@@ -136,7 +131,7 @@ const AddWithdrawal = () => {
     await axios
       .post(
         // "http://192.168.68.131/withType/get",
-        `${process.env.REACT_APP_BASE_URL}/${Banner_List}`,
+        `${process.env.REACT_APP_BASE_URL}/withType/get`,
         {},
         {
           headers: {
@@ -155,7 +150,7 @@ const AddWithdrawal = () => {
   const update = async (id) => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Banner_Delete}`,
+        `${process.env.REACT_APP_BASE_URL}/${"withType/update"}`,
         // "http://192.168.68.131/withType/update",
 
         id,
@@ -167,7 +162,9 @@ const AddWithdrawal = () => {
         }
       )
       .then((res) => {
+        BannerListData();
         notifyToast().succes(res.data.message);
+
         // setBannerList(bannerList.filter((row) => row.id !== id));
       })
       .catch((error) => {

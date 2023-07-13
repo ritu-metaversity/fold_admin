@@ -27,7 +27,7 @@ const GetDomainDetailTable = () => {
   const getDomainDetailData = async () => {
     await axios
       .post(
-        // "http://192.168.68.114/admin/app-detail",
+        // "http://18.143.24.35/admin/app-detail",
         `${process.env.REACT_APP_BASE_URL}/${getAppDetail}`,
         {},
         {

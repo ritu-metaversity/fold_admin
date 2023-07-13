@@ -1,0 +1,42 @@
+.game-detail-marquee {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 26px;
+  width: 100%;
+  background-image: linear-gradient(180deg, #2a3a43 27%, #1c282d 83%);
+  .game-deatil-marquee-left-col {
+    // width: 10%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    color: white;
+    position: relative;
+    &::after {
+      content: "";
+      left: 92%;
+      top: 3%;
+      width: 20px;
+      height: 26px;
+      background-image: url("../../assets/img/marquee.png");
+      position: absolute;
+      background-repeat: no-repeat;
+    }
+    p {
+      font-weight: 900;
+      padding-right: 10px;
+      color: white;
+      font-size: 12px;
+    }
+    svg {
+      color: white;
+    }
+  }
+  .game-deatil-marquee-right-col {
+    // width: 90%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+}

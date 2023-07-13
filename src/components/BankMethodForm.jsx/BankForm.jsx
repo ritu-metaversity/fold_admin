@@ -3,8 +3,14 @@ import { Button } from "antd";
 import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
-import { Add_Bank } from "../../routes/Routes";
 import { notifyToast } from "../toast/Tost";
+import { Add_Bank } from "../../routes/Routes";
+export const url = {
+  0: "admin-new-apis/deposit-type/save-sub",
+  1: Add_Bank,
+  2: "admin-new-apis/deposit-type/update_sub",
+  3: "admin-new-apis/deposit-type/update_bank",
+};
 const BankForm = () => {
   const { setLoading } = useContext(LoaderContext);
   const [data, setData] = useState({
@@ -15,6 +21,7 @@ const BankForm = () => {
     accountType: "",
   });
 
+
   const [error, setError] = useState({
     bankName: false,
     ifsc: false,
@@ -22,6 +29,7 @@ const BankForm = () => {
     accountNumber: false,
     accountType: false,
   });
+ 
   ////////image
 
   // console.log(fileList[0].name, "outer");
@@ -86,31 +94,49 @@ const BankForm = () => {
       nerror.accountType
     ) {
     } else {
+     
+      // data.append("ifsc", data.ifsc);
+      // data.append("accountHolderName", data.accountHolderName);
+      // data.append("accountNumber", data.accountNumber);
+      // data.append("accountType", data.accountType);
+
+      // formData((prev) => {
+      //   return {
+      //     ...prev,
+      //   };
+      // });
       setLoading((prev) => ({ ...prev, AddBank: true }));
-      await axios
-        .post(`${process.env.REACT_APP_BASE_URL}/${Add_Bank}`, data, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
-        .then((res) => {
-          setData({
-            bankName: "",
-            ifsc: "",
-            accountHolderName: "",
-            accountNumber: "",
-            accountType: "",
+        await axios
+
+          .post(
+            `${process.env.REACT_APP_BASE_URL}/${Add_Bank}`,
+            data,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+          .then((res) => {
+            setData({
+              bankName: "",
+              ifsc: "",
+              accountHolderName: "",
+              accountNumber: "",
+              accountType: "",
+            });
+            notifyToast().succes(res.data.message);
+          })
+          .catch((error) => {
+            // message.error(error.response.data.message);
+            // if (error.response.data.status === 401) {
+            //   setLoading((prev) => ({ ...prev, AddBank: false }));
+            //   navigate("/");
+            //   localStorage.clear();
+            // }
           });
-          notifyToast().succes(res.data.message);
-        })
-        .catch((error) => {
-          // message.error(error.response.data.message);
-          // if (error.response.data.status === 401) {
-          //   setLoading((prev) => ({ ...prev, AddBank: false }));
-          //   navigate("/");
-          //   localStorage.clear();
-          // }
-        });
+
+
       setLoading((prev) => ({ ...prev, AddBank: false }));
     }
   };
@@ -131,7 +157,7 @@ const BankForm = () => {
           type="text"
           placeholder="Bank Name"
           name="bankName"
-          value={data.bankName}
+          value={data?.bankName}
           style={{
             padding: "0.375rem 0.75rem",
             lineHeight: "1.5",

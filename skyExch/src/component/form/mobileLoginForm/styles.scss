@@ -1,0 +1,148 @@
+.mobile-login-form-container {
+  width: 100vw;
+
+  height: 100vh;
+  background-image: linear-gradient(56deg, #ffcc2e 4%, #ffb80c 42%);
+  .mobile-login-form-top-col {
+    height: 74.6666666667vw;
+    background-size: 100% 100%;
+    margin-bottom: 12vw;
+    background-image: url("../../../assets/img/loginformImg.png");
+    position: relative;
+    .logo-img {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+
+      transform: translate(-50%, -50%);
+      img {
+        width: 124px;
+        height: auto;
+      }
+    }
+    .betfair-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: 4vw;
+      width: 26.6666666667vw;
+      margin-left: -13.3333333333vw;
+      opacity: 0.5;
+      color: #fff;
+      p {
+        text-align: center;
+        font-size: 2.6666666667vw;
+        padding: 0%;
+        margin: 0%;
+        color: white;
+      }
+      span {
+        display: block;
+        width: 100%;
+        height: 4.8vw;
+        background-image: url("../../../assets/img/betfair2.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+    a {
+      color: white;
+    }
+    .cross-icon {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      width: 9.3333333333vw;
+      height: 9.3333333333vw;
+      font-size: 23px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100px;
+      background-color: rgba(0, 0, 0, 0.7);
+    }
+  }
+  .mobile-login-form-bottom-col {
+    .login-form-input-div {
+      width: 84vw;
+      margin: 0 auto;
+      color: #fff;
+      input {
+        width: 100%;
+        margin-bottom: 12px;
+        background: #fff;
+        border: 1px solid #aaa;
+        box-shadow: inset 0 0.5333333333vw 0 0 rgba(0, 0, 0, 0.1);
+        border-radius: 1.6vw;
+        color: #1e1e1e;
+        font-size: 4vw;
+        font-family: Helvetica, Tahoma, sans-serif;
+        padding: 1.8666666667vw 1.8666666667vw;
+        outline: none;
+        border: none;
+        &::placeholder {
+          color: #535252;
+        }
+      }
+      button {
+        color: #ffb200;
+        width: 100%;
+        background-image: linear-gradient(180deg, #474747 0%, #070707 100%);
+        border: 0.2666666667vw solid #222;
+        border-radius: 1.6vw;
+        font-size: 4vw;
+        font-weight: bold;
+        padding: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .mobile-login-policy-link {
+      padding-top: 8px;
+      display: flex;
+      gap: 10px;
+      margin: 0%;
+      @media screen and (max-width: 1280px) {
+        margin: 3.2vw auto 8vw;
+        padding: 0 1.8666666667vw;
+        text-align: center;
+        color: #bbb;
+        flex-wrap: wrap;
+        gap: 3px;
+        display: flex;
+        justify-content: center;
+      }
+      li {
+        margin-bottom: 5px;
+        color: rgba(0, 0, 0, 0.6);
+        list-style: none;
+        font-weight: 600;
+        font-size: 13px;
+        span {
+          text-decoration: underline;
+        }
+        &::after {
+          margin: 0 0px;
+          content: "|";
+        }
+      }
+    }
+    .mobile-login-support-div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 84vw;
+      margin: auto;
+      @media screen and (max-width: 1280px) {
+        flex-direction: column;
+      }
+    }
+    .mobile-login-social-div {
+      display: flex;
+      width: 84vw;
+      margin: auto;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}

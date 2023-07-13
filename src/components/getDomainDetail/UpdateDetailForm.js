@@ -9,7 +9,7 @@ import {
 import { notifyToast } from "../toast/Tost";
 import { LoaderContext } from "../../App";
 
-function blobCreationFromURL(inputURI) {
+export function blobCreationFromURL(inputURI) {
   var binaryVal;
 
   // mime extension extraction
@@ -21,11 +21,6 @@ function blobCreationFromURL(inputURI) {
   // Decoding of base64 encoded string
   else binaryVal = unescape(inputURI.split(",")[1]);
 
-  // Computation of new string in which hexadecimal
-  // escape sequences are replaced by the character
-  // it represents
-
-  // Store the bytes of the string to a typed array
   var blobArray = [];
   for (var index = 0; index < binaryVal.length; index++) {
     blobArray.push(binaryVal.charCodeAt(index));
@@ -51,7 +46,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     //   url: img,
     //   uid: "-1",
     //   name: "image.png",
-    //   status: "done",
+    //   status: "don
     // },
   ]);
   const [casionTypeImageData, setCasionTypeImageData] = useState([]);
@@ -241,21 +236,20 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
       "casinoImageType",
       getValueFromApi() && !casinoType ? getValueFromApi() : casinoType
     );
+    formData.append("appUrl", data.appUrl);
     formData.append(
       "isSelfAllowed",
       data.isSelfAllowed === "admin" ? false : true
     );
     formData.append("isDemoIdLoginAllowed", data.isDemoIdLoginAllowed);
 
-    console.log(Object.values(newError).some((item) => item));
     if (Object.values(newError).some((item) => item)) {
       return;
     } else {
-      // console.log("hit");
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
-          // "http://192.168.68.114/admin/update-app-detail",
+          // "http://18.143.24.35/admin/update-app-detail",
           `${process.env.REACT_APP_BASE_URL}/${updateUserDetail}`,
           formData,
           {
@@ -298,7 +292,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     const userId = id;
     await axios
       .post(
-        // "http://192.168.68.114/admin/app-detail-byid",
+        // "http://18.143.24.35/admin/app-detail-byid",
         `${process.env.REACT_APP_BASE_URL}/${getAppDetailById}`,
         { id: userId },
         {

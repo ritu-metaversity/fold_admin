@@ -51,6 +51,8 @@ import {
   HelperActiveUser_Screen,
   add_withdrawal_Screen,
   add_withdrawal_SubAdmin_Screen,
+  add_Deposit_Methods,
+  add_Deposit_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -91,6 +93,8 @@ import ApprovedByStatement from "./pages/statement/ApprovedByStatement";
 import HelperActiveUser from "./pages/heplerActiveUser/HelperActiveUser";
 import AddWithdrawal from "./pages/addWithdrawal";
 import AddWithdrawalSub from "./pages/addWithdrawalSub";
+import AddDepositMethods from "./pages/addDepositMethods";
+import AddDepositMethodAdmin from "./pages/addDepositMethodAdmin";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -322,8 +326,17 @@ function App() {
                   element={<AddWithdrawal />}
                 ></Route>
                 <Route
+                  path={add_Deposit_Screen}
+                  element={<AddDepositMethodAdmin />}
+                ></Route>
+
+                <Route
                   path={add_withdrawal_SubAdmin_Screen}
                   element={<AddWithdrawalSub />}
+                ></Route>
+                <Route
+                  path={add_Deposit_Methods}
+                  element={<AddDepositMethods />}
                 ></Route>
                 <Route path={Bank_Screen} element={<Bank />}></Route>
                 <Route
