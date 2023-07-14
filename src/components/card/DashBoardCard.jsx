@@ -16,26 +16,57 @@ const icon = {
   ourPartnership: <FaUsers />,
   uplinePartnership: <FcCollaboration />,
 };
-const partnerShip = localStorage.getItem("partnership");
 const DashBoardCard = ({ keys, value }) => {
+  const partnerShip = localStorage.getItem("partnership");
+  const per = (value * (100 - partnerShip)) / 100;
   return (
     <>
       <div class="counter_section ">
         <div className="counter-section-col">
           <div class="couter_icon">{icon[keys]}</div>
-          <div class="counter_no">
-            <p class="total_no">
-              {value}
-              {keys === "clientPnl" && (
-                <span style={{ paddingLeft: "10px" }}>
-                  ({(value * (100 - partnerShip)) / 100}%)
+          {keys === "clientPnl" ? (
+            <div class="counter_no">
+              <p
+                style={{
+                  marginTop: "10px",
+                  color: "#99abb4",
+                }}
+              >
+                Upline{" "}
+                <span style={{ color: "black", marginLeft: "10px" }}>
+                  ( {value})
                 </span>
-              )}
-            </p>
-            <p class="head_couter">
-              {keys === "clientPnl" ? "Upline Amount" : keys}
-            </p>
-          </div>
+              </p>
+              <p
+                style={{
+                  color: "#99abb4",
+                  marginTop: "0px",
+                }}
+              >
+                Upline%
+                <span style={{ color: "black", marginLeft: "10px" }}>
+                  ({partnerShip || per ? per : ""})
+                </span>
+              </p>
+              {/* <p class="total_no">
+                {value}
+                {keys === "clientPnl" && (
+                  <span style={{ paddingLeft: "10px" }}>
+                    ({partnerShip || per ? per : ""}%)
+                  </span>
+                )}
+              </p>
+              <p class="head_couter">
+                {keys === "clientPnl" ? "Upline Amount" : keys}
+                Upline (P/L)%
+              </p> */}
+            </div>
+          ) : (
+            <div class="counter_no">
+              <p class="total_no">{value}</p>
+              <p class="head_couter">{keys}</p>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -605,13 +605,13 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
             // ],
             ...(userType === "5" && IsSelfState
               ? [
-                  {
-                    key: 9,
-                    icon: <RiBankFill />,
-                    label: "Add Deposit Method",
-                    children: payment_list,
-                    permissions: ["ADMIN"],
-                  },
+                  // {
+                  //   key: 9,
+                  //   icon: <RiBankFill />,
+                  //   label: "Add Deposit Method",
+                  //   children: payment_list,
+                  //   permissions: ["ADMIN"],
+                  // },
                   {
                     key: 9678,
                     icon: <RiBankFill />,
@@ -948,23 +948,24 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               }),
             },
 
-            userType === "5" && {
-              key: 172,
-              icon: <AiFillFacebook />,
-              label: (
-                <Link
-                  onClick={() => {
-                    refershNow();
-                    setSidebar();
-                  }}
-                  to={Socila_Media_Manager_Screen}
-                  // reloadDocument={pathname === "/account-Statement"}
-                >
-                  Social Media Manager
-                </Link>
-              ),
-              permissions: ["ADMIN"],
-            },
+            userType === "5" &&
+              IsSelfState && {
+                key: 172,
+                icon: <AiFillFacebook />,
+                label: (
+                  <Link
+                    onClick={() => {
+                      refershNow();
+                      setSidebar();
+                    }}
+                    to={Socila_Media_Manager_Screen}
+                    // reloadDocument={pathname === "/account-Statement"}
+                  >
+                    Social Media Manager
+                  </Link>
+                ),
+                permissions: ["ADMIN"],
+              },
             {
               style: { aligItems: "flex-start" },
               key: 17,
