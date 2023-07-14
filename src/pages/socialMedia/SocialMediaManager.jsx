@@ -12,8 +12,9 @@ import { NavLink } from "react-router-dom";
 const SocialMediaManager = () => {
   const [socialIcondata, setSocialIcondata] = useState([]);
   // window.location.hostname
-  const data = { appUrl: window.location.hostname };
-  const getSocialImage = async () => {
+  // const data = { appUrl: "localhost" };
+
+  const getSocialImage = async (data) => {
     const response = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/${Get_Social_Media}`,
       data,
@@ -28,12 +29,14 @@ const SocialMediaManager = () => {
       const newValue = {};
       const data = response.data.data;
       for (let key in data) {
-        if (key.includes("s_")) {
-          newObje[key.replace("s_", "")] = data[key];
-          newValue[key.replace("s_", "") + "Link"] = data[key]?.link || "";
-        } else if (key.includes("u_")) {
-          newObje[key.replace("u_", "")] = data[key];
-          newValue[key.replace("u_", "") + "Link"] = data[key]?.link || "";
+        if (data[key]) {
+          if (key.includes("s_")) {
+            newObje[key.replace("s_", "")] = data[key];
+            newValue[key.replace("s_", "") + "Link"] = data[key]?.link || "";
+          } else if (key.includes("u_")) {
+            newObje[key.replace("u_", "")] = data[key];
+            newValue[key.replace("u_", "") + "Link"] = data[key]?.link || "";
+          }
         }
       }
       setvalue((o) => ({
@@ -42,12 +45,17 @@ const SocialMediaManager = () => {
         support: data?.support,
         mobileNo: data?.mobileNo,
       }));
-      setSocialIcondata(newObje);
+      setSocialIcondata((o) => ({ ...o, ...newObje }));
+      if (data.appUrl === "admin") {
+        getSocialImage({
+          appUrl: window.location.hostname.replace("admin.", ""),
+        });
+      }
     }
   };
 
   useEffect(() => {
-    getSocialImage();
+    getSocialImage({ appUrl: "admin" });
   }, []);
 
   const [value, setvalue] = useState({
@@ -107,6 +115,17 @@ const SocialMediaManager = () => {
       );
       if (response) {
         notifyToast().succes(response.data.message);
+        setvalue((prev) => {
+          return {
+            ...prev,
+            whatsapp: false,
+            telegram: false,
+            twitter: false,
+            youtube: false,
+            instagram: false,
+            facebook: false,
+          };
+        });
       }
     } else {
       notifyToast().error("Pls select Atleast One");
