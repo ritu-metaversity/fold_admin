@@ -1,7 +1,15 @@
-import { Table, Tooltip } from "antd";
-import React from "react";
-
+import { Modal, Table, Tooltip, message } from "antd";
+import React, { useContext } from "react";
+import { useState } from "react";
+import { RiDeleteBin5Line } from "react-icons/ri";
+import { LoaderContext } from "../../App";
+import axios from "axios";
+import { notifyToast } from "../toast/Tost";
 const TableComponent = ({ data }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [matchId, setMatchId] = useState("");
+  const { setLoading } = useContext(LoaderContext);
+  const userType = localStorage.getItem("userType");
   const dataSource = [];
   data?.map((res, index) =>
     dataSource?.push({
@@ -19,6 +27,15 @@ const TableComponent = ({ data }) => {
       ),
 
       isback: res?.isback,
+      action: (
+        <RiDeleteBin5Line
+          fontSize={15}
+          cursor={"pointer"}
+          onClick={() => {
+            showModal(res.id);
+          }}
+        />
+      ),
     })
   );
   const columns = [
@@ -57,9 +74,62 @@ const TableComponent = ({ data }) => {
       dataIndex: "BDetails",
       key: "B Details",
     },
+    userType == 4
+      ? {
+          title: "Action",
+          dataIndex: "action",
+          key: "action",
+        }
+      : {},
   ];
+  const showModal = (id) => {
+    setMatchId(id);
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    deleteBets(matchId);
+    // setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const deleteBets = async () => {
+    setLoading((prev) => ({ ...prev, accountStatement: true }));
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${"admin/delete-bet-by-id"}`,
+        { id: matchId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.data.status) {
+          notifyToast().succes(res.data.message);
+          handleCancel();
+        } else {
+          notifyToast().error(res.data.message);
+          message.error(res.data.message);
+        }
+      })
+      .catch((erro) => {});
+    setLoading((prev) => ({ ...prev, accountStatement: false }));
+  };
   return (
     <div className="table-container">
+      <Modal
+        title="Delete bet"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        okText="Continue"
+      >
+        <p>Are you sure you want to continue.....</p>
+      </Modal>
+
       <Table
         dataSource={dataSource}
         columns={columns}

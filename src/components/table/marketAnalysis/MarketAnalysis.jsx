@@ -1,7 +1,7 @@
 import { Empty } from "antd";
 import React from "react";
 import { HiCheckCircle } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 ///styles
 import "./styles.scss";
 const Datatable = (props) => {
@@ -32,7 +32,7 @@ const Datatable = (props) => {
         market.marketName.includes("Bookmaker")
       );
     });
-
+// const {id,marketid} = useParams()
     // newRes.map((res) => {});
     if (newRes) {
       return (

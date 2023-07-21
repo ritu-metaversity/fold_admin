@@ -24,7 +24,6 @@ import {
   add_Deposit_Screen,
   add_withdrawal_Screen,
   add_withdrawal_SubAdmin_Screen,
-  isSelf,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaImage } from "react-icons/fa";
@@ -750,7 +749,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               label: "Report",
               permissions: ["ADMIN"],
               children: [
-                userType === "5" && isSelf
+                userType === "5" && IsSelfState
                   ? {
                       key: 10,
                       // icon: <FaImage />,

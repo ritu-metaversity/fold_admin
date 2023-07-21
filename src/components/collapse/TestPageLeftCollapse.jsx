@@ -27,6 +27,7 @@ import "./styles.scss";
 import CompletedMatchTable from "../completedMatch/CompletedMatchTable";
 import { io } from "socket.io-client";
 import moment from "moment";
+import DeletedBetList from "./DeletedBetList";
 
 const { Panel } = Collapse;
 
@@ -54,6 +55,8 @@ const TestPageLeftCollapse = () => {
   const [matchScore, setMatchScore] = useState(false);
   const [fancyPnldata, setFancyPnldata] = useState([]);
   const [completedModal, setIsCompletedModal] = useState(false);
+  const [deletedModal, setDeletedModal] = useState(false);
+
   const [completedMatch, setCompletedMatch] = useState([]);
   const navigate = useNavigate();
 
@@ -319,6 +322,14 @@ const TestPageLeftCollapse = () => {
   //     setFancyPnldata(JSON.parse(fancyPnlLastMessage?.data).data);
   // }, [fancyPnlLastMessage]);
 
+  const showDeletedModal = () => {
+    setDeletedModal(true);
+  };
+
+  const handleCancelDeletedModal = () => {
+    setDeletedModal(false);
+  };
+
   const getfancyPnl = async () => {
     const data = { matchId: id };
     await axios
@@ -455,6 +466,18 @@ const TestPageLeftCollapse = () => {
       >
         <UserBook data={userBook} />
       </Modal>
+      <Modal
+        title="Deleted Bet List"
+        open={deletedModal}
+        // onOk={handleOk}
+        onCancel={handleCancelDeletedModal}
+        width={800}
+        footer={null}
+        destroyOnClose
+        // className="user-Book-modal"
+      >
+        <DeletedBetList handleCancelDeletedModal={handleCancelDeletedModal}/>
+      </Modal>
       <>
         <div className="heading">
           <h4>
@@ -499,6 +522,20 @@ const TestPageLeftCollapse = () => {
           >
             Completed Session
           </Button>
+          {userType == "4" ? (
+            <Button
+              onClick={showDeletedModal}
+              style={{
+                background: "rgb(241, 133, 33)",
+                color: "white",
+                border: "none",
+              }}
+            >
+              Deleted Bets
+            </Button>
+          ) : (
+            ""
+          )}
 
           {/* </div> */}
           <div className="switch-right-col">
