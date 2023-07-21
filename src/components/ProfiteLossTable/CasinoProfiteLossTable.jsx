@@ -289,8 +289,7 @@ const CasinoProfiteLossTable = () => {
     setSportChangeId(value.value);
   };
   const handleChange = (value) => {
-    console.log(value.value);
-    setvalueDropDown(value.value);
+     setvalueDropDown(value.value);
     //  console.log(value.key); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
     gatSportsId(value.value);
   };
