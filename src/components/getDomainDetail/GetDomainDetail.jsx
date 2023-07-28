@@ -93,8 +93,11 @@ const GetDomainDetailTable = () => {
       >
         <UpdateDetailForm id={userId} handleCancel={handleCancel} />
       </Modal>
-      <div className="get-domain-table-container">
-        <Table dataSource={dataSource} columns={columns} />
+      <div
+        className="get-domain-table-container"
+        style={{ height: "800px", overflowY: "scroll" }}
+      >
+        <Table dataSource={dataSource} columns={columns} pagination={false} />
       </div>
     </>
   );

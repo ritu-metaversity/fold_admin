@@ -119,7 +119,6 @@ const TestPageLeftCollapse = () => {
       })
       .catch((error) => {});
   };
-
   useEffect(() => {
     socket.on("OddsUpdated", oddFromSocket);
     socket.on("JoinedSuccessfully", () => {
@@ -628,7 +627,7 @@ const TestPageLeftCollapse = () => {
                         <Button
                           onClick={(e) => {
                             e.stopPropagation();
-                            getBetLock(item.marketId);
+                            getBetLock(item?.marketId);
                           }}
                           type="primary"
                           style={{ background: "#F18521", color: "white" }}

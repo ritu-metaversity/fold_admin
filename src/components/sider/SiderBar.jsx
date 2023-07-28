@@ -10,11 +10,13 @@ import "./styles.scss";
 import {
   Casino_Screen,
   Casino_Type_Screen,
+  Casion_amount,
   Casiono,
   Dashboard_Screen,
   HelperActiveUser_Screen,
   Left_Event_Menu,
   Log_Out,
+  Multiple_login,
   Payment_List,
   Profite_Loss,
   Setting_Screen,
@@ -946,7 +948,40 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                 };
               }),
             },
-
+            userType === "4" && {
+              key: 132,
+              icon: <AiFillFacebook />,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to={Multiple_login}
+                  // reloadDocument={pathname === "/account-Statement"}
+                >
+                  Multiple Login
+                </Link>
+              ),
+              permissions: ["ADMIN"],
+            },
+            userType === "4" && {
+              key: 132,
+              icon: <AiFillFacebook />,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to={Casion_amount}
+                  // reloadDocument={pathname === "/account-Statement"}
+                >
+                  Casino Amount
+                </Link>
+              ),
+              permissions: ["ADMIN"],
+            },
             userType === "5" &&
               IsSelfState && {
                 key: 172,

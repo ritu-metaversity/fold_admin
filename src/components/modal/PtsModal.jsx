@@ -6,7 +6,7 @@ import { LoaderContext } from "../../App";
 import { Get_Pts_Data } from "../../routes/Routes";
 import PtsModaltable from "./PtsModalTable";
 
-const PtsModal = ({ id, remark, setPtsdata, ptsdata }) => {
+const PtsModal = ({ id, remark, setPtsdata, ptsdata, search }) => {
   const [value, setValue] = useState(1);
   const { setLoading } = useContext(LoaderContext);
 
@@ -19,7 +19,7 @@ const PtsModal = ({ id, remark, setPtsdata, ptsdata }) => {
       await axios
         .post(
           `${process.env.REACT_APP_BASE_URL}/${Get_Pts_Data}`,
-          { marketId: id, userId: "", betType: value },
+          { marketId: id, userId: search, betType: value },
 
           {
             headers: {

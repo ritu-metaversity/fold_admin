@@ -115,7 +115,7 @@ const AccountStatement = () => {
           noOfRecords: paginationData.noOfRecords,
           fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD"),
           toDate: moment(dateTo.toString()).format("YYYY-MM-DD"),
-          userid: id,
+          userid: searchData,
           type: selectValue,
           ...DateFrom,
         },
@@ -308,6 +308,7 @@ const AccountStatement = () => {
         setIsModalOpen={setIsModalOpen}
         ptsId={ptsId}
         remark={remark}
+        search={searchData}
       />
       <div className="hading-create-accounts">
         <h4>Account Statement</h4>

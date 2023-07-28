@@ -12,11 +12,14 @@ import LoginFooter from "../../components/loginFooter/LoginFooter";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import HeaderSliderComponent from "../../components/headerSlider/HeaderSliderComponent";
 
+
 const { Header, Content } = Layout;
 const Login = ({ logo, message }) => {
   const [open, setOpen] = useState(false);
+
   const isMobile = useMediaQuery("(max-width: 1275px)");
 
+ 
   return (
     <div className="layout-body">
       <Layout className="layout-comp">

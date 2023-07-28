@@ -24,83 +24,86 @@ const MatchOddsRow = ({ data, prev, pnlData }) => {
               ?.pnl || 0;
 
           return (
-            <div className="table-row-col" key={item.selectionId}>
-              <div className="left-col-table">
-                <p>{item.name}</p>
-                {pnlValue >= 0 ? (
-                  <p style={{ color: "green" }}>{pnlValue}</p>
-                ) : (
-                  <p style={{ color: "red" }}>{pnlValue}</p>
-                )}
-              </div>
+            <>
+              <div className="table-row-col" key={item.selectionId}>
+                <div className="left-col-table">
+                  <p>{item.name}</p>
+                  {pnlValue >= 0 ? (
+                    <p style={{ color: "green" }}>{pnlValue}</p>
+                  ) : (
+                    <p style={{ color: "red" }}>{pnlValue}</p>
+                  )}
+                </div>
 
-              <div
-                className={`right-col-table ${
-                  data?.status === "SUSPENDED" ? "over" : ""
-                }`}
-              >
-                {item?.ex?.availableToBack
-                  .map((curElm, index) => {
+                <div
+                  className={`right-col-table ${
+                    data?.status === "SUSPENDED" ? "over" : ""
+                  }`}
+                >
+                  {item?.ex?.availableToBack
+                    .map((curElm, index) => {
+                      return (
+                        <React.Fragment
+                          key={curElm.price + item.selectionId + "back" + index}
+                        >
+                          <Button
+                            className="backButton"
+                            style={{
+                              backgroundColor:
+                                curElm?.price >
+                                prev?.runners[runnerIndex]?.ex?.availableToBack[
+                                  index
+                                ].price
+                                  ? "#03B37F"
+                                  : curElm?.price <
+                                    prev?.runners[runnerIndex]?.ex
+                                      .availableToBack[index]?.price
+                                  ? "#FC4242"
+                                  : backColor[index],
+                            }}
+                          >
+                            <p>{curElm?.price === 0 ? "__" : curElm?.price}</p>
+                            <p>{curElm?.size === 0 ? "" : curElm?.size}</p>
+                          </Button>
+                        </React.Fragment>
+                      );
+                    })
+                    .reverse()}
+
+                  {item?.ex?.availableToLay?.map((curElm, index) => {
                     return (
                       <React.Fragment
-                        key={curElm.price + item.selectionId + "back" + index}
+                        key={curElm?.price + item?.selectionId + "lay" + index}
                       >
                         <Button
-                          className="backButton"
+                          className="layButton"
                           style={{
                             backgroundColor:
-                              curElm?.price >
-                              prev?.runners[runnerIndex]?.ex?.availableToBack[
+                              curElm.price >
+                              prev.runners[runnerIndex]?.ex.availableToLay[
                                 index
                               ].price
                                 ? "#03B37F"
-                                : curElm?.price <
-                                  prev?.runners[runnerIndex]?.ex
-                                    .availableToBack[index]?.price
+                                : curElm.price <
+                                  prev.runners[runnerIndex]?.ex.availableToLay[
+                                    index
+                                  ].price
                                 ? "#FC4242"
-                                : backColor[index],
+                                : layColor[index],
                           }}
                         >
-                          <p>{curElm?.price === 0 ? "__" : curElm?.price}</p>
-                          <p>{curElm?.size === 0 ? "" : curElm?.size}</p>
+                          <p>{curElm.price === 0 ? "__" : curElm.price}</p>
+                          <p>{curElm.size === 0 ? "" : curElm.size}</p>
                         </Button>
                       </React.Fragment>
                     );
-                  })
-                  .reverse()}
-
-                {item?.ex?.availableToLay?.map((curElm, index) => {
-                  return (
-                    <React.Fragment
-                      key={curElm?.price + item?.selectionId + "lay" + index}
-                    >
-                      <Button
-                        className="layButton"
-                        style={{
-                          backgroundColor:
-                            curElm.price >
-                            prev.runners[runnerIndex]?.ex.availableToLay[index]
-                              .price
-                              ? "#03B37F"
-                              : curElm.price <
-                                prev.runners[runnerIndex]?.ex.availableToLay[
-                                  index
-                                ].price
-                              ? "#FC4242"
-                              : layColor[index],
-                        }}
-                      >
-                        <p>{curElm.price === 0 ? "__" : curElm.price}</p>
-                        <p>{curElm.size === 0 ? "" : curElm.size}</p>
-                      </Button>
-                    </React.Fragment>
-                  );
-                })}
-                <div className="overlay">
-                  <p>SUSPENDED</p>
+                  })}
+                  <div className="overlay">
+                    <p>SUSPENDED</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </>
           );
         })}
       </div>

@@ -13,7 +13,10 @@ export const BetHistory_Screen = "betHistory";
 export const CreateDomain_Screen = "createdomain";
 export const TestMatch_Screen = "/Detail";
 export const Change_Password = "change-password";
+export const Multiple_login = "multiple-login";
 export const Payment_Method = "Payment-method";
+export const Casion_amount = "casino-amount";
+
 export const Banner_Update = "Update-Banner";
 export const Bank_Method = "Bank_Method_Screen";
 export const Upi_Method = "Upi_Method_Screen";
