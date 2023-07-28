@@ -3,7 +3,13 @@ import React from "react";
 import PtsModal from "./PtsModal";
 import { useState } from "react";
 
-const BetListModal = ({ setIsModalOpen, isModalOpen, ptsId, remark }) => {
+const BetListModal = ({
+  setIsModalOpen,
+  isModalOpen,
+  ptsId,
+  remark,
+  search,
+}) => {
   const [ptsdata, setPtsdata] = useState([]);
   const handleOk = () => {
     setIsModalOpen(false);
@@ -28,6 +34,7 @@ const BetListModal = ({ setIsModalOpen, isModalOpen, ptsId, remark }) => {
         remark={remark}
         setPtsdata={setPtsdata}
         ptsdata={ptsdata}
+        search={search}
       />
     </Modal>
   );

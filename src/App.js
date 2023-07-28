@@ -53,6 +53,8 @@ import {
   add_withdrawal_SubAdmin_Screen,
   add_Deposit_Methods,
   add_Deposit_Screen,
+  Multiple_login,
+  Casion_amount,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -95,6 +97,8 @@ import AddWithdrawal from "./pages/addWithdrawal";
 import AddWithdrawalSub from "./pages/addWithdrawalSub";
 import AddDepositMethods from "./pages/addDepositMethods";
 import AddDepositMethodAdmin from "./pages/addDepositMethodAdmin";
+import MultipleLogin from "./pages/multipleLogin";
+import CasinoAmount from "./pages/casinoAmount";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -306,6 +310,9 @@ function App() {
               path={HelperActiveUser_Screen}
               element={<HelperActiveUser />}
             ></Route>
+            <Route path={Multiple_login} element={<MultipleLogin />}></Route>
+            <Route path={Casion_amount} element={<CasinoAmount />}></Route>
+
             {userType !== "7" && (
               <>
                 <Route exact path={Dashboard_Screen} element={<Dashboard />} />

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay, Pagination } from "swiper";
 
@@ -6,8 +6,31 @@ import { sliderImageArray } from "./SliderData";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./styles.scss";
+import axios from "axios";
 const Slider = () => {
+  const [bannerList, setBannerList] = useState([]);
+
+  const getBanner = async () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${"enduser/user-banner-list"}`,
+        { type: 1 },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setBannerList(res.data.data);
+      });
+  };
+
+  useEffect(() => {
+    getBanner();
+  }, []);
   SwiperCore.use([Autoplay]);
+
   return (
     <>
       <Swiper
@@ -19,10 +42,10 @@ const Slider = () => {
         modules={[Pagination]}
         className="swiper-slider-div"
       >
-        {sliderImageArray.map((img) => {
+        {bannerList?.map((img) => {
           return (
             <SwiperSlide>
-              <img src={img} alt="" width="100%" />
+              <img src={img?.path} alt="" width="100%" />
             </SwiperSlide>
           );
         })}
