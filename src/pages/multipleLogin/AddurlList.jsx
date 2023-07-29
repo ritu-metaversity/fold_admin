@@ -84,7 +84,7 @@ const AddurlList = ({ useData, handleCance }) => {
   };
   useEffect(() => {
     getDomainList();
-  }, []);
+  }, [useData?.userid]);
 
   //   for (let i = 0; i < optionValue; i++) {
   //     const value = `${i.toString(36)}${i}`;
