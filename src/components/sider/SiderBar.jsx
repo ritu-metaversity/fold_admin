@@ -28,11 +28,12 @@ import {
   add_withdrawal_SubAdmin_Screen,
 } from "../../routes/Routes";
 import axios from "axios";
-import { FaCalendarDay, FaImage } from "react-icons/fa";
+import { FaCalendarDay, FaCoins, FaImage } from "react-icons/fa";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
 import { AiFillDashboard, AiFillFacebook } from "react-icons/ai";
 import LogoutModal from "../logoutModal/LogoutModal";
+import { HiUserGroup } from "react-icons/hi";
 
 const filterPermission = (item, permissions) => {
   let newItem = [];
@@ -950,7 +951,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
             },
             userType === "4" && {
               key: 132,
-              icon: <AiFillFacebook />,
+              icon: <HiUserGroup />,
               label: (
                 <Link
                   onClick={() => {
@@ -967,7 +968,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
             },
             userType === "4" && {
               key: 132,
-              icon: <AiFillFacebook />,
+              icon: <FaCoins />,
               label: (
                 <Link
                   onClick={() => {

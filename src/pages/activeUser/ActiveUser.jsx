@@ -155,7 +155,7 @@ const ActiveUser = () => {
       dataIndex: "username",
       filteredValue: [searchText],
       onFilter: (value, record) => {
-        return String(record?.username)
+        return String(record?.username.props.children)
           .toLowerCase()
           .includes(value?.toLowerCase());
       },
