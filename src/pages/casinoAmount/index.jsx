@@ -135,7 +135,11 @@ const CasinoAmount = () => {
             onClick={() => {
               casinoAmountUpdate({ value: inputValue[index], id: curElm.id });
             }}
-            disabled={inputValue[index] != curElm.value ? false : true}
+            disabled={
+              inputValue[index] != curElm.value && inputValue[index] > 0
+                ? false
+                : true
+            }
           >
             Update
           </Button>
