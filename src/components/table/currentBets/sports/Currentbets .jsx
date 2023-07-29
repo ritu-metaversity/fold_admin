@@ -26,10 +26,11 @@ const CurrentBetsTable = () => {
 
   const [DataList, setDataList] = useState([]);
 
-  const [radioValue, setRadioValue] = useState("matched");
+  const [isDeleted, setIsDeleted] = useState(false);
   const [radioValuefilte, setRadioValuefilter] = useState("1");
   const [totalAmount, setTotalAmount] = useState("");
   const [sada, setsada] = useState("");
+
   //////// change password
 
   ////edit profile State
@@ -56,6 +57,7 @@ const CurrentBetsTable = () => {
           noOfRecords: paginationData.noOfRecords,
           sportType: 1,
           index: paginationData.index,
+          isDeleted: isDeleted,
         },
         {
           headers: {
@@ -90,7 +92,12 @@ const CurrentBetsTable = () => {
 
   useEffect(() => {
     tabledata();
-  }, [radioValuefilte, paginationData.index, paginationData.noOfRecords]);
+  }, [
+    radioValuefilte,
+    paginationData.index,
+    paginationData.noOfRecords,
+    isDeleted,
+  ]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -238,23 +245,19 @@ const CurrentBetsTable = () => {
       index: paginationData.totalPages - 1,
     });
   };
+
+  const onChange = (e) => {
+    setIsDeleted(e.target.value);
+  };
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
         <div className="current-bets-filter">
           <div className="filter-left-col">
-            <Radio
-              checked={radioValue === "matched"}
-              onChange={() => setRadioValue("matched")}
-            >
-              Matched
-            </Radio>
-            <Radio
-              checked={radioValue === "Deleted"}
-              onChange={() => setRadioValue("Deleted")}
-            >
-              Deleted
-            </Radio>
+            <Radio.Group onChange={onChange} value={isDeleted}>
+              <Radio value={false}>Matched</Radio>
+              <Radio value={true}>Deleted</Radio>
+            </Radio.Group>
           </div>
           <div className="filter-Middle-col">
             <Radio
