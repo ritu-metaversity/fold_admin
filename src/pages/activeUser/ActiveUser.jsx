@@ -50,12 +50,14 @@ const ActiveUser = () => {
     setSearchText("");
     setMessage("");
   };
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-  };
+
   const handleClick = () => {
     // 👇 "message" stores input field value
-    setSearchText(message);
+    // setSearchText(message);
+  };
+    const handleChange = (event) => {
+    setMessage(event.target.value);
+    // handleClick()
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
@@ -108,6 +110,7 @@ const ActiveUser = () => {
           id: "",
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
+          username: message,
         },
         {
           headers: {
@@ -140,7 +143,7 @@ const ActiveUser = () => {
 
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords]);
+  }, [paginationData.index, paginationData.noOfRecords,message]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -476,11 +479,11 @@ const ActiveUser = () => {
                 })
               }
             >
-              <option value="25">25</option>
-              <option value="50">50</option>
+              
+              
               <option value="100">100</option>
               <option value="250">250</option>
-              <option value="500">500</option>
+              <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
             </select>
             &nbsp;entries
           </label>
