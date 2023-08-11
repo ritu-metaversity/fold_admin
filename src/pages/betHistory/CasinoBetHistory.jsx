@@ -1,40 +1,28 @@
 import { Button, Input, Table, Tooltip, Radio, Select } from "antd";
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 import { AiFillEye } from "react-icons/ai";
 ///styles
 // import "./styles.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-// import { Table_ActiveUser, Tab_CurrentBet } from "../../../../routes/Routes";
-import {
-  Active_Sport_list,
-  Detail_Sport_Wise,
-  TabBet_History,
-} from "../../../routes/Routes";
-import { LoaderContext } from "../../../App";
-
+import { LoaderContext } from "../../App";
+import { Casiono, TabBet_History } from "../../routes/Routes";
+import { Casino_Card_Data } from "../../routes/Routes";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
-const BetHistorytable = ({ id }) => {
+const CasinoBetHistory = () => {
   const [searchText, setSearchText] = useState("");
   const { setLoading } = useContext(LoaderContext);
-
+  const [isDeleted, setIsDeleted] = useState(false);
   const [DataList, setDataList] = useState([]);
-  const [radioValue, setRadioValue] = useState("matched");
   const [totalAmount, setTotalAmount] = useState("");
   const [sada, setsada] = useState("");
   const [sportsId, setSportsId] = useState([]);
+  const [userId, setUserId] = useState("");
 
   ////get Sports Key
   const [valueDropDown, setvalueDropDown] = useState("");
@@ -43,8 +31,6 @@ const BetHistorytable = ({ id }) => {
   const [sportChangeId, setSportChangeId] = useState("");
   const [sendEventId, setSendEventId] = useState("");
   const [sportsList, setSportsList] = useState([]);
-  const [userId, setUserId] = useState("");
-
   //////// change password
 
   ////edit profile State
@@ -74,7 +60,7 @@ const BetHistorytable = ({ id }) => {
           sportId: sendSportId,
           matchId: sendEventId,
           userId: userId,
-          sportType: 1,
+          sportType: 2,
           isDeleted: true,
         },
         {
@@ -86,7 +72,7 @@ const BetHistorytable = ({ id }) => {
       .then((res) => {
         setsada(res?.data?.data?.totalBets);
         setTotalAmount(res?.data?.data?.totalStake);
-
+        console.log(res?.data?.data);
         if (res?.data?.data?.dataList) {
           setLoading(false);
           setPaginationData({
@@ -117,6 +103,7 @@ const BetHistorytable = ({ id }) => {
     userId,
     paginationData?.index,
     paginationData?.noOfRecords,
+    isDeleted,
   ]);
   useEffect(() => {
     return () => {
@@ -179,32 +166,28 @@ const BetHistorytable = ({ id }) => {
     },
   ];
 
-  const data = useMemo(
-    () =>
-      DataList?.map((res, index) => {
-        return {
-          key: res?.rate + res?.time + res?.amount + index,
-          isBack: res?.isback,
-          EventType: res?.eventType,
-          EventName: res?.eventNamem,
-          UserName: res?.username,
-          MName: res?.marketname,
-          Nation: res?.nation,
-          URate: res?.rate,
-          Amount: res?.amount,
-          PlaceDate: res?.time,
+  const data = DataList?.map((res, index) => {
+    return {
+      key: res?.rate + res?.time + res?.amount + index,
+      isBack: res?.isback,
+      EventType: res?.eventType,
+      EventName: res?.eventNamem,
+      UserName: res?.username,
+      MName: res?.marketname,
+      Nation: res?.nation,
+      URate: res?.rate,
+      Amount: res?.amount,
+      PlaceDate: res?.time,
 
-          Detail: (
-            <>
-              <Tooltip title={res?.deviceInfo}>
-                <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-              </Tooltip>
-            </>
-          ),
-        };
-      }),
-    [DataList]
-  );
+      Detail: (
+        <>
+          <Tooltip title={res?.deviceInfo}>
+            <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+          </Tooltip>
+        </>
+      ),
+    };
+  });
 
   const Increment = () => {
     if (paginationData?.index < paginationData?.totalPages) {
@@ -238,7 +221,15 @@ const BetHistorytable = ({ id }) => {
   useEffect(() => {
     const getSpotsList = async () => {
       await axios
-        .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_list}`)
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${Casiono}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         .then((res) => {
           setSportsList(res?.data?.data);
         })
@@ -263,8 +254,8 @@ const BetHistorytable = ({ id }) => {
     setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Detail_Sport_Wise}`,
-        { sportId: id },
+        `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
+        { id: id, appUrl: window.location.hostname },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -289,40 +280,36 @@ const BetHistorytable = ({ id }) => {
     setUserId(searchText);
   };
   const option1 = sportsList?.map((item, index) => ({
-    key: item.sportId + item?.sportName + index,
-    value: item?.sportId,
-    label: item?.sportName,
+    key: item.id + item?.name + index + index.logo,
+    value: item?.id,
+    label: item?.name,
   }));
 
   const option2 = sportsId?.map((item, index) => ({
-    key: item.eventId + item?.eventName + index,
-    value: item?.eventId,
-    label: item?.eventName,
+    key: item.gameId + item?.gameCode + index,
+    value: item?.gameId,
+    label: item?.gameName,
   }));
+
+  const onChange = (e) => {
+    setIsDeleted(e.target.value);
+  };
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
         <div className="current-bets-filter">
           <div className="filter-left-col">
-            <Radio
-              checked={radioValue === "matched"}
-              onChange={() => setRadioValue("matched")}
-            >
-              Matched
-            </Radio>
-            <Radio
-              checked={radioValue === "Deleted"}
-              onChange={() => setRadioValue("Deleted")}
-            >
-              Deleted
-            </Radio>
+            <Radio.Group onChange={onChange} value={isDeleted}>
+              <Radio value={false}>Matched</Radio>
+              <Radio value={true}>Deleted</Radio>
+            </Radio.Group>
           </div>
           <div className="filter-Middle-col">
             <Select
               labelInValue
               defaultValue={{
                 value: "",
-                label: "Select match",
+                label: "Select Casino",
               }}
               style={{
                 width: 120,
@@ -335,7 +322,7 @@ const BetHistorytable = ({ id }) => {
               labelInValue
               defaultValue={{
                 value: "",
-                label: "Matchlist",
+                label: "Casino List",
               }}
               style={{
                 width: 120,
@@ -491,4 +478,4 @@ const BetHistorytable = ({ id }) => {
   );
 };
 
-export default BetHistorytable;
+export default CasinoBetHistory;

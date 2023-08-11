@@ -9,12 +9,12 @@ const CurrentBets = () => {
     {
       label: "Sports",
       key: "0",
-      children: <CurrentBetsTable />,
+      children: <CurrentBetsTable id={1} />,
     },
     {
       label: "Casino",
       key: "1",
-      children: <Casinotable id={2} />,
+      children: <Casinotable  />,
     },
   ];
   return (
@@ -31,7 +31,12 @@ const CurrentBets = () => {
           </p>
         </div>
 
-        <Tabs defaultActiveKey="0" type="card" items={items}></Tabs>
+        <Tabs
+          defaultActiveKey="0"
+          type="card"
+          items={items}
+          destroyInactiveTabPane
+        ></Tabs>
       </div>
     </>
   );

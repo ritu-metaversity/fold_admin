@@ -33,14 +33,13 @@ const WithdrawalRejected = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 100,
     totalPages: 1,
   });
   const reset = () => {
     setSearchText("");
     setMessage("");
   };
-
 
   const tabledata = async () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
@@ -282,11 +281,11 @@ const WithdrawalRejected = () => {
                 })
               }
             >
-              
-              
               <option value="100">100</option>
               <option value="250">250</option>
-              <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
             </select>
             &nbsp;entries
           </label>

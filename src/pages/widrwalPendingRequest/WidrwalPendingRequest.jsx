@@ -31,7 +31,7 @@ const WidrwalPendingRequest = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 100,
     totalPages: 1,
   });
   const handleChange2 = (event) => {

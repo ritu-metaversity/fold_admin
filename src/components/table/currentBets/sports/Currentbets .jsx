@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Input, Table, Tooltip, Radio } from "antd";
+import { Input, Table, Tooltip, Radio, Button, Select } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 ///styles
@@ -11,7 +11,7 @@ import "./styles.scss";
 // import CreditModal from "../../components/creditActivityModal/CreditModal";
 import axios from "axios";
 
-import { Tab_CurrentBet } from "../../../../routes/Routes";
+import { Search_Api, Tab_CurrentBet } from "../../../../routes/Routes";
 
 import { LoaderContext } from "../../../../App";
 
@@ -37,7 +37,7 @@ const CurrentBetsTable = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 100,
     totalPages: 1,
   });
 
@@ -47,7 +47,8 @@ const CurrentBetsTable = () => {
 
   ///show profile modal
 
-  const tabledata = async () => {
+  const tabledata = async (searchData) => {
+    setSearchData(searchData);
     setLoading((prev) => ({ ...prev, currentBettabledata: true }));
     await axios
       .post(
@@ -55,10 +56,11 @@ const CurrentBetsTable = () => {
         {
           betType: radioValuefilte,
           noOfRecords: paginationData.noOfRecords,
-          sportType: 2,
+          sportType: 1,
           isDeleted: false,
           index: paginationData.index,
           isDeleted: isDeleted,
+          userId: searchData,
         },
         {
           headers: {
@@ -134,70 +136,40 @@ const CurrentBetsTable = () => {
           String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
         );
       },
-      sorter: {
-        compare: (a, b) => a.CR - b.CR,
-        multiple: 3,
-      },
     },
     {
       title: "User Name",
       dataIndex: "UserName",
+      defaultSortOrder: "descend",
+
       // filteredValue: [searchText],
       // onFilter: (value, record) => {
       //   return record.UserName.toLowerCase().includes(value.toLowerCase());
       // },
-      sorter: {
-        compare: (a, b) => a.PTS - b.PTS,
-        multiple: 2,
-      },
     },
     {
       title: "M Name",
       dataIndex: "MName",
-      sorter: {
-        compare: (a, b) => a.Client - b.Client,
-        multiple: 1,
-      },
     },
     {
       title: "Nation",
       dataIndex: "Nation",
-      sorter: {
-        compare: (a, b) => a.Clientp - b.Clientp,
-        multiple: 1,
-      },
     },
     {
       title: "U Rate",
       dataIndex: "URate",
-      sorter: {
-        compare: (a, b) => a.Exposer - b.Exposer,
-        multiple: 1,
-      },
     },
     {
       title: "Amount",
       dataIndex: "Amount",
-      sorter: {
-        compare: (a, b) => a.Available - b.Available,
-        multiple: 1,
-      },
     },
     {
       title: "Place Date",
       dataIndex: "PlaceDate",
-      sorter: {
-        compare: (a, b) => a.bst - b.bst,
-        multiple: 1,
-      },
     },
     {
       title: "Detail",
       dataIndex: "Detail",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
     },
   ];
 
@@ -246,9 +218,44 @@ const CurrentBetsTable = () => {
       index: paginationData.totalPages - 1,
     });
   };
+  const [listDisplay, setListDisplay] = useState(false);
+  const [searchDataList, setSearchDataList] = useState([]);
+
+  const [searchData, setSearchData] = useState("");
 
   const onChange = (e) => {
     setIsDeleted(e.target.value);
+  };
+
+  const Search = async (e) => {
+    const value = e.target.value;
+    setSearchData(value);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log(res.data.data);
+        setSearchDataList(res.data.data);
+      })
+      .catch((error) => {
+        setSearchDataList([]);
+        // console.log(error);
+      });
+  };
+  const [id, setId] = useState("");
+  const setIdText = (id, text) => {
+    // console.log(id, text, "dtat");
+    setSearchData(text);
+    setId(id);
+    setListDisplay(false);
+    setSearchDataList([]);
   };
   return (
     <>
@@ -293,43 +300,101 @@ const CurrentBetsTable = () => {
             </h5>
           </div>
         </div>
-        <div
-          style={{
-            paddingLeft: "5px",
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "5px",
-          }}
-        >
-          <label className="d-inline-flex align-items-center">
-            Show&nbsp;
-            <select
-              className="custom-select-sm"
-              value={paginationData.noOfRecords}
-              onChange={(e) =>
-                setPaginationData({
-                  ...paginationData,
-                  noOfRecords: Number(e.target.value),
-                })
-              }
-            >
-              
-              
-              <option value="100">100</option>
-              <option value="250">250</option>
-              <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
-            </select>
-            &nbsp;entries
-          </label>
-          <div className="input-search" style={{ paddingRight: "10px" }}>
+        <div className="search-col-div">
+          <div className="left-search-col">
+            <label className="d-inline-flex align-items-center">
+              Show&nbsp;
+              <select
+                className="custom-select-sm"
+                value={paginationData.noOfRecords}
+                onChange={(e) =>
+                  setPaginationData({
+                    ...paginationData,
+                    noOfRecords: Number(e.target.value),
+                  })
+                }
+              >
+                <option value="100">100</option>
+                <option value="250">250</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+                <option value="2000">2000</option>
+              </select>
+              &nbsp;entries
+            </label>
+          </div>
+          <div className="middle-search-col">
             <Input
-              placeholder="search here....."
-              name="message"
+              placeholder="search"
               onChange={(e) => setSearchText(e.target.value)}
-              value={searchText}
             />
           </div>
+          <div className="right-search-col">
+            <div className="search-bar-input">
+              <Input
+                placeholder="search here....."
+                name="message"
+                onChange={Search}
+                value={searchData}
+                style={{ width: "200px" }}
+                autoComplete="off"
+                // onFocus={() => setListDisplay(true)}
+                // onBlur={() => setListDisplay(false)}
+              />
+              <div
+                // className={listDisplay ? "dropdown-list" : "dropdown-list2"}
+                style={{
+                  position: "absolute",
+                  zIndex: "8",
+                  background: "white",
+                  top: "100%",
+                  height: "200px",
+                  overflow: "scroll",
+                  width: "200px",
+                  borderRadius: "4px",
+                  display: searchDataList?.length > 0 ? "block" : "none",
+                }}
+              >
+                {searchDataList?.map((res, index) => {
+                  return (
+                    <div
+                      style={{
+                        borderBottom: "1px solid #e1dbdb",
+                      }}
+                      key={res.id + res.text + index}
+                    >
+                      <p
+                        onClick={() => setIdText(res.id, res.text)}
+                        style={{ margin: "0", padding: "4px" }}
+                      >
+                        {res.text}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <Button
+              style={{ background: "black", color: "white", border: "none" }}
+              onClick={() => tabledata(searchData)}
+            >
+              Load
+            </Button>
+            <Button
+              style={{
+                color: "#212529",
+                backgroundColor: "#eaecee",
+                border: "1px solid #eff2f7",
+              }}
+              onClick={() => {
+                tabledata("");
+              }}
+            >
+              Reset
+            </Button>
+          </div>
         </div>
+
         <Table
           columns={columns}
           dataSource={data}
