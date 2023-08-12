@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table, DatePicker, Select } from "antd";
+import { Button, Input, Table, DatePicker, Select, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
@@ -16,6 +16,7 @@ import dayjs from "dayjs";
 ///styles
 import "./styles.scss";
 import moment from "moment";
+import PnlBetHistory from "./PnlBetHistory";
 // import PtsModal from "./PtsModal";
 const SportProfiteLossTable = () => {
   const [searchText, setSearchText] = useState("");
@@ -109,6 +110,7 @@ const SportProfiteLossTable = () => {
         // console.log(error);
       });
   };
+  const [pnlBetAmount, setPnlBetAmount] = useState("");
   const tabledata = async (DateFrom) => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
     // console.log(dateTo, dateTo.toISOString());
@@ -141,6 +143,7 @@ const SportProfiteLossTable = () => {
             ...paginationData,
             totalPages: res?.data?.data?.totalPages || 1,
           });
+          setPnlBetAmount(res?.data?.data.totalPnl);
           setDataList(res?.data?.data.market || []);
         } else {
           setDataList([]);
@@ -197,6 +200,10 @@ const SportProfiteLossTable = () => {
       title: "Date",
       dataIndex: "Date",
     },
+    {
+      title: "Action",
+      dataIndex: "Action",
+    },
     // {
     //   title: "commssionMila",
     //   dataIndex: "commssionMila",
@@ -221,6 +228,15 @@ const SportProfiteLossTable = () => {
         </span>
       ),
       Date: res.createdon,
+      Action: (
+        <Button
+          style={{ background: "orange", border: "none", color: "white" }}
+          onClick={() => showModal(res.matchId)}
+        >
+          View
+        </Button>
+      ),
+
       // commssionMila: (
       //   <span style={{ color: res.commssionMila >= 0 ? "green" : "red" }}>
       //     {res.commssionMila}
@@ -317,8 +333,32 @@ const SportProfiteLossTable = () => {
     value: item?.eventId,
     label: item?.eventName,
   }));
+  const [matchId, setMatchId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = (id) => {
+    setMatchId(id);
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <>
+      <Modal
+        title="Bet History"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        width={900}
+        className="pnl-bet-history"
+        destroyOnClose
+      >
+        <PnlBetHistory matchId={matchId} sportId="1" />
+      </Modal>
       <div className="table" style={{ width: "98%", padding: "10px" }}>
         <div className="search Account-list-search">
           <div className="left-col">
@@ -362,7 +402,6 @@ const SportProfiteLossTable = () => {
                 </div>
               </div>
             </div>
-
             <div className="date-search">
               <label
                 style={{
@@ -416,19 +455,38 @@ const SportProfiteLossTable = () => {
             </div>
           </div>
         </div>
-        <div className="account-serch-btn">
-          <Button
-            onClick={handleClick}
-            style={{ background: "#23292E", color: "white" }}
+        <div
+          className="account-serch-btn"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Button
+              onClick={handleClick}
+              style={{ background: "#23292E", color: "white" }}
+            >
+              Load
+            </Button>
+            <Button
+              onClick={reset}
+              style={{ background: "#eff2f7", color: "black" }}
+            >
+              Reset
+            </Button>
+          </div>
+          <p
+            style={{
+              fontSize: "18px",
+            }}
           >
-            Load
-          </Button>
-          <Button
-            onClick={reset}
-            style={{ background: "#eff2f7", color: "black" }}
-          >
-            Reset
-          </Button>
+            Pnl Bet Amount:
+            <span style={{ color: pnlBetAmount < 0 ? "red" : "green" }}>
+              {Number(pnlBetAmount).toFixed(3)}
+            </span>
+          </p>
         </div>
         <div
           style={{

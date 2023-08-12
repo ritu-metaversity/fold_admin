@@ -149,7 +149,7 @@ export const Bet_List = "bets/bet-list-by-matchid";
 
 // export const Odds_List = "http://89.39.105.69:9001/fancy/";¸
 // export const Odds_List = "http://142.132.159.166:9001/fancy/";
-export const Odds_List = "http://43.205.50.127:9000/betfair_api/fancy/";
+export const Odds_List = "https://oddsapi.247idhub.com/betfair_api/fancy/";
 export const CasinoImage =
   "https://admin-api-banners-new.s3.ap-south-1.amazonaws.com/wolf.json";
 // export const Odds_List = "enduser/get-fancy-odds";

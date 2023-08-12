@@ -161,6 +161,11 @@ const CasinoBetHistory = () => {
       dataIndex: "PlaceDate",
     },
     {
+      title: "CasinoRound Id",
+      dataIndex: "casinoRoundId",
+    },
+
+    {
       title: "Detail",
       dataIndex: "Detail",
     },
@@ -178,7 +183,7 @@ const CasinoBetHistory = () => {
       URate: res?.rate,
       Amount: res?.amount,
       PlaceDate: res?.time,
-
+      casinoRoundId: res?.casinoRoundId,
       Detail: (
         <>
           <Tooltip title={res?.deviceInfo}>

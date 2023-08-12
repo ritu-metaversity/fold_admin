@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table, DatePicker, Select } from "antd";
+import { Button, Input, Table, DatePicker, Select, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 
 import axios from "axios";
@@ -13,12 +13,14 @@ import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 import moment from "moment";
+import PnlBetHistory from "./PnlBetHistory";
 ///styles
 // import "./styles.scss";
 // import PtsModal from "./PtsModal";
 const CasinoProfiteLossTable = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
+  const [pnlBetAmount, setPnlBetAmount] = useState("");
   // const [loading, setLoading] = useState(false);
   const { setLoading } = useContext(LoaderContext);
   const { RangePicker } = DatePicker;
@@ -127,6 +129,7 @@ const CasinoProfiteLossTable = () => {
             totalPages: res?.data?.data?.totalPages || 1,
           });
           setDataList(res?.data?.data.market);
+          setPnlBetAmount(res?.data?.data.totalPnl);
         } else {
           setDataList();
         }
@@ -178,6 +181,11 @@ const CasinoProfiteLossTable = () => {
       title: "uplineAmount",
       dataIndex: "uplineAmount",
     },
+    {
+      title: "Action",
+      dataIndex: "Action",
+    },
+
     // {
     //   title: "commssionMila",
     //   dataIndex: "commssionMila",
@@ -200,6 +208,14 @@ const CasinoProfiteLossTable = () => {
         <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
           {res.uplineAmount}
         </span>
+      ),
+      Action: (
+        <Button
+          style={{ background: "orange", border: "none", color: "white" }}
+          onClick={() => showModal(res.matchId)}
+        >
+          View
+        </Button>
       ),
       // commssionMila: (
       //   <span style={{ color: res.commssionMila >= 0 ? "green" : "red" }}>
@@ -289,7 +305,7 @@ const CasinoProfiteLossTable = () => {
     setSportChangeId(value.value);
   };
   const handleChange = (value) => {
-     setvalueDropDown(value.value);
+    setvalueDropDown(value.value);
     //  console.log(value.key); // { value: "lucy", key: "lucy", label: "Lucy (101)" }
     gatSportsId(value.value);
   };
@@ -303,8 +319,32 @@ const CasinoProfiteLossTable = () => {
     value: item?.gameId,
     label: item?.gameName,
   }));
+  const [matchId, setMatchId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = (id) => {
+    setMatchId(id);
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   return (
     <>
+      <Modal
+        title="Bet History"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        width={900}
+        className="pnl-bet-history"
+        destroyOnClose
+      >
+        <PnlBetHistory matchId={matchId} sportId="2" />
+      </Modal>
       <div className="table" style={{ width: "98%", padding: "10px" }}>
         <div className="search Account-list-search">
           <div className="left-col">
@@ -402,19 +442,38 @@ const CasinoProfiteLossTable = () => {
             </div>
           </div>
         </div>
-        <div className="account-serch-btn">
-          <Button
-            onClick={handleClick}
-            style={{ background: "#23292E", color: "white" }}
+        <div
+          className="account-serch-btn"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <div style={{ display: "flex", gap: "10px" }}>
+            <Button
+              onClick={handleClick}
+              style={{ background: "#23292E", color: "white" }}
+            >
+              Load
+            </Button>
+            <Button
+              onClick={reset}
+              style={{ background: "#eff2f7", color: "black" }}
+            >
+              Reset
+            </Button>
+          </div>
+          <p
+            style={{
+              fontSize: "18px",
+            }}
           >
-            Load
-          </Button>
-          <Button
-            onClick={reset}
-            style={{ background: "#eff2f7", color: "black" }}
-          >
-            Reset
-          </Button>
+            Pnl Bet Amount:
+            <span style={{ color: pnlBetAmount < 0 ? "red" : "green" }}>
+              {Number(pnlBetAmount).toFixed(3)}
+            </span>
+          </p>
         </div>
         <div
           style={{
@@ -437,11 +496,11 @@ const CasinoProfiteLossTable = () => {
                 })
               }
             >
-              
-              
               <option value="100">100</option>
               <option value="250">250</option>
-              <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
             </select>
             &nbsp;entries
           </label>
