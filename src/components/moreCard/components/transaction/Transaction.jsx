@@ -61,7 +61,7 @@ const Transaction = ({ data, dataTransaction }) => {
     },
   ];
   const value = {
-    noOfRecords: 25,
+    noOfRecords: 100,
     index: 0,
     toDate: "00:00:0000",
     fromDate: "00:00:0000",

@@ -52,7 +52,6 @@ const DomainCard = () => {
       };
     });
   };
-  // console.log(fileList[0].name, "outer");
   const handleSelect2 = (value) => {
     setCasinoType(value);
   };
@@ -65,7 +64,6 @@ const DomainCard = () => {
       };
     });
   };
-  // console.log(casionTypeImageData);
   const casinoOption = casionTypeImageData?.map((res) => {
     return {
       value: res.id,
@@ -93,7 +91,7 @@ const DomainCard = () => {
     }
     const image = new Image();
     image.src = src;
-    const imgWindow = window.open(src)
+    const imgWindow = window.open(src);
     imgWindow?.document.write(image.outerHTML);
   };
   const onPreview2 = async (file) => {
@@ -177,6 +175,8 @@ const DomainCard = () => {
     formData.append("lupassword", data.transactionCode);
     formData.append("favicon", fileList2[0].originFileObj);
     formData.append("casinoImageType", casinoType);
+    formData.append("isDemoIdLoginAllowed", data.isDemoIdLoginAllowed);
+
     formData.append(
       "isSelfAllowed",
       type === "live" ? true : type === "admin" ? false : false

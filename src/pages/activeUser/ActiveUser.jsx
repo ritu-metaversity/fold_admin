@@ -14,6 +14,7 @@ import { Down_Line_ActiveUser, Table_ActiveUser } from "../../routes/Routes";
 import { useMediaQuery } from "../../components/modalForm/UseMedia";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
+import ExposureModal from "../../components/exposureModal";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
@@ -43,19 +44,21 @@ const ActiveUser = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 100,
     totalPages: 1,
   });
   const reset = () => {
     setSearchText("");
     setMessage("");
   };
-  const handleChange = (event) => {
-    setMessage(event.target.value);
-  };
+
   const handleClick = () => {
     // 👇 "message" stores input field value
-    setSearchText(message);
+    // setSearchText(message);
+  };
+  const handleChange = (event) => {
+    setMessage(event.target.value);
+    // handleClick()
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
@@ -96,6 +99,7 @@ const ActiveUser = () => {
     setOpen(false);
     setprofileModal(false);
     setcredit(false);
+    setExposureIsModal(false);
     // setInputBlank(!false);
   };
 
@@ -108,6 +112,7 @@ const ActiveUser = () => {
           id: "",
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
+          username: message,
         },
         {
           headers: {
@@ -140,7 +145,7 @@ const ActiveUser = () => {
 
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords]);
+  }, [paginationData.index, paginationData.noOfRecords, message]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -172,38 +177,39 @@ const ActiveUser = () => {
     {
       title: "CR",
       dataIndex: "CR",
-      sorter: (a, b) => a.CR?.props?.children - b.CR?.props?.children,
-      sortOrder: sortedInfo.field === "CR" ? sortedInfo.order : null,
+      defaultSortOrder: "descend",
+      sorter: (a, b) =>
+        Number(a.CR?.props?.children) - Number(b.CR?.props?.children),
     },
     {
       title: "PTS",
       dataIndex: "PTS",
       sorter: (a, b) => a.PTS - b.PTS,
-      sortOrder: sortedInfo.field === "PTS" ? sortedInfo.order : null,
+      //sortOrder: sortedInfo.field === "PTS" ? sortedInfo.order : null,
     },
     {
       title: "Client (P/L)",
       dataIndex: "Client",
       sorter: (a, b) => a.Client - b.Client,
-      sortOrder: sortedInfo.field === "Client" ? sortedInfo.order : null,
+      //sortOrder: sortedInfo.field === "Client" ? sortedInfo.order : null,
     },
     {
       title: "Client (P/L)%",
       dataIndex: "Clientp",
       sorter: (a, b) => a.Clientp - b.Clientp,
-      sortOrder: sortedInfo.field === "Clientp" ? sortedInfo.order : null,
+      //sortOrder: sortedInfo.field === "Clientp" ? sortedInfo.order : null,
     },
     {
       title: "Exposure",
       dataIndex: "Exposer",
       sorter: (a, b) => a.Exposer - b.Exposer,
-      sortOrder: sortedInfo.field === "Exposer" ? sortedInfo.order : null,
+      //sortOrder: sortedInfo.field === "Exposer" ? sortedInfo.order : null,
     },
     {
       title: "Available pts",
       dataIndex: "Available",
       sorter: (a, b) => a.Available - b.Available,
-      sortOrder: sortedInfo.field === "Available" ? sortedInfo.order : null,
+      //sortOrder: sortedInfo.field === "Available" ? sortedInfo.order : null,
     },
     {
       title: "Domain",
@@ -266,7 +272,14 @@ const ActiveUser = () => {
       PTS: res?.pts,
       Client: res?.clientPl,
       Clientp: res?.clientPlPercentage,
-      Exposer: res?.exposure,
+      Exposer: (
+        <span
+          onClick={() => exposureShowModal(res?.userId)}
+          style={{ cursor: "pointer" }}
+        >
+          {res?.exposure}
+        </span>
+      ),
       Available: res?.availabePts,
       bst: <Switch size="small" disabled={true} checked={res?.betLock} />,
 
@@ -354,7 +367,12 @@ const ActiveUser = () => {
       index: paginationData.totalPages - 1,
     });
   };
-
+  const [exposerUserId, setExposerUserId] = useState("");
+  const [exposureIsModal, setExposureIsModal] = useState(false);
+  const exposureShowModal = (id) => {
+    setExposerUserId(id);
+    setExposureIsModal(true);
+  };
   return (
     <UserModalContext.Provider
       value={{
@@ -420,6 +438,17 @@ const ActiveUser = () => {
           handleCancelfunction={handleCancel}
         />
       </Modal>
+      <Modal
+        title="Exposure"
+        open={exposureIsModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        destroyOnClose
+        className="exposure-modal"
+      >
+        <ExposureModal userID={exposerUserId} />
+      </Modal>
       <div className="hading-create-accounts">
         <h4>ACCOUNT LIST FOR ACTIVE USERS</h4>
         <p>
@@ -476,11 +505,11 @@ const ActiveUser = () => {
                 })
               }
             >
-              <option value="25">25</option>
-              <option value="50">50</option>
               <option value="100">100</option>
               <option value="250">250</option>
               <option value="500">500</option>
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
             </select>
             &nbsp;entries
           </label>

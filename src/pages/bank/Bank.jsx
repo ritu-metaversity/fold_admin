@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Button, Input, Table } from "antd";
+import { Button, Input, Modal, Table } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 ///styles
 import "./styles.scss";
@@ -14,6 +14,7 @@ import {
 import { BsArrowRightShort } from "react-icons/bs";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../../components/toast/Tost";
+import ExposureModal from "../../components/exposureModal";
 
 const Bank = () => {
   const [searchText, setSearchText] = useState("");
@@ -34,7 +35,7 @@ const Bank = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 100,
     totalPages: 1,
   });
   const reset = () => {
@@ -220,7 +221,14 @@ const Bank = () => {
           {res?.clientPlPercentage}
         </p>
       ),
-      Exposer: res?.exposure,
+      Exposer: (
+        <span
+          onClick={() => exposureShowModal(res?.userId)}
+          style={{ cursor: "pointer" }}
+        >
+          {res?.exposure}
+        </span>
+      ),
       Available: res?.availabePts,
       AccountType: res?.accountType,
 
@@ -341,9 +349,29 @@ const Bank = () => {
         // console.log(error);
       });
   };
+  const [exposerUserId, setExposerUserId] = useState("");
+  const [exposureIsModal, setExposureIsModal] = useState(false);
+
+  const exposureShowModal = (id) => {
+    setExposerUserId(id);
+    setExposureIsModal(true);
+  };
+  const handleCancel = () => {
+    setExposureIsModal(false);
+  };
   return (
     <>
       <>
+        <Modal
+          title="Exposure"
+          open={exposureIsModal}
+          onCancel={handleCancel}
+          footer={null}
+          destroyOnClose
+          className="exposure-modal"
+        >
+          <ExposureModal userID={exposerUserId} />
+        </Modal>
         {/* <div className="heading">
             <h4 style={{ fontSize: "15px!important" }}>Bank</h4>
           </div> */}
@@ -430,11 +458,11 @@ const Bank = () => {
                   })
                 }
               >
-                <option value="25">25</option>
-                <option value="50">50</option>
                 <option value="100">100</option>
                 <option value="250">250</option>
                 <option value="500">500</option>
+                <option value="1000">1000</option>
+                <option value="2000">2000</option>
               </select>
               &nbsp;entries
             </label>

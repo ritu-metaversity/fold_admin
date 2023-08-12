@@ -12,7 +12,7 @@ $breakpoint-custom-header: 710px;
   box-shadow: inset 3px 0 0px #3cc1f6;
 }
 .input-search {
-  width: 200px;
+  width: auto;
   input {
     width: 100%;
   }
@@ -83,4 +83,33 @@ $breakpoint-custom-header: 710px;
 
 .ant-table-wrapper table {
   border-collapse: collapse !important;
+}
+
+.search-col-div {
+  width: calc(99% - 1%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 1%;
+  margin-bottom: 10px;
+  .left-search-col {
+    width: 30%;
+  }
+  .middle-search-col {
+    width: 40%;
+    input {
+      width: 60%;
+      margin: auto;
+    }
+  }
+  .right-search-col {
+    width: 30%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    .search-bar-input {
+      width: 78%;
+      position: relative;
+    }
+  }
 }

@@ -11,7 +11,9 @@ import { LoaderContext } from "../../../../App";
 import {
   Casino_Card_Data,
   Casiono,
+  Search_Api,
   TabBet_History,
+  Tab_CurrentBet,
 } from "../../../../routes/Routes";
 
 // import { Table_ActiveUser, Tab_CurrentBet } from "../../../../routes/Routes";
@@ -20,17 +22,17 @@ export const UserModalContext = createContext({
   handleCancel: () => {},
 });
 
-const Casinotable = ({ id }) => {
+const Casinotable = () => {
   const [searchText, setSearchText] = useState("");
   const { setLoading } = useContext(LoaderContext);
-
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [radioValuefilte, setRadioValuefilter] = useState("1");
   const [DataList, setDataList] = useState([]);
-  const [radioValue, setRadioValue] = useState("matched");
   const [totalAmount, setTotalAmount] = useState("");
   const [sada, setsada] = useState("");
   const [sportsId, setSportsId] = useState([]);
   const [userId, setUserId] = useState("");
-
+  const [searchDataList, setSearchDataList] = useState([]);
   ////get Sports Key
   const [valueDropDown, setvalueDropDown] = useState("");
   const [sendSportId, setSendSportId] = useState("");
@@ -39,12 +41,12 @@ const Casinotable = ({ id }) => {
   const [sendEventId, setSendEventId] = useState("");
   const [sportsList, setSportsList] = useState([]);
   //////// change password
-
+  const [searchData, setSearchData] = useState("");
   ////edit profile State
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 100,
     totalPages: 1,
   });
 
@@ -56,18 +58,19 @@ const Casinotable = ({ id }) => {
 
   ///show profile modal
 
-  const tabledata = async () => {
+  const tabledata = async (searchData) => {
+    setSearchData(searchData);
     setLoading((prev) => ({ ...prev, bethistorytabledata: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${TabBet_History}`,
+        `${process.env.REACT_APP_BASE_URL}/${Tab_CurrentBet}`,
         {
-          index: paginationData?.index,
-          noOfRecords: paginationData?.noOfRecords,
-          sportId: valueDropDown,
-          matchId: sportChangeId,
-          userId: userId,
-          sportType: id,
+          betType: radioValuefilte,
+          noOfRecords: paginationData.noOfRecords,
+          sportType: 2,
+          index: paginationData.index,
+          isDeleted: isDeleted,
+          userId: searchData,
         },
         {
           headers: {
@@ -109,6 +112,7 @@ const Casinotable = ({ id }) => {
     userId,
     paginationData?.index,
     paginationData?.noOfRecords,
+    isDeleted,
   ]);
   useEffect(() => {
     return () => {
@@ -127,81 +131,47 @@ const Casinotable = ({ id }) => {
       title: "Event Name",
       dataIndex: "EventName",
       filteredValue: [searchText],
-      // onFilter: (value, record) => {
-      //   return (
-      //     String(record.EventName)
-      //       .toLowerCase()
-      //       .includes(value.toLowerCase()) ||
-      //     String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
-      //     String(record.MName).toLowerCase().includes(value.toLowerCase()) ||
-      //     String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
-      //     String(record.URate).toLowerCase().includes(value.toLowerCase()) ||
-      //     String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
-      //     String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
-      //   );
-      // },
-
-      sorter: {
-        compare: (a, b) => a.CR - b.CR,
-        multiple: 3,
+      onFilter: (value, record) => {
+        return (
+          String(record.EventName)
+            .toLowerCase()
+            .includes(value.toLowerCase()) ||
+          String(record.UserName).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.MName).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Nation).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.URate).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.Amount).toLowerCase().includes(value.toLowerCase()) ||
+          String(record.PlaceDate).toLowerCase().includes(value.toLowerCase())
+        );
       },
     },
     {
       title: "User Name",
       dataIndex: "UserName",
-
-      sorter: {
-        compare: (a, b) => a.PTS - b.PTS,
-        multiple: 2,
-      },
     },
     {
       title: "M Name",
       dataIndex: "MName",
-      sorter: {
-        compare: (a, b) => a.Client - b.Client,
-        multiple: 1,
-      },
     },
     {
       title: "Nation",
       dataIndex: "Nation",
-      sorter: {
-        compare: (a, b) => a.Clientp - b.Clientp,
-        multiple: 1,
-      },
     },
     {
       title: "U Rate",
       dataIndex: "URate",
-      sorter: {
-        compare: (a, b) => a.Exposer - b.Exposer,
-        multiple: 1,
-      },
     },
     {
       title: "Amount",
       dataIndex: "Amount",
-      sorter: {
-        compare: (a, b) => a.Available - b.Available,
-        multiple: 1,
-      },
     },
     {
       title: "Place Date",
       dataIndex: "PlaceDate",
-      sorter: {
-        compare: (a, b) => a.bst - b.bst,
-        multiple: 1,
-      },
     },
     {
       title: "Detail",
       dataIndex: "Detail",
-      sorter: {
-        compare: (a, b) => a.ust - b.ust,
-        multiple: 1,
-      },
     },
   ];
 
@@ -329,23 +299,51 @@ const Casinotable = ({ id }) => {
     value: item?.gameId,
     label: item?.gameName,
   }));
+
+  const onChange = (e) => {
+    setIsDeleted(e.target.value);
+  };
+
+  const Search = async (e) => {
+    const value = e.target.value;
+    setSearchData(value);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log(res.data.data);
+        setSearchDataList(res.data.data);
+      })
+      .catch((error) => {
+        setSearchDataList([]);
+        // console.log(error);
+      });
+  };
+  const [listDisplay, setListDisplay] = useState(false);
+  const [id, setId] = useState("");
+  const setIdText = (id, text) => {
+    // console.log(id, text, "dtat");
+    setSearchData(text);
+    setId(id);
+    setListDisplay(false);
+    setSearchDataList([]);
+  };
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
         <div className="current-bets-filter">
           <div className="filter-left-col">
-            <Radio
-              checked={radioValue === "matched"}
-              onChange={() => setRadioValue("matched")}
-            >
-              Matched
-            </Radio>
-            <Radio
-              checked={radioValue === "Deleted"}
-              onChange={() => setRadioValue("Deleted")}
-            >
-              Deleted
-            </Radio>
+            <Radio.Group onChange={onChange} value={isDeleted}>
+              <Radio value={false}>Matched</Radio>
+              <Radio value={true}>Deleted</Radio>
+            </Radio.Group>
           </div>
           <div className="filter-Middle-col">
             <Select
@@ -385,43 +383,98 @@ const Casinotable = ({ id }) => {
             </h5>
           </div>
         </div>
-        <div
-          style={{
-            paddingLeft: "5px",
-            display: "flex",
-            justifyContent: "space-between",
-            marginBottom: "5px",
-          }}
-        >
-          <label className="d-inline-flex align-items-center">
-            Show&nbsp;
-            <select
-              className="custom-select-sm"
-              value={paginationData?.noOfRecords}
-              onChange={(e) =>
-                setPaginationData({
-                  ...paginationData,
-                  noOfRecords: Number(e.target.value),
-                })
-              }
-            >
-              <option value="25">25</option>
-              <option value="50">50</option>
-              <option value="100">100</option>
-              <option value="250">250</option>
-              <option value="500">500</option>
-              <option value="750">750</option>
-              <option value="1000">1000</option>
-            </select>
-            &nbsp;entries
-          </label>
-          <div className="input-search" style={{ paddingRight: "10px" }}>
+        <div className="search-col-div">
+          <div className="left-search-col">
+            <label className="d-inline-flex align-items-center">
+              Show&nbsp;
+              <select
+                className="custom-select-sm"
+                value={paginationData.noOfRecords}
+                onChange={(e) =>
+                  setPaginationData({
+                    ...paginationData,
+                    noOfRecords: Number(e.target.value),
+                  })
+                }
+              >
+                <option value="100">100</option>
+                <option value="250">250</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+                <option value="2000">2000</option>
+              </select>
+              &nbsp;entries
+            </label>
+          </div>
+          <div className="middle-search-col">
             <Input
-              placeholder="search here....."
-              name="message"
+              placeholder="search"
               onChange={(e) => setSearchText(e.target.value)}
-              value={searchText}
             />
+          </div>
+          <div className="right-search-col">
+            <div className="search-bar-input">
+              <Input
+                placeholder="search here....."
+                name="message"
+                onChange={Search}
+                value={searchData}
+                style={{ width: "200px" }}
+                autoComplete="off"
+                // onFocus={() => setListDisplay(true)}
+                // onBlur={() => setListDisplay(false)}
+              />
+              <div
+                // className={listDisplay ? "dropdown-list" : "dropdown-list2"}
+                style={{
+                  position: "absolute",
+                  zIndex: "8",
+                  background: "white",
+                  top: "100%",
+                  height: "200px",
+                  overflow: "scroll",
+                  width: "200px",
+                  borderRadius: "4px",
+                  display: searchDataList?.length > 0 ? "block" : "none",
+                }}
+              >
+                {searchDataList?.map((res, index) => {
+                  return (
+                    <div
+                      style={{
+                        borderBottom: "1px solid #e1dbdb",
+                      }}
+                      key={res.id + res.text + index}
+                    >
+                      <p
+                        onClick={() => setIdText(res.id, res.text)}
+                        style={{ margin: "0", padding: "4px" }}
+                      >
+                        {res.text}
+                      </p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <Button
+              style={{ background: "black", color: "white", border: "none" }}
+              onClick={() => tabledata(searchData)}
+            >
+              Load
+            </Button>
+            <Button
+              style={{
+                color: "#212529",
+                backgroundColor: "#eaecee",
+                border: "1px solid #eff2f7",
+              }}
+              onClick={() => {
+                tabledata("");
+              }}
+            >
+              Reset
+            </Button>
           </div>
         </div>
         <Table

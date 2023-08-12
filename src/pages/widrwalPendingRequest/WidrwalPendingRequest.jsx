@@ -31,7 +31,7 @@ const WidrwalPendingRequest = () => {
 
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 25,
+    noOfRecords: 100,
     totalPages: 1,
   });
   const handleChange2 = (event) => {
@@ -309,11 +309,11 @@ const WidrwalPendingRequest = () => {
                   })
                 }
               >
-                <option value="25">25</option>
-                <option value="50">50</option>
+                
+                
                 <option value="100">100</option>
                 <option value="250">250</option>
-                <option value="500">500</option>
+                <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
               </select>
               &nbsp;entries
             </label>
