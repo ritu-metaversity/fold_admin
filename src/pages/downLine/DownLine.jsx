@@ -16,6 +16,7 @@ import {
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import Profile from "../../components/moreCard/components/profile/Profile";
+import ExposureModal from "../../components/exposureModal";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
@@ -98,6 +99,7 @@ const DownList = ({ apiState }) => {
     setOpen(false);
     setprofileModal(false);
     setcredit(false);
+    setExposureIsModal(false);
     // setInputBlank(!false);
   };
   const tabledata = async () => {
@@ -256,7 +258,14 @@ const DownList = ({ apiState }) => {
       PTS: res?.pts,
       Client: res?.clientPl,
       Clientp: res?.clientPlPercentage,
-      Exposer: res?.exposure,
+      Exposer: (
+        <span
+          onClick={() => exposureShowModal(res?.userId)}
+          style={{ cursor: "pointer" }}
+        >
+          {res?.exposure}
+        </span>
+      ),
       Available: res?.availabePts,
       bst: res?.betLock ? (
         <Switch size="small" disabled={true} defaultChecked="true" />
@@ -314,6 +323,12 @@ const DownList = ({ apiState }) => {
       index: paginationData.totalPages - 1,
     });
   };
+  const [exposerUserId, setExposerUserId] = useState("");
+  const [exposureIsModal, setExposureIsModal] = useState(false);
+  const exposureShowModal = (id) => {
+    setExposerUserId(id);
+    setExposureIsModal(true);
+  };
 
   return (
     <UserModalContext.Provider
@@ -321,6 +336,17 @@ const DownList = ({ apiState }) => {
         handleCancel: handleCancel,
       }}
     >
+      <Modal
+        title="Exposure"
+        open={exposureIsModal}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+        destroyOnClose
+        className="exposure-modal"
+      >
+        <ExposureModal userID={exposerUserId} />
+      </Modal>
       <Modal
         // title={DataList.find((item) => item.id == userData)?.username}
         title={userId.username}
@@ -389,11 +415,11 @@ const DownList = ({ apiState }) => {
                 })
               }
             >
-              
-              
               <option value="100">100</option>
               <option value="250">250</option>
-              <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
             </select>
             &nbsp;entries
           </label>
