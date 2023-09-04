@@ -61,7 +61,7 @@ const CasinoBetHistory = () => {
           matchId: sendEventId,
           userId: userId,
           sportType: 2,
-          isDeleted: true,
+          isDeleted: isDeleted,
         },
         {
           headers: {
@@ -101,6 +101,7 @@ const CasinoBetHistory = () => {
     sendSportId,
     sendEventId,
     userId,
+    isDeleted,
     paginationData?.index,
     paginationData?.noOfRecords,
     isDeleted,

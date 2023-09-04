@@ -475,7 +475,7 @@ const TestPageLeftCollapse = () => {
         destroyOnClose
         // className="user-Book-modal"
       >
-        <DeletedBetList handleCancelDeletedModal={handleCancelDeletedModal}/>
+        <DeletedBetList handleCancelDeletedModal={handleCancelDeletedModal} />
       </Modal>
       <>
         <div className="heading">

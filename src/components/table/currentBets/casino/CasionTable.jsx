@@ -81,7 +81,6 @@ const Casinotable = () => {
       .then((res) => {
         setsada(res?.data?.data?.totalBets);
         setTotalAmount(res?.data?.data?.totalStake);
-        console.log(res?.data?.data);
         if (res?.data?.data?.dataList) {
           setLoading(false);
           setPaginationData({

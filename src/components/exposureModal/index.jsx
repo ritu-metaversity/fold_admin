@@ -89,6 +89,7 @@ const ExposureModal = ({ userID }) => {
       stack: curELm?.stack,
       liability: curELm?.liability,
       matchedtime: curELm?.matchedtime,
+      isback: curELm?.isback,
     };
   });
 
@@ -132,7 +133,7 @@ const ExposureModal = ({ userID }) => {
         dataSource={dataSource}
         columns={columns}
         rowClassName={(record) => {
-          return record.isBack ? "blue" : "pink";
+          return record.isback ? "blue" : "pink";
         }}
         pagination={{ pageSize: paginationData.noOfRecords }}
       />
