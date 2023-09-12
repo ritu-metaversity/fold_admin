@@ -293,14 +293,14 @@ const Accountform = ({ IsSelfState }) => {
         Client
       </Select.Option>,
     ],
-    // 4: [
-    //   <Select.Option value={""} key="empty">
-    //     Select
-    //   </Select.Option>,
-    //   <Select.Option value={1} key="5">
-    //     Sub Admin
-    //   </Select.Option>,
-    // ],
+    4: [
+      <Select.Option value={""} key="empty">
+        Select
+      </Select.Option>,
+      <Select.Option value={1} key="5">
+        Sub Admin
+      </Select.Option>,
+    ],
     5: [
       <Select.Option value={""} key="empty">
         Select
