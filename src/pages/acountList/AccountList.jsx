@@ -103,6 +103,7 @@ const Activelist = () => {
           id: "",
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
+          username: searchText,
         },
         {
           headers: {
@@ -135,7 +136,7 @@ const Activelist = () => {
 
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords]);
+  }, [paginationData.index, paginationData.noOfRecords, searchText]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -148,12 +149,12 @@ const Activelist = () => {
     {
       title: "User Name",
       dataIndex: "username",
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return String(record.username.props.children)
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      },
+      // filteredValue: [searchText],
+      // onFilter: (value, record) => {
+      //   return String(record.username.props.children)
+      //     .toLowerCase()
+      //     .includes(value.toLowerCase());
+      // },
       width: 100,
       onCell: () => {
         return {

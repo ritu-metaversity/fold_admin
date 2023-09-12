@@ -134,7 +134,7 @@ const Changpassword = ({ data, handleCancelfunction, helper }) => {
             )}
           </div>
         </div>
-        <div className="row-1">
+        <div className="row-1" style={{ marginBottom: "0px" }}>
           <label>Confim password</label>
           <div
             className="input"
@@ -159,13 +159,6 @@ const Changpassword = ({ data, handleCancelfunction, helper }) => {
               placeholder="Confirm Password"
               onChange={handleChange}
             />
-            {error.passwordNotMatch ? (
-              <span style={{ color: "red", whiteSpace: "nowrap" }}>
-                password does not match
-              </span>
-            ) : (
-              ""
-            )}
 
             {error.newPassword ? (
               <RxCross2 style={{ paddingRight: "10px" }} />
@@ -174,7 +167,21 @@ const Changpassword = ({ data, handleCancelfunction, helper }) => {
             )}
           </div>
         </div>
-        <div className="row-1">
+        {error.passwordNotMatch ? (
+          <div
+            style={{
+              color: "red",
+              whiteSpace: "nowrap",
+              width: "100%",
+              textAlign: "right",
+            }}
+          >
+            password does not match
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="row-1" style={{ marginTop: "20px" }}>
           <label>Transaction Code</label>
           <div
             className="input"

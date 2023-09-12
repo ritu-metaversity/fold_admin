@@ -31,7 +31,7 @@ const BetHistorytable = ({ id }) => {
   const { setLoading } = useContext(LoaderContext);
 
   const [DataList, setDataList] = useState([]);
-  const [radioValue, setRadioValue] = useState("matched");
+  const [radioValue, setRadioValue] = useState(false);
   const [totalAmount, setTotalAmount] = useState("");
   const [sada, setsada] = useState("");
   const [sportsId, setSportsId] = useState([]);
@@ -75,7 +75,7 @@ const BetHistorytable = ({ id }) => {
           matchId: sendEventId,
           userId: userId,
           sportType: 1,
-          isDeleted: true,
+          isDeleted: radioValue,
         },
         {
           headers: {
@@ -115,6 +115,7 @@ const BetHistorytable = ({ id }) => {
     sendSportId,
     sendEventId,
     userId,
+    radioValue,
     paginationData?.index,
     paginationData?.noOfRecords,
   ]);
@@ -304,18 +305,13 @@ const BetHistorytable = ({ id }) => {
       <div className="table" style={{ width: "100%" }}>
         <div className="current-bets-filter">
           <div className="filter-left-col">
-            <Radio
-              checked={radioValue === "matched"}
-              onChange={() => setRadioValue("matched")}
+            <Radio.Group
+              onChange={(e) => setRadioValue(e.target.value)}
+              value={radioValue}
             >
-              Matched
-            </Radio>
-            <Radio
-              checked={radioValue === "Deleted"}
-              onChange={() => setRadioValue("Deleted")}
-            >
-              Deleted
-            </Radio>
+              <Radio value={false}>Matched</Radio>
+              <Radio value={true}>Deleted</Radio>
+            </Radio.Group>
           </div>
           <div className="filter-Middle-col">
             <Select

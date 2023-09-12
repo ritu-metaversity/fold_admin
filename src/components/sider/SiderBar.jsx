@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useMemo, useState } from "react";
-import { Menu } from "antd";
+import { Menu, Modal } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { TbBrandGoogleAnalytics, TbFileReport } from "react-icons/tb";
 import { RiAccountCircleFill, RiBankFill } from "react-icons/ri";
@@ -12,6 +12,9 @@ import {
   Casino_Type_Screen,
   Casion_amount,
   Casiono,
+  CreatAaccounts_Commission_Screen,
+  Create_Ledeger,
+  Create_RollBack,
   Dashboard_Screen,
   HelperActiveUser_Screen,
   Left_Event_Menu,
@@ -34,6 +37,7 @@ import { notifyToast } from "../toast/Tost";
 import { AiFillDashboard, AiFillFacebook } from "react-icons/ai";
 import LogoutModal from "../logoutModal/LogoutModal";
 import { HiUserGroup } from "react-icons/hi";
+import { MdLeaderboard } from "react-icons/md";
 
 const filterPermission = (item, permissions) => {
   let newItem = [];
@@ -210,6 +214,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const accounts = useMemo(
     () => ({
       key: 3,
@@ -316,6 +321,23 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
           ),
           permissions: ["ADMIN"],
         },
+        {
+          key: 6343,
+          label: (
+            <Link
+              onClick={() => {
+                refershNow();
+                setSidebar();
+              }}
+              to={CreatAaccounts_Commission_Screen}
+              // reloadDocument={pathname === "/createAccounts"}
+            >
+              Create Commission
+            </Link>
+          ),
+          permissions: ["ADMIN"],
+        },
+
         userType === "5" && IsSelfState
           ? {
               key: 23,
@@ -1001,9 +1023,59 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                 ),
                 permissions: ["ADMIN"],
               },
+
+            {
+              style: { aligItems: "flex-start" },
+              key: 1976,
+              icon: <MdLeaderboard />,
+              permissions: ["ADMIN"],
+              label: "Post Leadeger",
+
+              children: [
+                {
+                  key: 19746,
+                  icon: <MdLeaderboard />,
+                  label: (
+                    <Link to={Create_Ledeger}>
+                      <span
+                        style={{
+                          display: "block",
+                          textAlign: "left",
+                        }}
+                        // onClick={showRollBackModal}
+                        // onClick={logout}
+                      >
+                        Create Ledeger
+                      </span>
+                    </Link>
+                  ),
+                  permissions: ["ADMIN"],
+                },
+                {
+                  key: 19376,
+                  icon: <MdLeaderboard />,
+                  label: (
+                    <Link to={Create_RollBack}>
+                      <span
+                        style={{
+                          display: "block",
+                          textAlign: "left",
+                        }}
+                        // onClick={showRollBackModal}
+                        // onClick={logout}
+                      >
+                        Create Rollback
+                      </span>
+                    </Link>
+                  ),
+                  permissions: ["ADMIN"],
+                },
+              ],
+            },
             {
               style: { aligItems: "flex-start" },
               key: 17,
+              permissions: ["ADMIN"],
               icon: <CiLogout style={{ marginBottom: "200px" }} />,
               label: (
                 <span
@@ -1018,7 +1090,6 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   Log Out
                 </span>
               ),
-              permissions: ["ADMIN"],
             },
           ],
     [eventData, CasionData]
@@ -1039,6 +1110,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
     }
   };
   // console.log(filterPermission(item, findPermission), findPermission);
+
   return (
     <>
       <LogoutModal
@@ -1046,6 +1118,15 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
         handleOk={handleOk}
         handleCancel={handleCancel}
       />
+
+      {/* <Modal
+        title="Create Ledeger Rollback"
+        open={rollBack}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={null}
+      > */}
+      {/* </Modal> */}
       <Menu
         theme="dark"
         style={{ width: 256 }}

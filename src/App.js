@@ -3,6 +3,8 @@ import "./App.scss";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ActiveUser from "./pages/activeUser/ActiveUser";
 import CreateAccount from "./pages/createAccounts/CreateAccount";
+import CreateAccountCommission from "./pages/createAccounts/CreateAccountCommision.jsx";
+
 import AccountsList from "./pages/acountList/AccountList";
 import Bank from "./pages/bank/Bank";
 import Login from "./pages/login/Login";
@@ -55,6 +57,9 @@ import {
   add_Deposit_Screen,
   Multiple_login,
   Casion_amount,
+  Create_Ledeger,
+  Create_RollBack,
+  CreatAaccounts_Commission_Screen,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -99,6 +104,8 @@ import AddDepositMethods from "./pages/addDepositMethods";
 import AddDepositMethodAdmin from "./pages/addDepositMethodAdmin";
 import MultipleLogin from "./pages/multipleLogin";
 import CasinoAmount from "./pages/casinoAmount";
+import CreateLedeger from "./pages/CraeteLeader";
+import CreateRollBack from "./pages/createRollBack";
 
 export const LoaderContext = createContext({
   loading: {},
@@ -345,6 +352,11 @@ function App() {
                   path={add_Deposit_Methods}
                   element={<AddDepositMethods />}
                 ></Route>
+                <Route
+                  path={CreatAaccounts_Commission_Screen}
+                  element={<CreateAccountCommission />}
+                ></Route>
+
                 <Route path={Bank_Screen} element={<Bank />}></Route>
                 <Route
                   path={currentsBets_Screen}
@@ -372,6 +384,15 @@ function App() {
                 <Route path={Upi_Method} element={<Upi />}></Route>
                 <Route path={Qr_Method} element={<QR />}></Route>
                 <Route path={Power_List_Screen} element={<PoerList />}></Route>
+
+                <Route
+                  path={Create_Ledeger}
+                  element={<CreateLedeger />}
+                ></Route>
+                <Route
+                  path={Create_RollBack}
+                  element={<CreateRollBack />}
+                ></Route>
                 <Route
                   path={Down_Line_ActiveUser + ":id"}
                   element={<DownList apiState={true} />}
