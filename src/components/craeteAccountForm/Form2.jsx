@@ -671,60 +671,61 @@ const Accountform = ({ IsSelfState }) => {
               {data.liveCasinoLock ? "On" : "Off"}
             </span>
           </Form.Item>
-
-          <Form.Item
-            name="oddLossCommission"
-            label="Match Commission"
-            style={{ marginTop: "0px" }}
-          >
-            <div
-              className={
-                errorData.oddLossCommission ? "col-input2" : "col-input"
-              }
-            >
-              <Select
-                // defaultValue={"Select User Type"}
-                value={data.oddLossCommission || "Match Commission"}
+          {userType == 4 && (
+            <>
+              <Form.Item
                 name="oddLossCommission"
-                onChange={(e) => {
-                  handleSelectChange(e, "oddLossCommission");
-                }}
+                label="Match Commission"
+                style={{ marginTop: "0px" }}
               >
-                <Select.Option value={0.5}>0.5</Select.Option>
-                <Select.Option value={1}>1</Select.Option>
-                <Select.Option value={1.5}>1.5</Select.Option>
-                <Select.Option value={2}>2</Select.Option>
-                <Select.Option value={2.5}>2.5</Select.Option>
-                <Select.Option value={3}>3</Select.Option>
-              </Select>
-            </div>
-          </Form.Item>
-          <Form.Item
-            name="fancyLossCommission"
-            label="Session Commission"
-            style={{ marginTop: "0px" }}
-          >
-            <div
-              className={
-                errorData.fancyLossCommission ? "col-input2" : "col-input"
-              }
-            >
-              <Select
-                // defaultValue={"Select User Type"}
-                value={data.fancyLossCommission || "Session Commission"}
+                <div
+                  className={
+                    errorData.oddLossCommission ? "col-input2" : "col-input"
+                  }
+                >
+                  <Select
+                    // defaultValue={"Select User Type"}
+                    value={data.oddLossCommission || "Match Commission"}
+                    name="oddLossCommission"
+                    onChange={(e) => {
+                      handleSelectChange(e, "oddLossCommission");
+                    }}
+                  >
+                    <Select.Option value={0.5}>0.5</Select.Option>
+                    <Select.Option value={1}>1</Select.Option>
+                    <Select.Option value={1.5}>1.5</Select.Option>
+                    <Select.Option value={2}>2</Select.Option>
+                    <Select.Option value={2.5}>2.5</Select.Option>
+                    <Select.Option value={3}>3</Select.Option>
+                  </Select>
+                </div>
+              </Form.Item>
+              <Form.Item
                 name="fancyLossCommission"
-                onChange={(e) => {
-                  handleSelectChange(e, "fancyLossCommission");
-                }}
+                label="Session Commission"
+                style={{ marginTop: "0px" }}
               >
-                <Select.Option value={0.5}>0.5</Select.Option>
-                <Select.Option value={1}>1</Select.Option>
-                <Select.Option value={1.5}>1.5</Select.Option>
-                <Select.Option value={2}>2</Select.Option>
-                <Select.Option value={2.5}>2.5</Select.Option>
-                <Select.Option value={3}>3</Select.Option>
-              </Select>
-              {/* <Select
+                <div
+                  className={
+                    errorData.fancyLossCommission ? "col-input2" : "col-input"
+                  }
+                >
+                  <Select
+                    // defaultValue={"Select User Type"}
+                    value={data.fancyLossCommission || "Session Commission"}
+                    name="fancyLossCommission"
+                    onChange={(e) => {
+                      handleSelectChange(e, "fancyLossCommission");
+                    }}
+                  >
+                    <Select.Option value={0.5}>0.5</Select.Option>
+                    <Select.Option value={1}>1</Select.Option>
+                    <Select.Option value={1.5}>1.5</Select.Option>
+                    <Select.Option value={2}>2</Select.Option>
+                    <Select.Option value={2.5}>2.5</Select.Option>
+                    <Select.Option value={3}>3</Select.Option>
+                  </Select>
+                  {/* <Select
                 placeholder="Session Commission"
                 name="fancyLossCommission"
                 value={data?.fancyLossCommission}
@@ -732,8 +733,10 @@ const Accountform = ({ IsSelfState }) => {
                 type="number"
                 
               /> */}
-            </div>
-          </Form.Item>
+                </div>
+              </Form.Item>
+            </>
+          )}
           <Form.Item name="TransactionPassword" label="Transaction Password">
             <div className={errorData.lupassword ? "col-input2" : "col-input"}>
               <Input
