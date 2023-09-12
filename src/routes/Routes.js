@@ -8,6 +8,8 @@ export const HelperActiveUser_Screen = "helper-active-user";
 export const add_Deposit_Methods = "/add-deposit";
 export const ActiveUser_Screen = "activeUser";
 export const CreatAaccounts_Screen = "createAccounts";
+export const CreatAaccounts_Commission_Screen = "createAccounts-commission";
+
 export const currentsBets_Screen = "currentsBets";
 export const BetHistory_Screen = "betHistory";
 export const CreateDomain_Screen = "createdomain";
@@ -78,6 +80,8 @@ export const Deposit_Pending_Request_Api = "pw/deposit-pending";
 export const Statement = "user/get-pw-sat-statement";
 // export const Widrwal_Pending_Request_Api = "pw/withdraw-pending";
 export const Widrwal_Pending_Request_Api = "pw/withdraw-pending";
+export const Create_Ledeger = "create-ledeger";
+export const Create_RollBack = "create-rollback";
 
 export const Reject_Deposit_Request = "pw/reject-deposit-request";
 export const Reject_Withdraw_Request = "pw/reject-withdraw-request";

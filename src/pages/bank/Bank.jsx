@@ -41,6 +41,9 @@ const Bank = () => {
   const reset = () => {
     setSearchText("");
     setInputvalue("");
+    setSearchData("");
+    setId("");
+    tabledata("");
   };
   const handleChange = (event) => {
     setInputvalue(event.target.value);
@@ -48,17 +51,18 @@ const Bank = () => {
   };
   const handleClick = () => {
     setSearchText(Inputvalue);
+    tabledata();
   };
 
   //////deposit Modal
 
-  const tabledata = async () => {
+  const tabledata = async (arg) => {
     setLoading((prev) => ({ ...prev, BankTable: true }));
     await axios
       .post(
         `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
         {
-          id: "",
+          id: arg !== undefined ? arg : id,
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
         },
