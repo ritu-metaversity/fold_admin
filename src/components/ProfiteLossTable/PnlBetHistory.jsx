@@ -30,7 +30,7 @@ const PnlBetHistory = ({ matchId, sportId }) => {
           matchId: matchId,
           userId: "",
           sportType: sportId,
-          isDeleted: true,
+          isDeleted: false,
         },
         {
           headers: {
