@@ -321,22 +321,24 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
           ),
           permissions: ["ADMIN"],
         },
-        {
-          key: 6343,
-          label: (
-            <Link
-              onClick={() => {
-                refershNow();
-                setSidebar();
-              }}
-              to={CreatAaccounts_Commission_Screen}
-              // reloadDocument={pathname === "/createAccounts"}
-            >
-              Create Commission
-            </Link>
-          ),
-          permissions: ["ADMIN"],
-        },
+        userType == 4
+          ? {
+              key: 6343,
+              label: (
+                <Link
+                  onClick={() => {
+                    refershNow();
+                    setSidebar();
+                  }}
+                  to={CreatAaccounts_Commission_Screen}
+                  // reloadDocument={pathname === "/createAccounts"}
+                >
+                  Create Commission
+                </Link>
+              ),
+              permissions: ["ADMIN"],
+            }
+          : {},
 
         userType === "5" && IsSelfState
           ? {
