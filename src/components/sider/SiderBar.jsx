@@ -1025,55 +1025,56 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                 ),
                 permissions: ["ADMIN"],
               },
-
-            {
-              style: { aligItems: "flex-start" },
-              key: 1976,
-              icon: <MdLeaderboard />,
-              permissions: ["ADMIN"],
-              label: "Post Leadeger",
-
-              children: [
-                {
-                  key: 19746,
+            userType == 4
+              ? {
+                  style: { aligItems: "flex-start" },
+                  key: 1976,
                   icon: <MdLeaderboard />,
-                  label: (
-                    <Link to={Create_Ledeger}>
-                      <span
-                        style={{
-                          display: "block",
-                          textAlign: "left",
-                        }}
-                        // onClick={showRollBackModal}
-                        // onClick={logout}
-                      >
-                        Create Ledeger
-                      </span>
-                    </Link>
-                  ),
                   permissions: ["ADMIN"],
-                },
-                {
-                  key: 19376,
-                  icon: <MdLeaderboard />,
-                  label: (
-                    <Link to={Create_RollBack}>
-                      <span
-                        style={{
-                          display: "block",
-                          textAlign: "left",
-                        }}
-                        // onClick={showRollBackModal}
-                        // onClick={logout}
-                      >
-                        Create Rollback
-                      </span>
-                    </Link>
-                  ),
-                  permissions: ["ADMIN"],
-                },
-              ],
-            },
+                  label: "Post Leadeger",
+
+                  children: [
+                    {
+                      key: 19746,
+                      icon: <MdLeaderboard />,
+                      label: (
+                        <Link to={Create_Ledeger}>
+                          <span
+                            style={{
+                              display: "block",
+                              textAlign: "left",
+                            }}
+                            // onClick={showRollBackModal}
+                            // onClick={logout}
+                          >
+                            Create Ledeger
+                          </span>
+                        </Link>
+                      ),
+                      permissions: ["ADMIN"],
+                    },
+                    {
+                      key: 19376,
+                      icon: <MdLeaderboard />,
+                      label: (
+                        <Link to={Create_RollBack}>
+                          <span
+                            style={{
+                              display: "block",
+                              textAlign: "left",
+                            }}
+                            // onClick={showRollBackModal}
+                            // onClick={logout}
+                          >
+                            Create Rollback
+                          </span>
+                        </Link>
+                      ),
+                      permissions: ["ADMIN"],
+                    },
+                  ],
+                }
+              : {},
             {
               style: { aligItems: "flex-start" },
               key: 17,
