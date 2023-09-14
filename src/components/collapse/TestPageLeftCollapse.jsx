@@ -576,11 +576,11 @@ const TestPageLeftCollapse = () => {
             width="100%"
             className="live-iframe"
             title="score-iframe"
-            src={`http://43.205.116.130/tv.php?eventId=${id}`}
+            src={`https://sqmrtv.in/btv.php?eventId=${id}`}
             // src={`https://stream.openhomepageforapi.live/YGapp/play.html?name=ttfour&autoplay=true`}
             // src={`https://luckybet.one/?eventId=${id}`}
           />
-        )}{" "}
+        )}
         {matchScore && (
           <iframe
             width="100%"
