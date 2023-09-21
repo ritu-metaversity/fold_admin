@@ -77,7 +77,7 @@ const Accountform = ({ IsSelfState }) => {
       });
     }
     if (name === "username") {
-      userChecker({ userId: value });
+      // userChecker({ userId: value });
       setData((prev) => {
         return {
           ...prev,
@@ -494,7 +494,7 @@ const Accountform = ({ IsSelfState }) => {
           <Form.Item
             label={
               <div style={{ display: "flex", gap: "20px" }}>
-                <p>User ID:</p>
+                <p style={{ margin: 0 }}>User ID:</p>
                 <span style={{ color: "red" }}>{useraChecker}</span>
               </div>
             }
@@ -518,7 +518,7 @@ const Accountform = ({ IsSelfState }) => {
             </div>
           </Form.Item>
           <Form.Item label="Password" name="Password">
-            <div className={errorData?.userId ? "col-input2" : "col-input"}>
+            <div className={errorData?.password ? "col-input2" : "col-input"}>
               <Input
                 placeholder="Password"
                 type="password"

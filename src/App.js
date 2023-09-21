@@ -60,6 +60,8 @@ import {
   Create_Ledeger,
   Create_RollBack,
   CreatAaccounts_Commission_Screen,
+  Create_Ledeger2,
+  Create_RollBack2,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -106,7 +108,7 @@ import MultipleLogin from "./pages/multipleLogin";
 import CasinoAmount from "./pages/casinoAmount";
 import CreateLedeger from "./pages/CraeteLeader";
 import CreateRollBack from "./pages/createRollBack";
-
+import Leadeger from "./pages/leadeger";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -391,6 +393,11 @@ function App() {
                 ></Route>
                 <Route
                   path={Create_RollBack}
+                  element={<CreateRollBack />}
+                ></Route>
+                <Route path={Create_Ledeger2} element={<Leadeger />}></Route>
+                <Route
+                  path={Create_RollBack2}
                   element={<CreateRollBack />}
                 ></Route>
                 <Route

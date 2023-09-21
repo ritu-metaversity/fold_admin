@@ -1,0 +1,27 @@
+.leader-filter-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  .leader-filter-left-col {
+    display: flex;
+    gap: 10px;
+  }
+  .leader-filter-right-col {
+    display: flex;
+    gap: 15px;
+    button {
+      background-color: orange;
+      color: white;
+      border: none !important;
+      & :hover {
+        color: white !important;
+      }
+    }
+  }
+}
+.filter-btn-container {
+  margin-block: 20px;
+}

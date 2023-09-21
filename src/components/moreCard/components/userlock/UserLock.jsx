@@ -14,7 +14,7 @@ const UserLock = ({ Apifun, data, handleCancelfunction, helper }) => {
     betLock: data?.betLock,
     accountLock: data?.accountLock,
     isactive: true,
-    liveCasinoLock: data.lcLock,
+    liveCasinoLock: false,
     virtualCasinoLock: data.vcLock,
     lupassword: "",
   });
@@ -114,7 +114,7 @@ const UserLock = ({ Apifun, data, handleCancelfunction, helper }) => {
             />
           </div>
         </div>
-        <div className="row-1">
+        {/* <div className="row-1">
           <label>Live Casino Lock</label>
           <div className="input">
             <Switch
@@ -124,7 +124,7 @@ const UserLock = ({ Apifun, data, handleCancelfunction, helper }) => {
               onChange={(e) => onChange({ value: e, name: "liveCasinoLock" })}
             />
           </div>
-        </div>
+        </div> */}
         <div className="row-1">
           <label>Transaction Code</label>
           <div className="input">

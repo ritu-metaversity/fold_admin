@@ -1,24 +1,60 @@
-import { Button, DatePicker, Input, Select, Table } from "antd";
-import axios from "axios";
-import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Create_Ledeger } from "../../routes/Routes";
-import { notifyToast } from "../../components/toast/Tost";
+import { Create_Ledeger2 } from "../../routes/Routes";
+import axios from "axios";
+import dayjs from "dayjs";
+import { Button, Checkbox, DatePicker, Input, Select, Table, Tabs } from "antd";
 import "./styles.scss";
-const CreateLedeger = () => {
+import { notifyToast } from "../../components/toast/Tost";
+
+const Leadeger = () => {
   const [activeSportData, setActiveSportData] = useState([]);
-  const [sportId, setSportId] = useState("");
-  const [sportList, setSportList] = useState([]);
-  const [setSportListId, setSetSportListId] = useState("");
+  const [sportId, setSportId] = useState(4);
+  const [lederData, setLederData] = useState([]);
+  const [isLedgerCreated, setIsLedgerCreated] = useState("");
+  const [mathIdData, setMathIdData] = useState([]);
+  const [date, setDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-  const [lederData, setLederData] = useState([]);
   const [paginationData, setPaginationData] = useState({
     index: 0,
     noOfRecords: 10,
     totalPages: 1,
   });
+  const onChange = (date, dateString) => {
+    setDate(dateString);
+  };
+  const handleChange = (key) => {
+    setSportId(key);
+  };
+  const createLedeger = async () => {
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_URL}/${"bmx/report/event-for-ledger"}`,
+        // `${"http://192.168.0.142/admin-new-apis"}/${"bmx/report/event-for-ledger"}`,
+
+        {
+          index: paginationData.index,
+          noOfRecords: paginationData.noOfRecords,
+          isLedgerCreated: isLedgerCreated || false,
+          sportId: sportId,
+          date: date,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        setPaginationData({
+          ...paginationData,
+          totalPages: res?.data?.data?.totalPages || 1,
+        });
+        setLederData(res?.data?.data?.response);
+      });
+  };
+
   const activeSport = async () => {
     await axios
       .post(
@@ -36,126 +72,14 @@ const CreateLedeger = () => {
   };
   useEffect(() => {
     activeSport();
-  }, []);
-
-  const getSportLsit = async (value) => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${"sport/event-detail-sport-wise"}`,
-        { sportId: value },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setSportList(res?.data?.data);
-      });
-  };
-
-  const handleChange = (value) => {
-    setSportId(value);
-    getSportLsit(value);
-  };
-  const handleChange2 = (value) => {
-    setSetSportListId(value);
-  };
-
-  const option = activeSportData?.map((res) => {
-    return {
-      value: res?.sportId,
-      label: res?.sportName,
-    };
-  });
-  const optionSport = sportList?.map((res) => {
-    return {
-      value: res?.eventId,
-      label: res?.eventName,
-    };
-  });
-  const [date, setDate] = useState(dayjs());
-  const onChange = (date, dateString) => {
-    setDate(dateString);
-    // console.log(date, dateString);
-  };
-
-  const createLedeger = async () => {
-    if (password) {
-      await axios
-        .post(
-          // `${process.env.REACT_APP_BASE_URL}/${"bmx/create-my-ledger"}`,
-          "https://ledger.247idhub.com/bmx/ledger/create-my-ledger",
-
-          {
-            matchId: setSportListId,
-            dateStr: dayjs(date).format("YYYY-MM-DD"),
-            userId: localStorage.getItem("userid"),
-            password: password,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
-        .then((res) => {
-          notifyToast().succes(res.data?.message);
-        });
-    } else {
-      setPasswordError(true);
-    }
-  };
-  const passwordHandler = (e) => {
-    let value = e.target.value;
-    if (value) {
-      setPasswordError(false);
-      setPassword(value);
-    } else {
-      setPasswordError(true);
-      setPassword(value);
-    }
-  };
-
-  const createLedege = async () => {
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${"bmx/report/event-for-ledger"}`,
-        // `${"http://192.168.0.142/admin-new-apis"}/${"bmx/report/event-for-ledger"}`,
-
-        {
-          index: paginationData.index,
-          noOfRecords: paginationData.noOfRecords,
-          // isLedgerCreated: isLedgerCreated || false,
-          matchId: setSportListId,
-          sportId: sportId,
-          date: null,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setPaginationData({
-          ...paginationData,
-          totalPages: res?.data?.data?.totalPages || 1,
-        });
-        setLederData(res?.data?.data?.response);
-      });
-  };
-
-  useEffect(() => {
-    createLedege();
+    createLedeger();
   }, [
-    paginationData.index,
-    paginationData.noOfRecords,
+    isLedgerCreated,
     sportId,
     date,
-    setSportListId,
+    paginationData.index,
+    paginationData.noOfRecords,
   ]);
-
   const dataSource = lederData?.map((res) => {
     // setCheck(
     //   !res?.isLedgerCreateRequested || res.sportId == 4 || res?.isLedgerCreated
@@ -170,20 +94,20 @@ const CreateLedeger = () => {
       mongoBetCount: res?.mongoBetCount,
       mySqlBetCount: res?.mySqlBetCount,
       Date: res?.matchStartDate,
-      // Action: !(
-      //   res?.isLedgerCreateRequested ||
-      //   res.sportId == 4 ||
-      //   res?.isLedgerCreated
-      // ) ? (
-      //   <Checkbox
-      //     checked={mathIdData.includes(res.matchid)}
-      //     onChange={(e) =>
-      //       setMatchId({ value: e.target.checked, matchId: res.matchid })
-      //     }
-      //   ></Checkbox>
-      // ) : (
-      //   ""
-      // ),
+      Action: !(
+        res?.isLedgerCreateRequested ||
+        res.sportId == 4 ||
+        res?.isLedgerCreated
+      ) ? (
+        <Checkbox
+          checked={mathIdData.includes(res.matchid)}
+          onChange={(e) =>
+            setMatchId({ value: e.target.checked, matchId: res.matchid })
+          }
+        ></Checkbox>
+      ) : (
+        ""
+      ),
     };
   });
 
@@ -218,9 +142,29 @@ const CreateLedeger = () => {
       dataIndex: "mySqlBetCount",
       key: "mySqlBetCount",
     },
+    {
+      title: "Action",
+      dataIndex: "Action",
+      key: "Action",
+    },
   ];
+
+  const handleChange2 = (value) => {
+    setIsLedgerCreated(value);
+  };
+  const option2 = [
+    {
+      value: "false",
+      label: "No",
+    },
+    {
+      value: "true",
+      label: "Yes",
+    },
+  ];
+
   const Increment = () => {
-    if (paginationData.index + 1 < paginationData.totalPages) {
+    if (paginationData.index < paginationData.totalPages) {
       setPaginationData({ ...paginationData, index: paginationData.index + 1 });
     }
 
@@ -241,55 +185,148 @@ const CreateLedeger = () => {
       index: paginationData.totalPages - 1,
     });
   };
+
+  const setMatchId = (id) => {
+    const { matchId } = id;
+    const { value } = id;
+
+    if (value) {
+      setMathIdData((prev) => {
+        return [...prev, matchId];
+      });
+    } else {
+      const matchIdData1 = [...mathIdData];
+      let value2 = matchIdData1?.find((curElm) => curElm == matchId);
+      let indexval = matchIdData1.indexOf(value2);
+      matchIdData1.splice(indexval, 1);
+      setMathIdData(matchIdData1);
+    }
+  };
+
+  const createLedegerSubmit = async () => {
+    if (!password) {
+      return setPasswordError(true);
+    } else if (!mathIdData.length) {
+      return notifyToast().error("Please Select Atleast Once");
+    } else {
+      await axios
+        .post(
+          `${
+            process.env.REACT_APP_BASE_URL
+          }/${"bmx/report/request-event-ledger"}`,
+          {
+            matchIds: mathIdData,
+            password: password,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data?.status) {
+            setMathIdData([]);
+            createLedeger();
+            notifyToast().succes(res.data?.message);
+          }
+        })
+        .catch((error) => {
+          console.log("outer");
+        });
+    }
+  };
+
+  const items = activeSportData?.map((item) => {
+    return {
+      label: item?.sportName,
+      key: item?.sportId,
+      children: <Table dataSource={dataSource} columns={columns} />,
+    };
+  });
+  const passwordHandler = (e) => {
+    let value = e.target.value;
+    if (value) {
+      setPasswordError(false);
+      setPassword(value);
+    } else {
+      setPasswordError(true);
+      setPassword(value);
+    }
+  };
   return (
     <>
       <div className="hading-create-accounts">
-        <h4>Create Ledeger</h4>
+        <h4>Leadeger</h4>
         <p>
           <NavLink to="/marketAnalysis">Home / </NavLink>
-          <NavLink to={Create_Ledeger} style={{ color: "#74788d" }}>
-            Create Ledeger
+          <NavLink to={Create_Ledeger2} style={{ color: "#74788d" }}>
+            Leader
           </NavLink>
         </p>
       </div>
-      <div className="rollback-div">
-        <Select
-          // defaultValue="lucy"
-          value={sportId || "Select Sport"}
-          style={{
-            width: 160,
-          }}
-          onChange={handleChange}
-          options={option}
-        />
-        <Select
-          // defaultValue="lucy"
-          value={setSportListId || "Select Sport List"}
-          style={{
-            width: 160,
-          }}
-          onChange={handleChange2}
-          options={optionSport}
-        />
-        <DatePicker onChange={onChange} defaultValue={date} />
-        <Input
-          placeholder="Transaction Password"
-          style={{
-            width: "200px",
-            border: passwordError && "1px solid red",
-          }}
-          type="password"
-          value={password}
-          onChange={passwordHandler}
-        />
-        <Button
-          style={{ background: "orange", border: "none", color: "white" }}
-          onClick={() => createLedeger()}
-        >
-          Create Ledeger
-        </Button>
+
+      <div className="leader-filter-container">
+        <div className="leader-filter-left-col">
+          <Select
+            // defaultValue="lucy"
+            value={isLedgerCreated || "Select Ledger"}
+            style={{
+              width: 160,
+            }}
+            onChange={handleChange2}
+            options={option2}
+          />
+          <DatePicker
+            onChange={onChange}
+            style={{
+              width: 160,
+            }}
+          />
+        </div>
+        <div className="leader-filter-right-col">
+          <Input
+            placeholder="Transaction Password"
+            style={{ width: "200px", border: passwordError && "1px solid red" }}
+            value={password}
+            onChange={passwordHandler}
+            type="password"
+          />
+          <Button
+            style={{ color: "white" }}
+            onClick={() => {
+              createLedegerSubmit();
+            }}
+          >
+            Submit
+          </Button>
+        </div>
       </div>
-      <Table dataSource={dataSource} columns={columns} />
+      <div style={{ paddingLeft: "5px", marginTop: "10px" }}>
+        <label className="d-inline-flex align-items-center">
+          Show&nbsp;
+          <select
+            className="custom-select-sm"
+            value={paginationData.noOfRecords}
+            onChange={(e) =>
+              setPaginationData({
+                ...paginationData,
+                noOfRecords: Number(e.target.value),
+              })
+            }
+          >
+            <option value="100">100</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+            <option value="2000">2000</option>
+          </select>
+          &nbsp;entries
+        </label>
+      </div>
+      <div className="filter-btn-container">
+        <Tabs onChange={handleChange} type="card" items={items} />
+      </div>
       <div className="pagination">
         <ul className="pagination-rounded mb-0">
           <ul
@@ -379,4 +416,4 @@ const CreateLedeger = () => {
   );
 };
 
-export default CreateLedeger;
+export default Leadeger;
