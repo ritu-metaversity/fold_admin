@@ -8,6 +8,7 @@ import Transaction from "./components/transaction/Transaction";
 import UserLock from "./components/userlock/UserLock";
 ///styles
 import "./styles.scss";
+import CasinoLock from "./components/casinoLock";
 const MoreCard = ({ Apifun, data, handleCancelfunction, helper }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
   const findPermission = JSON.parse(
@@ -78,6 +79,17 @@ const MoreCard = ({ Apifun, data, handleCancelfunction, helper }) => {
       label: "Edit Profile",
       children: (
         <EditProfile data={data} handleCancelfunction={handleCancelfunction} />
+      ),
+      permissions: ["ADMIN"],
+    },
+    {
+      key: "5",
+      label: "Casino Lock",
+      children: (
+        <CasinoLock
+          userData={data}
+          handleCancelfunction={handleCancelfunction}
+        />
       ),
       permissions: ["ADMIN"],
     },

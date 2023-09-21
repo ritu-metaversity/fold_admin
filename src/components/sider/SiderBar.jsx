@@ -14,7 +14,9 @@ import {
   Casiono,
   CreatAaccounts_Commission_Screen,
   Create_Ledeger,
+  Create_Ledeger2,
   Create_RollBack,
+  Create_RollBack2,
   Dashboard_Screen,
   HelperActiveUser_Screen,
   Left_Event_Menu,
@@ -1025,6 +1027,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                 ),
                 permissions: ["ADMIN"],
               },
+
             userType == 4
               ? {
                   style: { aligItems: "flex-start" },
@@ -1047,7 +1050,26 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                             // onClick={showRollBackModal}
                             // onClick={logout}
                           >
-                            Create Ledeger
+                            Cricket
+                          </span>
+                        </Link>
+                      ),
+                      permissions: ["ADMIN"],
+                    },
+                    {
+                      key: 1946,
+                      icon: <MdLeaderboard />,
+                      label: (
+                        <Link to={Create_Ledeger2}>
+                          <span
+                            style={{
+                              display: "block",
+                              textAlign: "left",
+                            }}
+                            // onClick={showRollBackModal}
+                            // onClick={logout}
+                          >
+                            Tennis / Football
                           </span>
                         </Link>
                       ),

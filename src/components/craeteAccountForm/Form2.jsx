@@ -28,6 +28,7 @@ const defaultData = {
   userId: "",
   sportPartnership: "",
   liveCasinoLock: true,
+  casinoCommission: "",
 };
 const Accountform = ({ IsSelfState }) => {
   const [sportsList, setSportsList] = useState([]);
@@ -55,6 +56,7 @@ const Accountform = ({ IsSelfState }) => {
     oddLossCommission: false,
     sportPartnership: currentUserROle === 2 ? false : undefined,
     userRole: false,
+    casinoCommission: false,
   });
   const handleChange = (e) => {
     let name = e?.target?.name;
@@ -76,7 +78,7 @@ const Accountform = ({ IsSelfState }) => {
       });
     }
     if (name === "username") {
-      userChecker({ userId: value });
+      // userChecker({ userId: value });
       setData((prev) => {
         return {
           ...prev,
@@ -181,6 +183,7 @@ const Accountform = ({ IsSelfState }) => {
         });
       }
     });
+
     if (isError) return false;
     else {
       const dataInner = {
@@ -199,6 +202,10 @@ const Accountform = ({ IsSelfState }) => {
       Object.assign(dataInner, {
         appId: Number(dataInner.appId),
       });
+      Object.assign(dataInner, {
+        casinoCommission: Number(dataInner.casinoCommission),
+      });
+
       setLoading((prev) => ({ ...prev, CreateUserAccount: true }));
       await axios
         .post(
@@ -243,10 +250,10 @@ const Accountform = ({ IsSelfState }) => {
   //   console.log("Failed:", errorInfo);
   // };
 
-  const userChecker = async (userId) => {
+  const userChecker = async (user) => {
     const res = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/${User_Check}`,
-      userId,
+      user,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -318,7 +325,6 @@ const Accountform = ({ IsSelfState }) => {
       </Select.Option>,
     ],
   };
-  console.log(IsSelfState, "IsSelfState");
   const getSpotsList = async () => {
     await axios
       .post(
@@ -357,7 +363,6 @@ const Accountform = ({ IsSelfState }) => {
       )
       .then((res) => {
         setCasinoStatus(res?.data?.data?.liveCasinoLock);
-        console.log(res.data.data.liveCasinoLock, "=====hjbhj=====");
         setData((o) => ({
           ...o,
           liveCasinoLock:
@@ -429,7 +434,7 @@ const Accountform = ({ IsSelfState }) => {
       };
     });
   };
-  console.log(errorData, "d");
+
   return (
     <>
       <Modal
@@ -494,7 +499,7 @@ const Accountform = ({ IsSelfState }) => {
           <Form.Item
             label={
               <div style={{ display: "flex", gap: "20px" }}>
-                <p>User ID:</p>
+                <p style={{ margin: 0 }}>User ID</p>
                 <span style={{ color: "red" }}>{useraChecker}</span>
               </div>
             }
@@ -505,10 +510,11 @@ const Accountform = ({ IsSelfState }) => {
                 type="text"
                 name="userId"
                 value={data.userId}
-                onChange={(e) =>
-                  !e.target.value.includes(" ") && handleChange(e)
-                }
-                onKeyUp={(e) => userChecker({ userId: e.target.value })}
+                onChange={(e) => {
+                  userChecker({ userId: e.target.value });
+                  !e.target.value.includes(" ") && handleChange(e);
+                }}
+                // onKeyUp={(e) => userChecker({ userId: e.target.value })}
               />
               {errorData?.userId ? (
                 <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
@@ -697,6 +703,42 @@ const Accountform = ({ IsSelfState }) => {
                 <Select.Option value={2.5}>2.5</Select.Option>
                 <Select.Option value={3}>3</Select.Option>
               </Select>
+            </div>
+          </Form.Item>
+
+          <Form.Item
+            name="casinoCommission"
+            label="Casino Commission"
+            style={{ marginTop: "0px" }}
+          >
+            <div
+              className={
+                errorData.casinoCommission ? "col-input2" : "col-input"
+              }
+            >
+              <Select
+                // defaultValue={"Select User Type"}
+                value={data.casinoCommission || "Casino Commission"}
+                name="casinoCommission"
+                onChange={(e) => {
+                  handleSelectChange(e, "casinoCommission");
+                }}
+              >
+                <Select.Option value={0.5}>0.5</Select.Option>
+                <Select.Option value={1}>1</Select.Option>
+                <Select.Option value={1.5}>1.5</Select.Option>
+                <Select.Option value={2}>2</Select.Option>
+                <Select.Option value={2.5}>2.5</Select.Option>
+                <Select.Option value={3}>3</Select.Option>
+              </Select>
+              {/* <Select
+                placeholder="Session Commission"
+                name="fancyLossCommission"
+                value={data?.fancyLossCommission}
+                onChange={handleChange}
+                type="number"
+                
+              /> */}
             </div>
           </Form.Item>
           <Form.Item
