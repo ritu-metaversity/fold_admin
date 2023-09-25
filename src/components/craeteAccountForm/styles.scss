@@ -165,3 +165,14 @@ $breakpoint-tablet: 870px;
 // .ant-select-selector {
 //   border: 1px solid transparent !important;
 // }
+
+.check-box-div {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: start;
+  .ant-form-item {
+    width: 25%;
+  }
+}

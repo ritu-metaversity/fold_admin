@@ -29,6 +29,11 @@ const defaultData = {
   sportPartnership: "",
   liveCasinoLock: true,
   casinoCommission: "",
+  isAuraAllowed: true,
+  isSuperNovaAllowed: true,
+  isQTechAllowed: true,
+  isVirtualAllowed: true,
+  isSportBookAllowed: true,
 };
 const Accountform = ({ IsSelfState }) => {
   const [sportsList, setSportsList] = useState([]);
@@ -423,18 +428,40 @@ const Accountform = ({ IsSelfState }) => {
   //     label: "3",
   //   },
   // ];
-  const swtchChangeHandle = (checked) => {
-    // setCasinoSwitchState(checked);
 
-    const value = checked;
-    setData((prev) => {
-      return {
-        ...prev,
-        liveCasinoLock: value,
-      };
-    });
+  const [casino, setCasino] = useState([]);
+  const [casionCheck, setCasionCheck] = useState(false);
+  const getCasino = async () => {
+    const res = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/${"user/alloted-casino-list"}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+    try {
+      setCasino(res?.data?.data);
+      res?.data?.data.map((res) => {
+        setData((prev) => {
+          return {
+            ...prev,
+            [`is${res.name.replace(" ", "")}Allowed`]: res.active,
+          };
+        });
+      });
+    } catch (error) {}
   };
 
+  useEffect(() => {
+    if (userType == 4) {
+      setCasionCheck(false);
+    } else {
+      setCasionCheck(true);
+    }
+    getCasino();
+  }, [userType]);
   return (
     <>
       <Modal
@@ -661,7 +688,7 @@ const Accountform = ({ IsSelfState }) => {
           ) : (
             ""
           )}
-          <Form.Item
+          {/* <Form.Item
             name="liveCasinoLock"
             label="Live Casino"
             style={{ marginTop: "0px" }}
@@ -676,7 +703,7 @@ const Accountform = ({ IsSelfState }) => {
             <span style={{ paddingLeft: "10px" }}>
               {data.liveCasinoLock ? "On" : "Off"}
             </span>
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             name="oddLossCommission"
@@ -706,41 +733,6 @@ const Accountform = ({ IsSelfState }) => {
             </div>
           </Form.Item>
 
-          <Form.Item
-            name="casinoCommission"
-            label="Casino Commission"
-            style={{ marginTop: "0px" }}
-          >
-            <div
-              className={
-                errorData.casinoCommission ? "col-input2" : "col-input"
-              }
-            >
-              <Select
-                // defaultValue={"Select User Type"}
-                value={data.casinoCommission || "Casino Commission"}
-                name="casinoCommission"
-                onChange={(e) => {
-                  handleSelectChange(e, "casinoCommission");
-                }}
-              >
-                <Select.Option value={0.5}>0.5</Select.Option>
-                <Select.Option value={1}>1</Select.Option>
-                <Select.Option value={1.5}>1.5</Select.Option>
-                <Select.Option value={2}>2</Select.Option>
-                <Select.Option value={2.5}>2.5</Select.Option>
-                <Select.Option value={3}>3</Select.Option>
-              </Select>
-              {/* <Select
-                placeholder="Session Commission"
-                name="fancyLossCommission"
-                value={data?.fancyLossCommission}
-                onChange={handleChange}
-                type="number"
-                
-              /> */}
-            </div>
-          </Form.Item>
           <Form.Item
             name="fancyLossCommission"
             label="Session Commission"
@@ -776,6 +768,109 @@ const Accountform = ({ IsSelfState }) => {
               /> */}
             </div>
           </Form.Item>
+          <Form.Item
+            name="casinoCommission"
+            label="Casino Commission"
+            style={{ marginTop: "0px" }}
+          >
+            <div
+              className={
+                errorData.casinoCommission ? "col-input2" : "col-input"
+              }
+            >
+              <Select
+                // defaultValue={"Select User Type"}
+                value={data.casinoCommission || "Casino Commission"}
+                name="casinoCommission"
+                onChange={(e) => {
+                  handleSelectChange(e, "casinoCommission");
+                }}
+              >
+                <Select.Option value={0.5}>0.5</Select.Option>
+                <Select.Option value={1}>1</Select.Option>
+                <Select.Option value={1.5}>1.5</Select.Option>
+                <Select.Option value={2}>2</Select.Option>
+                <Select.Option value={2.5}>2.5</Select.Option>
+                <Select.Option value={3}>3</Select.Option>
+              </Select>
+              {/* <Select
+                placeholder="Session Commission"
+                name="fancyLossCommission"
+                value={data?.fancyLossCommission}
+                onChange={handleChange}
+                type="number"
+                
+              /> */}
+            </div>
+          </Form.Item>
+          <div className="check-box-div">
+            {/* <Form.Item
+              name="liveCasinoLock"
+              label="Live Casino"
+              style={{ marginTop: "0px" }}
+            >
+              <Switch
+                size="small"
+                disabled={userType === "4" ? false : casinoStatus}
+                checked={data.liveCasinoLock}
+                onChange={swtchChangeHandle}
+                style={{ marginTop: "-2px" }}
+              />
+              <span style={{ paddingLeft: "10px" }}>
+                {data.liveCasinoLock ? "On" : "Off"}
+              </span>
+            </Form.Item> */}
+            {!casionCheck
+              ? casino?.map((key) => {
+                  return (
+                    <Form.Item
+                      name="liveCasinoLock"
+                      label={key.name}
+                      style={{ marginTop: "0px" }}
+                    >
+                      <Switch
+                        size="small"
+                        // disabled={userType === "4" ? false : casinoStatus}
+                        checked={!data[`is${key.name.replace(" ", "")}Allowed`]}
+                        onChange={(e) =>
+                          setData((prev) => {
+                            return {
+                              ...prev,
+                              [`is${key.name.replace(" ", "")}Allowed`]:
+                                !prev[`is${key.name.replace(" ", "")}Allowed`],
+                            };
+                          })
+                        }
+                        style={{ marginTop: "-2px" }}
+                      />
+
+                      <span style={{ paddingLeft: "10px" }}>
+                        {!data[`is${key.name.replace(" ", "")}Allowed`]
+                          ? "On"
+                          : "Off"}
+                      </span>
+                    </Form.Item>
+                  );
+                })
+              : casino?.map((key) => {
+                  return (
+                    <Form.Item
+                      name="liveCasinoLock"
+                      label={key.name}
+                      style={{ marginTop: "0px" }}
+                    >
+                      <Switch
+                        size="small"
+                        disabled
+                        // disabled={userType === "4" ? false : casinoStatus}
+                        name={key.casinoName}
+                        checked={!key.casinoLock}
+                        style={{ marginTop: "-2px" }}
+                      />
+                    </Form.Item>
+                  );
+                })}
+          </div>
           <Form.Item name="TransactionPassword" label="Transaction Password">
             <div className={errorData.lupassword ? "col-input2" : "col-input"}>
               <Input
