@@ -1,42 +1,48 @@
-import { Button, Switch } from "antd";
+import { Button, Input, Switch } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { LoaderContext } from "../../../../App";
 
 const CasinoLock = ({ userData }) => {
   const [casinoData, setCasinoData] = useState([]);
+  const [passwordError, setPasswordError] = useState(false);
   const { setLoading } = useContext(LoaderContext);
-  //   /user/get-casino-bet-lock
-  // {"userId":"asdf"}
+  const [dataw, setData] = useState({
+    isAuraAllowed: true,
+    isSuperNovaAllowed: true,
+    isQTechAllowed: true,
+    isVirtualAllowed: true,
+    isSportBookAllowed: true,
+    lupassword: "",
+    liveCasinoLock: false,
+    userId: userData.userId,
+  });
+
   const submitCasinoLock = async (e) => {
-    let { value } = e;
-    let { casinoId } = e;
-    setLoading((prev) => ({ ...prev, submitCasinoLock: true }));
-    await axios
-      .post(
-        `${process.env.REACT_APP_BASE_URL}/${"user/update-casino-lock"}`,
-        { isCainoLock: value, userId: userData.userId, casinoId: casinoId },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
-      .then((res) => {
-        if (res?.data?.status) {
-          submitUserLockData();
-        }
-      })
-      .catch((error) => {
-        // setUserLockData((prev) => {
-        //   return {
-        //     ...prev,
-        //     betLock:,
-        //     accountLock: ,
-        //   };
-        // });
-      });
-    setLoading((prev) => ({ ...prev, submitCasinoLock: false }));
+    if (dataw.lupassword) {
+      setPasswordError(false);
+      setLoading((prev) => ({ ...prev, submitCasinoLock: true }));
+      await axios
+        .post(
+          `${process.env.REACT_APP_BASE_URL}/${"user/update-casino-lock"}`,
+
+          dataw,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
+        .then((res) => {
+          if (res?.data?.status) {
+            submitUserLockData();
+          }
+        })
+        .catch((error) => {});
+      setLoading((prev) => ({ ...prev, submitCasinoLock: false }));
+    } else {
+      setPasswordError(true);
+    }
   };
   const submitUserLockData = async () => {
     setLoading((prev) => ({ ...prev, submitUserLockData: true }));
@@ -53,21 +59,22 @@ const CasinoLock = ({ userData }) => {
       )
       .then((res) => {
         setCasinoData(res?.data?.data);
+        res?.data?.data.map((res) => {
+          setData((prev) => {
+            return {
+              ...prev,
+              [`is${res.casinoName}Allowed`]: res.casinoLock,
+            };
+          });
+        });
       })
-      .catch((error) => {
-        // setUserLockData((prev) => {
-        //   return {
-        //     ...prev,
-        //     betLock:,
-        //     accountLock: ,
-        //   };
-        // });
-      });
+      .catch((error) => {});
     setLoading((prev) => ({ ...prev, submitUserLockData: false }));
   };
   useEffect(() => {
     submitUserLockData();
   }, []);
+
   return (
     <div>
       <div className="form" style={{ padding: "10px" }}>
@@ -82,70 +89,51 @@ const CasinoLock = ({ userData }) => {
                 <Switch
                   size="small"
                   name={res.casinoName}
-                  checked={res.casinoLock}
+                  checked={!dataw[`is${res.casinoName}Allowed`]}
                   onChange={(e) =>
-                    submitCasinoLock({ value: e, casinoId: res.casinoId })
+                    setData((prev) => {
+                      return {
+                        ...prev,
+                        [`is${res.casinoName}Allowed`]: !e,
+                      };
+                    })
                   }
                 />
               </div>
             </div>
           );
         })}
-        {/* <div className="row-1">
-          <label>VirtualCasino</label>
-          <div className="input">
-            <Switch
-              size="small"
-              name="virtualCasino"
-              checked={data.virtualCasino}
-              onChange={(e) =>
-                handleChange({ value: e, name: "virtualCasino" })
-              }
-            />
-          </div>
-        </div>
-        <div className="row-1">
-          <label>SuperNova</label>
-          <div className="input">
-            <Switch
-              size="small"
-              name="superNova"
-              checked={data.superNova}
-              onChange={(e) => handleChange({ value: e, name: "superNova" })}
-            />
-          </div>
-        </div>
-        <div className="row-1">
-          <label>Qtech</label>
-          <div className="input">
-            <Switch
-              size="small"
-              name="qtech"
-              checked={data.qtech}
-              onChange={(e) => handleChange({ value: e, name: "qtech" })}
-            />
-          </div>
-        </div> */}
-        {/* <div className="row-1">
-          <label>Live Casino Lock</label>
-          <div className="input">
-            <Switch
-              size="small"
-              name="liveCasinoLock"
-              checked={userLockData.liveCasinoLock}
-              onChange={(e) => onChange({ value: e, name: "liveCasinoLock" })}
-            />
-          </div>
-        </div> */}
 
-        {/* <div className="row-button">
-          <Button
-            style={{ background: "black", borderColor: "black" }}
-            onClick={onSumbit}
-          >
-            Submit
-          </Button>
-        </div> */}
+        <div className="row-1">
+          <label>
+            <Input
+              placeholder="Transaction Password"
+              type="password"
+              style={{ border: passwordError && "1px solid red" }}
+              onChange={(e) => {
+                if (e.target.value) {
+                  setPasswordError(false);
+                } else {
+                  setPasswordError(true);
+                }
+                setData((prev) => {
+                  return {
+                    ...prev,
+                    lupassword: e.target.value,
+                  };
+                });
+              }}
+            />
+          </label>
+          <div className="input" style={{ justifyContent: "left !important" }}>
+            <Button
+              style={{ backgroundColor: "#23292e", color: "white" }}
+              onClick={() => submitCasinoLock()}
+            >
+              Submit
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );

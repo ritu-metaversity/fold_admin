@@ -10,6 +10,7 @@ import "./styles.scss";
 import {
   Casino_Screen,
   Casino_Type_Screen,
+  Casino_leader,
   Casion_amount,
   Casiono,
   CreatAaccounts_Commission_Screen,
@@ -1070,6 +1071,25 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                             // onClick={logout}
                           >
                             Tennis / Football
+                          </span>
+                        </Link>
+                      ),
+                      permissions: ["ADMIN"],
+                    },
+                    {
+                      key: 1943346,
+                      icon: <MdLeaderboard />,
+                      label: (
+                        <Link to={Casino_leader}>
+                          <span
+                            style={{
+                              display: "block",
+                              textAlign: "left",
+                            }}
+                            // onClick={showRollBackModal}
+                            // onClick={logout}
+                          >
+                            Casino
                           </span>
                         </Link>
                       ),

@@ -25,8 +25,8 @@ const Loginform = () => {
     const value = {
       ...values,
       // appUrl:"admin.sm_097.com",
-      // appUrl: "admin.247diamondexch.com",
-      appUrl: host === "localhost" ? "admin.localhost" : host,
+      appUrl: "admin.maggiexch.com",
+      // appUrl: host === "localhost" ? "admin.localhost" : host,
     };
     await axios
       .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, value)
@@ -94,7 +94,6 @@ const Loginform = () => {
     };
   }, [setLoading]);
 
-  
   return (
     <div className="form-div">
       <h3>Welcome to Admin Panel</h3>

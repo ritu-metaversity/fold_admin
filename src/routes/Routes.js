@@ -83,6 +83,8 @@ export const Widrwal_Pending_Request_Api = "pw/withdraw-pending";
 export const Create_Ledeger = "create-ledeger";
 export const Create_Ledeger2 = "create-ledeger2";
 export const Create_RollBack2 = "create-rollback2";
+export const Casino_leader = "casino";
+
 
 export const Create_RollBack = "create-rollback";
 
