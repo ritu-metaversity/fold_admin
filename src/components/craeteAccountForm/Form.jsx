@@ -756,7 +756,7 @@ const Accountform = ({ IsSelfState }) => {
                   />
 
                   <span style={{ paddingLeft: "10px" }}>
-                    {!data[`is${key.name.replace(" ", "")}Allowed`]
+                    {data[`is${key.name.replace(" ", "")}Allowed`]
                       ? "On"
                       : "Off"}
                   </span>
