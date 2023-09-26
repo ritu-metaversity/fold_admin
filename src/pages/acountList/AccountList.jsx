@@ -391,12 +391,14 @@ const Activelist = () => {
       <div className="table">
         <div className="search">
           <div className="left-col">
-            <Input
-              placeholder="search here....."
-              name="message"
-              onChange={handleChange}
-              value={searchText}
-            />
+            <form>
+              <Input
+                placeholder="search here....."
+                name="message"
+                onChange={handleChange}
+                value={searchText}
+              />
+            </form>
             <div className="serch-btn">
               <Button
                 onChange={handleClick}
