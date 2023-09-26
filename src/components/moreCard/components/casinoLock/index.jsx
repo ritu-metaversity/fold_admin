@@ -2,6 +2,7 @@ import { Button, Input, Switch } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { LoaderContext } from "../../../../App";
+import { notifyToast } from "../../../toast/Tost";
 
 const CasinoLock = ({ userData }) => {
   const [casinoData, setCasinoData] = useState([]);
@@ -35,7 +36,10 @@ const CasinoLock = ({ userData }) => {
         )
         .then((res) => {
           if (res?.data?.status) {
+            notifyToast().succes(res?.data?.message);
             submitUserLockData();
+          } else {
+            notifyToast().error(res?.data?.message);
           }
         })
         .catch((error) => {});
@@ -89,12 +93,12 @@ const CasinoLock = ({ userData }) => {
                 <Switch
                   size="small"
                   name={res.casinoName}
-                  checked={!dataw[`is${res.casinoName}Allowed`]}
+                  checked={dataw[`is${res.casinoName}Allowed`]}
                   onChange={(e) =>
                     setData((prev) => {
                       return {
                         ...prev,
-                        [`is${res.casinoName}Allowed`]: !e,
+                        [`is${res.casinoName}Allowed`]: e,
                       };
                     })
                   }

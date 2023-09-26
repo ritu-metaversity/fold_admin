@@ -62,14 +62,23 @@ const Accountform = ({ IsSelfState }) => {
     );
     try {
       setCasino(res?.data?.data);
-      res?.data?.data.map((res) => {
-        setData((prev) => {
-          return {
-            ...prev,
-            [`is${res.name.replace(" ", "")}Allowed`]: res.active,
-          };
-        });
-      });
+      userType == 4
+        ? res?.data?.data.map((res) => {
+            setData((prev) => {
+              return {
+                ...prev,
+                [`is${res.name.replace(" ", "")}Allowed`]: true,
+              };
+            });
+          })
+        : res?.data?.data.map((res) => {
+            setData((prev) => {
+              return {
+                ...prev,
+                [`is${res.name.replace(" ", "")}Allowed`]: res.active,
+              };
+            });
+          });
     } catch (error) {}
   };
   console.log(data, "g");
@@ -725,7 +734,7 @@ const Accountform = ({ IsSelfState }) => {
                   <Switch
                     size="small"
                     disabled={casionCheck}
-                    checked={data[`is${key.name.replace(" ", "")}Allowed`]}
+                    checked={!data[`is${key.name.replace(" ", "")}Allowed`]}
                     onChange={(e) =>
                       setData((prev) => {
                         return {
