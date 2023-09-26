@@ -448,7 +448,7 @@ const Accountform = ({ IsSelfState }) => {
             setData((prev) => {
               return {
                 ...prev,
-                [`is${res.name.replace(" ", "")}Allowed`]: true,
+                [`is${res.name.replace(" ", "")}Allowed`]: false,
               };
             });
           })
@@ -831,7 +831,7 @@ const Accountform = ({ IsSelfState }) => {
                   <Switch
                     size="small"
                     disabled={casionCheck}
-                    checked={!data[`is${key.name.replace(" ", "")}Allowed`]}
+                    checked={data[`is${key.name.replace(" ", "")}Allowed`]}
                     onChange={(e) =>
                       setData((prev) => {
                         return {

@@ -67,7 +67,7 @@ const Accountform = ({ IsSelfState }) => {
             setData((prev) => {
               return {
                 ...prev,
-                [`is${res.name.replace(" ", "")}Allowed`]: true,
+                [`is${res.name.replace(" ", "")}Allowed`]: false,
               };
             });
           })
@@ -304,6 +304,15 @@ const Accountform = ({ IsSelfState }) => {
             setUserPass(res?.data?.password);
             setData({
               ...defaultData,
+              ...(userType == 4
+                ? casino.reduce((accu, res) => {
+                    accu[`is${res.name.replace(" ", "")}Allowed`] = false;
+                    return accu;
+                  }, {})
+                : casino.reduce((accu, res) => {
+                    accu[`is${res.name.replace(" ", "")}Allowed`] = res.active;
+                    return accu;
+                  }, {})),
               liveCasinoLock: userType === "4" ? false : !casinoStatus,
             });
             showModal();
@@ -480,7 +489,6 @@ const Accountform = ({ IsSelfState }) => {
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     };
   }, [setLoading]);
-  console.log(data, "dat");
   return (
     <>
       <Modal
@@ -734,7 +742,7 @@ const Accountform = ({ IsSelfState }) => {
                   <Switch
                     size="small"
                     disabled={casionCheck}
-                    checked={!data[`is${key.name.replace(" ", "")}Allowed`]}
+                    checked={data[`is${key.name.replace(" ", "")}Allowed`]}
                     onChange={(e) =>
                       setData((prev) => {
                         return {
