@@ -67,7 +67,7 @@ const CasinoLock = ({ userData }) => {
           setData((prev) => {
             return {
               ...prev,
-              [`is${res.casinoName}Allowed`]: res.casinoLock,
+              [`is${res.casinoName}Allowed`]: res.casinoAllowed,
             };
           });
         });
