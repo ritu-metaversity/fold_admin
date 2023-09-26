@@ -443,14 +443,31 @@ const Accountform = ({ IsSelfState }) => {
     );
     try {
       setCasino(res?.data?.data);
-      res?.data?.data.map((res) => {
-        setData((prev) => {
-          return {
-            ...prev,
-            [`is${res.name.replace(" ", "")}Allowed`]: res.active,
-          };
-        });
-      });
+      userType == 4
+        ? res?.data?.data.map((res) => {
+            setData((prev) => {
+              return {
+                ...prev,
+                [`is${res.name.replace(" ", "")}Allowed`]: true,
+              };
+            });
+          })
+        : res?.data?.data.map((res) => {
+            setData((prev) => {
+              return {
+                ...prev,
+                [`is${res.name.replace(" ", "")}Allowed`]: res.active,
+              };
+            });
+          });
+      // res?.data?.data.map((res) => {
+      //   setData((prev) => {
+      //     return {
+      //       ...prev,
+      //       [`is${res.name.replace(" ", "")}Allowed`]: res.active,
+      //     };
+      //   });
+      // });
     } catch (error) {}
   };
 
@@ -804,72 +821,37 @@ const Accountform = ({ IsSelfState }) => {
             </div>
           </Form.Item>
           <div className="check-box-div">
-            {/* <Form.Item
-              name="liveCasinoLock"
-              label="Live Casino"
-              style={{ marginTop: "0px" }}
-            >
-              <Switch
-                size="small"
-                disabled={userType === "4" ? false : casinoStatus}
-                checked={data.liveCasinoLock}
-                onChange={swtchChangeHandle}
-                style={{ marginTop: "-2px" }}
-              />
-              <span style={{ paddingLeft: "10px" }}>
-                {data.liveCasinoLock ? "On" : "Off"}
-              </span>
-            </Form.Item> */}
-            {!casionCheck
-              ? casino?.map((key) => {
-                  return (
-                    <Form.Item
-                      name="liveCasinoLock"
-                      label={key.name}
-                      style={{ marginTop: "0px" }}
-                    >
-                      <Switch
-                        size="small"
-                        // disabled={userType === "4" ? false : casinoStatus}
-                        checked={!data[`is${key.name.replace(" ", "")}Allowed`]}
-                        onChange={(e) =>
-                          setData((prev) => {
-                            return {
-                              ...prev,
-                              [`is${key.name.replace(" ", "")}Allowed`]:
-                                !prev[`is${key.name.replace(" ", "")}Allowed`],
-                            };
-                          })
-                        }
-                        style={{ marginTop: "-2px" }}
-                      />
+            {casino?.map((key) => {
+              return (
+                <Form.Item
+                  name="liveCasinoLock"
+                  label={key.name}
+                  style={{ marginTop: "0px" }}
+                >
+                  <Switch
+                    size="small"
+                    disabled={casionCheck}
+                    checked={!data[`is${key.name.replace(" ", "")}Allowed`]}
+                    onChange={(e) =>
+                      setData((prev) => {
+                        return {
+                          ...prev,
+                          [`is${key.name.replace(" ", "")}Allowed`]:
+                            !prev[`is${key.name.replace(" ", "")}Allowed`],
+                        };
+                      })
+                    }
+                    style={{ marginTop: "-2px" }}
+                  />
 
-                      <span style={{ paddingLeft: "10px" }}>
-                        {!data[`is${key.name.replace(" ", "")}Allowed`]
-                          ? "On"
-                          : "Off"}
-                      </span>
-                    </Form.Item>
-                  );
-                })
-              : casino?.map((key) => {
-                  return (
-                    <Form.Item
-                      name="liveCasinoLock"
-                      label={key.name}
-                      style={{ marginTop: "0px" }}
-                    >
-                      <Switch
-                        size="small"
-                        disabled
-                        // disabled={userType === "4" ? false : casinoStatus}
-                        name={key.casinoName}
-                        checked={!key.casinoLock}
-                        style={{ marginTop: "-2px" }}
-                      />
-                    </Form.Item>
-                  );
-                })}
+                  <span style={{ paddingLeft: "10px" }}>
+                    {!data[`is${key.name.replace(" ", "")}Allowed`]
+                      ? "On"
+                      : "Off"}
+                  </span>
+                </Form.Item>
+              );
+            })}
           </div>
           <Form.Item name="TransactionPassword" label="Transaction Password">
             <div className={errorData.lupassword ? "col-input2" : "col-input"}>
