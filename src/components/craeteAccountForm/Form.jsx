@@ -81,7 +81,6 @@ const Accountform = ({ IsSelfState }) => {
           });
     } catch (error) {}
   };
-  console.log(data, "g");
   // const submitUserLockData = async () => {
   //   setLoading((prev) => ({ ...prev, submitUserLockData: true }));
   //   await axios

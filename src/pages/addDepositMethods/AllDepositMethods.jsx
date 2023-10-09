@@ -16,7 +16,13 @@ const AllDepositMethods = () => {
   // const [value, setvalue] = useState({});
   const [modalFormValue, setModalFormValue] = useState();
   const BankFormObj = {
-    0: <AddDepositBankForm id={id} endingPoint={"save-sub"} />,
+    0: (
+      <AddDepositBankForm
+        id={id}
+        endingPoint={"save-sub"}
+        setModalFormValue={setModalFormValue}
+      />
+    ),
     1: <AddDepositUpiForm id={id} endingPoint={"save-sub"} />,
     2: <AddDepositQrForm id={id} endingPoint={"save-sub"} />,
   };

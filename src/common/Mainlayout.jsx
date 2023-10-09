@@ -6,17 +6,13 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import "./styles.scss";
 
-
 import Marquee from "react-fast-marquee";
 import { Outlet } from "react-router-dom";
 import { LoaderContext } from "../App";
 
-const Mainlayout = ({ view ,IsSelfState,logo,message}) => {
+const Mainlayout = ({ view, IsSelfState, logo, message }) => {
   const [display, setDisplay] = useState(false);
   const [siderBar, setSidebar] = useState(false);
- 
- 
- 
 
   const { keyNew } = useContext(LoaderContext);
 
@@ -29,11 +25,6 @@ const Mainlayout = ({ view ,IsSelfState,logo,message}) => {
   const clickfun = () => {
     setDisplay(!display);
   };
-
-
-
-
-
 
   return (
     <>
@@ -71,6 +62,7 @@ const Mainlayout = ({ view ,IsSelfState,logo,message}) => {
             </div>
             <div className="content" onClick={closeSidebar}>
               {view && <Outlet key={keyNew} context={[IsSelfState]} />}
+              <footer className="footer" />
             </div>
           </div>
         </div>

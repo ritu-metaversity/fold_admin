@@ -25,7 +25,7 @@ const Loginform = () => {
     const value = {
       ...values,
       // appUrl:"admin.sm_097.com",
-      // appUrl: "admin.maggiexch.com",
+      // appUrl: "admin.maggibook.com",
       appUrl: host === "localhost" ? "admin.localhost" : host,
     };
     await axios

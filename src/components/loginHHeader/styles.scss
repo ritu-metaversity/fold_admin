@@ -5,6 +5,7 @@ $breakpoint-tablet: 870px;
   height: 100%;
   width: 100%;
   justify-content: space-between;
+  overflow: hidden;
   @media (max-width: $breakpoint-tablet) {
     padding: 5px;
   }

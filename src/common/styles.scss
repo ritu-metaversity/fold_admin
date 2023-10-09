@@ -14,20 +14,20 @@ $breakpoint-common: 1280px;
 }
 .content-conatiner {
   margin-top: 64px;
-  position: fixed;
+  // position: fixed;
   width: 100%;
   .d-flex {
     display: flex;
     width: 99.5%;
-    height: 93vh;
+    // height: 93vh;
     // padding: 10px;
-    @media (max-width: $breakpoint-tablet) {
-      height: calc(91.5vh - 60px);
-      width: 99%;
-    }
-    @media (max-width: $breakpoint-mobile) {
-      height: calc(91.5vh - 140px);
-    }
+    // @media (max-width: $breakpoint-common) {
+    //   height: calc(91.5vh - 200px);
+    //   width: 99%;
+    // }
+    // @media (max-width: $breakpoint-mobile) {
+    //   height: calc(91.5vh - 0px);
+    // }
     //    margin-top: 4.5%;
     //    @media (max-width: $breakpoint-specific) {
     //     margin-top: 8%;
@@ -40,32 +40,51 @@ $breakpoint-common: 1280px;
     // }
 
     .left-sider {
-      width: 324px;
+      position: sticky;
+      top: 64px;
+      width: 254px;
       height: 100%;
+
+      min-width: 254px;
       background-color: #16191c;
-      top: 70px;
       &::-webkit-scrollbar {
         display: none;
       }
-      @media (max-width: $breakpoint-tablet) {
-        position: fixed;
-
-        top: 64px;
-        z-index: 11;
-        transform: translatex(-400px);
+      @media (max-width: $breakpoint-mobile) {
+        width: 0;
+        min-width: 0;
       }
     }
+    // .footer {
+    //   height: 100px;
+    // }
     .content {
       width: 100%;
       overflow-y: scroll;
-      background-color: #f8f8fb;
+      // background-color: #f8f8fb;
+
       padding: 10px;
-      // padding-top: 5px;
-      // padding-left: 10px;
-      @media (max-width: $breakpoint-common) {
-        overflow-y: scroll;
-        padding: 10px;
+      // @media (min-width: 768px) {
+      //   height: calc(100vh - 60px);
+      // }
+      // @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+      //   height: calc(100vh - 100px);
+      //   margin-bottom: 100px;
+      // }
+      // @media (max-width: 1024px) and (min-width: 768px) {
+      //   height: calc(100vh - 200px);
+      // }
+      @media (max-width: $breakpoint-mobile) {
+        // height: calc(100vh - 200px);
       }
+
+      // @media (min-width: $breakpoint-common) {
+      //   height: calc(100vh - 100px);
+      // }
+      // @media (max-width: $breakpoint-common) {
+      //   overflow-y: scroll;
+      //   padding: 10px;
+      // }
     }
   }
 }
@@ -81,6 +100,7 @@ $breakpoint-common: 1280px;
   transform: translatex(0px);
   transition: 0.4s;
   @media (max-width: $breakpoint-mobile) {
+    width: 264px;
   }
 
   .ant-menu:nth-child(1) {
