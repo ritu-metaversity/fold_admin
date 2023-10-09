@@ -11,7 +11,12 @@ import { notifyToast } from "../../toast/Tost";
 //   2: "admin-new-apis/deposit-type/update_sub",
 //   3: "admin-new-apis/deposit-type/update_bank",
 // };
-const AddDepositBankForm = ({ id, userData, endingPoint }) => {
+const AddDepositBankForm = ({
+  id,
+  userData,
+  endingPoint,
+  setModalFormValue,
+}) => {
   const { setLoading } = useContext(LoaderContext);
 
   const [data, setData] = useState({
@@ -130,7 +135,12 @@ const AddDepositBankForm = ({ id, userData, endingPoint }) => {
           //     accountNumber: "",
           //     accountType: "",
           //   });
-          notifyToast().succes(res.data.message);
+          if (res?.data?.status) {
+            setModalFormValue(false);
+            notifyToast().succes(res.data.message);
+          } else {
+            notifyToast().error(res.data.message);
+          }
         })
         .catch((error) => {
           // message.error(error.response.data.message);

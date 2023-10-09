@@ -184,7 +184,7 @@ const AddDepositMethodAdmin = () => {
       key: "id",
     },
     {
-      title: "Withdraw Method",
+      title: "Deposit Method",
       dataIndex: "withdrawMethod",
       key: "withdrawMethod",
       // width: "30px",

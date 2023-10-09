@@ -84,7 +84,7 @@ const MoreCard = ({ Apifun, data, handleCancelfunction, helper }) => {
     },
     {
       key: "5",
-      label: "Casino Lock",
+      label: "Casino Allowed",
       children: (
         <CasinoLock
           userData={data}

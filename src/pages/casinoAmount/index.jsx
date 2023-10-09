@@ -19,13 +19,12 @@ const CasinoAmount = () => {
   // const [loading, setLoading] = useState(false);
   const { setLoading } = useContext(LoaderContext);
 
-  const [inputValue, setInputValue] = useState([]);
+  const [inputValue, setInputValue] = useState({});
   const [DataList, setDataList] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   //////// change password
 
   ////edit profile State
-
   const [paginationData, setPaginationData] = useState({
     index: 0,
     noOfRecords: 100,
@@ -38,7 +37,7 @@ const CasinoAmount = () => {
     setLoading((prev) => ({ ...prev, casinoAmount: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"bet-modifier/get"}`,
+        `${process.env.REACT_APP_BASE_URL}/${"api/getallBetValue"}`,
         {
           userId: searchValue,
           index: paginationData.index,
@@ -57,7 +56,27 @@ const CasinoAmount = () => {
             totalPages: res?.data?.data?.totalPages || 1,
           });
           setDataList(res?.data?.data);
-          setInputValue(res?.data?.data?.map((item) => item.value));
+          console.log(res?.data?.data, "k");
+          res.data.data.map((res) => {
+            setInputValue((prev) => {
+              return {
+                ...prev,
+                [res.subAdminId]: {
+                  aura: res.aura,
+                  id: res.id,
+                  currency: res.currency,
+                  fantasyGames: res.fantasyGames,
+                  qtech: res.qtech,
+                  sportBook: res.sportBook,
+                  supernowa: res.supernowa,
+                },
+              };
+            });
+          });
+          // setInputValue((res) => {
+          //   console.log(res, "k");
+          // });
+          // setInputValue(res?.data?.data?.map((item) => item.value));
         } else {
           setDataList([]);
           setInputValue([]);
@@ -113,33 +132,144 @@ const CasinoAmount = () => {
   const dataSource = DataList?.map((curElm, index) => {
     return {
       key: curElm.appid + curElm.userid + index,
-      appid: curElm?.userid,
-      userid: (
+      appid: curElm?.userId,
+      // userid: (
+      //   <Input
+      //     value={inputValue[index]}
+      //     type="number"
+      //     onChange={(e) =>
+      //       setInputValue((o) => {
+      //         const newO = { ...o };
+      //         newO[index] = e.target.value;
+      //         return newO;
+      //       })
+      //     }
+      //     style={{ width: "100px" }}
+      //   />
+      // ),
+
+      supernowa: (
         <Input
-          value={inputValue[index]}
+          value={inputValue[curElm.subAdminId].supernowa}
           type="number"
           onChange={(e) =>
-            setInputValue((o) => {
-              const newO = { ...o };
-              newO[index] = e.target.value;
-              return newO;
+            setInputValue((prev) => {
+              return {
+                ...prev,
+                [curElm.subAdminId]: {
+                  ...prev[curElm.subAdminId],
+                  supernowa: Number(e.target.value),
+                },
+              };
             })
           }
-          style={{ width: "200px" }}
+          style={{ width: "100px" }}
+        />
+      ),
+      aura: (
+        <Input
+          value={inputValue[curElm.subAdminId].aura}
+          type="number"
+          onChange={(e) =>
+            setInputValue((prev) => {
+              return {
+                ...prev,
+                [curElm.subAdminId]: {
+                  ...prev[curElm.subAdminId],
+                  aura: Number(e.target.value),
+                },
+              };
+            })
+          }
+          style={{ width: "100px" }}
+        />
+      ),
+      qtech: (
+        <Input
+          value={inputValue[curElm.subAdminId].qtech}
+          type="number"
+          onChange={(e) =>
+            setInputValue((prev) => {
+              return {
+                ...prev,
+                [curElm.subAdminId]: {
+                  ...prev[curElm.subAdminId],
+                  qtech: Number(e.target.value),
+                },
+              };
+            })
+          }
+          style={{ width: "100px" }}
+        />
+      ),
+      sportBook: (
+        <Input
+          value={inputValue[curElm.subAdminId].sportBook}
+          type="number"
+          onChange={(e) =>
+            setInputValue((prev) => {
+              return {
+                ...prev,
+                [curElm.subAdminId]: {
+                  ...prev[curElm.subAdminId],
+                  sportBook: Number(e.target.value),
+                },
+              };
+            })
+          }
+          style={{ width: "100px" }}
+        />
+      ),
+      currency: (
+        <Input
+          value={inputValue[curElm.subAdminId].currency}
+          type="text"
+          disabled
+          onChange={(e) =>
+            setInputValue((prev) => {
+              return {
+                ...prev,
+                [curElm.subAdminId]: {
+                  ...prev[curElm.subAdminId],
+                  currency: e.target.value,
+                },
+              };
+            })
+          }
+          style={{ width: "100px" }}
+        />
+      ),
+      fantasyGames: (
+        <Input
+          value={inputValue[curElm.subAdminId].fantasyGames}
+          type="number"
+          onChange={(e) =>
+            setInputValue((prev) => {
+              return {
+                ...prev,
+                [curElm.subAdminId]: {
+                  ...prev[curElm.subAdminId],
+                  fantasyGames: Number(e.target.value),
+                },
+              };
+            })
+          }
+          style={{ width: "100px" }}
         />
       ),
       action: (
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
           <Button
             style={{ background: "orange", color: "white", border: "none" }}
-            onClick={() => {
-              casinoAmountUpdate({ value: inputValue[index], id: curElm.id });
-            }}
-            disabled={
-              inputValue[index] != curElm.value && inputValue[index] > 0
-                ? false
-                : true
-            }
+            onClick={() => casinoAmountUpdate(inputValue[curElm.subAdminId])}
+            // onClick={() => {
+            //   casinoAmountUpdate({ value: inputValue[index], id: curElm.id });
+            // }}
+            // disabled={
+            //   inputValue[index] != curElm.value && inputValue[index] > 0
+            //     ? false
+            //     : true
+            // }
           >
             Update
           </Button>
@@ -147,12 +277,11 @@ const CasinoAmount = () => {
       ),
     };
   });
-
   const casinoAmountUpdate = async (value) => {
     setLoading((prev) => ({ ...prev, casinoAmountUpdate: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"bet-modifier/update"}`,
+        `${process.env.REACT_APP_BASE_URL}/${"api/update_admin_Bet_value"}`,
         value,
         //   index: paginationData.index,
         //   noOfRecords: paginationData.noOfRecords,
@@ -181,6 +310,7 @@ const CasinoAmount = () => {
 
     // setLoading(false);
   };
+
   return (
     <>
       <div className="hading-create-accounts">
@@ -196,6 +326,14 @@ const CasinoAmount = () => {
         <label htmlFor="" style={{ display: "block", marginBlock: "10px" }}>
           Search User
         </label>
+        {/* <Select
+          mode="tags"
+          style={{
+            width: "100%",
+          }}
+          onChange={handleChange}
+          options={options}
+        /> */}
         <Input
           onChange={(e) => setSearchValue(e.target.value)}
           value={searchValue}

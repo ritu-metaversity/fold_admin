@@ -230,8 +230,18 @@ const Accountform = ({ IsSelfState }) => {
             setUserPass(res?.data?.password);
             setData({
               ...defaultData,
+              ...(userType == 4
+                ? casino.reduce((accu, res) => {
+                    accu[`is${res.name.replace(" ", "")}Allowed`] = false;
+                    return accu;
+                  }, {})
+                : casino.reduce((accu, res) => {
+                    accu[`is${res.name.replace(" ", "")}Allowed`] = res.active;
+                    return accu;
+                  }, {})),
               liveCasinoLock: userType === "4" ? false : !casinoStatus,
             });
+            
             showModal();
             setErrorData({
               username: false,
