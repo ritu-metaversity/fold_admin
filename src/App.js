@@ -63,6 +63,7 @@ import {
   Create_Ledeger2,
   Create_RollBack2,
   Casino_leader,
+  Create_Casino,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -111,6 +112,7 @@ import CreateLedeger from "./pages/CraeteLeader";
 import CreateRollBack from "./pages/createRollBack";
 import Leadeger from "./pages/leadeger";
 import CasinoLeader from "./pages/leadeger/CasinoLeadeger";
+import CreateCasino from "./pages/createCasino/CreateCasino";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -403,6 +405,8 @@ function App() {
                   path={Create_RollBack2}
                   element={<CreateRollBack />}
                 ></Route>
+                <Route path={Create_Casino} element={<CreateCasino />}></Route>
+
                 <Route
                   path={Down_Line_ActiveUser + ":id"}
                   element={<DownList apiState={true} />}

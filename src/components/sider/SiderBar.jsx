@@ -14,6 +14,7 @@ import {
   Casion_amount,
   Casiono,
   CreatAaccounts_Commission_Screen,
+  Create_Casino,
   Create_Ledeger,
   Create_Ledeger2,
   Create_RollBack,
@@ -1058,7 +1059,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       permissions: ["ADMIN"],
                     },
                     {
-                      key: 1946,
+                      key: 19461946,
                       icon: <MdLeaderboard />,
                       label: (
                         <Link to={Create_Ledeger2}>
@@ -1077,6 +1078,25 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                       permissions: ["ADMIN"],
                     },
                     {
+                      key: 1946,
+                      icon: <MdLeaderboard />,
+                      label: (
+                        <Link to={Create_Casino}>
+                          <span
+                            style={{
+                              display: "block",
+                              textAlign: "left",
+                            }}
+                            // onClick={showRollBackModal}
+                            // onClick={logout}
+                          >
+                            Create Casino
+                          </span>
+                        </Link>
+                      ),
+                      permissions: ["ADMIN"],
+                    },
+                    {
                       key: 1943346,
                       icon: <MdLeaderboard />,
                       label: (
@@ -1089,7 +1109,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                             // onClick={showRollBackModal}
                             // onClick={logout}
                           >
-                            Casino
+                            Casino List
                           </span>
                         </Link>
                       ),
