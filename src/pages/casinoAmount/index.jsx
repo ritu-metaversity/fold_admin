@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 ///styles
 import { NavLink } from "react-router-dom";
 
@@ -27,7 +27,7 @@ const CasinoAmount = () => {
   ////edit profile State
   const [paginationData, setPaginationData] = useState({
     index: 0,
-    noOfRecords: 100,
+    noOfRecords: 10,
     totalPages: 1,
   });
 
@@ -56,7 +56,6 @@ const CasinoAmount = () => {
             totalPages: res?.data?.data?.totalPages || 1,
           });
           setDataList(res?.data?.data);
-          console.log(res?.data?.data, "k");
           res.data.data.map((res) => {
             setInputValue((prev) => {
               return {
@@ -106,177 +105,209 @@ const CasinoAmount = () => {
     };
   }, [setLoading]);
 
-  //   const Increment = () => {
-  //     if (paginationData.index < paginationData.totalPages) {
-  //       setPaginationData({ ...paginationData, index: paginationData.index + 1 });
-  //     }
+  const Increment = () => {
+    if (paginationData.index < paginationData.totalPages) {
+      setPaginationData({ ...paginationData, index: paginationData.index + 1 });
+    }
 
-  //     // setPageIndex(PageIndex + 1);
-  //   };
-  //   const Decrement = () => {
-  //     if (paginationData.index > 0) {
-  //       setPaginationData({ ...paginationData, index: paginationData.index - 1 });
-  //     }
-  //     // setPageIndex(PageIndex - 1);
-  //   };
-  //   const ResetCounter = () => {
-  //     setPaginationData({ ...paginationData, index: 0 });
-  //   };
-  //   const LastCounter = () => {
-  //     setPaginationData({
-  //       ...paginationData,
-  //       index: paginationData.totalPages - 1,
-  //     });
-  //   };
+    // setPageIndex(PageIndex + 1);
+  };
+  const Decrement = () => {
+    if (paginationData.index > 0) {
+      setPaginationData({ ...paginationData, index: paginationData.index - 1 });
+    }
+    // setPageIndex(PageIndex - 1);
+  };
+  const ResetCounter = () => {
+    setPaginationData({ ...paginationData, index: 0 });
+  };
+  const LastCounter = () => {
+    setPaginationData({
+      ...paginationData,
+      index: paginationData.totalPages - 1,
+    });
+  };
 
-  const dataSource = DataList?.map((curElm, index) => {
-    return {
-      key: curElm.appid + curElm.userid + index,
-      appid: curElm?.userId,
-      // userid: (
-      //   <Input
-      //     value={inputValue[index]}
-      //     type="number"
-      //     onChange={(e) =>
-      //       setInputValue((o) => {
-      //         const newO = { ...o };
-      //         newO[index] = e.target.value;
-      //         return newO;
-      //       })
-      //     }
-      //     style={{ width: "100px" }}
-      //   />
-      // ),
+  const dataSource = useMemo(
+    () =>
+      DataList?.map((curElm, index) => {
+        return {
+          key: `${curElm.appid} + ${curElm.userid} + ${index}`,
+          appid: curElm?.userId,
+          // userid: (
+          //   <Input
+          //     value={inputValue[index]}
+          //     type="number"
+          //     onChange={(e) =>
+          //       setInputValue((o) => {
+          //         const newO = { ...o };
+          //         newO[index] = e.target.value;
+          //         return newO;
+          //       })
+          //     }
+          //     style={{ width: "100px" }}
+          //   />
+          // ),
 
-      supernowa: (
-        <Input
-          value={inputValue[curElm.subAdminId].supernowa}
-          type="number"
-          onChange={(e) =>
-            setInputValue((prev) => {
-              return {
-                ...prev,
-                [curElm.subAdminId]: {
-                  ...prev[curElm.subAdminId],
-                  supernowa: Number(e.target.value),
-                },
-              };
-            })
-          }
-          style={{ width: "100px" }}
-        />
-      ),
-      aura: (
-        <Input
-          value={inputValue[curElm.subAdminId].aura}
-          type="number"
-          onChange={(e) =>
-            setInputValue((prev) => {
-              return {
-                ...prev,
-                [curElm.subAdminId]: {
-                  ...prev[curElm.subAdminId],
-                  aura: Number(e.target.value),
-                },
-              };
-            })
-          }
-          style={{ width: "100px" }}
-        />
-      ),
-      qtech: (
-        <Input
-          value={inputValue[curElm.subAdminId].qtech}
-          type="number"
-          onChange={(e) =>
-            setInputValue((prev) => {
-              return {
-                ...prev,
-                [curElm.subAdminId]: {
-                  ...prev[curElm.subAdminId],
-                  qtech: Number(e.target.value),
-                },
-              };
-            })
-          }
-          style={{ width: "100px" }}
-        />
-      ),
-      sportBook: (
-        <Input
-          value={inputValue[curElm.subAdminId].sportBook}
-          type="number"
-          onChange={(e) =>
-            setInputValue((prev) => {
-              return {
-                ...prev,
-                [curElm.subAdminId]: {
-                  ...prev[curElm.subAdminId],
-                  sportBook: Number(e.target.value),
-                },
-              };
-            })
-          }
-          style={{ width: "100px" }}
-        />
-      ),
-      currency: (
-        <Input
-          value={inputValue[curElm.subAdminId].currency}
-          type="text"
-          disabled
-          onChange={(e) =>
-            setInputValue((prev) => {
-              return {
-                ...prev,
-                [curElm.subAdminId]: {
-                  ...prev[curElm.subAdminId],
-                  currency: e.target.value,
-                },
-              };
-            })
-          }
-          style={{ width: "100px" }}
-        />
-      ),
-      fantasyGames: (
-        <Input
-          value={inputValue[curElm.subAdminId].fantasyGames}
-          type="number"
-          onChange={(e) =>
-            setInputValue((prev) => {
-              return {
-                ...prev,
-                [curElm.subAdminId]: {
-                  ...prev[curElm.subAdminId],
-                  fantasyGames: Number(e.target.value),
-                },
-              };
-            })
-          }
-          style={{ width: "100px" }}
-        />
-      ),
-      action: (
-        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-          <Button
-            style={{ background: "orange", color: "white", border: "none" }}
-            onClick={() => casinoAmountUpdate(inputValue[curElm.subAdminId])}
-            // onClick={() => {
-            //   casinoAmountUpdate({ value: inputValue[index], id: curElm.id });
-            // }}
-            // disabled={
-            //   inputValue[index] != curElm.value && inputValue[index] > 0
-            //     ? false
-            //     : true
-            // }
-          >
-            Update
-          </Button>
-        </div>
-      ),
-    };
-  });
+          supernowa: (
+            <Input
+              value={inputValue[curElm.subAdminId].supernowa}
+              type="number"
+              onKeyDown={(e) => {
+                if (e.key == ".") {
+                  e.preventDefault();
+                }
+              }}
+              onChange={(e) =>
+                setInputValue((prev) => {
+                  return {
+                    ...prev,
+                    [curElm.subAdminId]: {
+                      ...prev[curElm.subAdminId],
+                      supernowa: Number(e.target.value),
+                    },
+                  };
+                })
+              }
+              style={{ width: "100px" }}
+            />
+          ),
+          aura: (
+            <Input
+              value={inputValue[curElm.subAdminId].aura}
+              type="number"
+              onKeyDown={(e) => {
+                if (e.key == ".") {
+                  e.preventDefault();
+                }
+              }}
+              onChange={(e) =>
+                setInputValue((prev) => {
+                  return {
+                    ...prev,
+                    [curElm.subAdminId]: {
+                      ...prev[curElm.subAdminId],
+                      aura: Number(e.target.value),
+                    },
+                  };
+                })
+              }
+              style={{ width: "100px" }}
+            />
+          ),
+          qtech: (
+            <Input
+              value={inputValue[curElm.subAdminId].qtech}
+              type="number"
+              onKeyDown={(e) => {
+                if (e.key == ".") {
+                  e.preventDefault();
+                }
+              }}
+              onChange={(e) =>
+                setInputValue((prev) => {
+                  return {
+                    ...prev,
+                    [curElm.subAdminId]: {
+                      ...prev[curElm.subAdminId],
+                      qtech: Number(e.target.value),
+                    },
+                  };
+                })
+              }
+              style={{ width: "100px" }}
+            />
+          ),
+          sportBook: (
+            <Input
+              value={inputValue[curElm.subAdminId].sportBook}
+              type="number"
+              onKeyDown={(e) => {
+                if (e.key == ".") {
+                  e.preventDefault();
+                }
+              }}
+              onChange={(e) =>
+                setInputValue((prev) => {
+                  return {
+                    ...prev,
+                    [curElm.subAdminId]: {
+                      ...prev[curElm.subAdminId],
+                      sportBook: Number(e.target.value),
+                    },
+                  };
+                })
+              }
+              style={{ width: "100px" }}
+            />
+          ),
+          currency: (
+            <Input
+              value={inputValue[curElm.subAdminId].currency}
+              type="text"
+              disabled
+              onChange={(e) =>
+                setInputValue((prev) => {
+                  return {
+                    ...prev,
+                    [curElm.subAdminId]: {
+                      ...prev[curElm.subAdminId],
+                      currency: e.target.value,
+                    },
+                  };
+                })
+              }
+              style={{ width: "100px" }}
+            />
+          ),
+          fantasyGames: (
+            <Input
+              value={inputValue[curElm.subAdminId].fantasyGames}
+              type="number"
+              onKeyDown={(e) => {
+                if (e.key == ".") {
+                  e.preventDefault();
+                }
+              }}
+              onChange={(e) => {
+                setInputValue((prev) => {
+                  return {
+                    ...prev,
+                    [curElm.subAdminId]: {
+                      ...prev[curElm.subAdminId],
+                      fantasyGames: Number(e.target.value),
+                    },
+                  };
+                });
+              }}
+              style={{ width: "100px" }}
+            />
+          ),
+          action: (
+            <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+              <Button
+                style={{ background: "orange", color: "white", border: "none" }}
+                onClick={() =>
+                  casinoAmountUpdate(inputValue[curElm.subAdminId])
+                }
+                // onClick={() => {
+                //   casinoAmountUpdate({ value: inputValue[index], id: curElm.id });
+                // }}
+                // disabled={
+                //   inputValue[index] != curElm.value && inputValue[index] > 0
+                //     ? false
+                //     : true
+                // }
+              >
+                Update
+              </Button>
+            </div>
+          ),
+        };
+      }),
+    [DataList, inputValue]
+  );
+
   const casinoAmountUpdate = async (value) => {
     setLoading((prev) => ({ ...prev, casinoAmountUpdate: true }));
     await axios
@@ -340,6 +371,29 @@ const CasinoAmount = () => {
           style={{ width: "300px" }}
         />
       </div>
+      <div style={{ paddingLeft: "5px", marginBlock: "10px" }}>
+        <label className="d-inline-flex align-items-center">
+          Show&nbsp;
+          <select
+            className="custom-select-sm"
+            value={paginationData.noOfRecords}
+            onChange={(e) =>
+              setPaginationData({
+                ...paginationData,
+                noOfRecords: Number(e.target.value),
+              })
+            }
+          >
+            <option value="10">10</option>
+            <option value="100">100</option>
+            <option value="250">250</option>
+            <option value="500">500</option>
+            <option value="1000">1000</option>
+            <option value="2000">2000</option>
+          </select>
+          &nbsp;entries
+        </label>
+      </div>
       <div className="table">
         {/* <div style={{ paddingLeft: "5px" }}>
           <label className="d-inline-flex align-items-center">
@@ -369,7 +423,7 @@ const CasinoAmount = () => {
           className="accountTable"
           pagination={false}
         />
-        {/* <div className="pagination">
+        <div className="pagination">
           <ul className="pagination-rounded mb-0">
             <ul
               role="menubar"
@@ -453,7 +507,7 @@ const CasinoAmount = () => {
               </li>
             </ul>
           </ul>
-        </div> */}
+        </div>
       </div>
     </>
   );
