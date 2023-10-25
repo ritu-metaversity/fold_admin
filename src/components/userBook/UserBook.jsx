@@ -61,6 +61,7 @@ const UserBook = ({ data }) => {
       <Table
         dataSource={data?.dataList?.length ? dataSource : ""}
         columns={data?.dataList?.length ? columns : ""}
+          pagination={false}
         summary={(pageData) => {
           let totalBorrow = 0;
           let totalRepayment = 0;
