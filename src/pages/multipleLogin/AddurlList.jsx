@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { LoaderContext } from "../../App";
 import axios from "axios";
 import { Button, Input, Select } from "antd";
@@ -40,20 +40,24 @@ const AddurlList = ({ useData, handleCance }) => {
 
     // setLoading(false);
   };
-  const optionValue = getDomainValue?.map((curElm) => {
-    return {
-      label: curElm.appurl,
-      value: curElm.appurl,
-    };
-  });
+  const optionValue = useMemo(
+    () =>
+      getDomainValue?.map((curElm, index) => {
+        return {
+          value: curElm.appurl + "::" + index,
+          label: curElm.appurl,
+        };
+      }),
+    [getDomainValue]
+  );
 
-  const options = [];
-  optionValue?.map((curELm) => {
-    options.push({
-      label: curELm.label,
-      value: curELm.value,
-    });
-  });
+  // const options = getDomainValue?.map((curELm) => {
+  //   console.log(curELm,"cur")
+  //   return {
+  //     label: curELm.label,
+  //     value: curELm.value,
+  //   };
+  // });
   const getDomainList = async () => {
     setLoading((prev) => ({ ...prev, getDomainList: true }));
     await axios
@@ -97,8 +101,9 @@ const AddurlList = ({ useData, handleCance }) => {
   const [selectValue, setSelectValue] = useState([]);
   const [selectError, setselectError] = useState(false);
   const handleChange = (value) => {
-    setSelectValue(value);
-    console.log(`selected ${value}`);
+    const newVal = value?.map((rem) => rem?.split("::")[0]);
+    // const newVal = value[0].split("::");
+    setSelectValue(newVal);
     if (value) {
       setselectError(false);
     } else {
@@ -132,7 +137,7 @@ const AddurlList = ({ useData, handleCance }) => {
         placeholder="Please select Domain"
         value={selectValue}
         onChange={handleChange}
-        options={options}
+        options={optionValue}
       />
       <div className="submit" style={{ textAlign: "right" }}>
         <Button
