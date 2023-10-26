@@ -382,7 +382,7 @@ const TestPageLeftCollapse = () => {
   const endUIArray = [];
   const UIArray = Object.keys(odddata).map((keyName) => {
     if (
-      !["Fancy2", "Fancy3", "OddEven"].includes(keyName) ||
+      !["Fancy2", "Fancy3", "OddEven", "BallByBall"].includes(keyName) ||
       !odddata[keyName]?.length
     )
       return "";
@@ -746,74 +746,76 @@ const TestPageLeftCollapse = () => {
         )}
         {/* fancyOdds.Odds?.filter( (item) => !["Match Odds", "Tied
         Match"].includes(item.Name) */}
-        {odddata?.Odds?.filter(
-          (item) =>
-            !["Match Odds", "Tied Match", "Completed Match"].includes(item.Name)
-        ).map((item, index) => {
-          if (!(item?.runners?.length > 0)) return <></>;
+        {odddata?.Odds?.filter((item) => "Match Odds" !== item.Name).map(
+          (item, index) => {
+            if (!(item?.runners?.length > 0)) return <></>;
 
-          return (
-            <Panel
-              key={item.Name}
-              header={
-                <div
-                  className="panel-header"
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  {item.Name}
-                  <div className="btn" style={{ gap: "10px", display: "flex" }}>
-                    {userType === "4" ? (
+            return (
+              <Panel
+                key={item.Name}
+                header={
+                  <div
+                    className="panel-header"
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {item.Name}
+                    <div
+                      className="btn"
+                      style={{ gap: "10px", display: "flex" }}
+                    >
+                      {userType === "4" ? (
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            getBetLock(item.marketId);
+                          }}
+                          type="primary"
+                          style={{ background: "#F18521", color: "white" }}
+                        >
+                          {betStatus?.find((res) => res == item.marketId)
+                            ? " Bet / Unlock"
+                            : "Bet Lock"}
+                        </Button>
+                      ) : (
+                        ""
+                      )}
                       <Button
                         onClick={(e) => {
                           e.stopPropagation();
-                          getBetLock(item.marketId);
+                          showModal(item.marketId);
                         }}
                         type="primary"
-                        style={{ background: "#F18521", color: "white" }}
+                        style={{
+                          background: "#F18521",
+                          color: "white",
+                        }}
                       >
-                        {betStatus?.find((res) => res == item.marketId)
-                          ? " Bet / Unlock"
-                          : "Bet Lock"}
+                        User Book
                       </Button>
-                    ) : (
-                      ""
-                    )}
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        showModal(item.marketId);
-                      }}
-                      type="primary"
-                      style={{
-                        background: "#F18521",
-                        color: "white",
-                      }}
-                    >
-                      User Book
-                    </Button>
+                    </div>
                   </div>
+                }
+                className="left-panel-header"
+              >
+                <div className="collpase-div">
+                  <MatchOddTable
+                    data={item}
+                    prev={prevState?.Odds[index]}
+                    pnlData={oddPnl}
+                    maxbet={maxBetData.Odds?.length && maxBetData.Odds[index]}
+                  />
                 </div>
-              }
-              className="left-panel-header"
-            >
-              <div className="collpase-div">
-                <MatchOddTable
-                  data={item}
-                  prev={prevState?.Odds[index]}
-                  pnlData={oddPnl}
-                  maxbet={maxBetData.Odds?.length && maxBetData.Odds[index]}
-                />
-              </div>
-            </Panel>
-          );
-        })}
+              </Panel>
+            );
+          }
+        )}
       </Collapse>
       <Collapse bordered={false} defaultActiveKey={["Toss"]}>
-        {/* {odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
+        {odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
           <Panel
             header={
               <div
@@ -886,7 +888,7 @@ const TestPageLeftCollapse = () => {
           </Panel>
         ) : (
           ""
-        )} */}
+        )}
         <div className="fancy-panel-conatiner">
           {UIArray.map((item) => {
             return item;
