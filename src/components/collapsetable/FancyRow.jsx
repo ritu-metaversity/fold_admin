@@ -127,6 +127,27 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
             }}
           >
             <div className="left-col-fancy">
+              {data?.ball && (
+                <p
+                  style={{
+                    margin: "0",
+                    padding: "0px",
+                    width: "18px",
+                    height: "18px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: "100px",
+                    background: "rgb(53, 94, 59)",
+                    color: "white",
+                    fontSize: "10px",
+                    padding: "5px",
+                  }}
+                >
+                  {data?.ball}
+                </p>
+              )}
+
               <span style={{ cursor: "pointer" }}>{data?.nation}</span>
               <p
                 style={{
