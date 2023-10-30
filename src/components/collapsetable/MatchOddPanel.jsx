@@ -5,7 +5,7 @@ import MatchOddsRow from "./MatchOddsRow";
 import { intToString } from "./BookmarkTable";
 import "./styles.scss";
 
-const MatchOddTable = ({ data, prev, pnlData, maxbet }) => {
+const MatchOddTable = ({ data, prev, pnlData }) => {
   if (!data) return <Spin style={{ width: "100%", margin: "auto" }} />;
   else {
     return (
@@ -16,8 +16,8 @@ const MatchOddTable = ({ data, prev, pnlData, maxbet }) => {
               <p>
                 {/* {maxbet?.Bookmaker[0]} */}
                 {/* ihiu */}
-                min:{intToString(maxbet?.minBet)} max:
-                {intToString(maxbet?.maxBet)}
+                min:{intToString(data.minBet)} max:
+                {intToString(data?.maxBet)}
               </p>
             </div>
             <div className="right-col-btn">
