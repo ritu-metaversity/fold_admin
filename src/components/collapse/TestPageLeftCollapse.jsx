@@ -567,8 +567,8 @@ const TestPageLeftCollapse = () => {
             width="100%"
             height="200px"
             title="score-iframe"
-            src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
-            // src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
+            // src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
+            src={`https://score.247idhub.com/index.html/event/${id}?theme=crazy-diamond`}
           />
         )}
         {matchToggle && (
@@ -586,8 +586,9 @@ const TestPageLeftCollapse = () => {
             width="100%"
             height="200px"
             title="score-iframe"
-            // src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
-            src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
+            src={`https://score.247idhub.com/go-score/template/${sportId}/${id}`}
+
+            // src={`https://internal-consumer-apis.jmk888.com/go-score/template/${sportId}/${id}`}
           />
         )}
       </>
