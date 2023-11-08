@@ -10,13 +10,16 @@ const ExposureLimit = ({ userData }) => {
   console.log(userData, "sjdnvbdfsjhv");
 
   const [limit, setLimit] = useState();
-  const [passwordError, setPasswordError] = useState(false);
   const [updatedData, setUpdatedData] = useState({
     userId: userData?.userId,
     netExposure: "",
     luPassword: "",
   });
 
+  const [error, setError] = useState({
+    netExposure: false,
+    luPassword: false,
+  });
   useEffect(() => {
     getExposureLimit();
   }, []);
@@ -56,6 +59,59 @@ const ExposureLimit = ({ userData }) => {
       });
   };
 
+  const onSumbit = () => {
+    let isSuccess = false;
+    for (const key of Object.keys(updatedData)) {
+      setError((prev) => {
+        return { ...prev, [key]: Boolean(!updatedData[key]) };
+      });
+    }
+    for (const key of Object.keys(updatedData)) {
+      const value = Boolean(updatedData[key]);
+      if (!value) {
+        isSuccess = false;
+        break;
+      } else {
+        isSuccess = true;
+      }
+    }
+    if (isSuccess) {
+      submitHandler();
+    }
+  };
+
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    if (!value) {
+      setError((prev) => {
+        return {
+          ...prev,
+          [name]: true,
+        };
+      });
+    } else if (value) {
+      setUpdatedData((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      });
+      setError((prev) => {
+        return {
+          ...prev,
+          [name]: false,
+        };
+      });
+    }
+    setUpdatedData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
   return (
     <form className="form_cont">
       <div className="limit">
@@ -67,14 +123,10 @@ const ExposureLimit = ({ userData }) => {
         <input
           type="number"
           placeholder="New Limit"
-          onChange={(e) => {
-            setUpdatedData((prev) => {
-              return {
-                ...prev,
-                netExposure: e.target.value,
-              };
-            });
-          }}
+          name="netExposure"
+          value={updatedData.netExposure}
+          onChange={(e) => handleChange(e)}
+          style={{ border: error.netExposure && "1px solid red" }}
         />
       </div>
 
@@ -83,26 +135,17 @@ const ExposureLimit = ({ userData }) => {
         <input
           type="password"
           placeholder="Transaction Password"
-          onChange={(e) => {
-            if (e.target.value) {
-              setPasswordError(false);
-            } else {
-              setPasswordError(true);
-            }
-            setUpdatedData((prev) => {
-              return {
-                ...prev,
-                luPassword: e.target.value,
-              };
-            });
-          }}
+          name="luPassword"
+          value={updatedData.luPassword}
+          style={{ border: error.luPassword && "1px solid red" }}
+          onChange={(e) => handleChange(e)}
         />
       </div>
 
       <div className="row-button">
         <Button
           style={{ background: "black", borderColor: "black" }}
-          onClick={submitHandler}
+          onClick={onSumbit}
         >
           Submit
           <MdOutlineLogin />
