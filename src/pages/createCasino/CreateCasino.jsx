@@ -1,24 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Create_Casino } from "../../routes/Routes";
-import { Button, DatePicker, Input, Select, Table } from "antd";
+import { Button, DatePicker, Input, Select } from "antd";
 import axios from "axios";
 import dayjs from "dayjs";
 import { notifyToast } from "../../components/toast/Tost";
 
 const CreateCasino = () => {
   const [activeSportData, setActiveSportData] = useState([]);
-  const [sportId, setSportId] = useState("");
-  const [sportList, setSportList] = useState([]);
   const [setSportListId, setSetSportListId] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
-  const [lederData, setLederData] = useState([]);
-  const [paginationData, setPaginationData] = useState({
-    index: 0,
-    noOfRecords: 10,
-    totalPages: 1,
-  });
+
   const activeSport = async () => {
     await axios
       .post(
@@ -58,7 +51,6 @@ const CreateCasino = () => {
     setSetSportListId(value);
     // getSportLsit(value);
   };
-  const handleChange2 = (value) => {};
 
   const option = [
     {
@@ -68,6 +60,10 @@ const CreateCasino = () => {
     {
       value: "323338",
       label: "SuperNova",
+    },
+    {
+      value: "323337",
+      label: "QTech",
     },
   ];
   // const optionSport = sportList?.map((res) => {
