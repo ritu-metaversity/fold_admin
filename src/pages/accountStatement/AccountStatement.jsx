@@ -464,12 +464,12 @@ const AccountStatement = () => {
             />
           </div>
         </div>
-        <DownloadReport
+        {/* <DownloadReport
           dataReport={data}
           header={reportDownloadHeader}
           reportType="AccountStatement"
           reportFile={"AccountStatement"}
-        />
+        /> */}
         <Table
           columns={columns}
           onRow={(record) => {
