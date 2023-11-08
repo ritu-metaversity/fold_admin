@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
+import DownloadReport from "../../components/downloadReport/DownloadReport";
 import {
   Account_Statement,
   Account_Statement_Api,
@@ -155,13 +156,13 @@ const AccountStatement = () => {
   const columns = [
     {
       title: "Sr.No",
-      dataIndex: "SrNo",
+      dataIndex: "srNo",
       // sorter: (a, b) => a.SrNo - b.SrNo,
       // sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
     },
     {
-      title: "Date",
-      dataIndex: "Date",
+      title: "date",
+      dataIndex: "date",
       filteredValue: [searchText],
       onFilter: (value, record) => {
         return (
@@ -178,16 +179,12 @@ const AccountStatement = () => {
       },
     },
     {
-      title: "Sr.No",
-      dataIndex: "SrNo",
-      // sorter: (a, b) => a.SrNo - b.SrNo,
-      // sortOrder: sortedInfo.field === "SrNo" ? sortedInfo.order : null,
-    },
-
-    {
       title: "Credit",
-      dataIndex: "Credit",
+      dataIndex: "credit",
       defaultSortOrder: "descend",
+      render: (text) => (
+        <span style={{ color: text >= 0 ? "green" : "red" }}>{text}</span>
+      ),
       // sorter: (a, b) => a.Credit - b.Credit,
       // sorter: {
       //   compare: (a, b) => a. - b.Credit,
@@ -196,7 +193,10 @@ const AccountStatement = () => {
     },
     {
       title: "Debit",
-      dataIndex: "Debit",
+      dataIndex: "debit",
+      render: (text) => (
+        <span style={{ color: text >= 0 ? "green" : "red" }}>{text}</span>
+      ),
       // sorter: {
       //   compare: (a, b) => a.ust - b.ust,
       //   multiple: 1,
@@ -205,6 +205,7 @@ const AccountStatement = () => {
     {
       title: "Pts",
       dataIndex: "pts",
+      render: (text) => <span style={{ cursor: "pointer" }}>{text}</span>,
       // sorter: {
       //   compare: (a, b) => a.PPhone - b.PPhone,
       //   multiple: 1,
@@ -212,7 +213,7 @@ const AccountStatement = () => {
     },
     {
       title: "Remark",
-      dataIndex: "Remark",
+      dataIndex: "remark",
       // sorter: {
       //   compare: (a, b) => a.AccountType - b.AccountType,
       //   multiple: 1,
@@ -220,7 +221,7 @@ const AccountStatement = () => {
     },
     {
       title: "From To",
-      dataIndex: "Fromto",
+      dataIndex: "fromto",
       // sorter: {
       //   compare: (a, b) => a.Action - b.Action,
       //   multiple: 1,
@@ -231,26 +232,25 @@ const AccountStatement = () => {
   const data = DataList?.map((res, index) => {
     return {
       key: res?.date + res.credit + res.pts + index,
-      Date: res?.date,
-      SrNo: res.sno,
-
-      Credit: (
-        <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
-          {res.credit}
-        </span>
-      ),
-      Debit: (
-        <span style={{ color: res.debit >= 0 ? "green" : "red" }}>
-          {res.debit}
-        </span>
-      ),
-      pts: <span style={{ cursor: "pointer" }}>{res?.pts}</span>,
-      Remark: res?.remark,
-      Fromto: res.fromto,
+      date: res?.date,
+      srNo: res.sno,
+      credit: res.credit,
+      debit: res.debit,
+      pts: res?.pts,
+      remark: res?.remark,
+      fromto: res.fromto,
       marketid: res?.marketid,
     };
   });
-
+  const reportDownloadHeader = [
+    "Sr No",
+    "Date",
+    "Credit",
+    "Debit",
+    "Pts",
+    "Remark",
+    "Fromto",
+  ];
   const Increment = () => {
     if (paginationData.index < paginationData.totalPages) {
       setPaginationData({ ...paginationData, index: paginationData.index + 1 });
@@ -443,11 +443,11 @@ const AccountStatement = () => {
                 })
               }
             >
-              
-              
               <option value="100">100</option>
               <option value="250">250</option>
-              <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
             </select>
             &nbsp;entries
           </label>
@@ -464,6 +464,12 @@ const AccountStatement = () => {
             />
           </div>
         </div>
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="AccountStatement"
+          reportFile={"AccountStatement"}
+        />
         <Table
           columns={columns}
           onRow={(record) => {
