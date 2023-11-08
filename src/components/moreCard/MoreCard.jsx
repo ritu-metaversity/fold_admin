@@ -9,6 +9,7 @@ import UserLock from "./components/userlock/UserLock";
 ///styles
 import "./styles.scss";
 import CasinoLock from "./components/casinoLock";
+import ExposureLimit from "./components/ExposureLimit";
 const MoreCard = ({ Apifun, data, handleCancelfunction, helper }) => {
   const isMobile = useMediaQuery("(min-width: 768px)");
   const findPermission = JSON.parse(
@@ -87,6 +88,18 @@ const MoreCard = ({ Apifun, data, handleCancelfunction, helper }) => {
       label: "Casino Allowed",
       children: (
         <CasinoLock
+          userData={data}
+          handleCancelfunction={handleCancelfunction}
+        />
+      ),
+      permissions: ["ADMIN"],
+    },
+    
+    {
+      key: "6",
+      label: "Exposure Limit",
+      children: (
+        <ExposureLimit
           userData={data}
           handleCancelfunction={handleCancelfunction}
         />
