@@ -462,12 +462,14 @@ const ActiveUser = () => {
       <div className="table">
         <div className="search">
           <div className="left-col">
-            <Input
-              placeholder="search here....."
-              name="message"
-              onChange={handleChange}
-              value={message}
-            />
+            <form>
+              <Input
+                placeholder="search here....."
+                name="message"
+                onChange={handleChange}
+                value={message}
+              />
+            </form>
             <div className="serch-btn">
               <Button
                 onClick={handleClick}
