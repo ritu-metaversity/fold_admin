@@ -56,6 +56,7 @@ const DownList = ({ apiState }) => {
   const handleChange = (event) => {
     setMessage(event.target.value);
   };
+  console.log(message, "message");
   const handleClick = () => {
     // 👇 "message" stores input field value
     setSearchText(message);
@@ -113,6 +114,7 @@ const DownList = ({ apiState }) => {
           id: id,
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
+          username: message,
         },
         {
           headers: {
@@ -145,7 +147,7 @@ const DownList = ({ apiState }) => {
 
   useEffect(() => {
     tabledata();
-  }, [paginationData.index, paginationData.noOfRecords]);
+  }, [paginationData.index, paginationData.noOfRecords, message]);
   useEffect(() => {
     return () => {
       setLoading((prev) => ({
@@ -159,12 +161,13 @@ const DownList = ({ apiState }) => {
     {
       title: "User Name",
       dataIndex: "username",
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return String(record.username)
-          .toLowerCase()
-          .includes(value.toLowerCase());
-      },
+      // filteredValue: [message],
+      // onFilter: (value, record) => {
+      //   console.log(record.username?.props?.children[0], "record");
+      //   return String(record.username?.props?.children[0])
+      //     .toLowerCase()
+      //     .includes(value.toLowerCase());
+      // },
       width: 100,
       onCell: () => {
         return {
