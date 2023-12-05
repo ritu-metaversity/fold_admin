@@ -112,8 +112,8 @@ const ApprovedByStatement = () => {
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
-          fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD hh:mm:ss"),
-          toDate: moment(dateTo.toString()).format("YYYY-MM-DD hh:mm:ss"),
+          fromDate: moment(dateFrom.toString()).format("YYYY-MM-DD HH:MM:SS"),
+          toDate: moment(dateTo.toString()).format("YYYY-MM-DD HH:MM:SS"),
           userId: id,
           isWithdraw: selectValue,
           status: statusSelect,
