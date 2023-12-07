@@ -242,10 +242,9 @@ const CasinoAmount = () => {
             />
           ),
           currency: (
-            <Input
+            <select
+              className="custom-select-sm"
               value={inputValue[curElm.subAdminId].currency}
-              type="text"
-              disabled
               onChange={(e) =>
                 setInputValue((prev) => {
                   return {
@@ -257,8 +256,31 @@ const CasinoAmount = () => {
                   };
                 })
               }
-              style={{ width: "100px" }}
-            />
+            >
+              <option value="KRW">KRW</option>
+              <option value="INR">INR</option>
+              <option value="IN5">IN5</option>
+              <option value="PKR">PKR</option>
+              <option value="PK5">PK5</option>
+            </select>
+            // <Input
+            
+            //   value={inputValue[curElm.subAdminId].currency}
+            //   type="text"
+            //   disabled
+            //   onChange={(e) =>
+            //     setInputValue((prev) => {
+            //       return {
+            //         ...prev,
+            //         [curElm.subAdminId]: {
+            //           ...prev[curElm.subAdminId],
+            //           currency: e.target.value,
+            //         },
+            //       };
+            //     })
+            //   }
+            //   style={{ width: "100px" }}
+            // />
           ),
           fantasyGames: (
             <Input
@@ -307,7 +329,7 @@ const CasinoAmount = () => {
       }),
     [DataList, inputValue]
   );
-
+console.log(inputValue,"input")
   const casinoAmountUpdate = async (value) => {
     setLoading((prev) => ({ ...prev, casinoAmountUpdate: true }));
     await axios
