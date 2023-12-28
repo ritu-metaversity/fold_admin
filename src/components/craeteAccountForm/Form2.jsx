@@ -111,7 +111,7 @@ const Accountform = ({ IsSelfState }) => {
 
   const handleSelectChange = (e, Name) => {
     let value = e;
-    // console.log(value, "value");
+    console.log(value, "value");
     if (!value) {
       setErrorData((prev) => {
         return {
@@ -241,7 +241,7 @@ const Accountform = ({ IsSelfState }) => {
                   }, {})),
               liveCasinoLock: userType === "4" ? false : !casinoStatus,
             });
-            
+
             showModal();
             setErrorData({
               username: false,
@@ -750,6 +750,7 @@ const Accountform = ({ IsSelfState }) => {
                   handleSelectChange(e, "oddLossCommission");
                 }}
               >
+                <Select.Option value={"0.0"}>0.0</Select.Option>
                 <Select.Option value={0.5}>0.5</Select.Option>
                 <Select.Option value={1}>1</Select.Option>
                 <Select.Option value={1.5}>1.5</Select.Option>
@@ -778,6 +779,7 @@ const Accountform = ({ IsSelfState }) => {
                   handleSelectChange(e, "fancyLossCommission");
                 }}
               >
+                <Select.Option value={"0.0"}>0.0</Select.Option>
                 <Select.Option value={0.5}>0.5</Select.Option>
                 <Select.Option value={1}>1</Select.Option>
                 <Select.Option value={1.5}>1.5</Select.Option>
@@ -813,6 +815,7 @@ const Accountform = ({ IsSelfState }) => {
                   handleSelectChange(e, "casinoCommission");
                 }}
               >
+                <Select.Option value={"0.0"}>0.0</Select.Option>
                 <Select.Option value={0.5}>0.5</Select.Option>
                 <Select.Option value={1}>1</Select.Option>
                 <Select.Option value={1.5}>1.5</Select.Option>
