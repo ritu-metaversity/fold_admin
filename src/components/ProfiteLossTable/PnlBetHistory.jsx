@@ -4,6 +4,7 @@ import { LoaderContext } from "../../App";
 import axios from "axios";
 import { Button, Radio, Table, Tooltip } from "antd";
 import { AiFillEye } from "react-icons/ai";
+import DownloadReport from "../downloadReport/DownloadReport";
 
 const PnlBetHistory = ({ matchId, sportId }) => {
   const [sada, setsada] = useState("");
@@ -78,22 +79,16 @@ const PnlBetHistory = ({ matchId, sportId }) => {
         return {
           key: res?.rate + res?.time + res?.amount + index,
           isBack: res?.isback,
-          EventType: res?.eventType,
-          EventName: res?.eventNamem,
-          UserName: res?.username,
-          MName: res?.marketname,
-          Nation: res?.nation,
-          URate: res?.rate,
-          Amount: res?.amount,
-          PlaceDate: res?.time,
+          eventType: res?.eventType,
+          eventName: res?.eventNamem,
+          userName: res?.username,
+          mname: res?.marketname,
+          nation: res?.nation,
+          urate: res?.rate,
+          amount: res?.amount,
+          placeDate: res?.time,
 
-          Detail: (
-            <>
-              <Tooltip title={res?.deviceInfo}>
-                <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-              </Tooltip>
-            </>
-          ),
+          detail: res?.deviceInfo,
         };
       }),
     [DataList]
@@ -101,11 +96,11 @@ const PnlBetHistory = ({ matchId, sportId }) => {
   const columns = [
     {
       title: "Event Type",
-      dataIndex: "EventType",
+      dataIndex: "eventType",
     },
     {
       title: "Event Name",
-      dataIndex: "EventName",
+      dataIndex: "eventName",
       //   filteredValue: [searchText],
       //   onFilter: (value, record) => {
       //     return (
@@ -123,31 +118,36 @@ const PnlBetHistory = ({ matchId, sportId }) => {
     },
     {
       title: "User Name",
-      dataIndex: "UserName",
+      dataIndex: "userName",
     },
     {
       title: "M Name",
-      dataIndex: "MName",
+      dataIndex: "mname",
     },
     {
       title: "Nation",
-      dataIndex: "Nation",
+      dataIndex: "nation",
     },
     {
       title: "U Rate",
-      dataIndex: "URate",
+      dataIndex: "urate",
     },
     {
       title: "Amount",
-      dataIndex: "Amount",
+      dataIndex: "amount",
     },
     {
       title: "Place Date",
-      dataIndex: "PlaceDate",
+      dataIndex: "placeDate",
     },
     {
       title: "Detail",
-      dataIndex: "Detail",
+      dataIndex: "detail",
+      render: (text) => (
+        <Tooltip title={text}>
+          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+        </Tooltip>
+      ),
     },
   ];
   const Decrement = () => {
@@ -178,7 +178,17 @@ const PnlBetHistory = ({ matchId, sportId }) => {
 
     // setPageIndex(PageIndex + 1);
   };
-
+  const reportDownloadHeader = [
+    "Event Type",
+    "Event Name",
+    "User Name",
+    "M Name",
+    "Nation",
+    "U Rate",
+    "Amount",
+    "PlaceDate",
+    "Detail",
+  ];
   return (
     <div>
       <div
@@ -230,6 +240,12 @@ const PnlBetHistory = ({ matchId, sportId }) => {
           Total Soda: <span style={{ color: "green" }}>{sada}</span> Total
           Amount:<span style={{ color: "green" }}>{totalAmount}</span>
         </h3> */}
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="SingleUserBetHistory"
+          reportFile={"Single User Bet History"}
+        />
       </div>
       <div style={{ height: "400px", overflowY: "scroll" }}>
         <Table

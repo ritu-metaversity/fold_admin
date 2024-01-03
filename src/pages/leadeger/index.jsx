@@ -277,12 +277,14 @@ const Leadeger = () => {
             onChange={handleChange2}
             options={option2}
           />
-          <DatePicker
-            onChange={onChange}
-            style={{
-              width: 160,
-            }}
-          />
+          <form>
+            <DatePicker
+              onChange={onChange}
+              style={{
+                width: 160,
+              }}
+            />
+          </form>
         </div>
         <div className="leader-filter-right-col">
           <Input

@@ -64,6 +64,7 @@ import {
   Create_RollBack2,
   Casino_leader,
   Create_Casino,
+  setCommision,
 } from "./routes/Routes";
 import BetHistory from "./pages/betHistory/BetHistory";
 import { createContext, useEffect, useState } from "react";
@@ -113,6 +114,7 @@ import CreateRollBack from "./pages/createRollBack";
 import Leadeger from "./pages/leadeger";
 import CasinoLeader from "./pages/leadeger/CasinoLeadeger";
 import CreateCasino from "./pages/createCasino/CreateCasino";
+import SetCommission from "./pages/setCommission/SetCommission.jsx";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -123,6 +125,7 @@ export const LoaderContext = createContext({
   keyNew: 0,
 });
 // dayjs.locale("hi");
+
 function App() {
   useEffect(() => {
     window.localStorage.removeItem("passwordtype");
@@ -140,6 +143,7 @@ function App() {
   const refershNow = () => {
     setKeyNew((prev) => prev + 1);
   };
+
   const tokenChecker = async (state = false) => {
     if (state) setTokenState(false);
     await axios
@@ -256,11 +260,10 @@ function App() {
   };
 
   useEffect(() => {
-    isSelfData();
-  }, []);
-  useEffect(() => {
     getMsg();
-  }, []);
+    isSelfData();
+  }, [tokenState]);
+
   const userType = localStorage.getItem("userType");
   return (
     // <ConfigProvider locale={locale}>
@@ -318,6 +321,9 @@ function App() {
                 path={AccountList_Screen}
                 element={<AccountsList />}
               ></Route>
+              {isSelf && (
+                <Route path={setCommision} element={<SetCommission />}></Route>
+              )}
             </>
             <Route
               path={HelperActiveUser_Screen}

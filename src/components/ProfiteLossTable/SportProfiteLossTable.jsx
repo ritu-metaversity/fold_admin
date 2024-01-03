@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import "./styles.scss";
 import moment from "moment";
 import PnlBetHistory from "./PnlBetHistory";
+import DownloadReport from "../downloadReport/DownloadReport";
 // import PtsModal from "./PtsModal";
 const SportProfiteLossTable = () => {
   const [searchText, setSearchText] = useState("");
@@ -190,19 +191,33 @@ const SportProfiteLossTable = () => {
     {
       title: "pnl",
       dataIndex: "pnl",
+      render: (text) => (
+        <span style={{ color: text >= 0 ? "green" : "red" }}>{text}</span>
+      ),
     },
 
     {
       title: "uplineAmount",
       dataIndex: "uplineAmount",
+      render: (text) => (
+        <span style={{ color: text >= 0 ? "green" : "red" }}>{text}</span>
+      ),
     },
     {
       title: "Date",
-      dataIndex: "Date",
+      dataIndex: "date",
     },
     {
       title: "Action",
       dataIndex: "Action",
+      render: (text) => (
+        <Button
+          style={{ background: "orange", border: "none", color: "white" }}
+          onClick={() => showModal(text)}
+        >
+          View
+        </Button>
+      ),
     },
     // {
     //   title: "commssionMila",
@@ -218,24 +233,11 @@ const SportProfiteLossTable = () => {
     return {
       key: res?.pnl + res.credit + res.commssionMila + index,
       matchName: res?.matchName,
-      pnl: (
-        <span style={{ color: res.pnl >= 0 ? "green" : "red" }}>{res.pnl}</span>
-      ),
+      pnl: res.pnl,
 
-      uplineAmount: (
-        <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
-          {res.uplineAmount}
-        </span>
-      ),
-      Date: res.createdon,
-      Action: (
-        <Button
-          style={{ background: "orange", border: "none", color: "white" }}
-          onClick={() => showModal(res.matchId)}
-        >
-          View
-        </Button>
-      ),
+      uplineAmount: res.uplineAmount,
+      date: res.createdon,
+      Action: res.matchId,
 
       // commssionMila: (
       //   <span style={{ color: res.commssionMila >= 0 ? "green" : "red" }}>
@@ -345,6 +347,9 @@ const SportProfiteLossTable = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const reportDownloadHeader = ["Match Name", "Pnl", "Upline Amount", "Date"];
+  const pnlAmou = [{ pnlBetAmount: Number(pnlBetAmount).toFixed(3) }];
+  const pnlHeader = ["Pnl Bet Amount"];
   return (
     <>
       <Modal
@@ -530,6 +535,14 @@ const SportProfiteLossTable = () => {
             />
           </div>
         </div>
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="ProfitAndLoss"
+          reportFile={"Sport Profit & Loss"}
+          pnlHeader={pnlHeader}
+          pnlAmount={pnlAmou}
+        />
         <Table
           columns={columns}
           dataSource={data}

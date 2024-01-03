@@ -113,6 +113,7 @@ const ActiveUser = () => {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
           username: message,
+          // id: localStorage.getItem("userid"),
         },
         {
           headers: {
@@ -158,12 +159,12 @@ const ActiveUser = () => {
     {
       title: "User Name",
       dataIndex: "username",
-      filteredValue: [searchText],
-      onFilter: (value, record) => {
-        return String(record?.username.props.children)
-          .toLowerCase()
-          .includes(value?.toLowerCase());
-      },
+      // filteredValue: [searchText],
+      // onFilter: (value, record) => {
+      //   return String(record?.username.props.children)
+      //     .toLowerCase()
+      //     .includes(value?.toLowerCase());
+      // },
       width: 100,
       onCell: () => {
         return {

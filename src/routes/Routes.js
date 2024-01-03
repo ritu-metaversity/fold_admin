@@ -110,6 +110,8 @@ export const Get_Pts_Data = "bets/search-bet-market-and-user";
 export const Detail_Sport_Wise = "sport/event-detail-sport-wise";
 export const Active_Sport_list = "sport/active-sport-list";
 export const isSelf = "login/is-self-by-app-url";
+export const setCommision = "/set-commission";
+
 export const Sport_Profite = "report/profit-loss-match-wise";
 export const Bet_User_Book = "bets/user-book";
 export const User_Check = "user/is-userid-available";

@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 ///styles
 import "./styles.scss";
 import BetListModal from "../../components/modal/betListModal";
+import DownloadReport from "../../components/downloadReport/DownloadReport";
 const AccountStatement = () => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
@@ -300,7 +301,22 @@ const AccountStatement = () => {
     setIsModalOpen(true);
     setPtsId(id);
   };
-
+  const dataRsport = {
+    reportColumnName: [
+      "Sr.No",
+      "date",
+      "Credit",
+      "Debit",
+      "Pts",
+      "Remark",
+      "From To",
+    ],
+    reportType: "AccountStatement",
+    startDate: moment(dateFrom.toString()).format("YYYY-MM-DD"),
+    endDate: dayjs().toISOString().split("T")[0],
+    userId: searchData,
+    type: selectValue,
+  };
   return (
     <UserModalContext.Provider value={{}}>
       <BetListModal
@@ -464,12 +480,12 @@ const AccountStatement = () => {
             />
           </div>
         </div>
-        {/* <DownloadReport
-          dataReport={data}
-          header={reportDownloadHeader}
+        <DownloadReport
+          dataReport={dataRsport}
+          // header={reportDownloadHeader}
           reportType="AccountStatement"
           reportFile={"AccountStatement"}
-        /> */}
+        />
         <Table
           columns={columns}
           onRow={(record) => {

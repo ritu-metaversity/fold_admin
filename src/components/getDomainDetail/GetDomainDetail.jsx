@@ -46,7 +46,7 @@ const GetDomainDetailTable = () => {
     getDomainDetailData();
   }, []);
 
-  const dataSource = appdetailData.map((res) => {
+  const dataSource = appdetailData?.map((res) => {
     return {
       key: res.appName + res.appUrl + res.appId,
       Name: res.appName,

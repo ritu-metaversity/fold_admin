@@ -15,12 +15,19 @@ import "./styles.scss";
 const UserHistory = () => {
   const url = [User_Login_History, Change_Password_History];
   const namearr = ["Login History", "Change Password History"];
+  const fileName = ["Login History", "Change Password History"];
 
   const items = url.map((res, index) => {
     return {
       key: index + url[index],
       label: namearr[index],
-      children: <LoginHistory url={url[index]} key={index + url[index]} />,
+      children: (
+        <LoginHistory
+          url={url[index]}
+          key={index + url[index]}
+          reportFile={fileName[index]}
+        />
+      ),
     };
   });
 

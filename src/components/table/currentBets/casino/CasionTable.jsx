@@ -15,6 +15,7 @@ import {
   TabBet_History,
   Tab_CurrentBet,
 } from "../../../../routes/Routes";
+import DownloadReport from "../../../downloadReport/DownloadReport";
 
 // import { Table_ActiveUser, Tab_CurrentBet } from "../../../../routes/Routes";
 
@@ -51,7 +52,17 @@ const Casinotable = () => {
   });
 
   const navigate = useNavigate();
-
+  const reportDownloadHeader = [
+    "Event Type",
+    "Event Name",
+    "User Name",
+    "M Name",
+    "Nation",
+    "U Rate",
+    "Amount",
+    "Place Date",
+    "Detail",
+  ];
   //////deposit Modal
 
   //////withdrawal Modal
@@ -71,6 +82,7 @@ const Casinotable = () => {
           index: paginationData.index,
           isDeleted: isDeleted,
           userId: searchData,
+          matchId: sportChangeId,
         },
         {
           headers: {
@@ -124,11 +136,11 @@ const Casinotable = () => {
   const columns = [
     {
       title: "Event Type",
-      dataIndex: "EventType",
+      dataIndex: "eventType",
     },
     {
       title: "Event Name",
-      dataIndex: "EventName",
+      dataIndex: "eventName",
       filteredValue: [searchText],
       onFilter: (value, record) => {
         return (
@@ -146,31 +158,36 @@ const Casinotable = () => {
     },
     {
       title: "User Name",
-      dataIndex: "UserName",
+      dataIndex: "userName",
     },
     {
       title: "M Name",
-      dataIndex: "MName",
+      dataIndex: "mname",
     },
     {
       title: "Nation",
-      dataIndex: "Nation",
+      dataIndex: "nation",
     },
     {
       title: "U Rate",
-      dataIndex: "URate",
+      dataIndex: "urate",
     },
     {
       title: "Amount",
-      dataIndex: "Amount",
+      dataIndex: "amount",
     },
     {
       title: "Place Date",
-      dataIndex: "PlaceDate",
+      dataIndex: "placeDate",
     },
     {
       title: "Detail",
       dataIndex: "Detail",
+      render: (text) => (
+        <Tooltip title={text}>
+          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+        </Tooltip>
+      ),
     },
   ];
 
@@ -178,22 +195,15 @@ const Casinotable = () => {
     return {
       key: res?.rate + res?.time + res?.amount + index,
       isBack: res?.isback,
-      EventType: res?.eventType,
-      EventName: res?.eventNamem,
-      UserName: res?.username,
-      MName: res?.marketname,
-      Nation: res?.nation,
-      URate: res?.rate,
-      Amount: res?.amount,
-      PlaceDate: res?.time,
-
-      Detail: (
-        <>
-          <Tooltip title={res?.deviceInfo}>
-            <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-          </Tooltip>
-        </>
-      ),
+      eventType: res?.eventType,
+      eventName: res?.eventNamem,
+      userName: res?.username,
+      mname: res?.marketname,
+      nation: res?.nation,
+      urate: res?.rate,
+      amount: res?.amount,
+      placeDate: res?.time,
+      detail: res?.deviceInfo,
     };
   });
 
@@ -334,6 +344,10 @@ const Casinotable = () => {
     setListDisplay(false);
     setSearchDataList([]);
   };
+  const pnlAmou = [
+    { totalSoda: Number(sada).toFixed(3), totalAmount: totalAmount },
+  ];
+  const pnlHeader = ["Total Soda", "Total Amount"];
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
@@ -476,6 +490,14 @@ const Casinotable = () => {
             </Button>
           </div>
         </div>
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="CasinoCurrentBets"
+          reportFile={"Current Casino History"}
+          pnlHeader={pnlHeader}
+          pnlAmount={pnlAmou}
+        />
         <Table
           columns={columns}
           dataSource={data}
