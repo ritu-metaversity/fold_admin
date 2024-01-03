@@ -52,6 +52,8 @@ export const MarketAnalysisApi = "market-analysis/dashboard";
 export const Account_List = "user/child-list";
 export const Active_Sport_List = "sport/active-sport-list";
 export const Bets_Odds_Pnl = "bets/odds-pnl";
+export const Bets_Odds_Pnl_winner = "bets/winner-pnl";
+
 export const Market_Name_MatchId = "bets/market-name-by-matchid";
 export const Fancy_Book = "bets/fancy-book";
 export const Create_app_detail = "admin/create-app-detail";

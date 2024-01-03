@@ -161,6 +161,10 @@ const CurrentBetsTable = () => {
       dataIndex: "urate",
     },
     {
+      title: "Price",
+      dataIndex: "Price",
+    },
+    {
       title: "Amount",
       dataIndex: "amount",
     },
@@ -199,6 +203,7 @@ const CurrentBetsTable = () => {
       mname: res?.marketname,
       nation: res?.nation,
       urate: res?.rate,
+      Price: res?.price,
       amount: res?.amount,
       placeDate: res?.time,
       detail: res.deviceInfo,

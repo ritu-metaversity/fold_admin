@@ -3,13 +3,19 @@ import React from "react";
 const backColor = ["#72BBEF", "#72BBEFA3", "#72BBEFA3"];
 const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
-const MatchOddsRow = ({ data, prev, pnlData }) => {
+const MatchOddsRow = ({ data, prev, pnlData, pnlWinnerCheck }) => {
   if (!data || !prev) {
     return <Spin style={{ width: "100%", margin: "auto" }} />;
   } else {
     const myPnl = pnlData.find((item) => item?.marketId == data?.marketId);
-
-    const plnOddsArray = myPnl
+    const plnOddsArray = pnlWinnerCheck
+      ? pnlData?.map((item) => {
+          return {
+            pnl: item?.liability,
+            selectionId: item?.selctionId,
+          };
+        })
+      : myPnl
       ? [
           { pnl: myPnl.pnl1, selectionId: myPnl.selection1 },
           { pnl: myPnl.pnl2, selectionId: myPnl.selection2 },

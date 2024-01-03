@@ -13,6 +13,7 @@ import {
   Completed_match,
   Odds_List,
   Fancy_Pnl,
+  Bets_Odds_Pnl_winner,
 } from "../../routes/Routes";
 // import { socket } from "../../webSocket/Socket";
 import Bookmarktable from "../collapsetable/BookmarkTable";
@@ -68,7 +69,7 @@ const TestPageLeftCollapse = () => {
       navigate("/404");
     }
   }, []);
-
+  const [marketid, setMarketid] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = (marketId) => {
     getUserBook(marketId);
@@ -144,12 +145,14 @@ const TestPageLeftCollapse = () => {
     oddSocketConnected && setOddSocketConnected(false);
   }, [id]);
 
-  const getOddPnl = async () => {
+  const getOddPnl = async (check) => {
     // setLoading(true);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Bets_Odds_Pnl}`,
-        { matchId: id },
+        `${process.env.REACT_APP_BASE_URL}/${
+          check == 0 ? Bets_Odds_Pnl : Bets_Odds_Pnl_winner
+        }`,
+        check == 0 ? { matchId: id } : { marketId: marketid },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -248,14 +251,14 @@ const TestPageLeftCollapse = () => {
 
     return () => clearInterval(timer);
   }, [odddata]);
-
+  const [pnlWinnerCheck, setPnlWinnerCheck] = useState(0);
   useEffect(() => {
-    getOddPnl();
+    getOddPnl(pnlWinnerCheck);
     const timer = setInterval(() => {
-      getOddPnl();
+      getOddPnl(pnlWinnerCheck);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [pnlWinnerCheck]);
 
   const getBetLock = async (marketNameid) => {
     setLoading((prev) => ({ ...prev, marketNameid: true }));
@@ -807,6 +810,9 @@ const TestPageLeftCollapse = () => {
                     data={item}
                     prev={prevState?.Odds[index]}
                     pnlData={oddPnl}
+                    pnlWinnerCheck={pnlWinnerCheck}
+                    setMarketid={setMarketid}
+                    setPnlWinnerCheck={setPnlWinnerCheck}
                     maxbet={maxBetData.Odds?.length && maxBetData.Odds[index]}
                   />
                 </div>

@@ -28,11 +28,12 @@ const Datatable = (props) => {
   return data?.map((res) => {
     const newRes = res?.marketData?.some((market, index) => {
       return (
+        market?.marketName.includes("Winner") ||
         market.marketName === "Match Odds" ||
         market.marketName.includes("Bookmaker")
       );
     });
-// const {id,marketid} = useParams()
+    // const {id,marketid} = useParams()
     // newRes.map((res) => {});
     if (newRes) {
       return (
@@ -78,6 +79,7 @@ const Datatable = (props) => {
                 </tr>
                 {res?.marketData?.map((market, index) => {
                   if (
+                    market?.marketName.includes("Winner") ||
                     market.marketName === "Match Odds" ||
                     market.marketName.includes("Bookmaker")
                   ) {
