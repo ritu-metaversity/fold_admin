@@ -1,12 +1,27 @@
 import { Button, Spin } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import MatchOddsRow from "./MatchOddsRow";
 ////
 import { intToString } from "./BookmarkTable";
 import "./styles.scss";
 
-const MatchOddTable = ({ data, prev, pnlData }) => {
+const MatchOddTable = ({
+  data,
+  prev,
+  pnlData,
+  setPnlWinnerCheck,
+  setMarketid,
+  pnlWinnerCheck,
+}) => {
+  useEffect(() => {
+    if (data?.Name.includes("Winner")) {
+      setMarketid(data?.marketId);
+      setPnlWinnerCheck(1);
+    }
+  }, [data?.marketId]);
+
   if (!data) return <Spin style={{ width: "100%", margin: "auto" }} />;
+ 
   else {
     return (
       <div>
@@ -31,6 +46,7 @@ const MatchOddTable = ({ data, prev, pnlData }) => {
             name={"Pakistan"}
             data={data}
             prev={prev}
+            pnlWinnerCheck={pnlWinnerCheck}
             pnlData={pnlData}
           />
         </div>
