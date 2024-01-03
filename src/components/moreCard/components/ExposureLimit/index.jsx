@@ -3,11 +3,9 @@ import "./styles.scss";
 import { Button } from "antd";
 import { MdOutlineLogin } from "react-icons/md";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { notifyToast } from "../../../toast/Tost";
 
 const ExposureLimit = ({ userData }) => {
-  console.log(userData, "sjdnvbdfsjhv");
 
   const [limit, setLimit] = useState();
   const [updatedData, setUpdatedData] = useState({

@@ -11,7 +11,8 @@ import { AiFillEye } from "react-icons/ai";
 ///styles
 import "./styles.scss";
 import moment from "moment";
-const LoginHistory = ({ url }) => {
+import DownloadReport from "../downloadReport/DownloadReport";
+const LoginHistory = ({ url, reportFile }) => {
   const [searchText, setSearchText] = useState("");
   const [message, setMessage] = useState("");
 
@@ -36,6 +37,8 @@ const LoginHistory = ({ url }) => {
     noOfRecords: 100,
     totalPages: 1,
   });
+
+  const reportDownloadHeader = ["User Name", "Date", "Ip", "Detail"];
   const reset = () => {
     setSearchData("");
     setMessage("");
@@ -161,7 +164,7 @@ const LoginHistory = ({ url }) => {
   const columns = [
     {
       title: "User Name",
-      dataIndex: "username",
+      dataIndex: "userName",
       filteredValue: [searchText],
       onFilter: (value, record) => {
         return (
@@ -174,30 +177,31 @@ const LoginHistory = ({ url }) => {
     },
     {
       title: "Date",
-      dataIndex: "Date",
+      dataIndex: "date",
     },
 
     {
       title: "IP",
-      dataIndex: "IP",
+      dataIndex: "ip",
     },
     {
       title: "Detail",
-      dataIndex: "Detail",
+      dataIndex: "detail",
+      render: (text) => (
+        <Tooltip title={text} trigger={["hover"]}>
+          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+        </Tooltip>
+      ),
     },
   ];
 
   const data = DataList?.map((res, index) => {
     return {
       key: res?.date + res.userid + res.lastLogin + index,
-      Date: res?.lastLogin || res?.createdOn,
-      IP: res?.ip || res?.ipAddress,
-      username: res?.userid || res?.userId,
-      Detail: (
-        <Tooltip title={res?.deviceInfo} trigger={["hover"]}>
-          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-        </Tooltip>
-      ),
+      date: res?.lastLogin || res?.createdOn,
+      ip: res?.ip || res?.ipAddress,
+      userName: res?.userid || res?.userId,
+      detail: res?.deviceInfo,
     };
   });
 
@@ -360,11 +364,11 @@ const LoginHistory = ({ url }) => {
                 })
               }
             >
-              
-              
               <option value="100">100</option>
               <option value="250">250</option>
-              <option value="500">500</option><option value="1000">1000</option><option value="2000">2000</option>
+              <option value="500">500</option>
+              <option value="1000">1000</option>
+              <option value="2000">2000</option>
             </select>
             &nbsp;entries
           </label>
@@ -381,6 +385,12 @@ const LoginHistory = ({ url }) => {
             />
           </div>
         </div>
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="UserHistory"
+          reportFile={reportFile}
+        />
         <Table
           columns={columns}
           dataSource={data}

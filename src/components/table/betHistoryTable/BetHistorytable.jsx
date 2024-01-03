@@ -21,6 +21,7 @@ import {
   TabBet_History,
 } from "../../../routes/Routes";
 import { LoaderContext } from "../../../App";
+import DownloadReport from "../../downloadReport/DownloadReport";
 
 export const UserModalContext = createContext({
   handleCancel: () => {},
@@ -130,11 +131,11 @@ const BetHistorytable = ({ id }) => {
   const columns = [
     {
       title: "Event Type",
-      dataIndex: "EventType",
+      dataIndex: "eventType",
     },
     {
       title: "Event Name",
-      dataIndex: "EventName",
+      dataIndex: "eventName",
       filteredValue: [searchText],
       onFilter: (value, record) => {
         return (
@@ -152,32 +153,48 @@ const BetHistorytable = ({ id }) => {
     },
     {
       title: "User Name",
-      dataIndex: "UserName",
+      dataIndex: "userName",
     },
     {
       title: "M Name",
-      dataIndex: "MName",
+      dataIndex: "mname",
     },
     {
       title: "Nation",
-      dataIndex: "Nation",
+      dataIndex: "nation",
     },
     {
       title: "U Rate",
-      dataIndex: "URate",
+      dataIndex: "urate",
     },
     {
       title: "Amount",
-      dataIndex: "Amount",
+      dataIndex: "amount",
     },
     {
       title: "Place Date",
-      dataIndex: "PlaceDate",
+      dataIndex: "placeDate",
     },
     {
       title: "Detail",
-      dataIndex: "Detail",
+      dataIndex: "detail",
+      render: (text) => (
+        <Tooltip title={text}>
+          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+        </Tooltip>
+      ),
     },
+  ];
+  const reportDownloadHeader = [
+    "Event Type",
+    "Event Name",
+    "User Name",
+    "M Name",
+    "Nation",
+    "U Rate",
+    "Amount",
+    "Place Date",
+    "Detail",
   ];
 
   const data = useMemo(
@@ -186,22 +203,15 @@ const BetHistorytable = ({ id }) => {
         return {
           key: res?.rate + res?.time + res?.amount + index,
           isBack: res?.isback,
-          EventType: res?.eventType,
-          EventName: res?.eventNamem,
-          UserName: res?.username,
-          MName: res?.marketname,
-          Nation: res?.nation,
-          URate: res?.rate,
-          Amount: res?.amount,
-          PlaceDate: res?.time,
-
-          Detail: (
-            <>
-              <Tooltip title={res?.deviceInfo}>
-                <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-              </Tooltip>
-            </>
-          ),
+          eventType: res?.eventType,
+          eventName: res?.eventNamem,
+          userName: res?.username,
+          mname: res?.marketname,
+          nation: res?.nation,
+          urate: res?.rate,
+          amount: res?.amount,
+          placeDate: res?.time,
+          detail: res?.deviceInfo,
         };
       }),
     [DataList]
@@ -300,6 +310,10 @@ const BetHistorytable = ({ id }) => {
     value: item?.eventId,
     label: item?.eventName,
   }));
+  const pnlAmou = [
+    { totalSoda: Number(sada).toFixed(3), totalAmount: totalAmount },
+  ];
+  const pnlHeader = ["Total Soda", "Total Amount"];
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
@@ -388,6 +402,14 @@ const BetHistorytable = ({ id }) => {
             />
           </div>
         </div>
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="BetHistory"
+          reportFile={"Sport Bet History"}
+          pnlHeader={pnlHeader}
+          pnlAmount={pnlAmou}
+        />
         <Table
           columns={columns}
           dataSource={data}

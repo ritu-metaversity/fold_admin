@@ -14,6 +14,7 @@ import { LoaderContext } from "../../App";
 import dayjs from "dayjs";
 import moment from "moment";
 import PnlBetHistory from "./PnlBetHistory";
+import DownloadReport from "../downloadReport/DownloadReport";
 ///styles
 // import "./styles.scss";
 // import PtsModal from "./PtsModal";
@@ -41,6 +42,9 @@ const CasinoProfiteLossTable = () => {
     noOfRecords: 100,
     totalPages: 1,
   });
+
+  const reportDownloadHeader = ["Match Name", "Pnl", "Upline Amount"];
+
   const reset = () => {
     setSearchData("");
     setMessage("");
@@ -175,15 +179,29 @@ const CasinoProfiteLossTable = () => {
     {
       title: "pnl",
       dataIndex: "pnl",
+      render: (text) => (
+        <span style={{ color: text >= 0 ? "green" : "red" }}>{text}</span>
+      ),
     },
 
     {
       title: "uplineAmount",
       dataIndex: "uplineAmount",
+      render: (text) => (
+        <span style={{ color: text >= 0 ? "green" : "red" }}>{text}</span>
+      ),
     },
     {
       title: "Action",
       dataIndex: "Action",
+      render: (text) => (
+        <Button
+          style={{ background: "orange", border: "none", color: "white" }}
+          onClick={() => showModal(text)}
+        >
+          View
+        </Button>
+      ),
     },
 
     // {
@@ -200,23 +218,10 @@ const CasinoProfiteLossTable = () => {
     return {
       key: res?.pnl + res.credit + res.commssionMila + index,
       matchName: res?.matchName,
-      pnl: (
-        <span style={{ color: res.pnl >= 0 ? "green" : "red" }}>{res.pnl}</span>
-      ),
+      pnl: res.pnl,
 
-      uplineAmount: (
-        <span style={{ color: res.credit >= 0 ? "green" : "red" }}>
-          {res.uplineAmount}
-        </span>
-      ),
-      Action: (
-        <Button
-          style={{ background: "orange", border: "none", color: "white" }}
-          onClick={() => showModal(res.matchId)}
-        >
-          View
-        </Button>
-      ),
+      uplineAmount: res.uplineAmount,
+      Action: res.matchId,
       // commssionMila: (
       //   <span style={{ color: res.commssionMila >= 0 ? "green" : "red" }}>
       //     {res.commssionMila}
@@ -331,6 +336,8 @@ const CasinoProfiteLossTable = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const pnlAmou = [{ pnlBetAmount: Number(pnlBetAmount).toFixed(3) }];
+  const pnlHeader = ["Pnl Bet Amount"];
   return (
     <>
       <Modal
@@ -517,6 +524,14 @@ const CasinoProfiteLossTable = () => {
             />
           </div>
         </div>
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="CasinoProfitAndLoss"
+          reportFile={"Casino Profit & Loss"}
+          pnlHeader={pnlHeader}
+          pnlAmount={pnlAmou}
+        />
         <Table
           columns={columns}
           dataSource={data}

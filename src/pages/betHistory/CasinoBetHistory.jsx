@@ -10,6 +10,7 @@ import axios from "axios";
 import { LoaderContext } from "../../App";
 import { Casiono, TabBet_History } from "../../routes/Routes";
 import { Casino_Card_Data } from "../../routes/Routes";
+import DownloadReport from "../../components/downloadReport/DownloadReport";
 export const UserModalContext = createContext({
   handleCancel: () => {},
 });
@@ -42,6 +43,19 @@ const CasinoBetHistory = () => {
   });
 
   const navigate = useNavigate();
+
+  const reportDownloadHeader = [
+    "Event Type",
+    "Event Name",
+    "User Name",
+    "M Name",
+    "Nation",
+    "U Rate",
+    "Amount",
+    "PlaceDate",
+    "Casino RoundId",
+    "Detail",
+  ];
 
   //////deposit Modal
 
@@ -117,11 +131,11 @@ const CasinoBetHistory = () => {
   const columns = [
     {
       title: "Event Type",
-      dataIndex: "EventType",
+      dataIndex: "eventType",
     },
     {
       title: "Event Name",
-      dataIndex: "EventName",
+      dataIndex: "eventName",
       filteredValue: [searchText],
       onFilter: (value, record) => {
         return (
@@ -139,27 +153,27 @@ const CasinoBetHistory = () => {
     },
     {
       title: "User Name",
-      dataIndex: "UserName",
+      dataIndex: "userName",
     },
     {
       title: "M Name",
-      dataIndex: "MName",
+      dataIndex: "mname",
     },
     {
       title: "Nation",
-      dataIndex: "Nation",
+      dataIndex: "nation",
     },
     {
       title: "U Rate",
-      dataIndex: "URate",
+      dataIndex: "urate",
     },
     {
       title: "Amount",
-      dataIndex: "Amount",
+      dataIndex: "amount",
     },
     {
       title: "Place Date",
-      dataIndex: "PlaceDate",
+      dataIndex: "placeDate",
     },
     {
       title: "CasinoRound Id",
@@ -168,7 +182,12 @@ const CasinoBetHistory = () => {
 
     {
       title: "Detail",
-      dataIndex: "Detail",
+      dataIndex: "detail",
+      render: (text) => (
+        <Tooltip title={text}>
+          <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
+        </Tooltip>
+      ),
     },
   ];
 
@@ -176,22 +195,16 @@ const CasinoBetHistory = () => {
     return {
       key: res?.rate + res?.time + res?.amount + index,
       isBack: res?.isback,
-      EventType: res?.eventType,
-      EventName: res?.eventNamem,
-      UserName: res?.username,
-      MName: res?.marketname,
-      Nation: res?.nation,
-      URate: res?.rate,
-      Amount: res?.amount,
-      PlaceDate: res?.time,
+      eventType: res?.eventType,
+      eventName: res?.eventNamem,
+      userName: res?.username,
+      mname: res?.marketname,
+      nation: res?.nation,
+      urate: res?.rate,
+      amount: res?.amount,
+      placeDate: res?.time,
       casinoRoundId: res?.casinoRoundId,
-      Detail: (
-        <>
-          <Tooltip title={res?.deviceInfo}>
-            <AiFillEye style={{ fontSize: "18px", cursor: "pointer" }} />
-          </Tooltip>
-        </>
-      ),
+      detail: res?.deviceInfo,
     };
   });
 
@@ -300,6 +313,10 @@ const CasinoBetHistory = () => {
   const onChange = (e) => {
     setIsDeleted(e.target.value);
   };
+  const pnlAmou = [
+    { totalSoda: Number(sada).toFixed(3), totalAmount: totalAmount },
+  ];
+  const pnlHeader = ["Total Soda", "Total Amount"];
   return (
     <>
       <div className="table" style={{ width: "100%" }}>
@@ -385,6 +402,14 @@ const CasinoBetHistory = () => {
             />
           </div>
         </div>
+        <DownloadReport
+          dataReport={data}
+          header={reportDownloadHeader}
+          reportType="CasinoBetHistory"
+          reportFile={"Casino Bet History"}
+          pnlHeader={pnlHeader}
+          pnlAmount={pnlAmou}
+        />
         <Table
           columns={columns}
           dataSource={data}

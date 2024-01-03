@@ -15,17 +15,17 @@ const DownloadReport = ({
 
   const downloadReport = () => {
     let data = JSON.stringify({
-      data: dataReport,
-      reportColumnName: header,
-      reportType: reportType,
-      balanceDataName: pnlHeader,
-      pnlBetAmountResponse: pnlAmount,
+      ...dataReport,
+      // reportColumnName: header,
+      // reportType: reportType,
+      // balanceDataName: pnlHeader,
+      // pnlBetAmountResponse: pnlAmount,
     });
     let config = {
       responseType: "blob",
       method: "POST",
       maxBodyLength: Infinity,
-      url: "http://192.168.0.65/admin-new-apis/maggibookExcel/maggiBook-excel-file-download",
+      url: `${process.env.REACT_APP_BASE_URL}/maggibookExcel/maggiBook-excel-file-download`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

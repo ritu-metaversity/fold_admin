@@ -262,6 +262,9 @@ const CasinoAmount = () => {
               <option value="IN5">IN5</option>
               <option value="PKR">PKR</option>
               <option value="PK5">PK5</option>
+              <option value="IDR">IDR</option>
+
+              
             </select>
             // <Input
             

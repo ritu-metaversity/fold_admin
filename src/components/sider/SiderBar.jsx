@@ -33,6 +33,7 @@ import {
   add_Deposit_Screen,
   add_withdrawal_Screen,
   add_withdrawal_SubAdmin_Screen,
+  setCommision,
 } from "../../routes/Routes";
 import axios from "axios";
 import { FaCalendarDay, FaCoins, FaImage } from "react-icons/fa";
@@ -343,7 +344,22 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               permissions: ["ADMIN"],
             }
           : {},
-
+        IsSelfState && {
+          key: 633443,
+          label: (
+            <Link
+              onClick={() => {
+                refershNow();
+                setSidebar();
+              }}
+              to={setCommision}
+              // reloadDocument={pathname === "/createAccounts"}
+            >
+              Set Commission
+            </Link>
+          ),
+          permissions: ["ADMIN"],
+        },
         userType === "5" && IsSelfState
           ? {
               key: 23,
