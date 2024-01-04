@@ -87,7 +87,7 @@ const CreateCasino = () => {
 
           {
             matchId: setSportListId,
-            dateStr: dayjs(date).format("YYYY-MM-DD"),
+            dateStr: dayjs(date).format("YYYY-MM-DD HH"),
             userId: localStorage.getItem("userid"),
             password: password,
             isCasino: true,
