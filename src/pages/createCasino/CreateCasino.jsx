@@ -87,7 +87,7 @@ const CreateCasino = () => {
 
           {
             matchId: setSportListId,
-            dateStr: dayjs(date).format("YYYY-MM-DD HH"),
+            dateStr: dayjs(date).format("YYYY-MM-DD HH:mm:ss"),
             userId: localStorage.getItem("userid"),
             password: password,
             isCasino: true,
@@ -147,7 +147,11 @@ const CreateCasino = () => {
           options={optionSport}
         /> */}
         <form>
-          <DatePicker onChange={onChange} defaultValue={date} />
+          <DatePicker
+            onChange={onChange}
+            defaultValue={date}
+            showTime={{ use12Hours: true }}
+          />
         </form>
         <Input
           placeholder="Transaction Password"
