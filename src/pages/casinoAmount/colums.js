@@ -20,9 +20,20 @@ export const columns = [
     key: "supernowa",
   },
   {
-    title: "Aura",
+    title: "Super Nowa Exposure",
+    dataIndex: "supernowaExposure",
+    key: "supernowaExposure",
+  },
+
+  {
+    title: "aura",
     dataIndex: "aura",
     key: "aura",
+  },
+  {
+    title: "Aura Exposure",
+    dataIndex: "auraExposure",
+    key: "auraExposure",
   },
   {
     title: "Sport Book",
@@ -38,6 +49,11 @@ export const columns = [
     title: "Qtech",
     dataIndex: "qtech",
     key: "qtech",
+  },
+  {
+    title: "Qtech Exposure",
+    dataIndex: "qtechExposure",
+    key: "qtechExposure",
   },
   {
     title: "Fantasy Games",
