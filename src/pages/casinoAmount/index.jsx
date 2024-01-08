@@ -134,7 +134,6 @@ const CasinoAmount = () => {
   const dataSource = useMemo(
     () =>
       DataList?.map((curElm, index) => {
-        console.log(curElm, "cur");
         return {
           key: `${curElm.appid} + ${curElm.userid} + ${index}`,
           appid: curElm?.userId,
