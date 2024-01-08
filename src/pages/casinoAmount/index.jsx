@@ -66,6 +66,9 @@ const CasinoAmount = () => {
                   currency: res.currency,
                   fantasyGames: res.fantasyGames,
                   qtech: res.qtech,
+                  supernowaExposure: res?.supernowaExposure,
+                  auraExposure: res?.auraExposure,
+                  qtechExposure: res?.qtechExposure,
                   sportBook: res.sportBook,
                   supernowa: res.supernowa,
                 },
@@ -131,6 +134,7 @@ const CasinoAmount = () => {
   const dataSource = useMemo(
     () =>
       DataList?.map((curElm, index) => {
+        console.log(curElm, "cur");
         return {
           key: `${curElm.appid} + ${curElm.userid} + ${index}`,
           appid: curElm?.userId,
@@ -148,10 +152,9 @@ const CasinoAmount = () => {
           //     style={{ width: "100px" }}
           //   />
           // ),
-
-          supernowa: (
+          supernowaExposure: (
             <Input
-              value={inputValue[curElm.subAdminId].supernowa}
+              value={inputValue[curElm.subAdminId].supernowaExposure}
               type="number"
               onKeyDown={(e) => {
                 if (e.key == ".") {
@@ -164,7 +167,7 @@ const CasinoAmount = () => {
                     ...prev,
                     [curElm.subAdminId]: {
                       ...prev[curElm.subAdminId],
-                      supernowa: Number(e.target.value),
+                      supernowaExposure: Number(e.target.value),
                     },
                   };
                 })
@@ -172,9 +175,59 @@ const CasinoAmount = () => {
               style={{ width: "100px" }}
             />
           ),
+          supernowa: (
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Input
+                value={inputValue[curElm.subAdminId].supernowa}
+                type="number"
+                onKeyDown={(e) => {
+                  if (e.key == ".") {
+                    e.preventDefault();
+                  }
+                }}
+                onChange={(e) =>
+                  setInputValue((prev) => {
+                    return {
+                      ...prev,
+                      [curElm.subAdminId]: {
+                        ...prev[curElm.subAdminId],
+                        supernowa: Number(e.target.value),
+                      },
+                    };
+                  })
+                }
+                style={{ width: "100px" }}
+              />
+            </div>
+          ),
           aura: (
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Input
+                value={inputValue[curElm.subAdminId].aura}
+                type="number"
+                onKeyDown={(e) => {
+                  if (e.key == ".") {
+                    e.preventDefault();
+                  }
+                }}
+                onChange={(e) =>
+                  setInputValue((prev) => {
+                    return {
+                      ...prev,
+                      [curElm.subAdminId]: {
+                        ...prev[curElm.subAdminId],
+                        aura: Number(e.target.value),
+                      },
+                    };
+                  })
+                }
+                style={{ width: "100px" }}
+              />
+            </div>
+          ),
+          auraExposure: (
             <Input
-              value={inputValue[curElm.subAdminId].aura}
+              value={inputValue[curElm.subAdminId].auraExposure}
               type="number"
               onKeyDown={(e) => {
                 if (e.key == ".") {
@@ -187,7 +240,7 @@ const CasinoAmount = () => {
                     ...prev,
                     [curElm.subAdminId]: {
                       ...prev[curElm.subAdminId],
-                      aura: Number(e.target.value),
+                      auraExposure: Number(e.target.value),
                     },
                   };
                 })
@@ -196,8 +249,33 @@ const CasinoAmount = () => {
             />
           ),
           qtech: (
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <Input
+                value={inputValue[curElm.subAdminId].qtech}
+                type="number"
+                onKeyDown={(e) => {
+                  if (e.key == ".") {
+                    e.preventDefault();
+                  }
+                }}
+                onChange={(e) =>
+                  setInputValue((prev) => {
+                    return {
+                      ...prev,
+                      [curElm.subAdminId]: {
+                        ...prev[curElm.subAdminId],
+                        qtech: Number(e.target.value),
+                      },
+                    };
+                  })
+                }
+                style={{ width: "100px" }}
+              />
+            </div>
+          ),
+          qtechExposure: (
             <Input
-              value={inputValue[curElm.subAdminId].qtech}
+              value={inputValue[curElm.subAdminId].qtechExposure}
               type="number"
               onKeyDown={(e) => {
                 if (e.key == ".") {
@@ -210,7 +288,7 @@ const CasinoAmount = () => {
                     ...prev,
                     [curElm.subAdminId]: {
                       ...prev[curElm.subAdminId],
-                      qtech: Number(e.target.value),
+                      qtechExposure: Number(e.target.value),
                     },
                   };
                 })
@@ -263,11 +341,9 @@ const CasinoAmount = () => {
               <option value="PKR">PKR</option>
               <option value="PK5">PK5</option>
               <option value="IDR">IDR</option>
-
-              
             </select>
             // <Input
-            
+
             //   value={inputValue[curElm.subAdminId].currency}
             //   type="text"
             //   disabled
@@ -332,7 +408,7 @@ const CasinoAmount = () => {
       }),
     [DataList, inputValue]
   );
-console.log(inputValue,"input")
+  console.log(inputValue, "input");
   const casinoAmountUpdate = async (value) => {
     setLoading((prev) => ({ ...prev, casinoAmountUpdate: true }));
     await axios
