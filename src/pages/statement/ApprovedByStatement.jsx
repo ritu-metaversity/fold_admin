@@ -253,7 +253,7 @@ const ApprovedByStatement = () => {
           width={50}
           height={50}
           style={{ borderRadius: "100px" }}
-          src={`https://admin-api-banners-new.s3.ap-south-1.amazonaws.com/${res.deposit_image}`}
+          src={`https://admin-api-banners-2.s3.ap-south-1.amazonaws.com/${res.deposit_image}`}
         />
       ),
       // deposit_type: res?.deposit_type,
