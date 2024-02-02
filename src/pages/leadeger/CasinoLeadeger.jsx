@@ -246,7 +246,7 @@ const CasinoLeader = () => {
     await axios
       .post(
         // "https://ledger.247idhub.com/bmx/ledger/create-my-ledger",
-        `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
+        `${process.env.REACT_APP_BASE_URL}/${"bmx/create-my-ledger"}`,
         data,
         {
           headers: {
