@@ -84,8 +84,8 @@ const CreateLedeger = () => {
     if (password) {
       await axios
         .post(
-          // `${process.env.REACT_APP_BASE_URL}/${"bmx/create-my-ledger"}`,
-          "https://ledger.247idhub.com/bmx/ledger/create-my-ledger",
+          `${process.env.REACT_APP_BASE_URL}/${"bmx/create-my-ledger"}`,
+          // "https://ledger.247idhub.com/bmx/ledger/create-my-ledger",
 
           {
             matchId: setSportListId,

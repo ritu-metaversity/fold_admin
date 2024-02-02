@@ -223,8 +223,8 @@ const CasinoLeader = () => {
   const createRollback = async () => {
     await axios
       .post(
-        "https://ledger.247idhub.com/bmx/ledger/rollback-ledger",
-        // `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
+        // "https://ledger.247idhub.com/bmx/ledger/rollback-ledger",
+        `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
         data,
         {
           headers: {
@@ -245,8 +245,8 @@ const CasinoLeader = () => {
   const createLedege = async () => {
     await axios
       .post(
-        "https://ledger.247idhub.com/bmx/ledger/create-my-ledger",
-        // `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
+        // "https://ledger.247idhub.com/bmx/ledger/create-my-ledger",
+        `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
         data,
         {
           headers: {

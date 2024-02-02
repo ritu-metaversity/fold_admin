@@ -85,8 +85,8 @@ const CreateRollBack = () => {
     if (password) {
       await axios
         .post(
-          "https://ledger.247idhub.com/bmx/ledger/rollback-ledger",
-          // `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
+          // "https://ledger.247idhub.com/bmx/ledger/rollback-ledger",
+          `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
           {
             matchId: setSportListId,
             dateStr: dayjs(date).format("YYYY-MM-DD"),
