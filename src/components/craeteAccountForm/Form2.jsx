@@ -34,6 +34,7 @@ const defaultData = {
   isQTechAllowed: true,
   isVirtualAllowed: true,
   isSportBookAllowed: true,
+  casinoPartnership: "",
 };
 const Accountform = ({ IsSelfState }) => {
   const [sportsList, setSportsList] = useState([]);
@@ -62,6 +63,7 @@ const Accountform = ({ IsSelfState }) => {
     sportPartnership: currentUserROle === 2 ? false : undefined,
     userRole: false,
     casinoCommission: false,
+    casinoPartnership: false,
   });
   const handleChange = (e) => {
     let name = e?.target?.name;
@@ -715,6 +717,29 @@ const Accountform = ({ IsSelfState }) => {
           ) : (
             ""
           )}
+          <Form.Item
+            label="Casino Partnership With No Return:"
+            name="casinoPartnership"
+          >
+            <div
+              className={
+                errorData?.casinoPartnership ? "col-input2" : "col-input"
+              }
+            >
+              <Input
+                placeholder="Casino Partnership With No Return"
+                type="number"
+                name="casinoPartnership"
+                value={Math.abs(data?.casinoPartnership)}
+                onChange={handleChange}
+              />
+              {errorData?.casinoPartnership ? (
+                <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
+              ) : (
+                ""
+              )}
+            </div>
+          </Form.Item>
           {/* <Form.Item
             name="liveCasinoLock"
             label="Live Casino"
