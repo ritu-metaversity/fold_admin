@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { setCommision } from "../../routes/Routes";
 import axios from "axios";
+import { notifyToast } from "../../components/toast/Tost";
 const commissionList = [
   {
     label: "0.00",
@@ -45,9 +46,15 @@ const SetCommission = () => {
         }
       )
       .then((res) => {
-        console.log(res);
+        if (res?.data?.status) {
+          notifyToast().succes(res.data.message);
+        } else {
+          notifyToast().error(res.data.message);
+        }
+       
       })
       .catch((error) => {
+        
         console.log(error);
       });
   };
