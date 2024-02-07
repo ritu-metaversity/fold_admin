@@ -64,7 +64,7 @@ const UpiForm = () => {
       setLoading((prev) => ({ ...prev, CreateQr: true }));
       await axios
 
-        .post(`${process.env.REACT_APP_BASE_URL}/${Add_Upi}`, data, {
+        .post(`${import.meta.env.VITE_BASE_URL}/${Add_Upi}`, data, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

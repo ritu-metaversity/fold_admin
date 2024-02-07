@@ -107,7 +107,7 @@ const ActiveUser = () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
+        `${import.meta.env.VITE_BASE_URL}/${Table_ActiveUser}`,
         {
           id: "",
           index: paginationData.index,

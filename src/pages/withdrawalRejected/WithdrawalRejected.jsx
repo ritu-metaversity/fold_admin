@@ -45,7 +45,7 @@ const WithdrawalRejected = () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/pw/list-all-withdraw-request`,
+        `${import.meta.env.VITE_BASE_URL}/pw/list-all-withdraw-request`,
         {
           id: "",
           index: paginationData.index,
@@ -172,7 +172,7 @@ const WithdrawalRejected = () => {
   const getOptionvalue = async (event) => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/pw/get-userlist-pw`,
+        `${import.meta.env.VITE_BASE_URL}/pw/get-userlist-pw`,
         { userId: "" },
         {
           headers: {

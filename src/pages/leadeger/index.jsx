@@ -30,7 +30,7 @@ const Leadeger = () => {
   const createLedeger = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"bmx/report/event-for-ledger"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"bmx/report/event-for-ledger"}`,
         // `${"http://192.168.0.142/admin-new-apis"}/${"bmx/report/event-for-ledger"}`,
 
         {
@@ -58,7 +58,7 @@ const Leadeger = () => {
   const activeSport = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"sport/active-sport-list"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"sport/active-sport-list"}`,
         {},
         {
           headers: {
@@ -212,7 +212,7 @@ const Leadeger = () => {
       await axios
         .post(
           `${
-            process.env.REACT_APP_BASE_URL
+            import.meta.env.VITE_BASE_URL
           }/${"bmx/report/request-event-ledger"}`,
           {
             matchIds: mathIdData,

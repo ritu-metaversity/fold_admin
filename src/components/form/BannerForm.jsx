@@ -131,7 +131,7 @@ const BannerFormComponent = () => {
     } else {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
-        .post(`${process.env.REACT_APP_BASE_URL}/${Add_banner}`, formData, {
+        .post(`${import.meta.env.VITE_BASE_URL}/${Add_banner}`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "multipart/form-data",
@@ -201,7 +201,7 @@ const BannerFormComponent = () => {
   const deleteRow = async (id) => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Banner_Delete}`,
+        `${import.meta.env.VITE_BASE_URL}/${Banner_Delete}`,
         {
           bannerId: id,
         },
@@ -250,7 +250,7 @@ const BannerFormComponent = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Banner_List}`,
+        `${import.meta.env.VITE_BASE_URL}/${Banner_List}`,
         { type: typeValue },
         {
           headers: {

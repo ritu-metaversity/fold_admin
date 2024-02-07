@@ -23,7 +23,7 @@ const PnlBetHistory = ({ matchId, sportId }) => {
     setLoading((prev) => ({ ...prev, bethistorytabledata: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${TabBet_History}`,
+        `${import.meta.env.VITE_BASE_URL}/${TabBet_History}`,
         {
           index: paginationData?.index,
           noOfRecords: paginationData?.noOfRecords,

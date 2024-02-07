@@ -83,7 +83,7 @@ const ApprovedByStatement = () => {
     await axios
       .post(
         // "http://192.168.68.101/user/test3",
-        `${process.env.REACT_APP_BASE_URL}/user/subadmin-poweruser-list`,
+        `${import.meta.env.VITE_BASE_URL}/user/subadmin-poweruser-list`,
         { userId: value },
         {
           headers: {
@@ -108,7 +108,7 @@ const ApprovedByStatement = () => {
     await axios
       .post(
         // "http://192.168.68.105/user/get-pw-sat-statement",
-        `${process.env.REACT_APP_BASE_URL}/${Statement}`,
+        `${import.meta.env.VITE_BASE_URL}/${Statement}`,
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,

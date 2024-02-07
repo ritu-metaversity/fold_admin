@@ -36,7 +36,7 @@ const DeletedBetList = ({ handleCancelDeletedModal }) => {
     await axios
       .post(
         `${
-          process.env.REACT_APP_BASE_URL
+          import.meta.env.VITE_BASE_URL
         }/${"bets/market-name-with-id-by-matchid"}`,
         { matchId: id },
         {
@@ -66,7 +66,7 @@ const DeletedBetList = ({ handleCancelDeletedModal }) => {
     await axios
       .post(
         `${
-          process.env.REACT_APP_BASE_URL
+          import.meta.env.VITE_BASE_URL
         }/${"admin/delete-bets-by-time-and-type"}`,
         payloadData,
         // {

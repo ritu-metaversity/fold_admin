@@ -62,7 +62,7 @@ const Widrawal = ({ data, gettableData }) => {
       setLoading((prev) => ({ ...prev, submitWidrawal: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalSubmitForm}`,
+          `${import.meta.env.VITE_BASE_URL}/${Tab_WidrawalSubmitForm}`,
           { ...formData, userId: data.userId },
           {
             headers: {
@@ -100,7 +100,7 @@ const Widrawal = ({ data, gettableData }) => {
       setLoading((prev) => ({ ...prev, showwithdrawal: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_Widrawal}`,
+          `${import.meta.env.VITE_BASE_URL}/${Tab_Widrawal}`,
           { userId: data.userId },
           {
             headers: {

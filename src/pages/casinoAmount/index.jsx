@@ -37,7 +37,7 @@ const CasinoAmount = () => {
     setLoading((prev) => ({ ...prev, casinoAmount: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"api/getallBetValue"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"api/getallBetValue"}`,
         {
           userId: searchValue,
           index: paginationData.index,
@@ -412,7 +412,7 @@ const CasinoAmount = () => {
     setLoading((prev) => ({ ...prev, casinoAmountUpdate: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"api/update_admin_Bet_value"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"api/update_admin_Bet_value"}`,
         value,
         //   index: paginationData.index,
         //   noOfRecords: paginationData.noOfRecords,

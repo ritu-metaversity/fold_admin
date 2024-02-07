@@ -74,7 +74,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
     setLoading((prev) => ({ ...prev, logout: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Log_Out}`,
+        `${import.meta.env.VITE_BASE_URL}/${Log_Out}`,
         {},
         {
           headers: {
@@ -101,7 +101,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   //   setLoading((prev) => ({ ...prev, CreatePowerUser: true }));
   //   await axios
   //     .post(
-  //       `${process.env.REACT_APP_BASE_URL}/${Create_Power_user}`,
+  //       `${import.meta.env.VITE_BASE_URL}/${Create_Power_user}`,
   //       {},
   //       {
   //         headers: {
@@ -122,7 +122,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   const paymentMethod = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Payment_List}`,
+        `${import.meta.env.VITE_BASE_URL}/${Payment_List}`,
         {},
         {
           headers: {
@@ -153,7 +153,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   const leftEventMenu = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Left_Event_Menu}`,
+        `${import.meta.env.VITE_BASE_URL}/${Left_Event_Menu}`,
         {},
         {
           headers: {
@@ -171,7 +171,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
   const CasionData = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Casiono}`,
+        `${import.meta.env.VITE_BASE_URL}/${Casiono}`,
         {},
         {
           headers: {

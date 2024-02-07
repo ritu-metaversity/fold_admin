@@ -38,7 +38,7 @@ const oddAbbrev = {
   OddEven: "OE",
 };
 
-const URL = process.env.REACT_APP_ANISH_SOCKET || "";
+const URL = import.meta.env.VITE_ANISH_SOCKET || "";
 const socket = io(URL);
 const TestPageLeftCollapse = () => {
   const userType = localStorage.getItem("userType");
@@ -149,7 +149,7 @@ const TestPageLeftCollapse = () => {
     // setLoading(true);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${
+        `${import.meta.env.VITE_BASE_URL}/${
           check == 0 ? Bets_Odds_Pnl : Bets_Odds_Pnl_winner
         }`,
         check == 0 ? { matchId: id } : { marketId: marketid },
@@ -168,7 +168,7 @@ const TestPageLeftCollapse = () => {
   };
 
   // const { lastMessage: oddPnlLastMessage } = useWebSocket(
-  //   `${process.env.REACT_APP_ANKIT_SOCKET}adminodd/${id}/${localStorage.getItem(
+  //   `${import.meta.env.VITE_ANKIT_SOCKET}adminodd/${id}/${localStorage.getItem(
   //     "token"
   //   )}`,
   //   {
@@ -205,7 +205,7 @@ const TestPageLeftCollapse = () => {
     setLoading((prev) => ({ ...prev, BetLockStatus: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${bets_Lock_Status}`,
+        `${import.meta.env.VITE_BASE_URL}/${bets_Lock_Status}`,
         { matchId: id },
         {
           headers: {
@@ -264,7 +264,7 @@ const TestPageLeftCollapse = () => {
     setLoading((prev) => ({ ...prev, marketNameid: true }));
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/${Bet_Lock}`,
+        `${import.meta.env.VITE_BASE_URL}/${Bet_Lock}`,
         { matchId: id, marketName: marketNameid },
         {
           headers: {
@@ -285,7 +285,7 @@ const TestPageLeftCollapse = () => {
     const data = { marketId: marketId, userId: "" };
     setLoading((prev) => ({ ...prev, getUserBook: true }));
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Bet_User_Book}`, data, {
+      .post(`${import.meta.env.VITE_BASE_URL}/${Bet_User_Book}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -310,7 +310,7 @@ const TestPageLeftCollapse = () => {
 
   // const { lastMessage: fancyPnlLastMessage } = useWebSocket(
   //   `${
-  //     process.env.REACT_APP_ANKIT_SOCKET
+  //     import.meta.env.VITE_ANKIT_SOCKET
   //   }adminfancy/${id}/${localStorage.getItem("token")}`,
   //   {
   //     shouldReconnect: () => true,
@@ -335,7 +335,7 @@ const TestPageLeftCollapse = () => {
   const getfancyPnl = async () => {
     const data = { matchId: id };
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Fancy_Pnl}`, data, {
+      .post(`${import.meta.env.VITE_BASE_URL}/${Fancy_Pnl}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -362,7 +362,7 @@ const TestPageLeftCollapse = () => {
     const data = { matchId: id, markettype: "Fancy2Market" };
     setLoading((prev) => ({ ...prev, getUserBook: true }));
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Completed_match}`, data, {
+      .post(`${import.meta.env.VITE_BASE_URL}/${Completed_match}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -570,7 +570,7 @@ const TestPageLeftCollapse = () => {
             width="100%"
             height="200px"
             title="score-iframe"
-            // src={`${process.env.REACT_APP_MATCH_SCORE}/${id}`}
+            // src={`${import.meta.env.VITE_MATCH_SCORE}/${id}`}
             src={`https://score.247idhub.com/index.html/event/${id}?theme=crazy-diamond`}
           />
         )}

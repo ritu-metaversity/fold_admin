@@ -27,7 +27,7 @@ const TestPageRightCollapse = () => {
     setLoading((prev) => ({ ...prev, getViewMoreTabData: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Market_Name_MatchId}`,
+        `${import.meta.env.VITE_BASE_URL}/${Market_Name_MatchId}`,
         { matchId: id },
         {
           headers: {

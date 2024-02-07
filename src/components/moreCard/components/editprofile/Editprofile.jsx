@@ -58,7 +58,7 @@ const EditProfile = ({ data, handleCancelfunction }) => {
       setLoading((prev) => ({ ...prev, changePassword: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_EditProfileForm}`,
+          `${import.meta.env.VITE_BASE_URL}/${Tab_EditProfileForm}`,
           {
             ...formData,
             favMaster: formData.favMaster ? formData.favMaster : false,

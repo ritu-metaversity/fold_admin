@@ -67,7 +67,7 @@ const CasinoBetHistory = () => {
     setLoading((prev) => ({ ...prev, bethistorytabledata: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${TabBet_History}`,
+        `${import.meta.env.VITE_BASE_URL}/${TabBet_History}`,
         {
           index: paginationData?.index,
           noOfRecords: paginationData?.noOfRecords,
@@ -241,7 +241,7 @@ const CasinoBetHistory = () => {
     const getSpotsList = async () => {
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Casiono}`,
+          `${import.meta.env.VITE_BASE_URL}/${Casiono}`,
           {},
           {
             headers: {
@@ -273,7 +273,7 @@ const CasinoBetHistory = () => {
     setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
+        `${import.meta.env.VITE_BASE_URL}/${Casino_Card_Data}`,
         { id: id, appUrl: window.location.hostname },
         {
           headers: {

@@ -15,7 +15,7 @@ const ExposureModal = ({ userID }) => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"bets/open-betlist-by-uplineid"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"bets/open-betlist-by-uplineid"}`,
         {
           userId: userID,
           index: paginationData.index,

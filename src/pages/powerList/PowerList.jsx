@@ -66,7 +66,7 @@ const PoerList = () => {
       .post(
         //
         // "http://192.168.68.105/user/list-power-user-sa",
-        `${process.env.REACT_APP_BASE_URL}/${Power_list}`,
+        `${import.meta.env.VITE_BASE_URL}/${Power_list}`,
         {
           id: "",
           index: paginationData.index,
@@ -175,7 +175,7 @@ const PoerList = () => {
     setLoading((prev) => ({ ...prev, deletePoweList: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Delete_Power_List}`,
+        `${import.meta.env.VITE_BASE_URL}/${Delete_Power_List}`,
         { userId: userId },
         {
           headers: {
@@ -270,7 +270,7 @@ const PoerList = () => {
     setLoading((prev) => ({ ...prev, upadtePermissionApi: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${updatePermissionApi}`,
+        `${import.meta.env.VITE_BASE_URL}/${updatePermissionApi}`,
         {
           userId: userId,
           luPassword: passwordValue,

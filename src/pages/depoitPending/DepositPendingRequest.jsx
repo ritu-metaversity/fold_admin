@@ -47,7 +47,7 @@ const DepositPendingRequest = () => {
     setLoading((prev) => ({ ...prev, depositPendingRequest: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Deposit_Pending_Request_Api}`,
+        `${import.meta.env.VITE_BASE_URL}/${Deposit_Pending_Request_Api}`,
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,
@@ -168,7 +168,7 @@ const DepositPendingRequest = () => {
     setLoading((prev) => ({ ...prev, depositPendingRequestReject: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Reject_Deposit_Request}`,
+        `${import.meta.env.VITE_BASE_URL}/${Reject_Deposit_Request}`,
         {
           id,
           remark,
@@ -192,7 +192,7 @@ const DepositPendingRequest = () => {
     setLoading((prev) => ({ ...prev, depositPendingRequestApprove: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Approve_Deposit_Request}`,
+        `${import.meta.env.VITE_BASE_URL}/${Approve_Deposit_Request}`,
         {
           id,
           remark,

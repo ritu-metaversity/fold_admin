@@ -18,7 +18,7 @@ const PtsModal = ({ id, remark, setPtsdata, ptsdata, search }) => {
       setLoading((prev) => ({ ...prev, getPtsData: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Get_Pts_Data}`,
+          `${import.meta.env.VITE_BASE_URL}/${Get_Pts_Data}`,
           { marketId: id, userId: search, betType: value },
 
           {

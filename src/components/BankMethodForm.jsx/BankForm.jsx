@@ -109,7 +109,7 @@ const BankForm = () => {
         await axios
 
           .post(
-            `${process.env.REACT_APP_BASE_URL}/${Add_Bank}`,
+            `${import.meta.env.VITE_BASE_URL}/${Add_Bank}`,
             data,
             {
               headers: {

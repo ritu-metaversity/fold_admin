@@ -30,7 +30,7 @@ const Loginform = () => {
       
     };
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Login_Api}`, value)
+      .post(`${import.meta.env.VITE_BASE_URL}/${Login_Api}`, value)
       .then((res) => {
         if (res.data.token && res.status === 200) {
           localStorage.setItem("username", res.data.username);

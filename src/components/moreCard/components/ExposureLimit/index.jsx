@@ -25,7 +25,7 @@ const ExposureLimit = ({ userData }) => {
   const getExposureLimit = async () => {
     const response = await axios.post(
       `${
-        process.env.REACT_APP_BASE_URL
+        import.meta.env.VITE_BASE_URL
       }/${"matchBox/matchBox_credit-Exposure-amount"}`,
       { userId: userData?.userId },
       {
@@ -40,7 +40,7 @@ const ExposureLimit = ({ userData }) => {
   const submitHandler = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"matchBox/update-limit"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"matchBox/update-limit"}`,
         updatedData,
         {
           headers: {

@@ -13,7 +13,7 @@ const DashBoardPage = () => {
       setLoading((prev) => ({ ...prev, DasboardLoading: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Dashboard_Api}`,
+          `${import.meta.env.VITE_BASE_URL}/${Dashboard_Api}`,
           {},
           {
             headers: {

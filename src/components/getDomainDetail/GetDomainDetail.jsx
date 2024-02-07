@@ -28,7 +28,7 @@ const GetDomainDetailTable = () => {
     await axios
       .post(
         // "http://18.143.24.35/admin/app-detail",
-        `${process.env.REACT_APP_BASE_URL}/${getAppDetail}`,
+        `${import.meta.env.VITE_BASE_URL}/${getAppDetail}`,
         {},
         {
           headers: {

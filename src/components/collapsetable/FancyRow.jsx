@@ -18,7 +18,7 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
   const fancyBook = async (sid) => {
     const data = { matchId: id, fancyId: sid };
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Fancy_Book}`, data, {
+      .post(`${import.meta.env.VITE_BASE_URL}/${Fancy_Book}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

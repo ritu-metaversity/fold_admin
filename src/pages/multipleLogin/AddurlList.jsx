@@ -13,7 +13,7 @@ const AddurlList = ({ useData, handleCance }) => {
     setLoading((prev) => ({ ...prev, addUrlList: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"appid-login/save"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"appid-login/save"}`,
         { userId: useData?.userid, appUrl: options },
         {
           headers: {
@@ -62,7 +62,7 @@ const AddurlList = ({ useData, handleCance }) => {
     setLoading((prev) => ({ ...prev, getDomainList: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"appid-login/getforlistdomain"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"appid-login/getforlistdomain"}`,
         { userId: useData?.userid },
         {
           headers: {

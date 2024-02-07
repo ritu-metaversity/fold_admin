@@ -46,7 +46,7 @@ const Casion = () => {
     setLoading((prev) => ({ ...prev, CasinoBet: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Bet_Casino}`,
+        `${import.meta.env.VITE_BASE_URL}/${Bet_Casino}`,
         {
           id,
         },

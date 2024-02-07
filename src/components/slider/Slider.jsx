@@ -13,7 +13,7 @@ const Slider = () => {
   const getBanner = async () => {
     axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"enduser/user-banner-list"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"enduser/user-banner-list"}`,
         { type: 1 },
         {
           headers: {

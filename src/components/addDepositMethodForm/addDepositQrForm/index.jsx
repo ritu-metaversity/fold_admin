@@ -119,9 +119,9 @@ const AddDepositQrForm = ({ id, userData, endingPoint }) => {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${`deposit-type/${endingPoint}`}`,
+          `${import.meta.env.VITE_BASE_URL}/${`deposit-type/${endingPoint}`}`,
 
-          // `${process.env.REACT_APP_BASE_URL}/${Add_QR}`,
+          // `${import.meta.env.VITE_BASE_URL}/${Add_QR}`,
           formData,
           {
             headers: {

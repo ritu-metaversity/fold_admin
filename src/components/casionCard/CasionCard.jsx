@@ -25,7 +25,7 @@ const CasionCard = ({ data, count }) => {
     setLoading((prev) => ({ ...prev, viewmorebets: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Get_View_Bets}`,
+        `${import.meta.env.VITE_BASE_URL}/${Get_View_Bets}`,
         {
           id: id,
         },

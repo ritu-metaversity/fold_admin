@@ -73,7 +73,7 @@ const Transaction = ({ data, dataTransaction }) => {
       setLoading((prev) => ({ ...prev, getTransaction: true }));
       await axios
 
-        .post(`${process.env.REACT_APP_BASE_URL}/${Tab_Transaction}`, value, {
+        .post(`${import.meta.env.VITE_BASE_URL}/${Tab_Transaction}`, value, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

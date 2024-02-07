@@ -46,7 +46,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   // const userBalance = async () => {
   //   await axios
   //     .post(
-  //       `${process.env.REACT_APP_BASE_URL}/${User_Balance}`,
+  //       `${import.meta.env.VITE_BASE_URL}/${User_Balance}`,
   //       {},
   //       {
   //         headers: {
@@ -73,7 +73,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
     setLoading((prev) => ({ ...prev, logout2: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Log_Out}`,
+        `${import.meta.env.VITE_BASE_URL}/${Log_Out}`,
         {},
         {
           headers: {
@@ -183,7 +183,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
   const getMsg = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${get_msg}`,
+        `${import.meta.env.VITE_BASE_URL}/${get_msg}`,
         {},
         {
           headers: {

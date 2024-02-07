@@ -92,7 +92,7 @@ const AddWithdrawalSub = () => {
     setLoading((prev) => ({ ...prev, subAdminupdate: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"withdraw-subadmin/update"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"withdraw-subadmin/update"}`,
         // "http://192.168.68.131/withdraw-subadmin/update",
 
         id,
@@ -121,7 +121,7 @@ const AddWithdrawalSub = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"withtype-subadmin/get"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"withtype-subadmin/get"}`,
         {},
         {
           headers: {
@@ -142,7 +142,7 @@ const AddWithdrawalSub = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"withType/get"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"withType/get"}`,
         {},
         {
           headers: {
@@ -167,7 +167,7 @@ const AddWithdrawalSub = () => {
       setLoading((prev) => ({ ...prev, BannersubmitForm: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${"withTypeSub/Save"}`,
+          `${import.meta.env.VITE_BASE_URL}/${"withTypeSub/Save"}`,
           // "http://192.168.68.133/withTypeSub/Save",
           {
             withdrawType: checkBoxArray,

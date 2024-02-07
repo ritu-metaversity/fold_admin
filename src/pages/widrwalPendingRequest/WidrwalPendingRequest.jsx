@@ -43,7 +43,7 @@ const WidrwalPendingRequest = () => {
     setLoading((prev) => ({ ...prev, depositPendingRequest: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Widrwal_Pending_Request_Api}`,
+        `${import.meta.env.VITE_BASE_URL}/${Widrwal_Pending_Request_Api}`,
         {
           userId: "",
           index: paginationData.index,
@@ -204,7 +204,7 @@ const WidrwalPendingRequest = () => {
       setLoading((prev) => ({ ...prev, reject: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Reject_Withdraw_Request}`,
+          `${import.meta.env.VITE_BASE_URL}/${Reject_Withdraw_Request}`,
           {
             id: id,
             remark,
@@ -235,7 +235,7 @@ const WidrwalPendingRequest = () => {
       setLoading((prev) => ({ ...prev, approve: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Approve_Withdraw_Request}`,
+          `${import.meta.env.VITE_BASE_URL}/${Approve_Withdraw_Request}`,
           {
             id,
             remark,

@@ -25,7 +25,7 @@ const CasinoLock = ({ userData }) => {
       setLoading((prev) => ({ ...prev, submitCasinoLock: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${"user/update-casino-lock"}`,
+          `${import.meta.env.VITE_BASE_URL}/${"user/update-casino-lock"}`,
 
           dataw,
           {
@@ -53,7 +53,7 @@ const CasinoLock = ({ userData }) => {
     await axios
       .post(
         // "http://192.168.68.101/pw/update-bet-account-status",
-        `${process.env.REACT_APP_BASE_URL}/${"user/get-casino-bet-lock"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"user/get-casino-bet-lock"}`,
         { userId: userData.userId },
         {
           headers: {

@@ -98,7 +98,7 @@ const TableComponent = ({ data }) => {
     setLoading((prev) => ({ ...prev, accountStatement: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"admin/delete-bet-by-id"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"admin/delete-bet-by-id"}`,
         { id: matchId },
         {
           headers: {

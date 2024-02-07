@@ -53,7 +53,7 @@ const CurrentBetsTable = () => {
     setLoading((prev) => ({ ...prev, currentBettabledata: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Tab_CurrentBet}`,
+        `${import.meta.env.VITE_BASE_URL}/${Tab_CurrentBet}`,
         {
           betType: radioValuefilte,
           noOfRecords: paginationData.noOfRecords,
@@ -246,7 +246,7 @@ const CurrentBetsTable = () => {
     setSearchData(value);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        `${import.meta.env.VITE_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
         {},
         {
           headers: {

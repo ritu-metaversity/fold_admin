@@ -16,7 +16,7 @@ const SocialMediaManager = () => {
 
   const getSocialImage = async (data) => {
     const response = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/${Get_Social_Media}`,
+      `${import.meta.env.VITE_BASE_URL}/${Get_Social_Media}`,
       data,
       {
         headers: {
@@ -105,7 +105,7 @@ const SocialMediaManager = () => {
     }
     if (isChecked) {
       const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/${Get_saveSelect}`,
+        `${import.meta.env.VITE_BASE_URL}/${Get_saveSelect}`,
         value,
         {
           headers: {

@@ -20,7 +20,7 @@ const ChangePasswordLoginForm = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Cahnge_pass}`,
+        `${import.meta.env.VITE_BASE_URL}/${Cahnge_pass}`,
         {
           ...values,
           userid: userId,

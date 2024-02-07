@@ -15,7 +15,7 @@ const MyBets = () => {
     const getBetsData = async () => {
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Bet_List}`,
+          `${import.meta.env.VITE_BASE_URL}/${Bet_List}`,
           { matchId: id },
           {
             headers: {
@@ -42,7 +42,7 @@ const MyBets = () => {
   }, [id, navigate]);
 
   // const { lastMessage } = useWebSocket(
-  //   `${process.env.REACT_APP_ANKIT_SOCKET}admin/${id}/${localStorage.getItem(
+  //   `${import.meta.env.VITE_ANKIT_SOCKET}admin/${id}/${localStorage.getItem(
   //     "token"
   //   )}`,
   //   {

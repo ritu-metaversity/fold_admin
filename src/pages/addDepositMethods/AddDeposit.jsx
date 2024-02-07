@@ -53,8 +53,8 @@ const AddDeposit = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/deposit-type/get_sub`,
-        // `${process.env.REACT_APP_BASE_URL}/${"withtype-subadmin/get"}`,
+        `${import.meta.env.VITE_BASE_URL}/deposit-type/get_sub`,
+        // `${import.meta.env.VITE_BASE_URL}/${"withtype-subadmin/get"}`,
         {},
         {
           headers: {
@@ -115,7 +115,7 @@ const AddDeposit = () => {
     setLoading((prev) => ({ ...prev, subAdminupdate: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"deposit-type/update_sub"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"deposit-type/update_sub"}`,
 
         id,
 

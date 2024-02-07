@@ -9,9 +9,9 @@ const Setting = () => {
   const userType = localStorage.getItem("userType");
   const data = { appUrl: userType == 4 ? "admin" : window.location.hostname };
   const getSocialImage = async () => {
-    console.log(process.env.REACT_APP_BASE_URL);
+    console.log(import.meta.env.VITE_BASE_URL);
     const response = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/${Get_Social_Media}`,
+      `${import.meta.env.VITE_BASE_URL}/${Get_Social_Media}`,
       data,
       {
         headers: {

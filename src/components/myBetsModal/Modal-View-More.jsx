@@ -39,7 +39,7 @@ const ModalViewMore = ({ keyName }) => {
   const viewMoreTabledata = async (data) => {
     setLoading((prev) => ({ ...prev, viewMoreTabledata: true }));
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Bet_Search}`, data, {
+      .post(`${import.meta.env.VITE_BASE_URL}/${Bet_Search}`, data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

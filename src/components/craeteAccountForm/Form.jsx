@@ -52,7 +52,7 @@ const Accountform = ({ IsSelfState }) => {
 
   const getCasino = async () => {
     const res = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/${"user/alloted-casino-list"}`,
+      `${import.meta.env.VITE_BASE_URL}/${"user/alloted-casino-list"}`,
       {},
       {
         headers: {
@@ -86,7 +86,7 @@ const Accountform = ({ IsSelfState }) => {
   //   await axios
   //     .post(
   //       // "http://192.168.68.101/pw/update-bet-account-status",
-  //       `${process.env.REACT_APP_BASE_URL}/${"user/get-casino-bet-lock"}`,
+  //       `${import.meta.env.VITE_BASE_URL}/${"user/get-casino-bet-lock"}`,
   //       { userId: localStorage.getItem("userid") },
   //       {
   //         headers: {
@@ -287,7 +287,7 @@ const Accountform = ({ IsSelfState }) => {
       setLoading((prev) => ({ ...prev, CreateUserAccount: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Create_Admin}`,
+          `${import.meta.env.VITE_BASE_URL}/${Create_Admin}`,
 
           dataInner,
           {
@@ -339,7 +339,7 @@ const Accountform = ({ IsSelfState }) => {
 
   const userChecker = async (userId) => {
     const res = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/${User_Check}`,
+      `${import.meta.env.VITE_BASE_URL}/${User_Check}`,
       userId,
       {
         headers: {
@@ -415,7 +415,7 @@ const Accountform = ({ IsSelfState }) => {
   const getSpotsList = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${get_Sport_List}`,
+        `${import.meta.env.VITE_BASE_URL}/${get_Sport_List}`,
         {},
         {
           headers: {
@@ -440,7 +440,7 @@ const Accountform = ({ IsSelfState }) => {
   const getCasinoStatus = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Casino_Status}`,
+        `${import.meta.env.VITE_BASE_URL}/${Casino_Status}`,
         {},
         {
           headers: {

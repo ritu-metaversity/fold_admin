@@ -58,7 +58,7 @@ const Changpassword = ({ data, handleCancelfunction, helper }) => {
           await axios
             .post(
               // "http://192.168.68.101/pw/change-password-child-pw",
-              `${process.env.REACT_APP_BASE_URL}/${
+              `${import.meta.env.VITE_BASE_URL}/${
                 helper === "update"
                   ? "pw/change-password-child-pw"
                   : Tab_ChangePasword

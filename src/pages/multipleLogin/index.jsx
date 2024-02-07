@@ -35,7 +35,7 @@ const MultipleLogin = () => {
     setLoading((prev) => ({ ...prev, multiLogin: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"appid-login/getforlist"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"appid-login/getforlist"}`,
         {
           userId: searchValue,
           index: paginationData.index,

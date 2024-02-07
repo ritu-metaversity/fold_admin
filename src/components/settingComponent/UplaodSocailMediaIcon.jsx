@@ -42,7 +42,7 @@ const UplaodSocailMediaIcon = ({ fun }) => {
       return notifyToast().error("image size should be less then 200kb");
     }
     const response = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/${Social_Media_Icon_Upload}`,
+      `${import.meta.env.VITE_BASE_URL}/${Social_Media_Icon_Upload}`,
       formData,
       {
         headers: {

@@ -25,7 +25,7 @@ const DownloadReport = ({
       responseType: "blob",
       method: "POST",
       maxBodyLength: Infinity,
-      url: `${process.env.REACT_APP_BASE_URL}/maggibookExcel/maggiBook-excel-file-download`,
+      url: `${import.meta.env.VITE_BASE_URL}/maggibookExcel/maggiBook-excel-file-download`,
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,

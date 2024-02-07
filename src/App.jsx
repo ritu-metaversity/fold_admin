@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import "./App.scss";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import ActiveUser from "./pages/activeUser/ActiveUser";
-import CreateAccount from "./pages/createAccounts/CreateAccount";
+import ActiveUser from "./pages/activeUser/ActiveUser.jsx";
+import CreateAccount from "./pages/createAccounts/CreateAccount.jsx";
 import CreateAccountCommission from "./pages/createAccounts/CreateAccountCommision.jsx";
 
-import AccountsList from "./pages/acountList/AccountList";
-import Bank from "./pages/bank/Bank";
-import Login from "./pages/login/Login";
-import CurrentBets from "./pages/currentBets/CurrentBets";
+import AccountsList from "./pages/acountList/AccountList.jsx";
+import Bank from "./pages/bank/Bank.jsx";
+import Login from "./pages/login/Login.jsx";
+import CurrentBets from "./pages/currentBets/CurrentBets.jsx";
 import "./components/font.css";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -65,55 +65,55 @@ import {
   Casino_leader,
   Create_Casino,
   setCommision,
-} from "./routes/Routes";
-import BetHistory from "./pages/betHistory/BetHistory";
+} from "./routes/Routes.js";
+import BetHistory from "./pages/betHistory/BetHistory.jsx";
 import { createContext, useEffect, useState } from "react";
-import CreateDomain from "./pages/createDomain/CreateDomain";
-import Testmatch from "./pages/testMatch/Testmatch";
-import NoteFound from "./pages/noteFound/NoteFound";
+import CreateDomain from "./pages/createDomain/CreateDomain.jsx";
+import Testmatch from "./pages/testMatch/Testmatch.jsx";
+import NoteFound from "./pages/noteFound/NoteFound.jsx";
 import loader from "./assets/img/loder.svg";
-import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogin";
-import PaymentMethodPage from "./pages/paymentMethod/PaymentMethod";
-import Banner from "./pages/banner/Banner";
-import BankPage from "./pages/bankMethod/BankPage";
-import Upi from "./pages/bankMethod/Upi";
-import QR from "./pages/bankMethod/Qr";
-import PoerList from "./pages/powerList/PowerList";
-import AccountStatement from "./pages/accountStatement/AccountStatement";
-import DepositPendingRequest from "./pages/depoitPending/DepositPendingRequest";
-import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingRequest";
-import { OfflineAlert } from "./axiosInstance";
+import ChangePasswordLogin from "./pages/chnagePassworldLogin/ChangePasswordLogin.jsx";
+import PaymentMethodPage from "./pages/paymentMethod/PaymentMethod.jsx";
+import Banner from "./pages/banner/Banner.jsx";
+import BankPage from "./pages/bankMethod/BankPage.jsx";
+import Upi from "./pages/bankMethod/Upi.jsx";
+import QR from "./pages/bankMethod/Qr.jsx";
+import PoerList from "./pages/powerList/PowerList.jsx";
+import AccountStatement from "./pages/accountStatement/AccountStatement.jsx";
+import DepositPendingRequest from "./pages/depoitPending/DepositPendingRequest.jsx";
+import WidrwalPendingRequest from "./pages/widrwalPendingRequest/WidrwalPendingRequest.jsx";
+import { OfflineAlert } from "./axiosInstance.jsx";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import axios from "axios";
-import UserHistory from "./pages/userHistory/UserHistory";
-import Casion from "./pages/Casino/Casion";
-import Mainlayout from "./common/Mainlayout";
-import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss";
+import UserHistory from "./pages/userHistory/UserHistory.jsx";
+import Casion from "./pages/Casino/Casion.jsx";
+import Mainlayout from "./common/Mainlayout.jsx";
+import ProfiteLoss from "./pages/Profite&Lose/ProfiteLoss.jsx";
 // import PartyWinLose from "./pages/partyWinLose/PartyWinLose";
 import { ToastContainer } from "react-toastify";
-import Setting from "./pages/settingPage/Setting";
-import SocialMediaManager from "./pages/socialMedia/SocialMediaManager";
-import DownList from "./pages/downLine/DownLine";
+import Setting from "./pages/settingPage/Setting.jsx";
+import SocialMediaManager from "./pages/socialMedia/SocialMediaManager.jsx";
+import DownList from "./pages/downLine/DownLine.jsx";
 // import dayjs from "dayjs";
-import MarketAnalysis from "./pages/marketAnalyisis/MarketAnalysis";
-import Dashboard from "./pages/dashboard/Dashboard";
-import CasinoType from "./pages/casionType/CasinoType";
-import WithdrawalRejected from "./pages/withdrawalRejected/WithdrawalRejected";
-import DepositeRejected from "./pages/depositeRejected/DepositeRejected";
-import CreateHelper from "./pages/createHelper/CreateHelper";
-import ApprovedByStatement from "./pages/statement/ApprovedByStatement";
-import HelperActiveUser from "./pages/heplerActiveUser/HelperActiveUser";
-import AddWithdrawal from "./pages/addWithdrawal";
-import AddWithdrawalSub from "./pages/addWithdrawalSub";
-import AddDepositMethods from "./pages/addDepositMethods";
-import AddDepositMethodAdmin from "./pages/addDepositMethodAdmin";
-import MultipleLogin from "./pages/multipleLogin";
-import CasinoAmount from "./pages/casinoAmount";
-import CreateLedeger from "./pages/CraeteLeader";
-import CreateRollBack from "./pages/createRollBack";
-import Leadeger from "./pages/leadeger";
-import CasinoLeader from "./pages/leadeger/CasinoLeadeger";
-import CreateCasino from "./pages/createCasino/CreateCasino";
+import MarketAnalysis from "./pages/marketAnalyisis/MarketAnalysis.jsx";
+import Dashboard from "./pages/dashboard/Dashboard.jsx";
+import CasinoType from "./pages/casionType/CasinoType.jsx";
+import WithdrawalRejected from "./pages/withdrawalRejected/WithdrawalRejected.jsx";
+import DepositeRejected from "./pages/depositeRejected/DepositeRejected.jsx";
+import CreateHelper from "./pages/createHelper/CreateHelper.jsx";
+import ApprovedByStatement from "./pages/statement/ApprovedByStatement.jsx";
+import HelperActiveUser from "./pages/heplerActiveUser/HelperActiveUser.jsx";
+import AddWithdrawal from "./pages/addWithdrawal/index.jsx";
+import AddWithdrawalSub from "./pages/addWithdrawalSub/index.jsx";
+import AddDepositMethods from "./pages/addDepositMethods/index.jsx";
+import AddDepositMethodAdmin from "./pages/addDepositMethodAdmin/index.jsx";
+import MultipleLogin from "./pages/multipleLogin/index.jsx";
+import CasinoAmount from "./pages/casinoAmount/index.jsx";
+import CreateLedeger from "./pages/CraeteLeader/index.jsx";
+import CreateRollBack from "./pages/createRollBack/index.jsx";
+import Leadeger from "./pages/leadeger/index.jsx";
+import CasinoLeader from "./pages/leadeger/CasinoLeadeger.jsx";
+import CreateCasino from "./pages/createCasino/CreateCasino.jsx";
 import SetCommission from "./pages/setCommission/SetCommission.jsx";
 export const LoaderContext = createContext({
   loading: {},
@@ -148,7 +148,7 @@ function App() {
     if (state) setTokenState(false);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Token_Checker}`,
+        `${import.meta.env.VITE_BASE_URL}/${Token_Checker}`,
         {},
         {
           headers: {
@@ -171,7 +171,7 @@ function App() {
   const userBalance = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${User_Balance}`,
+        `${import.meta.env.VITE_BASE_URL}/${User_Balance}`,
         {},
         {
           headers: {
@@ -228,7 +228,7 @@ function App() {
   const isSelfData = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${isSelf}`,
+        `${import.meta.env.VITE_BASE_URL}/${isSelf}`,
         { appUrl: host === "localhost" ? "admin.localhost" : host },
         {
           headers: {
@@ -246,7 +246,7 @@ function App() {
   const getMsg = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${get_msg}`,
+        `${import.meta.env.VITE_BASE_URL}/${get_msg}`,
         {},
         {
           headers: {

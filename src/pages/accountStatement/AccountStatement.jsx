@@ -87,7 +87,7 @@ const AccountStatement = () => {
     setSearchData(value);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        `${import.meta.env.VITE_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
         {},
         {
           headers: {
@@ -111,7 +111,7 @@ const AccountStatement = () => {
     // console.log(dateTo, dateTo.toISOString());
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Account_Statement_Api}`,
+        `${import.meta.env.VITE_BASE_URL}/${Account_Statement_Api}`,
         {
           index: paginationData.index,
           noOfRecords: paginationData.noOfRecords,

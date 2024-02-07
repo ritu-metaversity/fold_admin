@@ -68,7 +68,7 @@ const BetHistorytable = ({ id }) => {
     setLoading((prev) => ({ ...prev, bethistorytabledata: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${TabBet_History}`,
+        `${import.meta.env.VITE_BASE_URL}/${TabBet_History}`,
         {
           index: paginationData?.index,
           noOfRecords: paginationData?.noOfRecords,
@@ -249,7 +249,7 @@ const BetHistorytable = ({ id }) => {
   useEffect(() => {
     const getSpotsList = async () => {
       await axios
-        .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_list}`)
+        .post(`${import.meta.env.VITE_BASE_URL}/${Active_Sport_list}`)
         .then((res) => {
           setSportsList(res?.data?.data);
         })
@@ -274,7 +274,7 @@ const BetHistorytable = ({ id }) => {
     setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Detail_Sport_Wise}`,
+        `${import.meta.env.VITE_BASE_URL}/${Detail_Sport_Wise}`,
         { sportId: id },
         {
           headers: {

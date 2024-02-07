@@ -57,7 +57,7 @@ const Changpasswordheader = ({ logout, handleCancelfunction }) => {
           setLoading((prev) => ({ ...prev, changePassword: true }));
           await axios
             .post(
-              `${process.env.REACT_APP_BASE_URL}/${Change_Password_User}`,
+              `${import.meta.env.VITE_BASE_URL}/${Change_Password_User}`,
               formData,
               {
                 headers: {

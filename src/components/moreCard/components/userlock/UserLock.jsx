@@ -26,7 +26,7 @@ const UserLock = ({ Apifun, data, handleCancelfunction, helper }) => {
     await axios
       .post(
         // "http://192.168.68.101/pw/update-bet-account-status",
-        `${process.env.REACT_APP_BASE_URL}/${
+        `${import.meta.env.VITE_BASE_URL}/${
           helper === "update"
             ? "pw/update-bet-account-status-pw"
             : User_Lock_Api

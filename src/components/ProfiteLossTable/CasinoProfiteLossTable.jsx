@@ -85,7 +85,7 @@ const CasinoProfiteLossTable = () => {
     setSearchData(value);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        `${import.meta.env.VITE_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
         {},
         {
           headers: {
@@ -107,7 +107,7 @@ const CasinoProfiteLossTable = () => {
     // console.log(dateTo, dateTo.toISOString());
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Sport_Profite}`,
+        `${import.meta.env.VITE_BASE_URL}/${Sport_Profite}`,
         {
           sportId: String(valueDropDown),
           matchId: String(sportChangeId),
@@ -267,7 +267,7 @@ const CasinoProfiteLossTable = () => {
     const getSpotsList = async () => {
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Casiono}`,
+          `${import.meta.env.VITE_BASE_URL}/${Casiono}`,
           {},
           {
             headers: {
@@ -287,7 +287,7 @@ const CasinoProfiteLossTable = () => {
     setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Casino_Card_Data}`,
+        `${import.meta.env.VITE_BASE_URL}/${Casino_Card_Data}`,
         { id: id, appUrl: window.location.hostname },
         {
           headers: {

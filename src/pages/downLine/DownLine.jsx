@@ -107,7 +107,7 @@ const DownList = ({ apiState }) => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${
+        `${import.meta.env.VITE_BASE_URL}/${
           apiState ? Table_ActiveUser : Account_List
         }`,
         {

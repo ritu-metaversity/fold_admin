@@ -194,7 +194,7 @@ const DomainCard = () => {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Create_app_detail}`,
+          `${import.meta.env.VITE_BASE_URL}/${Create_app_detail}`,
           formData,
           {
             headers: {
@@ -230,7 +230,7 @@ const DomainCard = () => {
     const getCasinoTypeImag = async () => {
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${getCasinoTypeImageData}`,
+          `${import.meta.env.VITE_BASE_URL}/${getCasinoTypeImageData}`,
           {},
           {
             headers: {

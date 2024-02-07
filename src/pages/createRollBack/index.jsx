@@ -23,7 +23,7 @@ const CreateRollBack = () => {
   const activeSport = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"sport/active-sport-list"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"sport/active-sport-list"}`,
         {},
         {
           headers: {
@@ -42,7 +42,7 @@ const CreateRollBack = () => {
   const getSportLsit = async (value) => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"sport/event-detail-sport-wise"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"sport/event-detail-sport-wise"}`,
         { sportId: value },
         {
           headers: {
@@ -86,7 +86,7 @@ const CreateRollBack = () => {
       await axios
         .post(
           // "https://ledger.247idhub.com/bmx/ledger/rollback-ledger",
-          `${process.env.REACT_APP_BASE_URL}/${"bmx/rollback-ledger"}`,
+          `${import.meta.env.VITE_BASE_URL}/${"bmx/rollback-ledger"}`,
           {
             matchId: setSportListId,
             dateStr: dayjs(date).format("YYYY-MM-DD"),
@@ -207,7 +207,7 @@ const CreateRollBack = () => {
   const createLedege = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"bmx/report/event-for-ledger"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"bmx/report/event-for-ledger"}`,
         // `${"http://192.168.0.142/admin-new-apis"}/${"bmx/report/event-for-ledger"}`,
 
         {

@@ -250,7 +250,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
       await axios
         .post(
           // "http://18.143.24.35/admin/update-app-detail",
-          `${process.env.REACT_APP_BASE_URL}/${updateUserDetail}`,
+          `${import.meta.env.VITE_BASE_URL}/${updateUserDetail}`,
           formData,
           {
             headers: {
@@ -293,7 +293,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
     await axios
       .post(
         // "http://18.143.24.35/admin/app-detail-byid",
-        `${process.env.REACT_APP_BASE_URL}/${getAppDetailById}`,
+        `${import.meta.env.VITE_BASE_URL}/${getAppDetailById}`,
         { id: userId },
         {
           headers: {
@@ -340,7 +340,7 @@ const UpdateDetailForm = ({ id, handleCancel }) => {
   const getCasinoTypeImag = async () => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${getCasinoTypeImageData}`,
+        `${import.meta.env.VITE_BASE_URL}/${getCasinoTypeImageData}`,
         {},
         {
           headers: {

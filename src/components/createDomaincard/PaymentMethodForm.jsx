@@ -82,7 +82,7 @@ const PaymentForm = () => {
       setLoading((prev) => ({ ...prev, paymentMethodForm: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Payment_method_api}`,
+          `${import.meta.env.VITE_BASE_URL}/${Payment_method_api}`,
           formData,
           {
             headers: {

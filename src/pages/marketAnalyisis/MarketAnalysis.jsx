@@ -22,7 +22,7 @@ const MarketAnalysis = () => {
       setLoading((prev) => ({ ...prev, marketAnalysisTable: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${MarketAnalysisApi}`,
+          `${import.meta.env.VITE_BASE_URL}/${MarketAnalysisApi}`,
           data.data,
           {
             headers: {
@@ -50,7 +50,7 @@ const MarketAnalysis = () => {
     const getData = async () => {
       setLoading((prev) => ({ ...prev, marketAnalysisgetData: true }));
       await axios
-        .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_List}`, {
+        .post(`${import.meta.env.VITE_BASE_URL}/${Active_Sport_List}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

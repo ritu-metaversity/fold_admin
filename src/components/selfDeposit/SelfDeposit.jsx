@@ -53,7 +53,7 @@ const SelfDepositForm = ({ handleCancel }) => {
     if (data.amount && data.lupassword) {
       setLoading((prev) => ({ ...prev, selfDeposit: true }));
       await axios
-        .post(`${process.env.REACT_APP_BASE_URL}/${Admin_Self_Deposit}`, data, {
+        .post(`${import.meta.env.VITE_BASE_URL}/${Admin_Self_Deposit}`, data, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },

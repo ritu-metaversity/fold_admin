@@ -45,7 +45,7 @@ const DepositeRejected = () => {
   const getOptionvalue = async (event) => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/pw/get-userlist-pw`,
+        `${import.meta.env.VITE_BASE_URL}/pw/get-userlist-pw`,
         { userId: "" },
         {
           headers: {
@@ -69,7 +69,7 @@ const DepositeRejected = () => {
     setLoading((prev) => ({ ...prev, activeUsertable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/pw/list-all-deposit-request`,
+        `${import.meta.env.VITE_BASE_URL}/pw/list-all-deposit-request`,
         {
           id: "",
           index: paginationData.index,

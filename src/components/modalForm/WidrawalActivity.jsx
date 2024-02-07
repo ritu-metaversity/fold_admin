@@ -60,7 +60,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
       setLoading((prev) => ({ ...prev, ActivityDeposit: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalActivity}`,
+          `${import.meta.env.VITE_BASE_URL}/${Tab_WidrawalActivity}`,
           { userId: data.userId },
           {
             headers: {
@@ -82,7 +82,7 @@ const WidrawalActivity = ({ data, gettableData, handleCancelfunction }) => {
       setLoading((prev) => ({ ...prev, submitActivityDeposit: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_WidrawalActivitySubmitForm}`,
+          `${import.meta.env.VITE_BASE_URL}/${Tab_WidrawalActivitySubmitForm}`,
           { ...formData, userId: data.userId },
           {
             headers: {

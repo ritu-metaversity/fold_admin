@@ -62,7 +62,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
       setLoading((prev) => ({ ...prev, submitDeposit: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_SubmitDepositForm}`,
+          `${import.meta.env.VITE_BASE_URL}/${Tab_SubmitDepositForm}`,
           { ...formData, userId: data.userId },
           {
             headers: {
@@ -94,7 +94,7 @@ const DepositForm = ({ data, gettableData, handleCancel }) => {
       setLoading((prev) => ({ ...prev, showDeposit: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Tab_Deposit}`,
+          `${import.meta.env.VITE_BASE_URL}/${Tab_Deposit}`,
           { userId: data.userId },
           {
             headers: {

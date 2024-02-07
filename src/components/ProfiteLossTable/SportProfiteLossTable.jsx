@@ -93,7 +93,7 @@ const SportProfiteLossTable = () => {
     setSearchData(value);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        `${import.meta.env.VITE_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
         {},
         {
           headers: {
@@ -118,7 +118,7 @@ const SportProfiteLossTable = () => {
     //
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Sport_Profite}`,
+        `${import.meta.env.VITE_BASE_URL}/${Sport_Profite}`,
         {
           sportId: String(valueDropDown),
           matchId: String(sportChangeId),
@@ -290,7 +290,7 @@ const SportProfiteLossTable = () => {
   useEffect(() => {
     const getSpotsList = async () => {
       await axios
-        .post(`${process.env.REACT_APP_BASE_URL}/${Active_Sport_List}`)
+        .post(`${import.meta.env.VITE_BASE_URL}/${Active_Sport_List}`)
         .then((res) => {
           setSportsList(res?.data?.data);
         })
@@ -303,7 +303,7 @@ const SportProfiteLossTable = () => {
     setLoading((prev) => ({ ...prev, bethistorygatSportsId: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Detail_Sport_Wise}`,
+        `${import.meta.env.VITE_BASE_URL}/${Detail_Sport_Wise}`,
         { sportId: id },
         {
           headers: {

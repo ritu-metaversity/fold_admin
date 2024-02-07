@@ -80,9 +80,9 @@ const AddDepositUpiForm = ({ id, userData, endingPoint }) => {
       await axios
 
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${`deposit-type/${endingPoint}`}`,
+          `${import.meta.env.VITE_BASE_URL}/${`deposit-type/${endingPoint}`}`,
 
-          // ` ${process.env.REACT_APP_BASE_URL}/${""}`,
+          // ` ${import.meta.env.VITE_BASE_URL}/${""}`,
           formData,
           {
             headers: {

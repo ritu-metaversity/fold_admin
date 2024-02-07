@@ -15,7 +15,7 @@ const CasinoType = () => {
   const casionTypeImage = async () => {
     setLoading((prev) => ({ ...prev, DasboardLoading: true }));
     await axios
-      .post(`${process.env.REACT_APP_BASE_URL}/${Casino_Type_Image}`, value, {
+      .post(`${import.meta.env.VITE_BASE_URL}/${Casino_Type_Image}`, value, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

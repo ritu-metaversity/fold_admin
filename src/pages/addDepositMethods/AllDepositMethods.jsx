@@ -98,8 +98,8 @@ const AllDepositMethods = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/deposit-type/get`,
-        // `${process.env.REACT_APP_BASE_URL}/${"withType/get"}`,
+        `${import.meta.env.VITE_BASE_URL}/deposit-type/get`,
+        // `${import.meta.env.VITE_BASE_URL}/${"withType/get"}`,
         {},
         {
           headers: {
@@ -124,7 +124,7 @@ const AllDepositMethods = () => {
   //     setLoading((prev) => ({ ...prev, BannersubmitForm: true }));
   //     await axios
   //       .post(
-  //         `${process.env.REACT_APP_BASE_URL}/${"withTypeSub/Save"}`,
+  //         `${import.meta.env.VITE_BASE_URL}/${"withTypeSub/Save"}`,
   //         // "http://192.168.68.133/withTypeSub/Save",
   //         {
   //           withdrawType: checkBoxArray,

@@ -60,7 +60,7 @@ const Bank = () => {
     setLoading((prev) => ({ ...prev, BankTable: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Table_ActiveUser}`,
+        `${import.meta.env.VITE_BASE_URL}/${Table_ActiveUser}`,
         {
           id: arg !== undefined ? arg : id,
           index: paginationData.index,
@@ -118,7 +118,7 @@ const Bank = () => {
       setLoading((prev) => ({ ...prev, submitBankData: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/${Bank_deposit_amount}`,
+          `${import.meta.env.VITE_BASE_URL}/${Bank_deposit_amount}`,
           {
             userid: obj,
             amount: currentVaue,
@@ -334,7 +334,7 @@ const Bank = () => {
     setSearchData(value);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
+        `${import.meta.env.VITE_BASE_URL}/${Search_Api}term=${value}&_type=${value}&q=${value}`,
         {},
         {
           headers: {

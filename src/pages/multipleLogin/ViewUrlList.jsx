@@ -30,7 +30,7 @@ const ViewUrlList = ({ useData, handleCance }) => {
     setLoading((prev) => ({ ...prev, viewDomainList: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"appid-login/get"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"appid-login/get"}`,
         { userId: useData?.userid },
         {
           headers: {
@@ -62,7 +62,7 @@ const ViewUrlList = ({ useData, handleCance }) => {
     setLoading((prev) => ({ ...prev, deleteDomain: true }));
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"appid-login/delete"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"appid-login/delete"}`,
         { appid: id },
         {
           headers: {

@@ -36,7 +36,7 @@ const SetCommission = () => {
     axios
       .post(
         `${
-          process.env.REACT_APP_BASE_URL
+          import.meta.env.VITE_BASE_URL
         }/${"commission-set-subadmin/set-commission"}`,
         commsion,
         {

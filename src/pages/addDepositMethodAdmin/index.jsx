@@ -79,7 +79,7 @@ const AddDepositMethodAdmin = () => {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
         .post(
-          `${process.env.REACT_APP_BASE_URL}/deposit-type/save`,
+          `${import.meta.env.VITE_BASE_URL}/deposit-type/save`,
 
           formData,
           {
@@ -136,7 +136,7 @@ const AddDepositMethodAdmin = () => {
 
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/${"deposit-type/get"}`,
+        `${import.meta.env.VITE_BASE_URL}/${"deposit-type/get"}`,
         {},
         {
           headers: {
@@ -155,8 +155,8 @@ const AddDepositMethodAdmin = () => {
   const update = async (id) => {
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_URL}/deposit-type/update`,
-        // `${process.env.REACT_APP_BASE_URL}/${"withType/update"}`,
+        `${import.meta.env.VITE_BASE_URL}/deposit-type/update`,
+        // `${import.meta.env.VITE_BASE_URL}/${"withType/update"}`,
 
         id,
 
