@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, Collapse, Modal, Switch } from "antd";
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { LoaderContext } from "../../App";
 import {
@@ -63,6 +63,8 @@ const TestPageLeftCollapse = () => {
 
   // const id = searchparam.get("event-id");
   const { id, sportId } = useParams();
+  const tvRef = useRef(null);
+  const scale = (tvRef.current?.clientWidth || 300) / 280;
   // console.log(, "odddata");
   useEffect(() => {
     if (!id) {
@@ -578,6 +580,11 @@ const TestPageLeftCollapse = () => {
           <iframe
             width="100%"
             className="live-iframe"
+            ref={tvRef}
+            style={{
+              aspectRatio: "16/9",
+              transform: `scale(${scale})`,
+            }}
             title="score-iframe"
             src={`https://100tun.online/web/${id}.html?`}
             // src={`https://stream.openhomepageforapi.live/YGapp/play.html?name=ttfour&autoplay=true`}

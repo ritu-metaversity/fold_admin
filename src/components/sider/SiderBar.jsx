@@ -45,18 +45,20 @@ import { HiUserGroup } from "react-icons/hi";
 import { MdLeaderboard } from "react-icons/md";
 
 const filterPermission = (item, permissions) => {
-  let newItem = [];
-  newItem = item.filter((itemEle) => {
-    const isThere = Array.isArray(itemEle.permissions)
-      ? itemEle.permissions.some((element) => permissions.includes(element))
-      : false;
-    if (Array.isArray(itemEle.children)) {
-      itemEle.children = filterPermission(itemEle.children, permissions);
-    }
-    return isThere;
-  });
+  if (permissions) {
+    let newItem = [];
+    newItem = item?.filter((itemEle) => {
+      const isThere = Array.isArray(itemEle?.permissions)
+        ? itemEle.permissions?.some((element) => permissions.includes(element))
+        : false;
+      if (Array.isArray(itemEle?.children)) {
+        itemEle.children = filterPermission(itemEle?.children, permissions);
+      }
+      return isThere;
+    });
 
-  return newItem;
+    return newItem;
+  }
 };
 
 const SiderBar = ({ IsSelfState, setSidebar }) => {
