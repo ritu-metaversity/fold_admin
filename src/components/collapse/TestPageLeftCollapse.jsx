@@ -381,6 +381,8 @@ const TestPageLeftCollapse = () => {
     getCompletedMatch();
   };
 
+  const host = window.location.hostname;
+
   if (!odddata || !prevState) {
     return;
   }
@@ -615,7 +617,7 @@ const TestPageLeftCollapse = () => {
           "book",
         ]}
       >
-        {odddata?.Odds?.filter((item) => item.Name === "Match Odds").map(
+        {host.includes("onlysession.in") ? null: odddata?.Odds?.filter((item) => item.Name === "Match Odds").map(
           (item, index) => {
             return (
               <Panel
@@ -680,7 +682,7 @@ const TestPageLeftCollapse = () => {
             );
           }
         )}
-        {odddata?.Bookmaker.filter((ele) => ele?.t !== "TOSS").length > 0 ? (
+        {host.includes("onlysession.in") ? null: odddata?.Bookmaker.filter((ele) => ele?.t !== "TOSS").length > 0 ? (
           <Panel
             header={
               <div
@@ -757,7 +759,7 @@ const TestPageLeftCollapse = () => {
         )}
         {/* fancyOdds.Odds?.filter( (item) => !["Match Odds", "Tied
         Match"].includes(item.Name) */}
-        {odddata?.Odds?.filter((item) => "Match Odds" !== item.Name).map(
+        {host.includes("onlysession.in") ? null: odddata?.Odds?.filter((item) => "Match Odds" !== item.Name).map(
           (item, index) => {
             if (!(item?.runners?.length > 0)) return <></>;
 
@@ -829,7 +831,7 @@ const TestPageLeftCollapse = () => {
         )}
       </Collapse>
       <Collapse bordered={false} defaultActiveKey={["Toss"]}>
-        {odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
+        {host.includes("onlysession.in") ? null: odddata?.Bookmaker?.filter((ele) => ele?.t === "TOSS").length > 0 ? (
           <Panel
             header={
               <div
