@@ -115,6 +115,7 @@ import Leadeger from "./pages/leadeger/index.jsx";
 import CasinoLeader from "./pages/leadeger/CasinoLeadeger.jsx";
 import CreateCasino from "./pages/createCasino/CreateCasino.jsx";
 import SetCommission from "./pages/setCommission/SetCommission.jsx";
+import DrawerComponent from "./components/drawer/DrawerComponent.jsx";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -289,7 +290,8 @@ function App() {
         <Routes>
           <Route
             path={Home_Screen}
-            element={<Login logo={logo} message={message} />}
+            // element={<Login logo={logo} message={message} />}
+            element={<DrawerComponent logo={logo} />}
           ></Route>
 
           <Route

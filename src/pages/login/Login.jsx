@@ -30,11 +30,11 @@ const Login = ({ logo, message }) => {
           <UpComingComponent message={message} />
           {isMobile && <HeaderSliderComponent />}
           <Slider />
-          <GameImageComponent setOpen={setOpen} open={open} />
+          {/* <GameImageComponent setOpen={setOpen} open={open} /> */}
           {/* <TopWinnerSlider /> */}
-          <Footer style={{ background: "transparent" }}>
+          {/* <Footer style={{ background: "transparent" }}>
             <LoginFooter />
-          </Footer>
+          </Footer> */}
         </Content>
       </Layout>
     </div>

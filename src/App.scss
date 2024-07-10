@@ -9,3 +9,16 @@ body{
     margin: 0;
     max-width: 100vw;
 }
+
+
+.user_id_name{
+    background: rgb(68, 68, 68);
+    color: rgb(255, 255, 255);
+    padding: 5px 10px;
+    border-right: 1px solid black;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline-block;
+    cursor: pointer;
+}

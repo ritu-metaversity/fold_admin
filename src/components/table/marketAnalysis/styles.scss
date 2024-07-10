@@ -1,42 +1,34 @@
-.table{
-    
-    width: 100%;
-    margin-bottom: 1rem;
-    color: #212529;
-    vertical-align: top;
-    // border-color: white;
-    border-collapse: collapse;
-    .table-head {
-        color: #FFF;
-        font-weight: 500;
-        background: #23292e;
-        white-space: nowrap;
-        height: 50px;
-        text-align: left;
-       
-            
-           
-       
-    }
-    .teams-name{
-        width: 25%;
-    }
-}
-tr{
-  
-    border-bottom-color: #dedede !important;
-    height: 50px;
-    vertical-align: middle;
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  vertical-align: top;
+  // border-color: white;
+  border-collapse: collapse;
+  .table-head {
+    color: #fff;
+    font-weight: 500;
+    background: #23292e;
     white-space: nowrap;
-            border-bottom: 1px solid gray;
-           
+    height: 50px;
+    text-align: left;
+  }
+  .teams-name {
+    width: 25%;
+  }
 }
-.tabledata{
-   
-    overflow-x: scroll;
+tr {
+  border-bottom-color: #dedede !important;
+  height: 50px;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-bottom: 2px solid gray;
 }
-td{
-    padding-left: 10px!important;
+.tabledata {
+  overflow-x: scroll;
+}
+td {
+  padding-left: 10px !important;
 }
 // .winner-table{
 //     display: flex;

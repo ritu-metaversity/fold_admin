@@ -19,14 +19,16 @@ $breakpoint-common: 1280px;
   }
 }
 .login-form-button {
-  height: 40px;
+  height: 50px;
   width: 100%;
   background-color: #fdcf13;
   color: black;
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.75;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 700;
+    background: linear-gradient(-180deg, #14805e 0, #184438 100%);
+    color: #fff;
   &:hover {
     background-color: #fdcf13 !important;
     color: white;
@@ -81,13 +83,23 @@ $breakpoint-common: 1280px;
 }
 
 .form-div {
-  margin-top: 10%;
+  // margin-top: 10%;
+   //ritu
+  width:26%;
+  // background-color: #000000;
+  padding: 19px;
+  border-radius: 5px;
+  // box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  @media screen and (max-width:"700px") {
+    width: 85%;
+  }
   h3 {
     width: 100%;
     text-align: center;
     font-size: 1.421875rem;
     color: #74788d;
     margin-bottom: 4px;
+    margin: 0; //ritu
   }
   .change-heading {
     width: 100%;
@@ -95,5 +107,16 @@ $breakpoint-common: 1280px;
     margin-top: 0px;
     // font-size: 1.75rem;
     color: #74788d;
+  }
+}
+
+
+.login_input{
+  margin-bottom: 40px;
+  .input-tag{
+    background-color: white;
+    color: black;
+    font-size: 18px;
+
   }
 }

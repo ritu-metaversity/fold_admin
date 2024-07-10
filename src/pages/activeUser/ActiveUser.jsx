@@ -159,18 +159,25 @@ const ActiveUser = () => {
     {
       title: "User Name",
       dataIndex: "username",
-      // filteredValue: [searchText],
-      // onFilter: (value, record) => {
-      //   return String(record?.username.props.children)
-      //     .toLowerCase()
-      //     .includes(value?.toLowerCase());
-      // },
-      width: 100,
+      width: 200,
       onCell: () => {
         return {
           style: {
             whiteSpace: "break-spaces",
-            maxWidth: 100,
+            maxWidth: 200,
+          },
+        };
+      },
+    },
+    {
+      title: "Login ID",
+      dataIndex: "userId",
+      width: 200,
+      onCell: () => {
+        return {
+          style: {
+            whiteSpace: "break-spaces",
+            maxWidth: 200,
           },
         };
       },
@@ -252,9 +259,18 @@ const ActiveUser = () => {
       username: (
         <Link
           to={`${Down_Line_ActiveUser}${res?.id}`}
-          style={{ color: "black" }}
+          style={{ color: "#fff" }}
+          className="user_id_name"
         >
-          {res?.username} <br />
+          {res?.username}
+        </Link>
+      ),
+      userId: (
+        <Link
+          to={`${Down_Line_ActiveUser}${res?.id}`}
+          style={{ color: "#fff" }}
+          className="user_id_name"
+        >
           {res?.userId}
         </Link>
       ),

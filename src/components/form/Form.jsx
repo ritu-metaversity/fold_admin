@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { HelperActiveUser_Screen, Login_Api } from "../../routes/Routes";
 import { LoaderContext } from "../../App";
 import { notifyToast } from "../toast/Tost";
-const Loginform = () => {
+const Loginform = ({logo}) => {
   const navigate = useNavigate();
   const { setLoading } = useContext(LoaderContext);
   const host = window.location.hostname;
@@ -94,10 +94,14 @@ const Loginform = () => {
     };
   }, [setLoading]);
 
+  console.log(logo, "logologo")
+
   return (
     <div className="form-div">
-      <h3>Welcome to Admin Panel</h3>
-      <p>Enter your Username and Password</p>
+      {/* <h3>Welcome to Admin Panel</h3> */}
+      {/* <p>Enter your Username and Password</p> */}
+      {/* https://premium444.com/api/users/images/theme-1709730010398-IMG_5990 (2) (1).png */}
+      <img alt="" src={logo} height={"100px"}/>
       <Form
         name="normal_login"
         className="login-form"
@@ -108,6 +112,7 @@ const Loginform = () => {
       >
         <Form.Item
           name="userId"
+          className="login_input"
           rules={[
             {
               required: true,
@@ -115,10 +120,11 @@ const Loginform = () => {
             },
           ]}
         >
-          <Input placeholder="Username" className="input-tag" />
+          <Input placeholder="Username" className="input-tag " />
         </Form.Item>
         <Form.Item
           name="password"
+          className="login_input"
           rules={[
             {
               required: true,
@@ -139,12 +145,12 @@ const Loginform = () => {
           </Button>
         </Form.Item>
       </Form>
-      <p>
+      {/* <p>
         This site is protected by reCAPTCHA and the Google{" "}
         <span style={{ color: "#fdcf13" }}>Privacy Policy</span> and{" "}
         <span style={{ color: "#fdcf13" }}>Terms of Serviceapply</span> .
       </p>
-      <p>© Copyright 2021. All Rights Reserved.</p>
+      <p>© Copyright 2021. All Rights Reserved.</p> */}
       {/* <p>
         The website is operated by Ecofun Services NV registered in Curaçao
         under the registration number 152307, with address at Heelsumstraat 51,
