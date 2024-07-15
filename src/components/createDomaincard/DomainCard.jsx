@@ -176,6 +176,7 @@ const DomainCard = () => {
     formData.append("favicon", fileList2[0].originFileObj);
     formData.append("casinoImageType", casinoType);
     formData.append("isDemoIdLoginAllowed", data.isDemoIdLoginAllowed);
+    formData.append("isBonusAllowed", false);
 
     formData.append(
       "isSelfAllowed",
