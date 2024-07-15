@@ -10,7 +10,6 @@ const layColor = ["#F994BA", "#F994BACC", "#F994BACC"];
 
 const FancyRow = ({ data, prev, bet, maxbet }) => {
   const [searchparam] = useSearchParams();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [pnl, setPnl] = useState([]);
   // const id = searchparam.get("event-id");
@@ -209,8 +208,8 @@ const FancyRow = ({ data, prev, bet, maxbet }) => {
                 className="right-col-fancy"
                 style={{ display: "flex", flexWrap: "wrap" }}
               >
-                min:{maxbet ? intToString(maxbet?.minBet) : 0} max:
-                {maxbet ? intToString(maxbet?.maxBet) : 0}
+                min:{data ? intToString(data?.minBet) : 0} max:
+                {data ? intToString(data?.maxBet) : 0}
               </div>
             </div>
           </div>

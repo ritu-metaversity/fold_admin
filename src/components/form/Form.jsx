@@ -101,7 +101,10 @@ const Loginform = ({logo}) => {
       {/* <h3>Welcome to Admin Panel</h3> */}
       {/* <p>Enter your Username and Password</p> */}
       {/* https://premium444.com/api/users/images/theme-1709730010398-IMG_5990 (2) (1).png */}
-      <img alt="" src={logo} height={"100px"}/>
+      <img alt="" src={logo} height={"100px"} style={{
+        display:"block",
+        margin:"auto"
+      }}/>
       <Form
         name="normal_login"
         className="login-form"

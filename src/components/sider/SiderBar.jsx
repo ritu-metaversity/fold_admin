@@ -995,23 +995,23 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                 };
               }),
             },
-            userType === "4" && {
-              key: 132,
-              icon: <HiUserGroup />,
-              label: (
-                <Link
-                  onClick={() => {
-                    refershNow();
-                    setSidebar();
-                  }}
-                  to={Multiple_login}
-                  // reloadDocument={pathname === "/account-Statement"}
-                >
-                  Multiple Login
-                </Link>
-              ),
-              permissions: ["ADMIN"],
-            },
+            // userType === "4" && {
+            //   key: 132,
+            //   icon: <HiUserGroup />,
+            //   label: (
+            //     <Link
+            //       onClick={() => {
+            //         refershNow();
+            //         setSidebar();
+            //       }}
+            //       to={Multiple_login}
+            //       // reloadDocument={pathname === "/account-Statement"}
+            //     >
+            //       Multiple Login
+            //     </Link>
+            //   ),
+            //   permissions: ["ADMIN"],
+            // },
             userType === "4" && {
               key: 132,
               icon: <FaCoins />,
@@ -1048,113 +1048,113 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                 permissions: ["ADMIN"],
               },
 
-            userType == 4
-              ? {
-                  style: { aligItems: "flex-start" },
-                  key: 1976,
-                  icon: <MdLeaderboard />,
-                  permissions: ["ADMIN"],
-                  label: "Post Leadeger",
+            // userType == 4
+            //   ? {
+            //       style: { aligItems: "flex-start" },
+            //       key: 1976,
+            //       icon: <MdLeaderboard />,
+            //       permissions: ["ADMIN"],
+            //       label: "Post Leadeger",
 
-                  children: [
-                    {
-                      key: 19746,
-                      icon: <MdLeaderboard />,
-                      label: (
-                        <Link to={Create_Ledeger}>
-                          <span
-                            style={{
-                              display: "block",
-                              textAlign: "left",
-                            }}
-                            // onClick={showRollBackModal}
-                            // onClick={logout}
-                          >
-                            Cricket
-                          </span>
-                        </Link>
-                      ),
-                      permissions: ["ADMIN"],
-                    },
-                    {
-                      key: 19461946,
-                      icon: <MdLeaderboard />,
-                      label: (
-                        <Link to={Create_Ledeger2}>
-                          <span
-                            style={{
-                              display: "block",
-                              textAlign: "left",
-                            }}
-                            // onClick={showRollBackModal}
-                            // onClick={logout}
-                          >
-                            Tennis / Football
-                          </span>
-                        </Link>
-                      ),
-                      permissions: ["ADMIN"],
-                    },
-                    {
-                      key: 1946,
-                      icon: <MdLeaderboard />,
-                      label: (
-                        <Link to={Create_Casino}>
-                          <span
-                            style={{
-                              display: "block",
-                              textAlign: "left",
-                            }}
-                            // onClick={showRollBackModal}
-                            // onClick={logout}
-                          >
-                            Create Casino
-                          </span>
-                        </Link>
-                      ),
-                      permissions: ["ADMIN"],
-                    },
-                    {
-                      key: 1943346,
-                      icon: <MdLeaderboard />,
-                      label: (
-                        <Link to={Casino_leader}>
-                          <span
-                            style={{
-                              display: "block",
-                              textAlign: "left",
-                            }}
-                            // onClick={showRollBackModal}
-                            // onClick={logout}
-                          >
-                            Casino List
-                          </span>
-                        </Link>
-                      ),
-                      permissions: ["ADMIN"],
-                    },
-                    {
-                      key: 19376,
-                      icon: <MdLeaderboard />,
-                      label: (
-                        <Link to={Create_RollBack}>
-                          <span
-                            style={{
-                              display: "block",
-                              textAlign: "left",
-                            }}
-                            // onClick={showRollBackModal}
-                            // onClick={logout}
-                          >
-                            Create Rollback
-                          </span>
-                        </Link>
-                      ),
-                      permissions: ["ADMIN"],
-                    },
-                  ],
-                }
-              : {},
+            //       children: [
+            //         {
+            //           key: 19746,
+            //           icon: <MdLeaderboard />,
+            //           label: (
+            //             <Link to={Create_Ledeger}>
+            //               <span
+            //                 style={{
+            //                   display: "block",
+            //                   textAlign: "left",
+            //                 }}
+            //                 // onClick={showRollBackModal}
+            //                 // onClick={logout}
+            //               >
+            //                 Cricket
+            //               </span>
+            //             </Link>
+            //           ),
+            //           permissions: ["ADMIN"],
+            //         },
+            //         {
+            //           key: 19461946,
+            //           icon: <MdLeaderboard />,
+            //           label: (
+            //             <Link to={Create_Ledeger2}>
+            //               <span
+            //                 style={{
+            //                   display: "block",
+            //                   textAlign: "left",
+            //                 }}
+            //                 // onClick={showRollBackModal}
+            //                 // onClick={logout}
+            //               >
+            //                 Tennis / Football
+            //               </span>
+            //             </Link>
+            //           ),
+            //           permissions: ["ADMIN"],
+            //         },
+            //         {
+            //           key: 1946,
+            //           icon: <MdLeaderboard />,
+            //           label: (
+            //             <Link to={Create_Casino}>
+            //               <span
+            //                 style={{
+            //                   display: "block",
+            //                   textAlign: "left",
+            //                 }}
+            //                 // onClick={showRollBackModal}
+            //                 // onClick={logout}
+            //               >
+            //                 Create Casino
+            //               </span>
+            //             </Link>
+            //           ),
+            //           permissions: ["ADMIN"],
+            //         },
+            //         {
+            //           key: 1943346,
+            //           icon: <MdLeaderboard />,
+            //           label: (
+            //             <Link to={Casino_leader}>
+            //               <span
+            //                 style={{
+            //                   display: "block",
+            //                   textAlign: "left",
+            //                 }}
+            //                 // onClick={showRollBackModal}
+            //                 // onClick={logout}
+            //               >
+            //                 Casino List
+            //               </span>
+            //             </Link>
+            //           ),
+            //           permissions: ["ADMIN"],
+            //         },
+            //         {
+            //           key: 19376,
+            //           icon: <MdLeaderboard />,
+            //           label: (
+            //             <Link to={Create_RollBack}>
+            //               <span
+            //                 style={{
+            //                   display: "block",
+            //                   textAlign: "left",
+            //                 }}
+            //                 // onClick={showRollBackModal}
+            //                 // onClick={logout}
+            //               >
+            //                 Create Rollback
+            //               </span>
+            //             </Link>
+            //           ),
+            //           permissions: ["ADMIN"],
+            //         },
+            //       ],
+            //     }
+            //   : {},
             {
               style: { aligItems: "flex-start" },
               key: 17,

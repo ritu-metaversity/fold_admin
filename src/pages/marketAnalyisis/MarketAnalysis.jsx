@@ -82,6 +82,7 @@ const MarketAnalysis = () => {
     27454571: 11,
   };
   const items = sports?.map((res) => {
+    if((res?.sportName).toLowerCase() === "election") return null ;
     return {
       label: (
         <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
