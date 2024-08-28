@@ -9,8 +9,8 @@ const App = React.lazy(() => import("./App"));
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <Suspense fallback={<LoadingBallSvg />}>
+    {/* <Suspense fallback={<LoadingBallSvg />}> */}
       <App />
-    </Suspense>
+    {/* </Suspense> */}
   </BrowserRouter>
 );
