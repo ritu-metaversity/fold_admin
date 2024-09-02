@@ -1,4 +1,4 @@
-import { Button, Image, Input, Switch, Table, Upload } from "antd";
+import { Button, Image, Input, Select, Switch, Table, Upload } from "antd";
 import React, { useEffect, useState } from "react";
 // import "./styles.scss";
 import axios from "axios";
@@ -217,8 +217,8 @@ const AddDepositMethodAdmin = () => {
     };
   }, [setLoading]);
 
-  const handleChange = (e) => {
-    const value = e.target.value;
+  const handleChange = (value) => {
+    // const value = e.target.value;
     setUrl(value);
     setError((prev) => {
       return {
@@ -266,7 +266,7 @@ const AddDepositMethodAdmin = () => {
               style={{ display: "flex", gap: "20px", alignItems: "center" }}
             >
               <label style={{ width: "60px" }}>Link</label>
-              <Input
+              {/* <Input
                 type="text"
                 value={url}
                 onChange={handleChange}
@@ -274,6 +274,35 @@ const AddDepositMethodAdmin = () => {
                 style={{
                   border: `${error.url ? "1px solid red" : ""}`,
                 }}
+              /> */}
+              <Select
+                placeholder="Select..."
+                style={{
+                  width: "100%",
+                }}
+                onChange={handleChange}
+                options={[
+                  {
+                    value: "BANK",
+                    label: "BANK",
+                  },
+                  {
+                    value: "QR",
+                    label: "QR",
+                  },
+                  {
+                    value: "UPI",
+                    label: "UPI",
+                  },
+                  {
+                    value: "G PAY",
+                    label: "G PAY",
+                  },
+                  {
+                    value: "PHONE PE",
+                    label: "PHONE PE",
+                  },
+                ]}
               />
             </div>
             <div className="btn" style={{ textAlign: "right" }}>
