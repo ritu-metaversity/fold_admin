@@ -269,7 +269,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
           <Marquee
             width="100%"
             height="100%"
-            speed={100}
+            speed={25}
             gradientWidth={0}
             gradientColor="transparent"
           >
