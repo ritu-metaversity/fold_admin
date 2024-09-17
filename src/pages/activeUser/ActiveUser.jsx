@@ -169,19 +169,19 @@ const ActiveUser = () => {
         };
       },
     },
-    {
-      title: "Login ID",
-      dataIndex: "userId",
-      width: 200,
-      onCell: () => {
-        return {
-          style: {
-            whiteSpace: "break-spaces",
-            maxWidth: 200,
-          },
-        };
-      },
-    },
+    // {
+    //   title: "Login ID",
+    //   dataIndex: "userId",
+    //   width: 200,
+    //   onCell: () => {
+    //     return {
+    //       style: {
+    //         whiteSpace: "break-spaces",
+    //         maxWidth: 200,
+    //       },
+    //     };
+    //   },
+    // },
     {
       title: "CR",
       dataIndex: "CR",
@@ -262,18 +262,18 @@ const ActiveUser = () => {
           style={{ color: "#fff" }}
           className="user_id_name"
         >
-          {res?.username}
-        </Link>
-      ),
-      userId: (
-        <Link
-          to={`${Down_Line_ActiveUser}${res?.id}`}
-          style={{ color: "#fff" }}
-          className="user_id_name"
-        >
           {res?.userId}
         </Link>
       ),
+      // userId: (
+      //   <Link
+      //     to={`${Down_Line_ActiveUser}${res?.id}`}
+      //     style={{ color: "#fff" }}
+      //     className="user_id_name"
+      //   >
+      //     {res?.userId}
+      //   </Link>
+      // ),
       CR: (
         <span
           style={{ color: "#f1b44c", cursor: "pointer" }}

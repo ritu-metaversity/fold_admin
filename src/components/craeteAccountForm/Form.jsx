@@ -81,33 +81,7 @@ const Accountform = ({ IsSelfState }) => {
           });
     } catch (error) {}
   };
-  // const submitUserLockData = async () => {
-  //   setLoading((prev) => ({ ...prev, submitUserLockData: true }));
-  //   await axios
-  //     .post(
-  //       // "http://192.168.68.101/pw/update-bet-account-status",
-  //       `${import.meta.env.VITE_BASE_URL}/${"user/get-casino-bet-lock"}`,
-  //       { userId: localStorage.getItem("userid") },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //         },
-  //       }
-  //     )
-  //     .then((res) => {
-  //       setCasino(res?.data?.data);
-  //     })
-  //     .catch((error) => {
-  //       // setUserLockData((prev) => {
-  //       //   return {
-  //       //     ...prev,
-  //       //     betLock:,
-  //       //     accountLock: ,
-  //       //   };
-  //       // });
-  //     });
-  //   setLoading((prev) => ({ ...prev, submitUserLockData: false }));
-  // };
+  
   const [casionCheck, setCasionCheck] = useState(false);
 
   useEffect(() => {
@@ -119,13 +93,7 @@ const Accountform = ({ IsSelfState }) => {
     getCasino();
   }, [userType]);
 
-  // const [first, setfirst] = useState({
-  //   isAuraAllowed: false,
-  //   isSuperNovaAllowed: false,
-  //   isQTechAllowed: false,
-  //   isVirtualAllowed: false,
-  //   isSportBookAllowed: false,
-  // });
+  
 
   const [errorData, setErrorData] = useState({
     username: false,
@@ -133,10 +101,7 @@ const Accountform = ({ IsSelfState }) => {
     userId: false,
     password: false,
     appId: currentUserROle === 2 ? false : undefined,
-    // city: false,
-    // fancyLossCommission: 0,
-    // // mobile: false,
-    // oddLossCommission: 0,
+    
     sportPartnership: currentUserROle === 2 ? false : undefined,
     userRole: false,
   });
@@ -161,7 +126,7 @@ const Accountform = ({ IsSelfState }) => {
       });
     }
     if (name === "username") {
-      // userChecker({ userId: value });
+      
       setData((prev) => {
         return {
           ...prev,
@@ -189,7 +154,7 @@ const Accountform = ({ IsSelfState }) => {
 
   const handleSelectChange = (e, Name) => {
     let value = e;
-    // console.log(value, "value");
+   
     if (!value) {
       setErrorData((prev) => {
         return {
@@ -271,6 +236,7 @@ const Accountform = ({ IsSelfState }) => {
       const dataInner = {
         ...data,
         liveCasinoLock: !data.liveCasinoLock,
+        isQTechAllowed: true,
       };
       Object.assign(dataInner, {
         sportPartnership: Number(dataInner.sportPartnership),
@@ -327,15 +293,12 @@ const Accountform = ({ IsSelfState }) => {
           }
         })
         .catch((error) => {
-          // delete data.oddLossCommission;
-          // delete data.fancyLossCommission;
+          
         });
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     }
   };
-  // const onFinishFailed = (errorInfo) => {
-  //   console.log("Failed:", errorInfo);
-  // };
+ 
 
   const userChecker = async (userId) => {
     const res = await axios.post(
@@ -488,6 +451,7 @@ const Accountform = ({ IsSelfState }) => {
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     };
   }, [setLoading]);
+
   return (
     <>
       <Modal
@@ -635,7 +599,7 @@ const Accountform = ({ IsSelfState }) => {
             <Form.Item label="App Url:">
               <div className={errorData?.appId ? "col-input2" : "col-input"}>
                 <Select
-                  // defaultValue={"Select App Url"}
+                 
                   value={data.appId || "Select App Url"}
                   name="appId"
                   onChange={(e) => {
@@ -715,22 +679,7 @@ const Accountform = ({ IsSelfState }) => {
           )}
 
           <div className="check-box-div">
-            {/* <Form.Item
-              name="liveCasinoLock"
-              label="Live Casino"
-              style={{ marginTop: "0px" }}
-            >
-              <Switch
-                size="small"
-                disabled={userType === "4" ? false : casinoStatus}
-                checked={data.liveCasinoLock}
-                onChange={swtchChangeHandle}
-                style={{ marginTop: "-2px" }}
-              />
-              <span style={{ paddingLeft: "10px" }}>
-                {data.liveCasinoLock ? "On" : "Off"}
-              </span>
-            </Form.Item> */}
+            
             {casino?.map((key) => {
               return (
                 <Form.Item
@@ -741,7 +690,7 @@ const Accountform = ({ IsSelfState }) => {
                   <Switch
                     size="small"
                     disabled={casionCheck}
-                    checked={data[`is${key.name.replace(" ", "")}Allowed`]}
+                    checked={key?.name === "QTech"?true:data[`is${key.name.replace(" ", "")}Allowed`]}
                     onChange={(e) =>
                       setData((prev) => {
                         return {
