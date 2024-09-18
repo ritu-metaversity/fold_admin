@@ -219,14 +219,14 @@ const ActiveUser = () => {
       sorter: (a, b) => a.Available - b.Available,
       //sortOrder: sortedInfo.field === "Available" ? sortedInfo.order : null,
     },
-    {
-      title: "Domain",
-      dataIndex: "Domain",
-    },
-    {
-      title: "lcLock",
-      dataIndex: "lcLock",
-    },
+    // {
+    //   title: "Domain",
+    //   dataIndex: "Domain",
+    // },
+    // {
+    //   title: "lcLock",
+    //   dataIndex: "lcLock",
+    // },
 
     {
       title: "B st",
@@ -283,8 +283,8 @@ const ActiveUser = () => {
         </span>
       ),
 
-      Domain: res?.appUrl,
-      lcLock: <Switch size="small" disabled={true} checked={res?.lcLock} />,
+      // Domain: res?.appUrl,
+      // lcLock: <Switch size="small" disabled={true} checked={res?.lcLock} />,
 
       PTS: res?.pts,
       Client: res?.clientPl,
