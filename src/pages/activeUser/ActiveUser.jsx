@@ -201,12 +201,12 @@ const ActiveUser = () => {
       sorter: (a, b) => a.Client - b.Client,
       //sortOrder: sortedInfo.field === "Client" ? sortedInfo.order : null,
     },
-    {
-      title: "Client (P/L)%",
-      dataIndex: "Clientp",
-      sorter: (a, b) => a.Clientp - b.Clientp,
-      //sortOrder: sortedInfo.field === "Clientp" ? sortedInfo.order : null,
-    },
+    // {
+    //   title: "Client (P/L)%",
+    //   dataIndex: "Clientp",
+    //   sorter: (a, b) => a.Clientp - b.Clientp,
+    //   //sortOrder: sortedInfo.field === "Clientp" ? sortedInfo.order : null,
+    // },
     {
       title: "Exposure",
       dataIndex: "Exposer",
@@ -287,7 +287,7 @@ const ActiveUser = () => {
       // lcLock: <Switch size="small" disabled={true} checked={res?.lcLock} />,
 
       PTS: res?.pts,
-      Client: res?.clientPl,
+      // Client: res?.clientPl,
       Clientp: res?.clientPlPercentage,
       Exposer: (
         <span

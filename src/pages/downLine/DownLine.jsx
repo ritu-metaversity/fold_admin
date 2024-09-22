@@ -196,12 +196,12 @@ const DownList = ({ apiState }) => {
       sorter: (a, b) => a.Client - b.Client,
       sortOrder: sortedInfo.field === "Client" ? sortedInfo.order : null,
     },
-    {
-      title: "Client (P/L)%",
-      dataIndex: "Clientp",
-      sorter: (a, b) => a.Clientp - b.Clientp,
-      sortOrder: sortedInfo.field === "Clientp" ? sortedInfo.order : null,
-    },
+    // {
+    //   title: "Client (P/L)%",
+    //   dataIndex: "Clientp",
+    //   sorter: (a, b) => a.Clientp - b.Clientp,
+    //   sortOrder: sortedInfo.field === "Clientp" ? sortedInfo.order : null,
+    // },
     {
       title: "Exposure",
       dataIndex: "Exposer",
@@ -249,7 +249,7 @@ const DownList = ({ apiState }) => {
           }
           style={{ color: "black" }}
         >
-          {res?.username} <br />
+          {/* {res?.username} <br /> */}
           {res?.userId}
         </Link>
       ),
@@ -260,7 +260,7 @@ const DownList = ({ apiState }) => {
       ),
       PTS: res?.pts,
       Client: res?.clientPl,
-      Clientp: res?.clientPlPercentage,
+      // Clientp: res?.clientPlPercentage,
       Exposer: (
         <span
           onClick={() => exposureShowModal(res?.userId)}
