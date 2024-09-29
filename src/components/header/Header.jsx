@@ -330,7 +330,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
                 onClick={(e) => e.preventDefault()}
                 style={{ color: "white" }}
               >
-                {userName}
+                {userName?.toUpperCase()}
                 <RiArrowDropDownLine />
               </span>
             </div>
@@ -344,7 +344,7 @@ const Header = ({ overlayState, setDisplay, logo }) => {
                 <div>
                   <span onClick={(e) => e.preventDefault()}>
                     <Space>
-                      {userName}
+                      {userName?.toUpperCase()}
                       <RiArrowDropDownLine />
                     </Space>
                   </span>

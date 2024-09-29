@@ -260,8 +260,7 @@ const ActiveUser = () => {
         <Link
           to={`${Down_Line_ActiveUser}${res?.id}`}
           style={{ color: "#fff" }}
-          className="user_id_name"
-        >
+          className="user_id_name">
           {res?.userId}
         </Link>
       ),
@@ -276,8 +275,8 @@ const ActiveUser = () => {
       // ),
       CR: (
         <span
-          style={{ color: "#f1b44c", cursor: "pointer" }}
-          onClick={() => showCredit(res.id)}
+          style={{ color: "#f1b44c" }}
+          // onClick={() => showCredit(res.id)}
         >
           {res?.chips}
         </span>
@@ -287,13 +286,12 @@ const ActiveUser = () => {
       // lcLock: <Switch size="small" disabled={true} checked={res?.lcLock} />,
 
       PTS: res?.pts,
-      // Client: res?.clientPl,
-      Clientp: res?.clientPlPercentage,
+      Client: res?.clientPl,
+      // Clientp: res?.clientPlPercentage,
       Exposer: (
         <span
           onClick={() => exposureShowModal(res?.userId)}
-          style={{ cursor: "pointer" }}
-        >
+          style={{ cursor: "pointer" }}>
           {res?.exposure}
         </span>
       ),
@@ -306,27 +304,15 @@ const ActiveUser = () => {
       AccountType: res?.accountType,
       Action: (
         <div style={{ paddingRight: "10px" }}>
-          <Button
-            style={{
-              background: "#f1b44c",
-              color: "white",
-              borderColor: "#f1b44c",
-              borderRadius: "5px 0px 0px 5px",
-            }}
-            onClick={() => showCredit(res.id)}
-          >
-            CR
-          </Button>
           <Tooltip placement="top" title={isMobile ? "Deposit" : ""}>
             <Button
               style={{
                 background: "#34c38f",
                 color: "white",
                 borderColor: "#34c38f",
-                borderRadius: "0px 0px 0px 0px",
+                borderRadius: "5px 0px 0px 5px",
               }}
-              onClick={() => showModal(res?.id)}
-            >
+              onClick={() => showModal(res?.id)}>
               D
             </Button>
           </Tooltip>
@@ -338,9 +324,19 @@ const ActiveUser = () => {
                 borderColor: "#f46a6a",
                 borderRadius: "0px 0px 0px 0px",
               }}
-              onClick={() => showModals(res?.id)}
-            >
+              onClick={() => showModals(res?.id)}>
               w
+            </Button>
+            <Button
+              style={{
+                background: "#f1b44c",
+                color: "white",
+                borderColor: "#f1b44c",
+                borderRadius: "0px 0px 0px 0px"
+               
+              }}
+              onClick={() => showCredit(res.id)}>
+              CR
             </Button>
           </Tooltip>
           <Button
@@ -350,8 +346,7 @@ const ActiveUser = () => {
               borderColor: "#50a5f1",
               borderRadius: "0px 5px 5px 0px",
             }}
-            onClick={() => showModalProfile(res?.id)}
-          >
+            onClick={() => showModalProfile(res?.id)}>
             more
           </Button>
         </div>
@@ -394,8 +389,7 @@ const ActiveUser = () => {
     <UserModalContext.Provider
       value={{
         handleCancel: handleCancel,
-      }}
-    >
+      }}>
       <Modal
         title="Deposit"
         open={isModalOpen}
@@ -403,8 +397,7 @@ const ActiveUser = () => {
         onCancel={handleCancel}
         okText="Submit"
         className="deposite"
-        destroyOnClose
-      >
+        destroyOnClose>
         <DepositForm
           handleCancel={handleCancel}
           data={userId}
@@ -417,8 +410,7 @@ const ActiveUser = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         className="widrwal"
-        destroyOnClose
-      >
+        destroyOnClose>
         <Widrawal
           handleCancel={handleCancel}
           data={userId}
@@ -432,8 +424,7 @@ const ActiveUser = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         className="more card-header"
-        destroyOnClose
-      >
+        destroyOnClose>
         <MoreCard
           data={userId}
           handleCancelfunction={handleCancel}
@@ -447,8 +438,7 @@ const ActiveUser = () => {
         onOk={handleOk}
         onCancel={handleCancel}
         className="CREDI-ACTIVITY"
-        destroyOnClose="true"
-      >
+        destroyOnClose="true">
         <CreditModal
           data={userId}
           gettableData={tabledata}
@@ -462,8 +452,7 @@ const ActiveUser = () => {
         onCancel={handleCancel}
         footer={null}
         destroyOnClose
-        className="exposure-modal"
-      >
+        className="exposure-modal">
         <ExposureModal userID={exposerUserId} />
       </Modal>
       <div className="hading-create-accounts">
@@ -490,14 +479,12 @@ const ActiveUser = () => {
             <div className="serch-btn">
               <Button
                 onClick={handleClick}
-                style={{ background: "#23292E", color: "white" }}
-              >
+                style={{ background: "#23292E", color: "white" }}>
                 Load
               </Button>
               <Button
                 onClick={reset}
-                style={{ background: "#eff2f7", color: "black" }}
-              >
+                style={{ background: "#eff2f7", color: "black" }}>
                 Reset
               </Button>
             </div>
@@ -522,8 +509,7 @@ const ActiveUser = () => {
                   ...paginationData,
                   noOfRecords: Number(e.target.value),
                 })
-              }
-            >
+              }>
               <option value="100">100</option>
               <option value="250">250</option>
               <option value="500">500</option>
@@ -546,35 +532,30 @@ const ActiveUser = () => {
               role="menubar"
               aria-disabled="false"
               aria-label="Pagination"
-              className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end"
-            >
+              className="pagination dataTables_paginate paging_simple_numbers my-0 b-pagination justify-content-end">
               <li
                 role="presentation"
                 aria-hidden="true"
-                className="page-item disabled"
-              >
+                className="page-item disabled">
                 <span
                   role="menuitem"
                   aria-label="Go to first page"
                   aria-disabled="true"
                   style={{ cursor: "pointer" }}
-                  onClick={ResetCounter}
-                >
+                  onClick={ResetCounter}>
                   «
                 </span>
               </li>
               <li
                 role="presentation"
                 aria-hidden="true"
-                className="page-item disabled"
-              >
+                className="page-item disabled">
                 <span
                   role="menuitem"
                   aria-label="Go to previous page"
                   aria-disabled="true"
                   style={{ cursor: "pointer" }}
-                  onClick={Decrement}
-                >
+                  onClick={Decrement}>
                   ‹
                 </span>
               </li>
@@ -587,38 +568,33 @@ const ActiveUser = () => {
                   aria-posinset="1"
                   aria-setsize="1"
                   tabIndex="0"
-                  className="page-link"
-                >
+                  className="page-link">
                   {paginationData.index + 1}
                 </button>
               </li>
               <li
                 role="presentation"
                 aria-hidden="true"
-                className="page-item disabled"
-              >
+                className="page-item disabled">
                 <span
                   role="menuitem"
                   aria-label="Go to next page"
                   aria-disabled="true"
                   style={{ cursor: "pointer" }}
-                  onClick={Increment}
-                >
+                  onClick={Increment}>
                   ›
                 </span>
               </li>
               <li
                 role="presentation"
                 aria-hidden="true"
-                className="page-item disabled"
-              >
+                className="page-item disabled">
                 <span
                   role="menuitem"
                   aria-label="Go to last page"
                   aria-disabled="true"
                   onClick={LastCounter}
-                  style={{ cursor: "pointer" }}
-                >
+                  style={{ cursor: "pointer" }}>
                   »
                 </span>
               </li>
