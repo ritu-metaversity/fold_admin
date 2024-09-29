@@ -287,8 +287,8 @@ const ActiveUser = () => {
       // lcLock: <Switch size="small" disabled={true} checked={res?.lcLock} />,
 
       PTS: res?.pts,
-      // Client: res?.clientPl,
-      Clientp: res?.clientPlPercentage,
+      Client: res?.clientPl,
+      // Clientp: res?.clientPlPercentage,
       Exposer: (
         <span
           onClick={() => exposureShowModal(res?.userId)}

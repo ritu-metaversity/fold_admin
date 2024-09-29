@@ -25,8 +25,8 @@ const Loginform = ({logo}) => {
     const value = {
       ...values,
       // appUrl:"admin.sm_097.com",
-      // appUrl: "admin.maggibook.com",
-      appUrl: host === "localhost" ? "admin.fairplays247.in" : host,
+      appUrl: "admin.foldexch.com",
+      // appUrl: host === "localhost" ? "admin.foldexch.com" : host,
     };
     await axios
       .post(`${import.meta.env.VITE_BASE_URL}/${Login_Api}`, value)

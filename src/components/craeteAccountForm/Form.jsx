@@ -81,7 +81,7 @@ const Accountform = ({ IsSelfState }) => {
           });
     } catch (error) {}
   };
-  
+
   const [casionCheck, setCasionCheck] = useState(false);
 
   useEffect(() => {
@@ -93,15 +93,13 @@ const Accountform = ({ IsSelfState }) => {
     getCasino();
   }, [userType]);
 
-  
-
   const [errorData, setErrorData] = useState({
     username: false,
     lupassword: false,
     userId: false,
     password: false,
     appId: currentUserROle === 2 ? false : undefined,
-    
+
     sportPartnership: currentUserROle === 2 ? false : undefined,
     userRole: false,
   });
@@ -126,7 +124,6 @@ const Accountform = ({ IsSelfState }) => {
       });
     }
     if (name === "username") {
-      
       setData((prev) => {
         return {
           ...prev,
@@ -154,7 +151,7 @@ const Accountform = ({ IsSelfState }) => {
 
   const handleSelectChange = (e, Name) => {
     let value = e;
-   
+
     if (!value) {
       setErrorData((prev) => {
         return {
@@ -292,13 +289,10 @@ const Accountform = ({ IsSelfState }) => {
             notifyToast().error(res.data.message);
           }
         })
-        .catch((error) => {
-          
-        });
+        .catch((error) => {});
       setLoading((prev) => ({ ...prev, CreateUserAccount: false }));
     }
   };
- 
 
   const userChecker = async (userId) => {
     const res = await axios.post(
@@ -458,8 +452,7 @@ const Accountform = ({ IsSelfState }) => {
         title="User Detail"
         open={isModalOpen}
         onOk={handleOk}
-        onCancel={handleCancel}
-      >
+        onCancel={handleCancel}>
         <table className="table coupon-table mb-0">
           <thead>
             <tr>
@@ -484,8 +477,7 @@ const Accountform = ({ IsSelfState }) => {
         autoComplete="off"
         onFinish={onFinish}
         // onFinishFailed={onFinishFailed}
-        className="create-form"
-      >
+        className="create-form">
         <div className="left-col-section">
           <p>General Information</p>
 
@@ -519,8 +511,7 @@ const Accountform = ({ IsSelfState }) => {
                 <p style={{ margin: 0 }}>User ID:</p>
                 <span style={{ color: "red" }}>{useraChecker}</span>
               </div>
-            }
-          >
+            }>
             <div className={errorData?.userId ? "col-input2" : "col-input"}>
               <Input
                 placeholder="User ID"
@@ -564,8 +555,7 @@ const Accountform = ({ IsSelfState }) => {
                 ) && !data.city
                   ? "col-input3"
                   : "col-input"
-              }
-            >
+              }>
               <Input
                 name="city"
                 value={data.city}
@@ -584,8 +574,7 @@ const Accountform = ({ IsSelfState }) => {
                 ) && !data.mobile
                   ? "col-input3"
                   : "col-input"
-              }
-            >
+              }>
               <Input
                 placeholder="Mobile Number"
                 type="number"
@@ -599,14 +588,12 @@ const Accountform = ({ IsSelfState }) => {
             <Form.Item label="App Url:">
               <div className={errorData?.appId ? "col-input2" : "col-input"}>
                 <Select
-                 
                   value={data.appId || "Select App Url"}
                   name="appId"
                   onChange={(e) => {
                     handleSelectChange(e, "appId");
                   }}
-                  options={options}
-                ></Select>
+                  options={options}></Select>
                 {errorData.appId ? (
                   <RxCross2 style={{ paddingRight: "10px", color: "red" }} />
                 ) : (
@@ -625,8 +612,7 @@ const Accountform = ({ IsSelfState }) => {
                 name="userRole"
                 onChange={(e) => {
                   handleSelectChange(e, "userRole");
-                }}
-              >
+                }}>
                 {usertypeArray[userType]}
               </Select>
               {errorData?.userRole ? (
@@ -636,6 +622,17 @@ const Accountform = ({ IsSelfState }) => {
               )}
             </div>
           </Form.Item>
+          <Form.Item label="Credit Reference" name="userRole">
+            <div className={errorData.userRole ? "col-input2" : "col-input"}>
+              <Input
+                placeholder="Credit Reference"
+                type="number"
+                name="creditReference"
+                value={data?.creditReference}
+                onChange={handleChange}
+              />
+            </div>
+          </Form.Item>
         </div>
         <div className="right-col-section">
           {data.userRole !== 2 ? (
@@ -643,13 +640,11 @@ const Accountform = ({ IsSelfState }) => {
               <p>Partnership Information</p>
               <Form.Item
                 label="Partnership With No Return:"
-                name="sportPartnership"
-              >
+                name="sportPartnership">
                 <div
                   className={
                     errorData?.sportPartnership ? "col-input2" : "col-input"
-                  }
-                >
+                  }>
                   <Input
                     placeholder="Partnership With No Return"
                     type="number"
@@ -679,18 +674,20 @@ const Accountform = ({ IsSelfState }) => {
           )}
 
           <div className="check-box-div">
-            
             {casino?.map((key) => {
               return (
                 <Form.Item
                   name="liveCasinoLock"
                   label={key.name}
-                  style={{ marginTop: "0px" }}
-                >
+                  style={{ marginTop: "0px" }}>
                   <Switch
                     size="small"
                     disabled={casionCheck}
-                    checked={key?.name === "QTech"?true:data[`is${key.name.replace(" ", "")}Allowed`]}
+                    checked={
+                      key?.name === "QTech"
+                        ? true
+                        : data[`is${key.name.replace(" ", "")}Allowed`]
+                    }
                     onChange={(e) =>
                       setData((prev) => {
                         return {
