@@ -5,7 +5,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { LoaderContext } from "../../App";
 import { GoTrashcan } from "react-icons/go";
-import { Add_banner, Banner_Delete, Banner_List } from "../../routes/Routes";
+import { Add_banner, Add_banner_sa, Banner_Delete, Banner_Delete_SA, Banner_List, Banner_List_SA } from "../../routes/Routes";
 import { NavLink } from "react-router-dom";
 import DeleteModal from "../deleteModal/DeleteModal";
 import { notifyToast } from "../toast/Tost";
@@ -40,6 +40,8 @@ const BannerFormComponent = () => {
     });
   };
   // console.log(fileList[0].name, "outer");
+
+  const userType = localStorage.getItem('userType')
 
   const handleChangeSelctType = (value) => {
     setTypeValue(value);
@@ -131,7 +133,7 @@ const BannerFormComponent = () => {
     } else {
       setLoading((prev) => ({ ...prev, createDomain: true }));
       await axios
-        .post(`${import.meta.env.VITE_BASE_URL}/${Add_banner}`, formData, {
+        .post(`${import.meta.env.VITE_BASE_URL}/${userType === "4" ?Add_banner:Add_banner_sa}`, formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "multipart/form-data",
@@ -143,6 +145,7 @@ const BannerFormComponent = () => {
           setPriority();
           setUrl("");
           notifyToast().succes(res.data.message);
+          BannerListData();
         })
         .catch((error) => {});
       setLoading((prev) => ({ ...prev, createDomain: false }));
@@ -201,7 +204,7 @@ const BannerFormComponent = () => {
   const deleteRow = async (id) => {
     await axios
       .post(
-        `${import.meta.env.VITE_BASE_URL}/${Banner_Delete}`,
+        `${import.meta.env.VITE_BASE_URL}/${userType==="4"?Banner_Delete:Banner_Delete_SA}`,
         {
           bannerId: id,
         },
@@ -250,7 +253,7 @@ const BannerFormComponent = () => {
 
     await axios
       .post(
-        `${import.meta.env.VITE_BASE_URL}/${Banner_List}`,
+        `${import.meta.env.VITE_BASE_URL}/${userType==="4"?Banner_List:Banner_List_SA}`,
         { type: typeValue },
         {
           headers: {

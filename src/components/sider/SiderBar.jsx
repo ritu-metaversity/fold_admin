@@ -698,7 +698,7 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
                   },
                 ]
               : []),
-            ...(userType === "4"
+            ...(userType === "4" || userType === "5"
               ? [
                   {
                     key: 10,

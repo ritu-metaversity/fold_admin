@@ -66,7 +66,9 @@ export const Bank_deposit_amount = "dwc/bank-deposit-withdraw";
 export const Cahnge_pass = "user/first-login-cp";
 export const Payment_method_api = "bank/add-payment-method";
 export const Add_banner = "banner/add";
+export const Add_banner_sa = "banner/add-SA";
 export const Banner_List = "banner/list";
+export const Banner_List_SA = "banner/list-SA";
 export const Payment_List = "bank/list-payment-method";
 export const Add_Bank = "bank/add-bank";
 export const Add_Upi = "bank/add-upi";
@@ -131,6 +133,7 @@ export const Social_Media_Icon_Upload = "api/admin/saveForAdmin";
 export const Get_Social_Media = "api/admin/getData";
 export const Get_saveSelect = "api/admin/saveSelect";
 export const Banner_Delete = "banner/delete";
+export const Banner_Delete_SA = "banner/delete-SA";
 ////activeUser components Api
 export const Table_ActiveUser = "user/child-list-active-user";
 export const Tab_MoreData = "user/child-profile";
