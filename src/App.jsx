@@ -67,7 +67,7 @@ import {
   setCommision,
 } from "./routes/Routes.js";
 import BetHistory from "./pages/betHistory/BetHistory.jsx";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import CreateDomain from "./pages/createDomain/CreateDomain.jsx";
 import Testmatch from "./pages/testMatch/Testmatch.jsx";
 import NoteFound from "./pages/noteFound/NoteFound.jsx";
@@ -116,6 +116,10 @@ import CasinoLeader from "./pages/leadeger/CasinoLeadeger.jsx";
 import CreateCasino from "./pages/createCasino/CreateCasino.jsx";
 import SetCommission from "./pages/setCommission/SetCommission.jsx";
 import DrawerComponent from "./components/drawer/DrawerComponent.jsx";
+import { getToken, onMessage } from "firebase/messaging";
+import { messaging } from "./Notifiaction/firebase.js";
+import { Button } from "antd";
+import { Notifications } from "react-push-notification";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -266,6 +270,98 @@ function App() {
   }, [tokenState]);
 
   const userType = localStorage.getItem("userType");
+
+  async function requestPermission() {
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      // Generate Token
+      const token = await getToken(messaging, {
+        vapidKey:
+          "BHGEn0dsBpKSEuR3BzkgzbYFtNdbARp3hR4c71qa4GC_aD4E__A3JSiZrUCgmOrpKV-VyPUURiIv0zh6TpqRnrw",
+      });
+      console.log("Token Gen", token);
+    } else if (permission === "denied") {
+      alert("You denied for the notification");
+    }
+  }
+
+  function showNotification(payload) {
+    const notificationTitle = payload?.notification?.title || "Default Title";
+    const notificationOptions = {
+      body: payload?.notification?.body || "Default Body",
+      icon: payload?.notification?.icon || "/default-icon.png",
+    };
+
+    console.log(notificationOptions, "notificationOptionsnotificationOptions")
+
+    // Use the browser's Notification API to show the notification
+    if (Notification.permission === "granted") {
+      new Notification(notificationTitle, notificationOptions);
+    }
+  }
+
+  useEffect(() => {
+   
+    requestPermission();
+
+   
+    onMessage(messaging, (payload) => {
+      console.log("Message received. ", payload);
+      // Show the notification to the user
+      showNotification(payload);
+    });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then((registration) => {
+          console.log(
+            "Service Worker registered with scope:",
+            registration.scope
+          );
+        })
+        .catch((err) => {
+          console.log("Service Worker registration failed:", err);
+        });
+    }
+  }, []);
+
+  //  const buttonClick = () => {
+  //       addNotification({
+  //           title: 'Warning',
+  //           subtitle: 'This is a subtitle',
+  //           message: 'This is a very long message',
+  //           theme: 'darkblue',
+  //           native: true // when using native, your OS will handle theming.
+  //       });
+  //   };
+
+
+  // const sendNotification = ()=>{
+  //   if('Notification' in  window  && Notification.permission === "granted"){
+  //     new Notification("Hello", {
+  //       body:"Welcome to fire base"
+  //     })
+  //   }
+  // }
+
+
+  // const requestNotificationPermission = useCallback(()=>{
+  //   if('Notification' in  window ){
+  //     Notification.requestPermission().then((permission)=>{
+  //       if(permission === "granted"){
+  //         console.log("permission is granted");
+  //         sendNotification();
+  //       }
+  //     })
+  //   }
+  // }, [])
+
+  // useEffect(()=>{
+  //   if('Notification' in  window ){
+  //     requestNotificationPermission()
+  //   }
+  // }, [requestNotificationPermission]);
+
   return (
     // <ConfigProvider locale={locale}>
     <LoaderContext.Provider
@@ -277,8 +373,9 @@ function App() {
         handle,
         refershNow,
         keyNew,
-      }}
-    >
+      }}>
+        <Notifications />
+      {/* <Button onClick={sendNotification()}>Helllooo</Button> */}
       <ToastContainer />
       {!Object.keys(loading).every((key) => loading[key] === false) && (
         <div className="loader-container">
@@ -291,13 +388,11 @@ function App() {
           <Route
             path={Home_Screen}
             // element={<Login logo={logo} message={message} />}
-            element={<DrawerComponent logo={logo} />}
-          ></Route>
+            element={<DrawerComponent logo={logo} />}></Route>
 
           <Route
             path={Change_Password}
-            element={<ChangePasswordLogin />}
-          ></Route>
+            element={<ChangePasswordLogin />}></Route>
           <Route
             path="/"
             element={
@@ -307,30 +402,26 @@ function App() {
                 logo={logo}
                 message={message}
               />
-            }
-          >
+            }>
             {userType === "5" && (
               <>
                 <Route
                   path={StatementPage}
-                  element={<ApprovedByStatement />}
-                ></Route>
+                  element={<ApprovedByStatement />}></Route>
               </>
             )}
             <>
               <Route path={ActiveUser_Screen} element={<ActiveUser />}></Route>
               <Route
                 path={AccountList_Screen}
-                element={<AccountsList />}
-              ></Route>
+                element={<AccountsList />}></Route>
               {isSelf && (
                 <Route path={setCommision} element={<SetCommission />}></Route>
               )}
             </>
             <Route
               path={HelperActiveUser_Screen}
-              element={<HelperActiveUser />}
-            ></Route>
+              element={<HelperActiveUser />}></Route>
             <Route path={Multiple_login} element={<MultipleLogin />}></Route>
             <Route path={Casion_amount} element={<CasinoAmount />}></Route>
 
@@ -345,53 +436,42 @@ function App() {
                 <Route exact path={create_Helper} element={<CreateHelper />} />
                 <Route
                   path={MarketAnalysis_Screen}
-                  element={<MarketAnalysis />}
-                ></Route>
+                  element={<MarketAnalysis />}></Route>
                 <Route path={Profite_Loss} element={<ProfiteLoss />}></Route>
                 <Route path={Setting_Screen} element={<Setting />}></Route>
                 <Route
                   path={add_withdrawal_Screen}
-                  element={<AddWithdrawal />}
-                ></Route>
+                  element={<AddWithdrawal />}></Route>
                 <Route
                   path={add_Deposit_Screen}
-                  element={<AddDepositMethodAdmin />}
-                ></Route>
+                  element={<AddDepositMethodAdmin />}></Route>
 
                 <Route
                   path={add_withdrawal_SubAdmin_Screen}
-                  element={<AddWithdrawalSub />}
-                ></Route>
+                  element={<AddWithdrawalSub />}></Route>
                 <Route
                   path={add_Deposit_Methods}
-                  element={<AddDepositMethods />}
-                ></Route>
+                  element={<AddDepositMethods />}></Route>
                 <Route
                   path={CreatAaccounts_Commission_Screen}
-                  element={<CreateAccountCommission />}
-                ></Route>
+                  element={<CreateAccountCommission />}></Route>
 
                 <Route path={Bank_Screen} element={<Bank />}></Route>
                 <Route
                   path={currentsBets_Screen}
-                  element={<CurrentBets />}
-                ></Route>
+                  element={<CurrentBets />}></Route>
                 <Route
                   path={BetHistory_Screen}
-                  element={<BetHistory />}
-                ></Route>
+                  element={<BetHistory />}></Route>
                 <Route
                   path={Socila_Media_Manager_Screen}
-                  element={<SocialMediaManager />}
-                ></Route>
+                  element={<SocialMediaManager />}></Route>
                 <Route
                   path={CreateDomain_Screen}
-                  element={<CreateDomain />}
-                ></Route>
+                  element={<CreateDomain />}></Route>
                 <Route
                   path={TestMatch_Screen + "/:sportId/:id"}
-                  element={<Testmatch />}
-                ></Route>
+                  element={<Testmatch />}></Route>
                 <Route path={User_History} element={<UserHistory />}></Route>
                 <Route path={Banner_Update} element={<Banner />}></Route>
                 <Route path={Bank_Method} element={<BankPage />}></Route>
@@ -401,63 +481,50 @@ function App() {
 
                 <Route
                   path={Create_Ledeger}
-                  element={<CreateLedeger />}
-                ></Route>
+                  element={<CreateLedeger />}></Route>
                 <Route path={Casino_leader} element={<CasinoLeader />}></Route>
                 <Route
                   path={Create_RollBack}
-                  element={<CreateRollBack />}
-                ></Route>
+                  element={<CreateRollBack />}></Route>
                 <Route path={Create_Ledeger2} element={<Leadeger />}></Route>
                 <Route
                   path={Create_RollBack2}
-                  element={<CreateRollBack />}
-                ></Route>
+                  element={<CreateRollBack />}></Route>
                 <Route path={Create_Casino} element={<CreateCasino />}></Route>
 
                 <Route
                   path={Down_Line_ActiveUser + ":id"}
-                  element={<DownList apiState={true} />}
-                ></Route>
+                  element={<DownList apiState={true} />}></Route>
                 <Route
                   path={Down_Line_ActiveList + ":id"}
-                  element={<DownList apiState={false} />}
-                ></Route>
+                  element={<DownList apiState={false} />}></Route>
                 <Route
                   path={Account_Statement}
-                  element={<AccountStatement />}
-                ></Route>
+                  element={<AccountStatement />}></Route>
                 <Route
                   path={Casino_Type_Screen}
-                  element={<CasinoType />}
-                ></Route>
+                  element={<CasinoType />}></Route>
                 <Route
                   path={Casino_Screen + "/:id"}
-                  element={<Casion />}
-                ></Route>
+                  element={<Casion />}></Route>
                 <Route
                   path={Payment_Method}
-                  element={<PaymentMethodPage />}
-                ></Route>
+                  element={<PaymentMethodPage />}></Route>
               </>
             )}
             {/* <Route path={Party_Win_Lose} element={<PartyWinLose />}></Route> */}
             <Route
               path={Widrwal_Pending_Request}
-              element={<WidrwalPendingRequest />}
-            ></Route>
+              element={<WidrwalPendingRequest />}></Route>
             <Route
               path={withdraw_Rejected}
-              element={<WithdrawalRejected />}
-            ></Route>
+              element={<WithdrawalRejected />}></Route>
             <Route
               path={deposite_Rejected}
-              element={<DepositeRejected />}
-            ></Route>
+              element={<DepositeRejected />}></Route>
             <Route
               path={Deposit_Pending_Request}
-              element={<DepositPendingRequest />}
-            ></Route>
+              element={<DepositPendingRequest />}></Route>
           </Route>
           <Route path="*" element={<NoteFound />} />
         </Routes>

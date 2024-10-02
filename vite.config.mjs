@@ -5,7 +5,10 @@ import react from '@vitejs/plugin-react-swc'
 export default defineConfig({
   base: '/',
   plugins: [react()],
+  server: {
+    host:true
+  },
   build: {
-    outDir:"build"
+    outDir:"admin-build"
   }
 })
