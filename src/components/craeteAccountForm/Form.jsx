@@ -18,17 +18,15 @@ const arr = ["city", "mobile"];
 const defaultData = {
   username: "",
   city: "",
-  // fancyLossCommission: 0,
   lupassword: "",
   mobile: "",
   password: "",
-  // oddLossCommission: 0,
   userRole: "",
   appId: "",
   userId: "",
   sportPartnership: "",
   liveCasinoLock: false,
-
+  creditReference:0,
   isAuraAllowed: true,
   isSuperNovaAllowed: true,
   isQTechAllowed: true,
@@ -623,7 +621,7 @@ const Accountform = ({ IsSelfState }) => {
             </div>
           </Form.Item>
           <Form.Item label="Credit Reference" name="userRole">
-            <div className={errorData.userRole ? "col-input2" : "col-input"}>
+            <div className="col-input">
               <Input
                 placeholder="Credit Reference"
                 type="number"
