@@ -7,6 +7,7 @@ import { columns } from "./TableColumn";
 import AddDepositBankForm from "../../components/addDepositMethodForm/addDepositBankForm";
 import AddDepositUpiForm from "../../components/addDepositMethodForm/addDepositUpiForm";
 import AddDepositQrForm from "../../components/addDepositMethodForm/addDepositQrForm";
+import AddDepositGpay from "../../components/addDepositMethodForm/AddDepositGpay";
 
 const AllDepositMethods = () => {
   const { setLoading } = useContext(LoaderContext);
@@ -25,6 +26,8 @@ const AllDepositMethods = () => {
     ),
     1: <AddDepositUpiForm id={id} endingPoint={"save-sub"} />,
     2: <AddDepositQrForm id={id} endingPoint={"save-sub"} />,
+    3: <AddDepositGpay id={id} endingPoint={"save-sub"} name="GPAY"/>,
+    4: <AddDepositGpay id={id} endingPoint={"save-sub"} name="PHONE PE"/>,
   };
 
   // const onChange = (obj) => {
@@ -53,6 +56,14 @@ const AllDepositMethods = () => {
   //   }
   // };
 
+  const name = {
+    0:"Add Bank",
+    1:"Add UPI",
+    2:"Add QR",
+    3:"Add GPAY",
+    4:"Add PHONE PE"
+    }
+
   const dataSource = bannerList?.map((res, index) => {
     return {
       key: res.type + res.image + res.withdrawType + index,
@@ -77,7 +88,11 @@ const AllDepositMethods = () => {
                   ? 0
                   : res.depositMethod === "UPI"
                   ? 1
-                  : 2
+                  : res.depositMethod === "QR"
+                  ? 2
+                  : res.depositMethod === "G PAY"
+                  ? 3
+                  : 4
               );
               showModal();
             }}
@@ -167,7 +182,7 @@ const AllDepositMethods = () => {
   return (
     <div>
       <Modal
-        title="Basic Modal"
+         title={name[modalFormValue]}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}

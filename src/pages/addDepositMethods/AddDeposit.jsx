@@ -9,6 +9,7 @@ import { columns2 } from "./TableColumn";
 import AddDepositBankForm from "../../components/addDepositMethodForm/addDepositBankForm";
 import AddDepositUpiForm from "../../components/addDepositMethodForm/addDepositUpiForm";
 import AddDepositQrForm from "../../components/addDepositMethodForm/addDepositQrForm";
+import AddDepositGpay from "../../components/addDepositMethodForm/AddDepositGpay";
 export let BannerList;
 const AddDeposit = () => {
   const [sSubAdminBannerList, setSubAdminBannerList] = useState([]);
@@ -46,6 +47,8 @@ const AddDeposit = () => {
         endingPoint={"update_bank"}
       />
     ),
+    3: <AddDepositGpay id={id} userData={userData} endingPoint={"update_bank"} name="GPAY" />,
+    4: <AddDepositGpay id={id} userData={userData} endingPoint={"update_bank"} name="PHONE PE" />,
   };
 
   const BannerListDataSubAdmin = async () => {
@@ -94,7 +97,11 @@ const AddDeposit = () => {
                   ? 0
                   : res.depositType === "UPI"
                   ? 1
-                  : 2
+                  : res.depositType === "QR"
+                  ? 2
+                  : res.depositType === "G PAY"
+                  ? 3
+                  : 4
               );
               showModal();
             }}
