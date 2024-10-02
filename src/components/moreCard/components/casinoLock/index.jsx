@@ -83,6 +83,7 @@ const CasinoLock = ({ userData }) => {
     <div>
       <div className="form" style={{ padding: "10px" }}>
         {casinoData?.map((res) => {
+          if(res?.casinoName === "SportBook") return null;
           return (
             <div className="row-1">
               <label>{res.casinoName}</label>

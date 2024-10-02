@@ -675,6 +675,7 @@ const Accountform = ({ IsSelfState }) => {
 
           <div className="check-box-div">
             {casino?.map((key) => {
+              if(key.name === "SportBook") return null;
               return (
                 <Form.Item
                   name="liveCasinoLock"

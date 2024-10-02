@@ -161,19 +161,12 @@ const DownList = ({ apiState }) => {
     {
       title: "User Name",
       dataIndex: "username",
-      // filteredValue: [message],
-      // onFilter: (value, record) => {
-      //   console.log(record.username?.props?.children[0], "record");
-      //   return String(record.username?.props?.children[0])
-      //     .toLowerCase()
-      //     .includes(value.toLowerCase());
-      // },
-      width: 100,
+      width: 200,
       onCell: () => {
         return {
           style: {
             whiteSpace: "break-spaces",
-            maxWidth: 100,
+            maxWidth: 200,
           },
         };
       },
@@ -247,14 +240,15 @@ const DownList = ({ apiState }) => {
               ? pathname
               : `${Down_Line_ActiveUser}${res?.id}`
           }
-          style={{ color: "black" }}
+          
+          className="user_id_name"
         >
           {/* {res?.username} <br /> */}
           {res?.userId}
         </Link>
       ),
       CR: (
-        <span style={{ color: "#f1b44c", cursor: "pointer" }}>
+        <span style={{ color: "#f1b44c"}}>
           {res?.chips}
         </span>
       ),
