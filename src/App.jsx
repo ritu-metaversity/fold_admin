@@ -273,56 +273,61 @@ function App() {
 
   async function requestPermission() {
     const permission = await Notification.requestPermission();
+    
     if (permission === "granted") {
-      // Generate Token
-      const token = await getToken(messaging, {
-        vapidKey:
-          "BHGEn0dsBpKSEuR3BzkgzbYFtNdbARp3hR4c71qa4GC_aD4E__A3JSiZrUCgmOrpKV-VyPUURiIv0zh6TpqRnrw",
+      // Wait for Service Worker to be ready
+      navigator.serviceWorker.ready.then(async (registration) => {
+        try {
+          const token = await getToken(messaging, {
+            vapidKey: "BPCzAY4BgaqcgXzNtwAotgWTjDrvlCIARRIrIHjRSqln8T96ZXw1o8cQnrgE08Q0-5UkUItU-wOshsLCQ0Gfrso",
+            serviceWorkerRegistration: registration, // Ensure the Service Worker is used
+          });
+          console.log("Token generated: ", token);
+        } catch (error) {
+          console.error("Error getting FCM token:", error);
+        }
       });
-      console.log("Token Gen", token);
     } else if (permission === "denied") {
-      alert("You denied for the notification");
+      alert("You denied notifications");
     }
   }
-
+  
   function showNotification(payload) {
     const notificationTitle = payload?.notification?.title || "Default Title";
     const notificationOptions = {
       body: payload?.notification?.body || "Default Body",
       icon: payload?.notification?.icon || "/default-icon.png",
     };
-
-    console.log(notificationOptions, "notificationOptionsnotificationOptions")
-
+  
+    console.log("Notification options:", notificationOptions);
+  
     // Use the browser's Notification API to show the notification
     if (Notification.permission === "granted") {
       new Notification(notificationTitle, notificationOptions);
     }
   }
-
+  
   useEffect(() => {
-   
-    requestPermission();
-
-   
-    onMessage(messaging, (payload) => {
-      console.log("Message received. ", payload);
-      // Show the notification to the user
-      showNotification(payload);
-    });
+    // Register the service worker
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
         .register("/firebase-messaging-sw.js")
         .then((registration) => {
-          console.log(
-            "Service Worker registered with scope:",
-            registration.scope
-          );
+          console.log("Service Worker registered with scope:", registration.scope);
+  
+          // Ensure the Service Worker is ready before requesting permission and token
+          requestPermission();
         })
         .catch((err) => {
-          console.log("Service Worker registration failed:", err);
+          console.error("Service Worker registration failed:", err);
         });
     }
+  
+    // Listen for incoming messages while the app is in the foreground
+    onMessage(messaging, (payload) => {
+      console.log("Message received: ", payload);
+      showNotification(payload);
+    });
   }, []);
 
   //  const buttonClick = () => {
@@ -335,7 +340,6 @@ function App() {
   //       });
   //   };
 
-
   // const sendNotification = ()=>{
   //   if('Notification' in  window  && Notification.permission === "granted"){
   //     new Notification("Hello", {
@@ -343,7 +347,6 @@ function App() {
   //     })
   //   }
   // }
-
 
   // const requestNotificationPermission = useCallback(()=>{
   //   if('Notification' in  window ){
@@ -374,7 +377,7 @@ function App() {
         refershNow,
         keyNew,
       }}>
-        <Notifications />
+      <Notifications />
       {/* <Button onClick={sendNotification()}>Helllooo</Button> */}
       <ToastContainer />
       {!Object.keys(loading).every((key) => loading[key] === false) && (

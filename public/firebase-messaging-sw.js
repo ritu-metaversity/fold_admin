@@ -1,15 +1,13 @@
-// public/firebase-messaging-sw.js
 importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js");
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDgfmJU8KvaD5lilnAqMr_5Jk_EC1Wsh_4",
-  authDomain: "foldadmin.firebaseapp.com",
-  projectId: "foldadmin",
-  storageBucket: "foldadmin.appspot.com",
-  messagingSenderId: "408489342286",
-  appId: "1:408489342286:web:d21d8d5805dc77c5b85a1f",
-  measurementId: "G-2CPKLRHVX9"
+  apiKey: "AIzaSyAOGq_NoxCTAe-nRVz1gP_7wxV6-tR5N4o",
+  authDomain: "rituraj-78aa5.firebaseapp.com",
+  projectId: "rituraj-78aa5",
+  storageBucket: "rituraj-78aa5.appspot.com",
+  messagingSenderId: "142529887787",
+  appId: "1:142529887787:web:a181ec11a53e27b35db46e"
 };
 
 firebase.initializeApp(firebaseConfig);
