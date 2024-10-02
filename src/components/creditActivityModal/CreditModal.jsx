@@ -5,7 +5,7 @@ import WidrawalActivity from "../modalForm/WidrawalActivity";
 import Transaction from "../moreCard/components/transaction/Transaction";
 ///styles
 import "./styles.scss";
-const CreditModal = ({ data, gettableData, handleCancelfunction }) => {
+const CreditModal = ({ data, gettableData, handleCancelfunction, chipsData, tabledata }) => {
   const [tab1, settab1] = useState(0);
 
   const classes = ["credit-tab", "credit-tab2", "credit-tab3"];
@@ -18,38 +18,40 @@ const CreditModal = ({ data, gettableData, handleCancelfunction }) => {
   const items = [
     {
       key: "0",
-      label: "Credit Deposit",
+      label: "Credit",
       children: (
         <DepositActivity
           data={data}
+          chipsData={chipsData}
           gettableData={gettableData}
           handleCancelfunction={handleCancelfunction}
+          tabledata={tabledata}
         />
       ),
     },
-    {
-      key: "1",
-      label: "Credit Withdraw",
-      children: (
-        <WidrawalActivity
-          data={data}
-          gettableData={gettableData}
-          handleCancelfunction={handleCancelfunction}
-        />
-      ),
-    },
-    {
-      key: "2",
-      label: "Credit History",
-      children: (
-        <Transaction
-          data={4}
-          dataTransaction={data}
-          gettableData={gettableData}
-          handleCancelfunction={handleCancelfunction}
-        />
-      ),
-    },
+    // {
+    //   key: "1",
+    //   label: "Credit Withdraw",
+    //   children: (
+    //     <WidrawalActivity
+    //       data={data}
+    //       gettableData={gettableData}
+    //       handleCancelfunction={handleCancelfunction}
+    //     />
+    //   ),
+    // },
+    // {
+    //   key: "2",
+    //   label: "Credit History",
+    //   children: (
+    //     <Transaction
+    //       data={4}
+    //       dataTransaction={data}
+    //       gettableData={gettableData}
+    //       handleCancelfunction={handleCancelfunction}
+    //     />
+    //   ),
+    // },
   ];
   return (
     <div className={classes[tab1]}>

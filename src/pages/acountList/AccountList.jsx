@@ -53,6 +53,7 @@ const Activelist = () => {
   };
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [credit, setcredit] = useState(false);
+  const [chipsData, setChipsData] = useState("");
   const [setInputBlank] = useState(false);
 
   //////deposit Modal
@@ -75,11 +76,13 @@ const Activelist = () => {
     setUserId(data);
   };
   /////show credit Activity Modal
-  const showCredit = (obj) => {
+  const showCredit = (obj, amt) => {
     setcredit(true);
+    setChipsData(amt);
     const data = DataList?.find((item) => item?.id === obj);
     setUserId(data);
   };
+  
   const handleOk = () => {
     setIsModalOpen(false);
     setOpen(false);
@@ -270,7 +273,7 @@ const Activelist = () => {
               borderColor: "#f1b44c",
               borderRadius: "5px 0px 0px 5px",
             }}
-            onClick={() => showCredit(res?.id)}
+            onClick={() => showCredit(res?.id, res?.chips)}
           >
             CR
           </Button>
@@ -339,6 +342,7 @@ const Activelist = () => {
     });
   };
 
+
   return (
     <UserModalContext.Provider
       value={{
@@ -403,10 +407,14 @@ const Activelist = () => {
       >
         <CreditModal
           data={userId}
+          chipsData={chipsData}
           gettableData={tabledata}
           handleCancelfunction={handleCancel}
+          tabledata={tabledata}
         />
       </Modal>
+
+
 
       <div className="hading-create-accounts">
         <h4>ACCOUNT LIST</h4>

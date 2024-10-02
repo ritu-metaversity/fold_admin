@@ -16,25 +16,26 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
   const [error, setError] = useState({});
   const [formData, setformData] = useState({});
 
+
   const handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
 
-    if (!value) {
-      setError(() => {
-        return {
-          ...error,
-          [name]: true,
-        };
-      });
-    } else {
-      setError(() => {
-        return {
-          ...error,
-          [name]: false,
-        };
-      });
-    }
+    // if (!value) {
+    //   setError(() => {
+    //     return {
+    //       ...error,
+    //       [name]: true,
+    //     };
+    //   });
+    // } else {
+    //   setError(() => {
+    //     return {
+    //       ...error,
+    //       [name]: false,
+    //     };
+    //   });
+    // }
     if (name === "amount") {
       if (!value.toString().match(/^[0-9]*$/)) {
         return;
@@ -70,31 +71,21 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
       )
       .then((res) => {
         setDepositActivity(res.data.data);
+        
       })
-      .catch((error) => {
-        // message.error(error.response.data.message);
-        // if (error.response.status === 401) {
-        //   navigate("/");
-        //   localStorage.removeItem("token");
-        //   message.error(error.response.data.message);
-        // }
-      });
-
     setLoading((prev) => ({ ...prev, submitUserActivityDeposit: false }));
   };
-
   useEffect(() => {
     ActivityDeposit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const Submit = async () => {
-    if (formData.amount && formData.remark && formData.lupassword) {
+    if (formData.amount  && formData.lupassword) {
       setLoading((prev) => ({ ...prev, submitDATAActivityDeposit: true }));
       await axios
         .post(
           `${import.meta.env.VITE_BASE_URL}/${Tab_DepositActivityForm}`,
-          { ...formData, userId: data.userId },
+          { ...formData, userId: data.userId, remark:"auto" },
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -107,11 +98,13 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
           userBalance()
           handleCancelfunction();
           setformData({});
+          tabledata();
         })
         .catch((error) => {
-          // message.error(error.response.data.message);
         });
+      setLoading((prev) => ({ ...prev, accountTableData: false }));
       setLoading((prev) => ({ ...prev, submitDATAActivityDeposit: false }));
+      tabledata();
     } else {
       setError({
         ...error,
@@ -133,7 +126,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
   }, [setLoading]);
   return (
     <div className="form" style={{ padding: "10px" }}>
-      <div className="row-1">
+      {/* <div className="row-1">
         <label>{depositActivity?.parentName}</label>
         <div className="input">
           <input
@@ -151,29 +144,23 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
             }
           />
         </div>
-      </div>
+      </div> */}
       <div className="row-1">
-        <label>{depositActivity?.childName}</label>
+        <label>
+          {/* {depositActivity?.childName} */}
+        Old Credit</label>
         <div className="input">
           <input
             type="text"
             disabled={true}
-            value={depositActivity?.childAmount || ""}
+            value={data?.chips || ""}
           />
-          <input
-            type="text"
-            disabled={true}
-            value={
-              formData.amount
-                ? Number(depositActivity?.childAmount) + Number(formData?.amount)
-                : 0
-            }
-          />
+          
         </div>
       </div>
 
       <div className="row-1">
-        <label>Amount</label>
+        <label>New Credit</label>
         <div
           className="input"
           style={{
@@ -198,7 +185,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
           {error.amount ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
       </div>
-      <div className="row-1">
+      {/* <div className="row-1">
         <label>Remark</label>
         <div
           className="input"
@@ -224,7 +211,7 @@ const DepositActivity = ({ data, gettableData, handleCancelfunction }) => {
           ></textarea>
           {error.remark ? <RxCross2 style={{ paddingRight: "10px" }} /> : ""}
         </div>
-      </div>
+      </div> */}
       <div className="row-1">
         <label>Transaction Code</label>
         <div
