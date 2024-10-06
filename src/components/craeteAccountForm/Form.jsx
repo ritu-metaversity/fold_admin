@@ -190,7 +190,7 @@ const Accountform = ({ IsSelfState }) => {
       }
 
     Object.keys(data).forEach((key) => {
-      if (["", 0, null, undefined, NaN].includes(data[key])) {
+      if (["", null, undefined, NaN].includes(data[key])) {
         if (arr.includes(key)) {
         } else {
           if (userType !== 4 && key === "appId") {
@@ -620,7 +620,7 @@ const Accountform = ({ IsSelfState }) => {
               )}
             </div>
           </Form.Item>
-          <Form.Item label="Credit Reference" name="userRole">
+          {/* <Form.Item label="Credit Reference" name="userRole">
             <div className="col-input">
               <Input
                 placeholder="Credit Reference"
@@ -630,7 +630,7 @@ const Accountform = ({ IsSelfState }) => {
                 onChange={handleChange}
               />
             </div>
-          </Form.Item>
+          </Form.Item> */}
         </div>
         <div className="right-col-section">
           {data.userRole !== 2 ? (

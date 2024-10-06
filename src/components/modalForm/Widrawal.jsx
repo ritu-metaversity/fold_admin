@@ -180,7 +180,7 @@ const Widrawal = ({ data, gettableData }) => {
             />
           </div>
         </div>
-        <div className="row-1">
+        {/* <div className="row-1">
           <label>Profit/loss</label>
           <div className="input">
             <input
@@ -198,7 +198,7 @@ const Widrawal = ({ data, gettableData }) => {
               }
             />
           </div>
-        </div>
+        </div> */}
         <div className="row-1">
           <label>Amount</label>
           <div
