@@ -65,6 +65,7 @@ import {
   Casino_leader,
   Create_Casino,
   setCommision,
+  add_bonus,
 } from "./routes/Routes.js";
 import BetHistory from "./pages/betHistory/BetHistory.jsx";
 import { createContext, useEffect, useState } from "react";
@@ -116,6 +117,7 @@ import CasinoLeader from "./pages/leadeger/CasinoLeadeger.jsx";
 import CreateCasino from "./pages/createCasino/CreateCasino.jsx";
 import SetCommission from "./pages/setCommission/SetCommission.jsx";
 import DrawerComponent from "./components/drawer/DrawerComponent.jsx";
+import AddBonus from "./pages/AddBonus/AddBonus.jsx";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -231,6 +233,7 @@ function App() {
       .post(
         `${import.meta.env.VITE_BASE_URL}/${isSelf}`,
         { appUrl: host === "localhost" ? "admin.localhost" : host },
+        // { appUrl: "admin.localhost"},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -314,6 +317,14 @@ function App() {
                 <Route
                   path={StatementPage}
                   element={<ApprovedByStatement />}
+                ></Route>
+              </>
+            )}
+            {userType === "5" && (
+              <>
+                <Route
+                  path={add_bonus}
+                  element={<AddBonus />}
                 ></Route>
               </>
             )}

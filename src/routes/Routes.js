@@ -45,6 +45,12 @@ export const Down_Line_ActiveList = "/down-line/active-list";
 export const StatementPage = "statement";
 export const add_withdrawal_SubAdmin_Screen = "add-sub-withdrawal";
 
+
+export const add_bonus = "add-bonus";
+
+
+
+
 // API-Endpoints
 export const updateUserDetail = "admin/update-app-detail";
 export const Dashboard_Api = "dashboard/default";

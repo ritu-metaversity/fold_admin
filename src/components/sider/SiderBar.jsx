@@ -541,6 +541,24 @@ const SiderBar = ({ IsSelfState, setSidebar }) => {
               ),
               permissions: ["ADMIN"],
             },
+            // {
+            //   className:`${userType === "5" && IsSelfState?"":"d-none"}`,
+            //   key: 8,
+            //   icon: <RiBankFill />,
+            //   label: (
+            //     <Link
+            //       onClick={() => {
+            //         refershNow();
+            //         setSidebar();
+            //       }}
+            //       to="/add-bonus"
+                 
+            //     >
+            //       Add Bonus
+            //     </Link>
+            //   ),
+            //   permissions: ["ADMIN"],
+            // },
 
             ...(IsSelfState && userType === "7"
               ? [
