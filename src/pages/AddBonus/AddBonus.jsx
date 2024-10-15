@@ -45,7 +45,7 @@ const AddBonus = () => {
       align: "right",
     },
     {
-      title: "Fix Amount Bonus",
+      title: "Maximan bonus",
       dataIndex: "fixAmountBonus1",
       align: "center",
     },
@@ -254,15 +254,15 @@ const AddBonus = () => {
             </Col>
             <Col xs={24} md={4} >
               <Form.Item
-                label="Fix Amount Bonus"
+                label="Maximan bonus"
                 name="fixAmountBonus1"
                 rules={[
-                  { required: true, message: "Please enter fix amount bonus!" },
+                  { required: true, message: "Please enter Maximan bonus!" },
                 ]}>
                 <Input
                   name="fixAmountBonus1"
                   type="number"
-                  placeholder="Fix Amount Bonus"
+                  placeholder="Maximan bonus"
                 />
               </Form.Item>
             </Col>
