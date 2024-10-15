@@ -185,7 +185,6 @@ const WidrwalPendingRequest = () => {
     if (paginationData.index > 0) {
       setPaginationData({ ...paginationData, index: paginationData.index - 1 });
     }
-    // setPageIndex(PageIndex - 1);
   };
   const ResetCounter = () => {
     setPaginationData({ ...paginationData, index: 0 });

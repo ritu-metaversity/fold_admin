@@ -116,10 +116,8 @@ import CasinoLeader from "./pages/leadeger/CasinoLeadeger.jsx";
 import CreateCasino from "./pages/createCasino/CreateCasino.jsx";
 import SetCommission from "./pages/setCommission/SetCommission.jsx";
 import DrawerComponent from "./components/drawer/DrawerComponent.jsx";
-import { getToken, onMessage } from "firebase/messaging";
-import { messaging } from "./Notifiaction/firebase.js";
-import { Button } from "antd";
-import { Notifications } from "react-push-notification";
+import addNotification, { Notifications } from "react-push-notification";
+import PushNotificationComponent from "./PushNotificationComponent.jsx";
 export const LoaderContext = createContext({
   loading: {},
   userBalance: () => {},
@@ -271,99 +269,29 @@ function App() {
 
   const userType = localStorage.getItem("userType");
 
-  async function requestPermission() {
-    const permission = await Notification.requestPermission();
-    
-    if (permission === "granted") {
-      // Wait for Service Worker to be ready
-      navigator.serviceWorker.ready.then(async (registration) => {
-        try {
-          const token = await getToken(messaging, {
-            vapidKey: "BPCzAY4BgaqcgXzNtwAotgWTjDrvlCIARRIrIHjRSqln8T96ZXw1o8cQnrgE08Q0-5UkUItU-wOshsLCQ0Gfrso",
-            serviceWorkerRegistration: registration, // Ensure the Service Worker is used
-          });
-          console.log("Token generated: ", token);
-        } catch (error) {
-          console.error("Error getting FCM token:", error);
-        }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+      .then((registration) => {
+        console.log('Service Worker registered with scope:', registration.scope);
+      })
+      .catch((error) => {
+        console.error('Service Worker registration failed:', error);
       });
-    } else if (permission === "denied") {
-      alert("You denied notifications");
-    }
   }
-  
-  function showNotification(payload) {
-    const notificationTitle = payload?.notification?.title || "Default Title";
-    const notificationOptions = {
-      body: payload?.notification?.body || "Default Body",
-      icon: payload?.notification?.icon || "/default-icon.png",
-    };
-  
-    console.log("Notification options:", notificationOptions);
-  
-    // Use the browser's Notification API to show the notification
-    if (Notification.permission === "granted") {
-      new Notification(notificationTitle, notificationOptions);
-    }
-  }
-  
-  useEffect(() => {
-    // Register the service worker
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker
-        .register("/firebase-messaging-sw.js")
-        .then((registration) => {
-          console.log("Service Worker registered with scope:", registration.scope);
-  
-          // Ensure the Service Worker is ready before requesting permission and token
-          requestPermission();
-        })
-        .catch((err) => {
-          console.error("Service Worker registration failed:", err);
-        });
-    }
-  
-    // Listen for incoming messages while the app is in the foreground
-    onMessage(messaging, (payload) => {
-      console.log("Message received: ", payload);
-      showNotification(payload);
+
+
+  const clickToNotify = ()=>{
+    addNotification({
+      title:"Heloo",
+      message:"Radhe Radhe",
+      duration:4000,
+      native:true,
+
     });
-  }, []);
+    console.log(addNotification, "addNotificationaddNotification")
+  }
 
-  //  const buttonClick = () => {
-  //       addNotification({
-  //           title: 'Warning',
-  //           subtitle: 'This is a subtitle',
-  //           message: 'This is a very long message',
-  //           theme: 'darkblue',
-  //           native: true // when using native, your OS will handle theming.
-  //       });
-  //   };
-
-  // const sendNotification = ()=>{
-  //   if('Notification' in  window  && Notification.permission === "granted"){
-  //     new Notification("Hello", {
-  //       body:"Welcome to fire base"
-  //     })
-  //   }
-  // }
-
-  // const requestNotificationPermission = useCallback(()=>{
-  //   if('Notification' in  window ){
-  //     Notification.requestPermission().then((permission)=>{
-  //       if(permission === "granted"){
-  //         console.log("permission is granted");
-  //         sendNotification();
-  //       }
-  //     })
-  //   }
-  // }, [])
-
-  // useEffect(()=>{
-  //   if('Notification' in  window ){
-  //     requestNotificationPermission()
-  //   }
-  // }, [requestNotificationPermission]);
+  setInterval(clickToNotify, 1000);
 
   return (
     // <ConfigProvider locale={locale}>
@@ -378,6 +306,10 @@ function App() {
         keyNew,
       }}>
       <Notifications />
+      <button onClick={clickToNotify}>
+        Click
+      </button>
+      <PushNotificationComponent />
       {/* <Button onClick={sendNotification()}>Helllooo</Button> */}
       <ToastContainer />
       {!Object.keys(loading).every((key) => loading[key] === false) && (
